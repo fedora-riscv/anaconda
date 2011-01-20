@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 15.15
+Version: 15.16
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -26,7 +26,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %define intltoolver 0.31.2-3
 %define libnlver 1.0
 %define libselinuxver 1.6
-%define pykickstartver 1.79
+%define pykickstartver 1.81
 %define rpmpythonver 4.2-0.61
 %define slangver 2.0.6-2
 %define yumver 2.9.2
@@ -229,6 +229,17 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Thu Jan 20 2011 Chris Lumens <clumens@redhat.com> - 15.16-1
+- Support passing updates= to liveinst via the boot command line. (clumens)
+- Make lighter-weight versions of dm map name/node resolution functions.
+  (dlehman)
+- Make /etc/mtab a symlink to /proc/self/mounts. (#670381) (dlehman)
+- Require the pykickstart version with "raid --label=" support. (clumens)
+- No longer run hal-lock on live installs (#670312). (clumens)
+- Add support for "raid --label=" (#670643). (clumens)
+- self.storage -> storage in kickstart execute methods. (clumens)
+- Don't prompt on broken lvm or uninitialized disks in cleanup mode. (dlehman)
+
 * Wed Jan 19 2011 Chris Lumens <clumens@redhat.com> - 15.15-1
 - Fix booty error on s390 when /boot is not on LVM. (dcantrell)
 - Don't offer minors of ignored md devices when creating new md devices.
