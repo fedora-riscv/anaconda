@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 15.19
-Release: 2%{?dist}
+Version: 15.20
+Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -229,8 +229,17 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
-* Mon Feb 07 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 15.19-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+* Thu Feb 10 2011 Chris Lumens <clumens@redhat.com> - 15.20-1
+- Check for valid mountpoint before unmounting image. (#671922) (dlehman)
+- Fix mis-management of luks dict when renaming encrypted lvs. (dlehman)
+- Don't raise NotImplementedError from  non-essential backend methods.
+  (dlehman)
+- Remove upgrade.findExistingRoots since it does nothing. (dlehman)
+- tui: add reinitializeWindow() to the text interface. (akozumpl)
+- typo: missing dot in the reinitialization dialog glade file. (akozumpl)
+- gui: remove an unneeded parameter from questionInitializeDisk() (akozumpl)
+- Remove quotes from udisks command in liveinst (#672022) (bcl)
+- Fix iutil import in bootloader config screen (#676032). (clumens)
 
 * Mon Feb 07 2011 Chris Lumens <clumens@redhat.com> - 15.19-1
 - Fix a typo. (clumens)
