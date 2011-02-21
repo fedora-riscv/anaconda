@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 15.20
+Version: 15.20.1
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -229,6 +229,12 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Mon Feb 21 2011 Chris Lumens <clumens@redhat.com> - 15.20.1-1
+- Correct the return values of some backend base class methods. (#679107)
+  (dlehman)
+- Change xhost auth when doing a liveinst (#663294) (bcl)
+- Do all dm handling inside addUdevDMDevice. (#672030) (dlehman)
+
 * Thu Feb 10 2011 Chris Lumens <clumens@redhat.com> - 15.20-1
 - Check for valid mountpoint before unmounting image. (#671922) (dlehman)
 - Fix mis-management of luks dict when renaming encrypted lvs. (dlehman)
