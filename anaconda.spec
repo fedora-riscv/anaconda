@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 16.0
+Version: 16.1
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -229,6 +229,9 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Tue Mar 01 2011 Chris Lumens <clumens@redhat.com> - 16.1-1
+- Fix another unused return value error message. (clumens)
+
 * Tue Mar 01 2011 Chris Lumens <clumens@redhat.com> - 16.0-1
 - Pass correct class to super in SELinuxFS.mountable. (#677450) (dlehman)
 - Clarify that loader method entries are looking for a tree. (clumens)
