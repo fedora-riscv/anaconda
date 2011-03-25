@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 15.24
+Version: 15.25
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -229,6 +229,12 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Fri Mar 25 2011 Chris Lumens <clumens@redhat.com> - 15.25-1
+- Revert "Revert "Changes for NetworkManager API 0.9"" (clumens)
+- Fixup rindex usage (#678086) (bcl)
+- Check repo instead of method type when enabling network in loader (#673824)
+  (rvykydal)
+
 * Mon Mar 21 2011 Chris Lumens <clumens@redhat.com> - 15.24-1
 - Revert "Changes for NetworkManager API 0.9" (clumens)
 - Update icons and add a new 256x256 version (#689014). (clumens)
