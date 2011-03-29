@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 15.25
+Version: 15.26
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -229,6 +229,12 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Tue Mar 29 2011 Brian C. Lane <bcl@redhat.com> - 15.26-1
+- Fix the logic surrounding use of the filterfunc for get_file_list (#691880).
+  (clumens)
+- mount needs to be told "nfs" or it assumes any argument is a device
+  (#678414). (clumens)
+
 * Fri Mar 25 2011 Chris Lumens <clumens@redhat.com> - 15.25-1
 - Revert "Revert "Changes for NetworkManager API 0.9"" (clumens)
 - Fixup rindex usage (#678086) (bcl)
