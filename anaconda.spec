@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 15.26
+Version: 15.27
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -229,6 +229,12 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Wed Apr 06 2011 Chris Lumens <clumens@redhat.com> - 15.27-1
+- Fix missing , in promptForNfs (bcl)
+- Rewrite nfs url parsing in loader (bcl)
+- Fix order of nfs mountOpts in promptForNfs (bcl)
+- crypttab should not be world-readable (#692254). (clumens)
+
 * Tue Mar 29 2011 Brian C. Lane <bcl@redhat.com> - 15.26-1
 - Fix the logic surrounding use of the filterfunc for get_file_list (#691880).
   (clumens)
