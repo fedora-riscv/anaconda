@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 15.27
+Version: 15.28
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -76,6 +76,7 @@ BuildRequires: python-nose
 BuildRequires: rpm-devel
 BuildRequires: rpm-python >= %{rpmpythonver}
 BuildRequires: slang-devel >= %{slangver}
+BuildRequires: transifex-client
 BuildRequires: xmlto
 BuildRequires: yum >= %{yumver}
 BuildRequires: zlib-devel
@@ -229,6 +230,17 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Thu Apr 21 2011 Chris Lumens <clumens@redhat.com> - 15.28-1
+- Remove languages not available from Transifex. (dcantrell)
+- Add Transifex instructions for anaconda developers. (dcantrell)
+- Update Makefile.am to work with new translation system. (dcantrell)
+- BuildRequires transifex-client (dcantrell)
+- Ignore po/*.po files (dcantrell)
+- Remove translation files. (dcantrell)
+- Add transifex-client configuration file. (dcantrell)
+- Do not allow use of preexisting root filesystem. (#629311) (dlehman)
+- Cache the value of Format.majorminor(). (akozumpl)
+
 * Wed Apr 06 2011 Chris Lumens <clumens@redhat.com> - 15.27-1
 - Fix missing , in promptForNfs (bcl)
 - Rewrite nfs url parsing in loader (bcl)
