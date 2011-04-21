@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 16.5
-Release: 2%{?dist}
+Version: 16.6
+Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -42,7 +42,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %define createrepover 0.4.7
 %define yumutilsver 1.1.11-3
 %define iscsiver 6.2.0.870-3
-%define pythoncryptsetupver 0.0.6
+%define pythoncryptsetupver 0.1.1
 %define mehver 0.8
 %define sckeyboardver 1.3.1
 %define libblkidver 2.17.1-1
@@ -207,6 +207,7 @@ update-desktop-database &> /dev/null || :
 %doc docs/install-methods.txt
 %doc docs/mediacheck.txt
 %doc docs/anaconda-release-notes.txt
+/lib/systemd/system/*
 /lib/udev/rules.d/70-anaconda.rules
 %{_sbindir}/anaconda
 %{_sbindir}/logpicker
@@ -232,8 +233,54 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
-* Mon Apr 11 2011 David Lehman <dlehman@redhat.com> - 16.5-2
-- Try again at this fedpkg thing.
+* Thu Apr 21 2011 Chris Lumens <clumens@redhat.com> - 16.6-1
+- Do not recreate the ssh keys if they exist already. (akozumpl)
+- Display a banner when (re)starting Anaconda. (akozumpl)
+- Most viewers of tty1 do not care about xrandr stderr output. (akozumpl)
+- restart-anaconda: no need to redownload the updates. (akozumpl)
+- Write 'edd' instead of 'ethX' for fcoe= dracut parameter. (dcantrell)
+- When checking for allowing an upgrade, trim off any "-Alpha" or "-Beta".
+  (clumens)
+- Make text for failed upgrade dialog clearer (#697193) (bcl)
+- Fix a grammar error in the upgrade message (#697244). (clumens)
+- If there are no RAID arrays, do not write an mdadm.conf (#696907). (clumens)
+- loader: always call klogctl to disable kernel logging in the console.
+  (akozumpl)
+- Set mainWindow size request to current res reported by xrandr (#694760)
+  (dcantrell)
+- Fix SIGSEGV for netwowrk --device=<MAC> which is not found (#697432)
+  (rvykydal)
+- Use correct interface to obtain HwAddress property (#693614) (rvykydal)
+- Revert "Don't write HWADDR into ifcfg files (#690589)" (rvykydal)
+- analog: turn off another harmful feature of rsyslogd. (akozumpl)
+- analog: cleanup whitespace in the file. (akozumpl)
+- Fix building with --disable-selinux (mark (clumens)
+- Don't include system virtual filesystems in /etc/fstab (#693926). (clumens)
+- Set ANACONDA=1 in the udev environment early in anaconda. (clumens)
+- findFirstIsoImage needs to return a filename, so fix it. (clumens)
+- Fix unmounting in anaconda-cleanup to deal with /mnt/sysimage as well.
+  (clumens)
+- Remove the second upgrade check from yuminstall.py. (clumens)
+- Cache the value of Format.majorminor(). (akozumpl)
+- And call anaconda-cleanup from restart-anaconda. (clumens)
+- Unmount everything in /mnt/install from anaconda-cleanup. (clumens)
+- Move most anaconda mount points to be under /mnt/install. (clumens)
+- Fix the initialization of LUKS device, we have to add the first keyslot (also
+  add key_file arguments for compatibility) (msivak)
+- Add "quiet" to the x86-64 and i386 boot arguments. (clumens)
+- Update restart-anaconda to work with systemd. (clumens)
+- Remove init.[ch]. (clumens)
+- Move debugging features into loader.c. (clumens)
+- We no longer need to get the PID of init from loader. (clumens)
+- Move serial console handling code out into its own file. (clumens)
+- Make reboot/halt/shutdown decisions in anaconda instead of loader. (clumens)
+- Remove all the custom shutdown/reboot/halt code in loader and init. (clumens)
+- Move syslog starting into loader. (clumens)
+- loader doesn't support arguments except from /proc/cmdline. (clumens)
+- Don't build our own init anymore. (clumens)
+- Remove the duplicate backtrace setup code in init.c. (clumens)
+- Remove from init.c/loader.c things that systemd does for us. (clumens)
+- Add the unit files necessary to have systemd start loader. (clumens)
 
 * Mon Apr 11 2011 David Lehman <dlehman@redhat.com> - 16.5-1
 - Remove maximum limit on EFI partition (#684860) (bcl)
