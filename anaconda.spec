@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 15.29
+Version: 15.30
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -230,6 +230,11 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Mon May 02 2011 Chris Lumens <clumens@redhat.com> - 15.30-1
+- /var/log/dmesg doesn't exist in a live install. messages does, though.
+  (dlehman)
+- iscsi: disable the 'Login' button with no nodes selected. (akozumpl)
+
 * Tue Apr 26 2011 Chris Lumens <clumens@redhat.com> - 15.29-1
 - Fix network --device=<MAC> for static configurations (#693302) (rvykydal)
 - Allow DeviceFormat.cacheMajorminor to fail without an exception (#699383).
