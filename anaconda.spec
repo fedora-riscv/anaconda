@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 15.30
+Version: 15.31
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -230,6 +230,10 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Fri May 06 2011 Chris Lumens <clumens@redhat.com> - 15.31-1
+- Add btrfs min size of 256 MB. (#702603) (dlehman)
+- Update the requirements for memory.. (dlehman)
+
 * Mon May 02 2011 Chris Lumens <clumens@redhat.com> - 15.30-1
 - /var/log/dmesg doesn't exist in a live install. messages does, though.
   (dlehman)
