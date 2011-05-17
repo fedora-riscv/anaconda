@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 16.7
+Version: 16.8
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -209,6 +209,7 @@ update-desktop-database &> /dev/null || :
 %doc docs/anaconda-release-notes.txt
 /lib/systemd/system/*
 /lib/udev/rules.d/70-anaconda.rules
+%{_bindir}/instperf
 %{_sbindir}/anaconda
 %{_sbindir}/logpicker
 %ifarch i386 i486 i586 i686 x86_64
@@ -233,6 +234,34 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Tue May 17 2011 Chris Lumens <clumens@redhat.com> - 16.8-1
+- Relabel /var/lock as well (#701575). (clumens)
+- filled in hasFreeDiskSpace (#683632) (hamzy)
+- Add a python program to record memory usage during installation. (clumens)
+- Add a timestamp to every line in install.log/upgrade.log. (clumens)
+- storage: add SparseFileDevice (wwoods)
+- FileDevice._create: don't alloc memory equal to file size, close fd (wwoods)
+- Text mode upgrade should default to upgrade (#704588) (bcl)
+- Trim "/dev/" correctly in list-harddrives (#702430). (dcantrell)
+- Include missing parentheses in lvm/md device map names. (dlehman)
+- Make sure stage1 and stage2 devices are in device.map in case of md,lvm.
+  (dlehman)
+- Only do redundant mbr installation for mirrored stage2. (dlehman)
+- Allow growable md member requests but only for RAID0. (dlehman)
+- Let blkid/udev tell us which devices contain disklabels. (dlehman)
+- Move selection of new disklabel's type from DiskLabel to Platform. (dlehman)
+- Fix an omission from the integration of the new bootloader module. (dlehman)
+- Rework bootloader constraint checking routines. (dlehman)
+- Include a BIOS boot partition in X86 autopart on GPT. (dlehman)
+- Add format class for BIOS boot partition. (dlehman)
+- Update dracut kernel args (#702711) (bcl)
+- Add btrfs min size of 256 MB. (#702603) (dlehman)
+- Update the requirements for memory.. (dlehman)
+- fix resuce_test.py (akozumpl)
+- remove references to "zfcpconfig". (akozumpl)
+- Turn sshd setup, kicstart execution and the rescue mode into dispatch steps.
+  (akozumpl)
+
 * Tue May 03 2011 Chris Lumens <clumens@redhat.com> - 16.7-1
 - Make grub2 the default bootloader on x86. (dlehman)
 - Make sure bootloader stage1 device stays current through partitioning.
