@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 16.11
+Version: 16.12
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -28,7 +28,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %define intltoolver 0.31.2-3
 %define libnlver 1.0
 %define libselinuxver 1.6
-%define pykickstartver 1.99.0
+%define pykickstartver 1.99.2
 %define rpmpythonver 4.2-0.61
 %define slangver 2.0.6-2
 %define yumver 2.9.2
@@ -234,6 +234,36 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Mon Jul 11 2011 Chris Lumens <clumens@redhat.com> - 16.12-1
+- Remove hasFreeDiskSpace and related code. (dlehman)
+- Use protected for pvs of incomplete vgs and get rid of immutable. (dlehman)
+- Use mdadm's default metadata format instead of hardcoding 1.1. (dlehman)
+- Only show warning about no biosboot on gpt on gpt. (dlehman)
+- Plumb the cleanupOnly= option through to Storage.reset(). (clumens)
+- i18n: Maintain the translated repo name upon modifying. (akozumpl)
+- Log errors during dependency resolution. (clumens)
+- Fix a bug where language names aren't translated to native. (clumens)
+- Remove things from utils/ that lorax obsoletes. (clumens)
+- Remove things from scripts/ that lorax obsoletes. (clumens)
+- Handle systems with more than 2147483647 kB of memory (#704593). (dcantrell)
+- Remove support for the ext4migrate option (#712195). (dcantrell)
+- edd: refactor and enhance the edd module. (akozumpl)
+- unit tests: provide 'glob.glob' and 'os.listdir' in the DiskIO class.
+  (akozumpl)
+- Pulsing progress bar instead of the static popup during device discovery.
+  (akozumpl)
+- yum: handle PackageSackErrors separately in AnacondaYum._run. (akozumpl)
+- We need a later version of pykickstart with the wpakey parameter. (clumens)
+- Remove KillMode= from systemd control files. (clumens)
+- Add a property to Platform for accessing boot stage1 constraints. (dlehman)
+- Simplify lvm growing by using units of pesize instead of MB. (dlehman)
+- Move platform-specific boot-related data into Platform. (dlehman)
+- Make /home autoreq grow a bit faster in relation to root. (dlehman)
+- Update upd-bootiso for F16 (bcl)
+- Allow a .iso file to be specified instead of a directory (#707846) (bcl)
+- Fix typo from 573ef017. (akozumpl)
+- Keep dracut settings in sets instead of many long strings. (akozumpl)
+
 * Wed Jun 22 2011 Chris Lumens <clumens@redhat.com> - 16.11-1
 - be more defensive -- check values for nonsenses (vpodzime)
 - enable netmask setting for wireless connections (vpodzime)
