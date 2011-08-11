@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 16.14.3
+Version: 16.14.4
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -234,6 +234,12 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Thu Aug 11 2011 Chris Lumens <clumens@redhat.com> - 16.14.4-1
+- Remove as many of the /selinux path hardcodings as possible (#729563).
+  (clumens)
+- Restart NetworkManager to use anaconda's initial ifcfg config (#727951)
+  (rvykydal)
+
 * Mon Aug 08 2011 David Lehman <dlehman@redhat.com> - 16.14.3-1
 - Handle rpmdb open errors by throwing out the root candidate (#723167).
   (clumens)
