@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 16.14.4
+Version: 16.14.5
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -234,6 +234,9 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Mon Aug 15 2011 Chris Lumens <clumens@redhat.com> - 16.14.5-1
+- Check before setting partition label (#729599) (bcl)
+
 * Thu Aug 11 2011 Chris Lumens <clumens@redhat.com> - 16.14.4-1
 - Remove as many of the /selinux path hardcodings as possible (#729563).
   (clumens)
