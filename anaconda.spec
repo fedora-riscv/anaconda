@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 16.14
+Version: 17.0
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -28,7 +28,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %define intltoolver 0.31.2-3
 %define libnlver 1.0
 %define libselinuxver 1.6
-%define pykickstartver 1.99.2
+%define pykickstartver 1.99.4
 %define rpmpythonver 4.2-0.61
 %define slangver 2.0.6-2
 %define yumver 2.9.2
@@ -234,6 +234,152 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Thu Sep 15 2011 Chris Lumens <clumens@redhat.com> - 17.0-1
+- Sort partitioning commmands in anaconda-ks.cfg. (#736527) (dlehman)
+- Install grub2 when upgrading on bios x86. (#735730) (dlehman)
+- Default to installing a new bootloader on upgrade. (dlehman)
+- Add a Reboot button to the congrats screen on live (#705189). (clumens)
+- Add support for reserving space in lvm vgs via kickstart. (dlehman)
+- iutil: make getArch() return ppc64 on ppc64 (#736721) (wwoods)
+- iutil: add 'bits' arg to isPPC (like isX86) (wwoods)
+- nfsiso: handle mismatching .iso architecture gracefully. (akozumpl)
+- systemd: anaconda.target wants rsyslog.service (akozumpl)
+- Improve checking if new biosboot partition is needed. (akozumpl)
+- mpath: create /etc/multipath/bindings if we are using friendly names.
+  (akozumpl)
+- isolate localeInfo and expandLangs() from langauges.py into a separate
+  module. (akozumpl)
+- Make sure we teardown root candidates in all cases. (#693095) (dlehman)
+- Update parted partition by sector, not name, after create. (#733449)
+  (dlehman)
+- Determine existing md arrays' metadata version. (#731266) (dlehman)
+- Don't check mountable before obtaining actual/existing fs size. (#733808)
+  (dlehman)
+- Fix traceback when installing over a system with broken rpm db. (akozumpl)
+- kickstart: use 'bootloader --timeout' even if it is zero. (akozumpl)
+- Fix some things using old bootloader/platform stuff. (dlehman)
+- Fix traceback when validating unallocated partition requests. (#733670)
+  (dlehman)
+- Require BIOS boot partition for GPT bootdisk on BIOS systems. (dlehman)
+- Prevent grub2 from trying to access floppy drives. (dlehman)
+- Limit grub stage2 md members' device type and metadata version. (dlehman)
+- Remove unnecessary ROOT_PATH constant passing. (akozumpl)
+- Moving anaconda.rootPath to constants.ROOT_PATH. (akozumpl)
+- Remove deprecated --rootPath and --test. (akozumpl)
+- Tidy warnings.showwarning into anaconda_log.py. (akozumpl)
+- cosmetic: remove trailing whitespace in timezone_test.py (akozumpl)
+- ut: cleanup after firewall_test.py (akozumpl)
+- ut: move tests/fw_test.py to tests/pyanaconda_test/firewall_test.py
+  (akozumpl)
+- Close out the yum history before running %post scripts (#730857). (clumens)
+- Remove unused attribute 'bootable' from DeviceFormat classes. (dlehman)
+- Allow btrfs stage2 with grub2. (#732594) (dlehman)
+- Clean up return values of GRUB2._gpt_disk_has_bios_boot. (dlehman)
+- Force grub2 install to partition's boot block. (#727679) (dlehman)
+- Don't crash because we don't have support for linear md. (#646157) (dlehman)
+- Clean up obsolete extended partitions if partitioning fails. (#672010)
+  (dlehman)
+- Convert a None from libiscsi.discover() to an empty list. (akozumpl)
+- Honor kickstart 'autopart --nolvm' option (jlaska)
+- Allow answering the uninitialized disk question more than once. (akozumpl)
+
+* Thu Aug 18 2011 Chris Lumens <clumens@redhat.com> - 16.15-1
+- i18n: Do not include newlines in the reinit dialog's label. (akozumpl)
+- Move the trusted_boot setting into AnacondaYum.run (#731260). (clumens)
+- Put nolock instead of ,nolock to options if provided options are empty
+  (#727522) (msivak)
+- Deal with zFCP multipath devices in the filter UI (#618535) (dcantrell)
+- matchpathcon doesn't like strings like "//lib64", so remove a slash
+  (#730863). (clumens)
+- Fix check so we actually disallow use of preexisting root filesystems.
+  (dlehman)
+- Correctly handle reqs with max size no larger than base size. (#730009)
+  (dlehman)
+- Set the default grub2 entry to the OS we just installed. (dlehman)
+- Create 'console=..' configuration also for grub2. (akozumpl)
+- Copy /etc/multipath/wwids to the sysimage. (akozumpl)
+- add multiboot support for tboot (gang.wei)
+- Fix createUser (bcl)
+- raid ui: compute max number of spares based on raid members selected.
+  (akozumpl)
+- Remove definite articles in the bootloader translation strings. (akozumpl)
+- Avoid final hang if no reboot action is specified in kickstart. (akozumpl)
+- Check before setting partition label (#729599) (bcl)
+- Remove as many of the /selinux path hardcodings as possible (#729563).
+  (clumens)
+- Raise informative error for ks=bootif, missing BOOTIF case (#681803).
+  (rvykydal)
+- dispatcher: do not show install steps in upgrade. (akozumpl)
+- edd: fix traceback on Xen. (akozumpl)
+- ConditionKernelCommandLine is a setting for Unit, not Service. (clumens)
+- The script sections should operate on an AnacondaKSScript instance (#728468).
+  (clumens)
+- Restart NetworkManager to use anaconda's initial ifcfg config (#727951)
+  (rvykydal)
+- simplify anaconda.target/loader.service requirements (wwoods)
+- make anaconda-shell.service more like getty (wwoods)
+- ut: fix upgrade_test.py (akozumpl)
+- Fix more dispatcher problems. (akozumpl)
+- Check if the potential dep is in done, not the leaf. (#728891) (dlehman)
+- Don't crash when checking unpartitioned devices for disklabel. (#720070)
+  (dlehman)
+- Remove "-Alpha" or "-Beta" from yum's $releasever (#728868). (clumens)
+- Fix extra quote in grub.conf header string (bcl)
+- Set EFI mountpoint when using existing partition (#727933) (bcl)
+- Set the boot partition's name (bcl)
+- Set boot partition's boot flag, stage2 has priority, fallback to stage1 (bcl)
+- exec params need to all be strings (bcl)
+- Fix efi_product_path regex (#728007) (bcl)
+- Remove unneeded if block (bcl)
+- Add some useful logging for partitioning and boot device choices (bcl)
+- Add a space to DiskChunk repr string (bcl)
+- ssl: 'noverifyssl' kernel boot argument. (akozumpl)
+- Cleanup existing formats' device attr after lvm dialog edit. (#723303)
+  (dlehman)
+- Fix handling of skipped LUKS devices the second time through. (#727814)
+  (dlehman)
+- booty tests removed in cd66c6bf33cae14e74001349043e585e348e2e9a (#728477)
+  (vpodzime)
+- gui: translate custom_icon to stock icon name in detailedMessageWindow()
+  (akozumpl)
+- ut: product_test.py should not fail if executed by itself. (akozumpl)
+- Handle rpmdb open errors by throwing out the root candidate (#723167).
+  (clumens)
+- Don't raise Retry dialog in loader kickstart networking (#722276) (rvykydal)
+- Honor linksleep boot option (#713991) (rvykydal)
+- Don't write duplicate lines for encrypted block devices. (dlehman)
+- Setup default for non_linux_format_types (bcl)
+- don't build functions not used on s390(x) (dan)
+- variable 'i' ununsed on s390(x) (dan)
+- use macro name instead of value (vpodzime)
+- Annotate the list of what pylint warnings and errors we ignore. (clumens)
+- Locally disable some E1101 "errors" that pylint doesn't understand. (clumens)
+- Move out the parts of Device.__str__ that are StorageDevice specific.
+  (clumens)
+- Fix a udev import to be more explicit.  This shuts up pylint. (clumens)
+- Disable error reporting for properties with the .setter syntax. (clumens)
+- Disable E1103 (the "some types could not be inferred" message). (clumens)
+- Delete the Mocked pyanaconda.product to fix product tests. (clumens)
+- Fix import errors in the unit tests. (clumens)
+- Remove the booty unit tests. (clumens)
+- We also need to catch ValueError on mock.disk.TestFile.__del__. (clumens)
+- Only warn when swaps with no UUID are preexisting. (dlehman)
+- Fix scan of already-active mdbiosraidarrays before scan of container.
+  (dlehman)
+- Remove dogtail support.  No one uses it anyway. (clumens)
+- Show all disks in text mode cleardisks selector. (#714836) (dlehman)
+- Fix a traceback when user makes a partition whose size is out-of-bounds.
+  (dlehman)
+- Add a warning about the fstab implications of swap devices with no UUID.
+  (dlehman)
+- Fail gracefully when device name collisions occur in kickstart. (dlehman)
+- Don't traceback if disks go missing before/during partitioning. (dlehman)
+- dispatcher: allow requesting a step without insisting. (akozumpl)
+- edd: fix syntax in situation when two edd directories point to the same
+  device. (akozumpl)
+- ut: cleanup the taking-over-io mechanism. (akozumpl)
+- Fix broken unit tests (cmdline, network). (akozumpl)
+
 * Tue Jul 26 2011 Chris Lumens <clumens@redhat.com> - 16.14-1
 - Change IsBeta to IsFinal (mgracik)
 - edd: do not traceback with cciss devices. (akozumpl)
