@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 16.17
+Version: 16.18
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -28,7 +28,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %define intltoolver 0.31.2-3
 %define libnlver 1.0
 %define libselinuxver 1.6
-%define pykickstartver 1.99.3
+%define pykickstartver 1.99.4
 %define rpmpythonver 4.2-0.61
 %define slangver 2.0.6-2
 %define yumver 2.9.2
@@ -234,6 +234,18 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Wed Sep 14 2011 Brian C. Lane <bcl@redhat.com> - 16.18-1
+- Sort partitioning commmands in anaconda-ks.cfg. (#736527) (cherry picked from
+  commit 05260161f846d93a99922b3c6d9b7973306227dc) (dlehman)
+- Install grub2 when upgrading on bios x86. (#735730) (dlehman)
+- Default to installing a new bootloader on upgrade. (cherry picked from commit
+  e65ca303a0c5471d6d8671837f4585865c6ee6db) (dlehman)
+- Add a Reboot button to the congrats screen on live (#705189). (clumens)
+- Add support for reserving space in lvm vgs via kickstart. (dlehman)
+- iutil: make getArch() return ppc64 on ppc64 (#736721) (wwoods)
+- iutil: add 'bits' arg to isPPC (like isX86) (wwoods)
+- nfsiso: handle mismatching .iso architecture gracefully. (akozumpl)
+
 * Thu Sep 08 2011 Chris Lumens <clumens@redhat.com> - 16.17-1
 - systemd: anaconda.target wants rsyslog.service (akozumpl)
 - Improve checking if new biosboot partition is needed. (akozumpl)
