@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 17.1
+Version: 16.22
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -232,24 +232,23 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
-* Tue Oct 11 2011 Chris Lumens <clumens@redhat.com> - 17.1-1
+* Wed Oct 19 2011 Chris Lumens <clumens@redhat.com> - 16.22-1
+- Be more convincing in eradicating errant temp vg paths. (#722952) (dlehman)
+- Copy all of live filesystem to target (#746844) (bcl)
+- Fix autopart shrink of existing system. (#746605) (dlehman)
+- cryptsetup returns positive nonzero when activating by different than the
+  first keyslot (msivak)
+- Add 'nogpt' cmdline arg to disable creation of gpt disklabels. (#735733)
+  (dlehman)
+- Show cleardisks gui always to allow selecting a boot disk. (#744088)
+  (dlehman)
+
+* Tue Oct 11 2011 Chris Lumens <clumens@redhat.com> - 16.21-1
 - Pull grub-efi and efibootmgr into the package list as needed. (#742042)
   (pjones)
-- analog: properly log user.info where NetworkManager (also) communicates.
-  (akozumpl)
-- analog: bump the version to rsyslog 5 (akozumpl)
-- partitioning.py: reference to list of free regions is shadowed by a double.
-  (akozumpl)
 - Handle strange lang boot argument values. (akozumpl)
 - LANG_DEFAULT lives in lang.c. (akozumpl)
-- Include docs/transifex.txt in release dist. (dcantrell)
-- fcoe: modprobe the VLAN layer module. (akozumpl)
-- Remove some raid error checking pykickstart can do for us. (clumens)
 - Set default BOOTPROTO=dhcp for network service (minimal installs) (#741199)
-  (rvykydal)
-- remove argument ROOT_PATH from getDefaultKeyboard() calls (removed from
-  method with 3e8d08cac6aa89f001c5b32dba251a62a45ed7f4) (vpodzime)
-- Default to an active network device after reboot on Fedora (ONBOOT) (#498207)
   (rvykydal)
 - Fix: Allow EFI slot_ids in hexdecimal (#742141). (fabian.deutsch)
 - Move the fedora logo to the left. (akozumpl)
@@ -258,7 +257,6 @@ update-desktop-database &> /dev/null || :
 - dispatcher: do not request "group-selection" with "tasksel". (akozumpl)
 - upgrade: do not insist on running the "bootloader" step. (akozumpl)
 - Fix sigsegv in setKickstartNetwork() (strdup() from a NULL). (akozumpl)
-- dracut args: "rhgb quiet" should come last. (akozumpl)
 - Add nfsiso: handling to parseNfsHostPathOpts (bcl)
 - Only check relevant devices for dirty filesystems. (#741206) (dlehman)
 - Make sure storage is reset just before partitioning, always. (dlehman)
@@ -267,91 +265,80 @@ update-desktop-database &> /dev/null || :
   (dlehman)
 - Try a test mount and keep fstab mismatches if it succeeds. (#649171)
   (dlehman)
-- Check the return value of get_file_list (#741466) (bcl)
-- imount.c: include fcntl.h before ext2fs/ext2fs.h. (akozumpl)
-- Write the grub.conf after setting up the new EFI bootloader (#741994)) (bcl)
-- botoloader: write 'ip=eth0:dhcp,auto6' instead of 'ip=eth0:dhcp
-  ip=eth0:auto6' (akozumpl)
-- gitingore: ignore po/*.po.new files. (akozumpl)
-- Put bios boot partitions on all gpt disk on bios systems. (#738964) (dlehman)
+
+* Wed Sep 28 2011 Brian C. Lane <bcl@redhat.com> - 16.20-1
+- Fix the path for splash.xpm.gz in grub.conf (pjones)
+- Write the grub.conf after setting up the new EFI bootloader (#741994) (bcl)
+
+* Fri Sep 23 2011 Chris Lumens <clumens@redhat.com> - 16.19-1
 - Change default bootloader timeout from 20sec to 5sec. (#727831) (dlehman)
 - Bootloader stage1_drive is more than a suggestion. (#738964) (dlehman)
 - Mark the live device's parent devices protected. (#738964) (dlehman)
 - it is anaconda-shell (akozumpl)
-- Improve the clarity of the missing bios boot partition error. (#731549)
-  (dlehman)
 - Remove tmp.mount (systemd handles this for us now) (wwoods)
 - Move dependency info into the unit files (wwoods)
 - move anaconda-shell.service to the correct filename (wwoods)
 - make anaconda-shell.service a template, put it on tty2 & hvc1 (wwoods)
-- Return after writing log message, not before. (rvykydal)
-- Do not reactivate network device needlessly on s390 (#739846) (rvykydal)
-- Start NM in loader on s390 until we have systemd init here too (#733680)
+- Improve the clarity of the missing bios boot partition error. (#731549)
+  (dlehman)
+- Default to an active network device after reboot on Fedora (ONBOOT) (#498207)
   (rvykydal)
-- Revert "Set debug_package to %{nil} so we don't strip our binaries."
-  (akozumpl)
 - Fix createUser and createGroup to work with kickstart defaults (#739428)
   (bcl)
 - Update test for createUser and createGroup (#739428) (bcl)
-- fcoe: handle Broadcom fcoe devices correctly. (akozumpl)
-- fcoe: the control path in sysfs is now /sys/module/libfcoe (akozumpl)
-- fcoe: load bnx2fc if relevant. (akozumpl)
+- Revert "Set debug_package to %{nil} so we don't strip our binaries."
+  (akozumpl)
 - Fix post-commit lookup of extended partitions. (#737532) (dlehman)
-- Don't reboot when closing the live installer via the window decoration.
-  (clumens)
 - Use the luks format's mapName when creating temp LUKSDevice. (#722952)
   (dlehman)
 - Reset device attr after using temp dev. (#722952) (dlehman)
 - Make sure there are no tempvg paths even if formatting. (#737916) (dlehman)
+- Don't reboot when closing the live installer via the window decoration.
+  (clumens)
 
-* Thu Sep 15 2011 Chris Lumens <clumens@redhat.com> - 17.0-1
-- Sort partitioning commmands in anaconda-ks.cfg. (#736527) (dlehman)
+* Wed Sep 14 2011 Brian C. Lane <bcl@redhat.com> - 16.18-1
+- Sort partitioning commmands in anaconda-ks.cfg. (#736527) (cherry picked from
+  commit 05260161f846d93a99922b3c6d9b7973306227dc) (dlehman)
 - Install grub2 when upgrading on bios x86. (#735730) (dlehman)
-- Default to installing a new bootloader on upgrade. (dlehman)
+- Default to installing a new bootloader on upgrade. (cherry picked from commit
+  e65ca303a0c5471d6d8671837f4585865c6ee6db) (dlehman)
 - Add a Reboot button to the congrats screen on live (#705189). (clumens)
 - Add support for reserving space in lvm vgs via kickstart. (dlehman)
 - iutil: make getArch() return ppc64 on ppc64 (#736721) (wwoods)
 - iutil: add 'bits' arg to isPPC (like isX86) (wwoods)
 - nfsiso: handle mismatching .iso architecture gracefully. (akozumpl)
+
+* Thu Sep 08 2011 Chris Lumens <clumens@redhat.com> - 16.17-1
 - systemd: anaconda.target wants rsyslog.service (akozumpl)
 - Improve checking if new biosboot partition is needed. (akozumpl)
-- mpath: create /etc/multipath/bindings if we are using friendly names.
-  (akozumpl)
-- isolate localeInfo and expandLangs() from langauges.py into a separate
-  module. (akozumpl)
 - Make sure we teardown root candidates in all cases. (#693095) (dlehman)
-- Update parted partition by sector, not name, after create. (#733449)
-  (dlehman)
+- Update parted partition by sector, not name, after create. (#733449) (cherry
+  picked from commit 2c6616615ab02c4cc31d701493c169554aec0151) (dlehman)
 - Determine existing md arrays' metadata version. (#731266) (dlehman)
 - Don't check mountable before obtaining actual/existing fs size. (#733808)
   (dlehman)
 - Fix traceback when installing over a system with broken rpm db. (akozumpl)
 - kickstart: use 'bootloader --timeout' even if it is zero. (akozumpl)
+
+* Mon Aug 29 2011 Brian C. Lane <bcl@redhat.com> - 16.16-1
 - Fix some things using old bootloader/platform stuff. (dlehman)
 - Fix traceback when validating unallocated partition requests. (#733670)
   (dlehman)
 - Require BIOS boot partition for GPT bootdisk on BIOS systems. (dlehman)
 - Prevent grub2 from trying to access floppy drives. (dlehman)
 - Limit grub stage2 md members' device type and metadata version. (dlehman)
-- Remove unnecessary ROOT_PATH constant passing. (akozumpl)
-- Moving anaconda.rootPath to constants.ROOT_PATH. (akozumpl)
-- Remove deprecated --rootPath and --test. (akozumpl)
-- Tidy warnings.showwarning into anaconda_log.py. (akozumpl)
-- cosmetic: remove trailing whitespace in timezone_test.py (akozumpl)
-- ut: cleanup after firewall_test.py (akozumpl)
-- ut: move tests/fw_test.py to tests/pyanaconda_test/firewall_test.py
-  (akozumpl)
+- reinit dialog: make the defaults the same. (akozumpl)
 - Close out the yum history before running %post scripts (#730857). (clumens)
-- Remove unused attribute 'bootable' from DeviceFormat classes. (dlehman)
-- Allow btrfs stage2 with grub2. (#732594) (dlehman)
-- Clean up return values of GRUB2._gpt_disk_has_bios_boot. (dlehman)
-- Force grub2 install to partition's boot block. (#727679) (dlehman)
-- Don't crash because we don't have support for linear md. (#646157) (dlehman)
+- Allow btrfs stage2 with grub2. (#732594) (cherry picked from commit
+  408a7e24094ea00378a712d1f7652dc4b2e14ab3) (dlehman)
 - Clean up obsolete extended partitions if partitioning fails. (#672010)
   (dlehman)
-- Convert a None from libiscsi.discover() to an empty list. (akozumpl)
+- Clean up return values of GRUB2._gpt_disk_has_bios_boot. (dlehman)
+- Force grub2 install to partition's boot block. (#727679) (cherry picked from
+  commit 9474d2c386aab25ede85a56a368e457c39e490ee) (dlehman)
+- Don't crash because we don't have support for linear md. (#646157) (dlehman)
 - Honor kickstart 'autopart --nolvm' option (jlaska)
-- Allow answering the uninitialized disk question more than once. (akozumpl)
+- Update transifex config for f16-branch. (clumens)
 
 * Thu Aug 18 2011 Chris Lumens <clumens@redhat.com> - 16.15-1
 - i18n: Do not include newlines in the reinit dialog's label. (akozumpl)
