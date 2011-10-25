@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 16.22
+Version: 16.23
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -232,6 +232,13 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Tue Oct 25 2011 Chris Lumens <clumens@redhat.com> - 16.23-1
+- Run grub2-config before grub2-mkconfig (#736993) (pjones)
+- Fix typo in call to opt.isdigit (#743787) (pjones)
+- Don't allow disks containing the live media as boot disk. (#748587) (dlehman)
+- Honor fsprofile argument even for existing devices. (#747417) (dlehman)
+- Regenerate tasklist when a repo is removed. (#746573) (akozumpl)
+
 * Wed Oct 19 2011 Chris Lumens <clumens@redhat.com> - 16.22-1
 - Be more convincing in eradicating errant temp vg paths. (#722952) (dlehman)
 - Copy all of live filesystem to target (#746844) (bcl)
