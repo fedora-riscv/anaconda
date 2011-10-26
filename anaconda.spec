@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 17.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -232,6 +232,9 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Wed Oct 26 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 17.1-2
+- Rebuilt for glibc bug#747377
+
 * Tue Oct 11 2011 Chris Lumens <clumens@redhat.com> - 17.1-1
 - Pull grub-efi and efibootmgr into the package list as needed. (#742042)
   (pjones)
