@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 16.24
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -232,6 +232,9 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Wed Oct 26 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 16.24-2
+- Rebuilt for glibc bug#747377
+
 * Wed Oct 26 2011 Chris Lumens <clumens@redhat.com> - 16.24-1
 - Don't use GPT disklabels on Lenovo BIOS systems. (#749325) (dlehman)
 
