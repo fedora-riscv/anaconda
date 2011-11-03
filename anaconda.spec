@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 16.24
-Release: 2%{?dist}
+Version: 16.25
+Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -232,8 +232,10 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
-* Wed Oct 26 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 16.24-2
-- Rebuilt for glibc bug#747377
+* Wed Nov 02 2011 Brian C. Lane <bcl@redhat.com> - 16.25-1
+- Try to fix up detection of live backing devices. (#750469) (dlehman)
+- Omit protected disks from bootloader.drives. (dlehman)
+- If no AP is selected don't write config files (#750896) (bcl)
 
 * Wed Oct 26 2011 Chris Lumens <clumens@redhat.com> - 16.24-1
 - Don't use GPT disklabels on Lenovo BIOS systems. (#749325) (dlehman)
