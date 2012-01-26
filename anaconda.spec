@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 17.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -232,6 +232,9 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Thu Jan 26 2012 Tomas Bzatek <tbzatek@redhat.com> - 17.3-2
+- Rebuilt for new libarchive
+
 * Mon Jan 23 2012 Brian C. Lane <bcl@redhat.com> - 17.3-1
 - Add missing log import to platform.py (bcl)
 - liveinst: Check for live-baseloop LIVE_BLOCK (bcl)
