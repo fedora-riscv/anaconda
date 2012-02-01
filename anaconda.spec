@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 17.3
-Release: 2%{?dist}
+Version: 17.4
+Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -232,6 +232,16 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Tue Jan 31 2012 Brian C. Lane <bcl@redhat.com> - 17.4-1
+- liveinst: canonicalize live-baseloop symlink (bcl)
+- Fixup getDeviceBy* methods (bcl)
+- Ignore dm devs when scanning for mpath members (#761278) (hamzy)
+- Don't set the system's hostname during disk image installs. (dlehman)
+- Fix error handling in the case of no live block device. (dlehman)
+- Force simple filter for disk image installs. (#784560) (dlehman)
+- Check for live install before doing live-specific umounts. (dlehman)
+- DM_VG_NAME tells an LV's VG, not the VG a PV belongs to. (#772878) (dlehman)
+
 * Thu Jan 26 2012 Tomas Bzatek <tbzatek@redhat.com> - 17.3-2
 - Rebuilt for new libarchive
 
