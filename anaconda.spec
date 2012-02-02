@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 17.4
+Version: 17.5
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -232,6 +232,10 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Wed Feb 01 2012 Brian C. Lane <bcl@redhat.com> - 17.5-1
+- Add a separate function to get an LV's VG name. (dlehman)
+- util-linux-ng is now util-linux (bcl)
+
 * Tue Jan 31 2012 Brian C. Lane <bcl@redhat.com> - 17.4-1
 - liveinst: canonicalize live-baseloop symlink (bcl)
 - Fixup getDeviceBy* methods (bcl)
@@ -241,9 +245,6 @@ update-desktop-database &> /dev/null || :
 - Force simple filter for disk image installs. (#784560) (dlehman)
 - Check for live install before doing live-specific umounts. (dlehman)
 - DM_VG_NAME tells an LV's VG, not the VG a PV belongs to. (#772878) (dlehman)
-
-* Thu Jan 26 2012 Tomas Bzatek <tbzatek@redhat.com> - 17.3-2
-- Rebuilt for new libarchive
 
 * Mon Jan 23 2012 Brian C. Lane <bcl@redhat.com> - 17.3-1
 - Add missing log import to platform.py (bcl)
@@ -278,9 +279,6 @@ update-desktop-database &> /dev/null || :
 - Unmount the image file (bcl)
 - Disable yum log file handling (bcl)
 - Setup storage config when kickstart is parsed (bcl)
-
-* Thu Jan 12 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 17.2-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
 * Tue Nov 15 2011 Chris Lumens <clumens@redhat.com> - 17.2-1
 - ARCHIVE_DEFAULT_BYTES_PER_BLOCK no longer exists in libarchive-3.0.0
@@ -329,9 +327,6 @@ update-desktop-database &> /dev/null || :
   (dlehman)
 - mpath: flush more eagerly in filter_gui. (akozumpl)
 - debugging: log boot arguments. (akozumpl)
-
-* Wed Oct 26 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 17.1-2
-- Rebuilt for glibc bug#747377
 
 * Tue Oct 11 2011 Chris Lumens <clumens@redhat.com> - 17.1-1
 - Pull grub-efi and efibootmgr into the package list as needed. (#742042)
