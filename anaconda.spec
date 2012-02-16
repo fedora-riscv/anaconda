@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 17.8
+Version: 17.9
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -135,6 +135,7 @@ Requires: zenity
 %endif
 Requires: createrepo >= %{createrepover}
 Requires: squashfs-tools
+Requires: hfsplus-tools
 Requires: genisoimage >= %{genisoimagever}
 Requires: GConf2 >= %{gconfversion}
 %ifarch %{ix86} x86_64
@@ -154,6 +155,9 @@ Requires: libselinux-python >= %{libselinuxver}
 Requires: fcoe-utils >= %{fcoeutilsver}
 %ifarch %{sparc}
 Requires: elftoaout piggyback
+%endif
+%ifarch x86_64
+Requires: mactel-boot
 %endif
 Obsoletes: anaconda-images <= 10
 Provides: anaconda-images = %{version}-%{release}
@@ -232,6 +236,15 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Thu Feb 16 2012 Brian C. Lane <bcl@redhat.com> - 17.9-1
+- Don't set the pmbr bootable flag on Macs, whether booted via EFI or not (mjg)
+- Don't set GPT HFS+ partitions as bootable (mjg)
+- Mark HFS+ as fsckable (mjg)
+- fix setattr in set_cmdline_bool (pschindl)
+- Add _mounttype to HFSPlus (mjg)
+- Add support for UEFI Mac installs (mjg)
+- Add support for HFS+ partitions (mjg)
+
 * Mon Feb 13 2012 Brian C. Lane <bcl@redhat.com> - 17.8-1
 - Clear partitions' metadata when 'clearpart --initlabel' used. (#783841)
   (cherry picked from commit 15307cc091212cc69b599b90c239492c9c9586ec)
