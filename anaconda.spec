@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.0
+Version: 18.1
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -125,7 +125,7 @@ Requires: lvm2
 Requires: util-linux >= 2.15.1
 Requires: system-config-keyboard >= %{sckeyboardver}
 Requires: dbus-python
-Requires: cracklib-python
+Requires: python-pwquality
 Requires: python-bugzilla
 Requires: python-nss
 Requires: tigervnc-server-minimal
@@ -135,6 +135,7 @@ Requires: zenity
 %endif
 Requires: createrepo >= %{createrepover}
 Requires: squashfs-tools
+Requires: hfsplus-tools
 Requires: genisoimage >= %{genisoimagever}
 Requires: GConf2 >= %{gconfversion}
 %ifarch %{ix86} x86_64
@@ -154,6 +155,9 @@ Requires: libselinux-python >= %{libselinuxver}
 Requires: fcoe-utils >= %{fcoeutilsver}
 %ifarch %{sparc}
 Requires: elftoaout piggyback
+%endif
+%ifarch x86_64
+Requires: mactel-boot
 %endif
 Obsoletes: anaconda-images <= 10
 Provides: anaconda-images = %{version}-%{release}
@@ -232,6 +236,40 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Mon Feb 20 2012 Brian C. Lane <bcl@redhat.com> - 18.1-1
+- use a dracut shutdown hook to eject media (#787461) (bcl)
+- add dracut shutdown eject hook function (#787461) (bcl)
+- The createSuggested methods have changed name (#791204, #795058). (clumens)
+- iscsi: no discovery on each target login (#752066) (rvykydal)
+- Use libpwquality to check root password strength (#755883) (mgracik)
+- Generate repo= ks command only for repos added by user (#738577) (rvykydal)
+- Fix a typo (#794504). (clumens)
+- Add support for network --device=link in stage2 kickstart (#790332)
+  (rvykydal)
+- Don't set the pmbr bootable flag on Macs, whether booted via EFI or not (mjg)
+- Don't set GPT HFS+ partitions as bootable (mjg)
+- Mark HFS+ as fsckable (mjg)
+- Set default lang and create default locale files early (wwoods)
+- Generate connection UUID in inital ifcfg files created by anaconda (#705328)
+  (rvykydal)
+- Take in change of a binary name (brcm_iscsiuio -> iscsiuio) (#731761)
+  (rvykydal)
+- Add 'traceback' boot option for python-meh and libreport testing (vpodzime)
+- fix setattr in set_cmdline_bool (pschindl)
+- Add _mounttype to HFSPlus (mjg)
+- Add support for UEFI Mac installs (mjg)
+- Add support for HFS+ partitions (mjg)
+- Remove networking configuration steps from linuxrc.s390 (#783227) (dcantrell)
+- Clear partitions' metadata when 'clearpart --initlabel' used. (#783841)
+  (dlehman)
+- Fix support for detecting existing mirrored lvs. (#734128) (dlehman)
+- Don't put partitions into device.map (pjones)
+- fix potential EFIGRUB infinite loop (bcl)
+- finish ROOT_PATH changes in bootloader (#789169) (bcl)
+- Be more verbose about upgrade failures (#735060) (bcl)
+- log tracebacks from importing formats (bcl)
+- Skip setting PMBR boot flag on EFI (#754850) (mjg)
+
 * Thu Feb 09 2012 Brian C. Lane <bcl@redhat.com> - 18.0-1
 - Set ONBOOT=yes for FCoE devices (#755147) (rvykydal)
 - Add details to transifex.doc for branching (bcl)
