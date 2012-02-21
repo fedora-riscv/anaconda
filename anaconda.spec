@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 17.10
+Version: 17.11
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -236,6 +236,9 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %changelog
+* Tue Feb 21 2012 Brian C. Lane <bcl@redhat.com> - 17.11-1
+- import using the right path to iutil (bcl)
+
 * Mon Feb 20 2012 Brian C. Lane <bcl@redhat.com> - 17.10-1
 - use a dracut shutdown hook to eject media (#787461) (bcl)
 - add dracut shutdown eject hook function (#787461) (bcl)
