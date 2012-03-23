@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 17.13
+Version: 17.14
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -225,6 +225,7 @@ update-desktop-database &> /dev/null || :
 %doc docs/install-methods.txt
 %doc docs/mediacheck.txt
 /lib/systemd/system/*
+/lib/systemd/system-generators/*
 /lib/udev/rules.d/70-anaconda.rules
 %{_bindir}/instperf
 %{_sbindir}/anaconda
@@ -254,6 +255,27 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Thu Mar 22 2012 Brian C. Lane <bcl@redhat.com> - 17.14-1
+- Revert "dracut: use /run/install/source for repodir" (bcl)
+- Disable creation of btrfs filesystems aside from kickstart. (#787341)
+  (dlehman)
+- fix text mode KeyError crash (#804483) (wwoods)
+- Default to text-mode if 'console=XXX' was provided (#804506) (wwoods)
+- dracut startup: "Loading $product $version $arch installer..." (wwoods)
+- fix nfsiso:...:/path/to/filename.iso (#804515) (wwoods)
+- fix typo in makeupdates (bcl)
+- makeupdates: add support for updating systemd services/targets (wwoods)
+- disable warnings about boot options needing 'inst.XXX' (wwoods)
+- Create default ifcfg-* for each interface (#804504, #804716) (wwoods)
+- save ifcfg for every interface we bring up (wwoods)
+- Let systemd handle terminal setup, fix possible race with NM (wwoods)
+- Migrate PPC from Yaboot to Grub2 for Anaconda (hamzy)
+- dracut: fix anaconda-netroot for inst.repo=nfsiso:.. (wwoods)
+- dracut: accept inst.updates or updates for live.updates (wwoods)
+- makeupdates: put files the right places (wwoods)
+- dracut: use /run/install/source for repodir (wwoods)
+- read args from 80kickstart.conf (bcl)
+
 * Fri Mar 16 2012 Brian C. Lane <bcl@redhat.com> - 17.13-1
 - anaconda.service Wants=NetworkManager.service (wwoods)
 - make sure we save the network setup for any network device we used (wwoods)
