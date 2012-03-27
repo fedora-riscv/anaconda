@@ -1,0 +1,141 @@
+From hamzy@us.ibm.com Mon Mar 26 15:09:36 2012
+Received: from int-mx10.intmail.prod.int.phx2.redhat.com
+	(int-mx10.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+	by lists01.pubmisc.prod.ext.phx2.redhat.com (8.13.8/8.13.8) with ESMTP
+	id q2QJ9a79016154
+	for <anaconda-devel-list@listman.util.phx.redhat.com>;
+	Mon, 26 Mar 2012 15:09:36 -0400
+Received: from mx1.redhat.com (ext-mx14.extmail.prod.ext.phx2.redhat.com
+	[10.5.110.19])
+	by int-mx10.intmail.prod.int.phx2.redhat.com (8.14.4/8.14.4) with ESMTP
+	id q2QJ9VwR003936
+	for <anaconda-devel-list@redhat.com>; Mon, 26 Mar 2012 15:09:31 -0400
+Received: from e2.ny.us.ibm.com (e2.ny.us.ibm.com [32.97.182.142])
+	by mx1.redhat.com (8.14.4/8.14.4) with ESMTP id q2QJ9QNr020742
+	for <anaconda-devel-list@redhat.com>; Mon, 26 Mar 2012 15:09:26 -0400
+Received: from /spool/local
+	by e2.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+	Violators will be prosecuted
+	for <anaconda-devel-list@redhat.com> from <hamzy@us.ibm.com>;
+	Mon, 26 Mar 2012 15:09:26 -0400
+Received: from d01dlp02.pok.ibm.com (9.56.224.85)
+	by e2.ny.us.ibm.com (192.168.1.102) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	Mon, 26 Mar 2012 15:08:55 -0400
+Received: from d01relay04.pok.ibm.com (d01relay04.pok.ibm.com [9.56.227.236])
+	by d01dlp02.pok.ibm.com (Postfix) with ESMTP id 08B096E8055
+	for <anaconda-devel-list@redhat.com>;
+	Mon, 26 Mar 2012 15:08:54 -0400 (EDT)
+Received: from d03av03.boulder.ibm.com (d03av03.boulder.ibm.com [9.17.195.169])
+	by d01relay04.pok.ibm.com (8.13.8/8.13.8/NCO v10.0) with ESMTP id
+	q2QJ8ohR206290
+	for <anaconda-devel-list@redhat.com>; Mon, 26 Mar 2012 15:08:52 -0400
+Received: from d03av03.boulder.ibm.com (loopback [127.0.0.1])
+	by d03av03.boulder.ibm.com (8.14.4/8.13.1/NCO v10.0 AVout) with ESMTP
+	id q2QJ8Y4v024114
+	for <anaconda-devel-list@redhat.com>; Mon, 26 Mar 2012 13:08:34 -0600
+Received: from bluebill.rchland.ibm.com (bluebill.rchland.ibm.com
+	[9.5.250.146])
+	by d03av03.boulder.ibm.com (8.14.4/8.13.1/NCO v10.0 AVin) with ESMTP id
+	q2QJ8YFC024057; Mon, 26 Mar 2012 13:08:34 -0600
+From: Mark Hamzy <hamzy@us.ibm.com>
+To: anaconda-devel-list@redhat.com
+Subject: [PATCH] Format PReP partition
+Date: Mon, 26 Mar 2012 14:05:30 -0500
+Message-Id: <1332788730-34740-1-git-send-email-hamzy@us.ibm.com>
+X-Content-Scanned: Fidelis XPS MAILER
+x-cbid: 12032619-5112-0000-0000-0000068420B8
+X-RedHat-Spam-Score: -5.011  (RCVD_IN_DNSWL_HI,SPF_PASS,T_RP_MATCHES_RCVD)
+X-Scanned-By: MIMEDefang 2.68 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.68 on 10.5.110.19
+X-loop: anaconda-devel-list@redhat.com
+Cc: Mark Hamzy <hamzy@us.ibm.com>
+X-BeenThere: anaconda-devel-list@redhat.com
+X-Mailman-Version: 2.1.12
+Precedence: junk
+Reply-To: Discussion of Development and Customization of the Red Hat Linux
+	Installer <anaconda-devel-list@redhat.com>
+List-Id: Discussion of Development and Customization of the Red Hat Linux
+	Installer <anaconda-devel-list.redhat.com>
+List-Unsubscribe: <https://www.redhat.com/mailman/options/anaconda-devel-list>, 
+	<mailto:anaconda-devel-list-request@redhat.com?subject=unsubscribe>
+List-Archive: <https://www.redhat.com/archives/anaconda-devel-list>
+List-Post: <mailto:anaconda-devel-list@redhat.com>
+List-Help: <mailto:anaconda-devel-list-request@redhat.com?subject=help>
+List-Subscribe: <https://www.redhat.com/mailman/listinfo/anaconda-devel-list>, 
+	<mailto:anaconda-devel-list-request@redhat.com?subject=subscribe>
+X-List-Received-Date: Mon, 26 Mar 2012 19:09:36 -0000
+
+This fixes two bugs.  The first is that the PReP partition is not created
+during a text mode install.  The second is that the PReP partition needs
+to be zeroed out before grub is run.  Grub verifies that no data exists
+on the partition before installation.
+
+---
+ pyanaconda/storage/formats/prepboot.py |   28 ++++++++++++++++++++++++++++
+ pyanaconda/storage/partitioning.py     |    3 ++-
+ 2 files changed, 30 insertions(+), 1 deletions(-)
+
+diff --git a/pyanaconda/storage/formats/prepboot.py b/pyanaconda/storage/formats/prepboot.py
+index b7d1c60..b8d8490 100644
+--- a/pyanaconda/storage/formats/prepboot.py
++++ b/pyanaconda/storage/formats/prepboot.py
+@@ -23,6 +23,9 @@
+ from ..errors import *
+ from . import DeviceFormat, register_device_format
+ from parted import PARTITION_PREP
++import os
++import logging
++log = logging.getLogger("storage")
+ 
+ class PPCPRePBoot(DeviceFormat):
+     """ Generic device format. """
+@@ -46,6 +49,31 @@ class PPCPRePBoot(DeviceFormat):
+         """
+         DeviceFormat.__init__(self, *args, **kwargs)
+ 
++    def create(self, *args, **kwargs):
++        if self.exists:
++            raise FSError("filesystem already exists")
++
++        DeviceFormat.create(self, *args, **kwargs)
++
++        try:
++            fd = os.open(self.device, os.O_RDWR)
++            length = os.lseek(fd, 0, os.SEEK_END)
++            os.lseek(fd, 0, os.SEEK_SET)
++            buf = '\0' * 1024 * 1024
++            while length > 0:
++                if length >= len(buf):
++                     os.write(fd, buf)
++                     length -= len(buf)
++                else:
++                     buf = '0' * length
++                     os.write(fd, buf)
++                     length = 0
++            os.close(fd)
++        except Exception as e:
++            log.error("error zeroing out %s: %s" % (self.device, e))
++            if fd:
++                os.close(fd)
++
+     @property
+     def status(self):
+         return False
+diff --git a/pyanaconda/storage/partitioning.py b/pyanaconda/storage/partitioning.py
+index 49faa78..c380b0c 100644
+--- a/pyanaconda/storage/partitioning.py
++++ b/pyanaconda/storage/partitioning.py
+@@ -120,7 +120,8 @@ def _schedulePartitions(storage, disks):
+ 
+         if request.fstype is None:
+             request.fstype = storage.defaultFSType
+-        elif request.fstype == "prepboot" and storage.bootLoaderDevice:
++        elif request.fstype == "prepboot" and storage.bootLoaderDevice and \
++             storage.bootLoaderDevice != storage.bootDevice:
+             # there should never be a need for more than one of these
+             # partitions, so skip them.
+             log.info("skipping unneeded stage1 prepboot request")
+-- 
+1.7.7.6
+

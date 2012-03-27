@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 17.14
-Release: 1%{?dist}
+Release: 1%{?dist}.1
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -14,6 +14,8 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
+# commit 22c0e94db
+Patch0: %{name}-17.14-ppc.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -187,6 +189,7 @@ runtime on NFS/HTTP/FTP servers or local disks.
 
 %prep
 %setup -q
+%patch0 -p1 -b .ppc
 
 %build
 %configure --disable-static
@@ -255,6 +258,9 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Mon Mar 26 2012 Dan Horák <dan[at]danny.cz> - 17.14-1.1
+- add ppc patch by Mark Hamzy
+
 * Thu Mar 22 2012 Brian C. Lane <bcl@redhat.com> - 17.14-1
 - Revert "dracut: use /run/install/source for repodir" (bcl)
 - Disable creation of btrfs filesystems aside from kickstart. (#787341)
