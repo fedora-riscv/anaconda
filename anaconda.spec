@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 17.15
+Version: 17.16
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -255,6 +255,13 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Wed Mar 28 2012 Brian C. Lane <bcl@redhat.com> - 17.16-1
+- makeupdates: install liveinst to /usr/sbin (bcl)
+- liveinst: adjust updates path (#807397) (bcl)
+- dracut: add missing spaces for module loading (#804522) (bcl)
+- Don't set MALLOC_PERTURB_ when calling grub2-install. (workaround #806784)
+  (pjones)
+
 * Tue Mar 27 2012 Brian C. Lane <bcl@redhat.com> - 17.15-1
 - make ks=file:... parse kickstart earlier (#806931) (wwoods)
 - Let "root=..." override "repo=..." (wwoods)
