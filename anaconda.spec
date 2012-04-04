@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 17.16
+Version: 17.17
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -110,9 +110,6 @@ Requires: dosfstools
 Requires: e2fsprogs >= %{e2fsver}
 Requires: gzip
 Requires: libarchive
-%ifarch %{ix86} x86_64 ia64
-Requires: dmidecode
-%endif
 Requires: python-pyblock >= %{pythonpyblockver}
 Requires: libuser-python
 Requires: newt-python
@@ -176,9 +173,6 @@ Requires: dracut >= 16
 Requires: dracut-network
 Requires: xz
 Requires: pykickstart
-%ifarch %{ix86} x86_64
-Requires: dmidecode
-%endif
 
 %description dracut
 The 'anaconda' dracut module handles installer-specific boot tasks and
@@ -255,6 +249,24 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Tue Apr 03 2012 Brian C. Lane <bcl@redhat.com> - 17.17-1
+- Don't allow /usr as a separate partition (#804913) (clumens)
+- use /sys/class/dmi instead of dmidecode (bcl)
+- restore the GPT blacklist code (bcl)
+- add virtio rsyslogd logging to anaconda (bcl)
+- dracut/parse-kickstart: handle network --device=link (or none) (wwoods)
+- dracut: fix kssendmac/inst.ks.sendmac (wwoods)
+- Set ONBOOT=yes for at least one wired netdev by default (#806466) (wwoods)
+- detect live backing device (#809342) (dlehman)
+- Wait for device activation / "online" hook if rd.neednet is set (wwoods)
+- Fix kickstart failure if ks is on the same disk as stage2 (wwoods)
+- fix 'mount: Too many levels of symbolic links' error message (wwoods)
+- support {stage2,repo}=.../path/to/file.img (#808499) (wwoods)
+- dracut when_diskdev_appears: only run cmd once per device (wwoods)
+- dracut: don't do kickstart twice, don't use root.info (wwoods)
+- Don't use the bootloader config path to find the splash image (#807510)
+  (pjones)
+
 * Wed Mar 28 2012 Brian C. Lane <bcl@redhat.com> - 17.16-1
 - makeupdates: install liveinst to /usr/sbin (bcl)
 - liveinst: adjust updates path (#807397) (bcl)
