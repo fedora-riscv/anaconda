@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 17.19
+Version: 17.20
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -249,6 +249,10 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Mon Apr 09 2012 Brian C. Lane <bcl@redhat.com> - 17.20-1
+- make dev_is_mounted more reliable (wwoods)
+- fix failure to run multiple udev-triggered jobs (#811008) (wwoods)
+
 * Fri Apr 06 2012 Brian C. Lane <bcl@redhat.com> - 17.19-1
 - copy installer image to RAM during upgrades (#810391) (wwoods)
 - fix repo={hd,cdrom}:DEV:PATH (#810136) (wwoods)
