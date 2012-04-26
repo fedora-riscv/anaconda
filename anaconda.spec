@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 17.22
+Version: 17.23
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -249,6 +249,10 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Thu Apr 26 2012 Brian C. Lane <bcl@redhat.com> - 17.23-1
+- Check /run/initramfs/live/ for packages (#806166) (bcl)
+- Add 'cms' dracut module on s390 (wwoods)
+
 * Mon Apr 23 2012 Brian C. Lane <bcl@redhat.com> - 17.22-1
 - anaconda displays conflicting information when using vnc (hamzy)
 - run fetch-kickstart-net.sh after setup_net (#804846, #811851) (wwoods)
