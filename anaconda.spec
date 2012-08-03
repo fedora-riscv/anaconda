@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.2
-Release: 2%{?dist}
+Version: 18.3
+Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -26,13 +26,12 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %define intltoolver 0.31.2-3
 %define libnlver 1.0
 %define libselinuxver 1.6
-%define pykickstartver 1.99.4
+%define pykickstartver 1.99.14
 %define rpmpythonver 4.2-0.61
 %define slangver 2.0.6-2
 %define yumver 2.9.2
 %define partedver 1.8.1
 %define pypartedver 2.5-2
-%define syscfgdatever 1.9.48
 %define pythonpyblockver 0.45
 %define e2fsver 1.41.0
 %define nmver 1:0.7.1-3.git20090414
@@ -41,7 +40,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %define yumutilsver 1.1.11-3
 %define iscsiver 6.2.0.870-3
 %define pythoncryptsetupver 0.1.1
-%define mehver 0.8
+%define mehver 0.13-1
 %define sckeyboardver 1.3.1
 %define libblkidver 2.17.1-1
 %define fcoeutilsver 1.0.12-3.20100323git
@@ -53,7 +52,11 @@ BuildRequires: device-mapper-devel >= %{dmver}
 BuildRequires: e2fsprogs-devel >= %{e2fsver}
 BuildRequires: elfutils-devel
 BuildRequires: gettext >= %{gettextver}
-BuildRequires: gtk2-devel
+BuildRequires: gtk3-devel
+BuildRequires: gtk-doc
+BuildRequires: gobject-introspection-devel
+BuildRequires: glade-devel
+BuildRequires: pygobject3
 BuildRequires: intltool >= %{intltoolver}
 BuildRequires: isomd5sum-static >= %{isomd5sumver}
 BuildRequires: libarchive-devel
@@ -62,9 +65,11 @@ BuildRequires: libXt-devel
 BuildRequires: libXxf86misc-devel
 BuildRequires: libblkid-devel >= %{libblkidver}
 BuildRequires: libcurl-devel
+BuildRequires: libgnomekbd-devel
 BuildRequires: libnl-devel >= %{libnlver}
 BuildRequires: libselinux-devel >= %{libselinuxver}
 BuildRequires: libsepol-devel
+BuildRequires: libxklavier-devel
 BuildRequires: libxml2-python
 BuildRequires: newt-devel
 BuildRequires: pango-devel
@@ -82,7 +87,8 @@ BuildRequires: yum >= %{yumver}
 BuildRequires: zlib-devel
 BuildRequires: NetworkManager-devel >= %{nmver}
 BuildRequires: NetworkManager-glib-devel >= %{nmver}
-BuildRequires: dbus-devel >= %{dbusver}, dbus-python
+BuildRequires: dbus-devel >= %{dbusver}
+BuildRequires: dbus-python
 BuildRequires: system-config-keyboard >= %{sckeyboardver}
 %ifarch %livearches
 BuildRequires: desktop-file-utils
@@ -92,6 +98,7 @@ BuildRequires: iscsi-initiator-utils-devel >= %{iscsiver}
 BuildRequires: s390utils-devel
 %endif
 
+Requires: gnome-icon-theme-symbolic
 Requires: python-meh >= %{mehver}
 Requires: policycoreutils
 Requires: rpm-python >= %{rpmpythonver}
@@ -103,13 +110,16 @@ Requires: libxml2-python
 Requires: python-urlgrabber >= 3.9.1-5
 Requires: system-logos
 Requires: pykickstart >= %{pykickstartver}
-Requires: system-config-date >= %{syscfgdatever}
 Requires: device-mapper >= %{dmver}
 Requires: device-mapper-libs >= %{dmver}
 Requires: dosfstools
 Requires: e2fsprogs >= %{e2fsver}
 Requires: gzip
 Requires: libarchive
+Requires: python-babel
+%ifarch %{ix86} x86_64 ia64
+Requires: dmidecode
+%endif
 Requires: python-pyblock >= %{pythonpyblockver}
 Requires: libuser-python
 Requires: newt-python
@@ -126,6 +136,11 @@ Requires: python-pwquality
 Requires: python-bugzilla
 Requires: python-nss
 Requires: tigervnc-server-minimal
+Requires: pytz
+Requires: libxklavier
+#libxklavier requires iso-codes, but does not have it as Requires: (see #813833)
+Requires: iso-codes
+Requires: libgnomekbd
 %ifarch %livearches
 Requires: usermode
 Requires: zenity
@@ -166,6 +181,25 @@ Obsoletes: booty
 The anaconda package contains the program which was used to install your
 system.
 
+%package widgets
+Summary: A set of custom GTK+ widgets for use with anaconda
+Group: System Environment/Libraries
+Requires: pygobject3
+Requires: python
+
+%description widgets
+This package contains a set of custom GTK+ widgets used by the anaconda installer.
+
+%package widgets-devel
+Summary: Development files for anaconda-widgets
+Group: Development/Libraries
+Requires: glade
+
+%description widgets-devel
+This package contains libraries and header files needed for writing the anaconda
+installer.  It also contains Python and Glade support files, as well as
+documentation for working with this library.
+
 %package dracut
 Summary: The anaconda dracut module
 BuildArch: noarch
@@ -183,7 +217,9 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %setup -q
 
 %build
-%configure --disable-static
+%configure --disable-static \
+           --enable-introspection \
+           --enable-gtk-doc
 %{__make} %{?_smp_mflags}
 
 %install
@@ -223,11 +259,9 @@ update-desktop-database &> /dev/null || :
 /lib/udev/rules.d/70-anaconda.rules
 %{_bindir}/instperf
 %{_sbindir}/anaconda
+%{_sbindir}/handle-sshpw
 %{_sbindir}/logpicker
-%ifarch i386 i486 i586 i686 x86_64
-%{_sbindir}/gptsync
-%{_sbindir}/showpart
-%endif
+%{_sbindir}/anaconda-cleanup-initramfs
 %{_datadir}/anaconda
 %{_prefix}/libexec/anaconda
 %{_libdir}/python*/site-packages/pyanaconda/*
@@ -244,342 +278,32 @@ update-desktop-database &> /dev/null || :
 %{_datadir}/icons/hicolor/*
 %endif
 
+%files widgets
+%{_libdir}/libAnacondaWidgets.so.*
+%{_libdir}/girepository*/AnacondaWidgets*typelib
+%{_libdir}/python*/site-packages/gi/overrides/*
+%{_datadir}/anaconda/tzmapdata/*
+
+%files widgets-devel
+%{_libdir}/libAnacondaWidgets.so
+%{_includedir}/*
+%{_datadir}/glade/catalogs/AnacondaWidgets.xml
+%{_datadir}/gtk-doc
+
 %files dracut
 %dir /usr/lib/dracut/modules.d/80%{name}
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Fri Aug 03 2012 Chris Lumens <clumens@redhat.com> - 18.3-1
+- New graphical user interface.
+- Removed loader.
+
 * Fri Jul 27 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 18.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
 * Wed Apr 18 2012 Brian C. Lane <bcl@redhat.com> - 18.2-1
-- Fix a variable reference (#813923) (jkeating)
-- Remove double quotes in nvram (hamzy)
-- add a dialog while running convertfs (#812144) (bcl)
-- mount before resizing live image (#811706) (bcl)
-- New version. (bcl)
-- check for valid mountpoints (#748209) (bcl)
-- make dev_is_mounted more reliable (wwoods)
-- fix failure to run multiple udev-triggered jobs (#811008) (wwoods)
-- New version. (bcl)
-- copy installer image to RAM during upgrades (#810391) (wwoods)
-- fix repo={hd,cdrom}:DEV:PATH (#810136) (wwoods)
-- read flags using filename globs (bcl)
-- read flags using filename globs (bcl)
-- Fix repo={http,ftp,nfs} (#810005) (wwoods)
-- Fix "memcheck=0" (and other store_true boot args) (wwoods)
-- write new options to zipl.conf (dan)
-- use /sys/class/dmi instead of dmidecode (bcl)
-- restore the GPT blacklist code (bcl)
-- add virtio rsyslogd logging to anaconda (bcl)
-- New version. (bcl)
-- Revert "Wait for device activation / "online" hook if rd.neednet is set"
-  (bcl)
-- Add missing os import to platform.py (bcl)
-- New version. (bcl)
-- Don't allow /usr as a separate partition (#804913) (clumens)
-- Don't allow /usr as a separate partition (#804913) (clumens)
-- use /sys/class/dmi instead of dmidecode (bcl)
-- restore the GPT blacklist code (bcl)
-- add virtio rsyslogd logging to anaconda (bcl)
-- dracut/parse-kickstart: handle network --device=link (or none) (wwoods)
-- dracut: fix kssendmac/inst.ks.sendmac (wwoods)
-- Set ONBOOT=yes for at least one wired netdev by default (#806466) (wwoods)
-- detect live backing device (#809342) (dlehman)
-- detect live backing device (#809342) (dlehman)
-- Wait for device activation / "online" hook if rd.neednet is set (wwoods)
-- Fix kickstart failure if ks is on the same disk as stage2 (wwoods)
-- fix 'mount: Too many levels of symbolic links' error message (wwoods)
-- support {stage2,repo}=.../path/to/file.img (#808499) (wwoods)
-- dracut when_diskdev_appears: only run cmd once per device (wwoods)
-- dracut: don't do kickstart twice, don't use root.info (wwoods)
-- Don't use the bootloader config path to find the splash image (#807510)
-  (pjones)
-- Don't use the bootloader config path to find the splash image (#807510)
-  (pjones)
-- Merge 'f17-branch' (wwoods)
-- Fix onbiosdisk comparison for kickstart installs (#802397) (dcantrell)
-- New version. (bcl)
-- makeupdates: install liveinst to /usr/sbin (bcl)
-- liveinst: adjust updates path (#807397) (bcl)
-- dracut: add missing spaces for module loading (#804522) (bcl)
-- Don't set MALLOC_PERTURB_ when calling grub2-install. (workaround #806784)
-  (pjones)
-- New version. (bcl)
-- make ks=file:... parse kickstart earlier (#806931) (wwoods)
-- Let "root=..." override "repo=..." (wwoods)
-- dracut cleanup: use consistent filenames for cmdline.d files (wwoods)
-- fix "strsep: command not found" error with repo:hd:.. (#806966) (wwoods)
-- load modules needed by Anaconda (#804522) (bcl)
-- Fix nfs/nfsiso (NM handover problems / empty net.ifaces) (wwoods)
-- Format PReP partition (hamzy)
-- Format PReP partition (hamzy)
-- Update pykickstart requires to pick up resize and clearpart --list. (dlehman)
-- Add support for resizing block devices via kickstart. (dlehman)
-- Add support for clearpart --list= for removal of specific partitions.
-  (dlehman)
-- New version. (bcl)
-- Revert "dracut: use /run/install/source for repodir" (bcl)
-- Disable creation of btrfs filesystems aside from kickstart. (#787341)
-  (dlehman)
-- Disable creation of btrfs filesystems aside from kickstart. (#787341)
-  (dlehman)
-- fix text mode KeyError crash (#804483) (wwoods)
-- Default to text-mode if 'console=XXX' was provided (#804506) (wwoods)
-- dracut startup: "Loading $product $version $arch installer..." (wwoods)
-- fix nfsiso:...:/path/to/filename.iso (#804515) (wwoods)
-- fix typo in makeupdates (bcl)
-- makeupdates: add support for updating systemd services/targets (wwoods)
-- disable warnings about boot options needing 'inst.XXX' (wwoods)
-- Create default ifcfg-* for each interface (#804504, #804716) (wwoods)
-- save ifcfg for every interface we bring up (wwoods)
-- Let systemd handle terminal setup, fix possible race with NM (wwoods)
-- Migrate PPC from Yaboot to Grub2 for Anaconda (hamzy)
-- Migrate PPC from Yaboot to Grub2 for Anaconda (hamzy)
-- dracut: fix anaconda-netroot for inst.repo=nfsiso:.. (wwoods)
-- dracut: accept inst.updates or updates for live.updates (wwoods)
-- makeupdates: put files the right places (wwoods)
-- dracut: use /run/install/source for repodir (wwoods)
-- read args from 80kickstart.conf (bcl)
-- New version. (bcl)
-- anaconda.service Wants=NetworkManager.service (wwoods)
-- make sure we save the network setup for any network device we used (wwoods)
-- make sure parse-kickstart's ifcfg files get copied to the system (wwoods)
-- fedora-import-state.service is in initscripts now (wwoods)
-- Add flag to disable available-memory check (for debugging etc.) (wwoods)
-- fix logic for setting set rd.{luks,dm,md,lvm}=0 (wwoods)
-- fix run_kickstart for the non-repo case (wwoods)
-- run_kickstart: go back to targeted cmdline parsing (wwoods)
-- parse-kickstart: write ifcfg files for all net devs (wwoods)
-- add the traditional anaconda dhcpclass (wwoods)
-- cleanups and fixes for ksdevice/bootdev handling (wwoods)
-- drop unused when_netdev_online function (wwoods)
-- make run_kickstart re-parse the whole commandline (wwoods)
-- set rd.{luks,dm,md,lvm}=0 unless the user says otherwise (wwoods)
-- handle inst.* cmdline args correctly (bcl)
-- fixup for syntax error in inst.ks/--kickstart patch (wwoods)
-- set ANACONDA=1 udev property in the right place (wwoods)
-- fix inst.ks handling in anaconda (wwoods)
-- fixups: run ks early, don't repeat netroot (wwoods)
-- fixup: "online" hook renamed "initqueue/online" upstream (wwoods)
-- Quiet bash error message if (optional) treeinfo is missing (wwoods)
-- a couple small cleanups/fixes for fedora-import-state.service (wwoods)
-- anaconda-shell service tweaks (wwoods)
-- add fedora-import-state.service (fix NFS root: #799989) (wwoods)
-- anaconda-netroot.sh: make sure dracut writes out the ifcfg files (wwoods)
-- Use "online" hook to handle anaconda network root devices (wwoods)
-- Fetch network kickstarts from the "online" hook (wwoods)
-- set wait_for_dev /dev/root in parse-anaconda-repo.sh (wwoods)
-- fix find_runtime() and parse_kickstart() (wwoods)
-- kickstart parsing fixups: keep running if parse fails (wwoods)
-- handle more KickstartErrors (wwoods)
-- anaconda-lib: make sure we only run when_*_online jobs once (wwoods)
-- add missing newline to /tmp/ks.info (wwoods)
-- don't source dracut-lib.sh twice (it causes crashes) (wwoods)
-- kickstart: only wait for kickstart if we're actually fetching it (wwoods)
-- fetch-kickstart-*: actually do run_kickstart (wwoods)
-- python-deps: cleanups/comments (wwoods)
-- replace pythondeps.sh with python-deps (python script) (wwoods)
-- move parse-kickstart.py back to parse-kickstart (wwoods)
-- Makefile.am: use dist_dracut_SCRIPTS to make scripts executable (wwoods)
-- fix bad path for parse-kickstart.py (wwoods)
-- refactor network handling (support ibft and ksdevice) (wwoods)
-- update Makefile.am (wwoods)
-- add fetch-kickstart-disk and fetch-kickstart-net (wwoods)
-- make cd autoprobe catchall rule actually run for each device (wwoods)
-- fix inst.repo=cdrom (wwoods)
-- move deprecation warnings into parse-anaconda-options.sh (wwoods)
-- add wait_for_kickstart() (wwoods)
-- parse-kickstart updates (wwoods)
-- anaconda-lib: rename check_isodir, add anaconda_live_root_dir (wwoods)
-- anaconda-{nfs,disk}root updates (wwoods)
-- split genrules into repo-genrules.sh and kickstart-genrules.sh (wwoods)
-- minor parse cleanups for kickstart and repo (wwoods)
-- improve handling of anaconda repo root stuff (wwoods)
-- parse-kickstart: return filename, drop biospart junk (wwoods)
-- make sure edd is loaded, if available (wwoods)
-- Drop dmidecode binary, just cat /sys/class/dmi/id/product_serial (wwoods)
-- dracut/anaconda-genrules.sh: add catch-all rule for autoprobing CDs (wwoods)
-- add more kickstart code, shuffle genrules code around (wwoods)
-- move disk_to_dev_path to anaconda-lib (wwoods)
-- edit anaconda-urlroot status messages (wwoods)
-- fix typo in anaconda-urlroot (wwoods)
-- add anaconda-urlroot (handle inst.repo=[http|ftp]) (wwoods)
-- whoops, forgot anaconda-lib.sh (wwoods)
-- dracut: check for .buildstamp in /run/initramfs (wwoods)
-- anaconda-dracut: make sure we execute pythondeps.sh (wwoods)
-- dumb typo fix: "convertfs", not "covertfs" (wwoods)
-- dracut: move to /usr/lib (wwoods)
-- dracut: depend on "convertfs" module (wwoods)
-- Make anaconda-dracut subpackage noarch (wwoods)
-- Add anaconda dracut module [WIP!] (wwoods)
-- Completely remove loader/ (wwoods)
-- We've got you cornered now, loader: remove from automake/spec/po (wwoods)
-- move linuxrc.s390 out of harm's way (wwoods)
-- move vncpassword handling into anaconda; remove recoverVNCPassword (wwoods)
-- Remove misc. references to loader (wwoods)
-- remove ancient anaconda-release-notes.txt (wwoods)
-- remove scripts/upd-initrd and scripts/upd-bootiso (wwoods)
-- Move from loader.service to anaconda.service (wwoods)
-- fix run_kickstart for the non-repo case (wwoods)
-- run_kickstart: go back to targeted cmdline parsing (wwoods)
-- parse-kickstart: write ifcfg files for all net devs (wwoods)
-- add the traditional anaconda dhcpclass (wwoods)
-- cleanups and fixes for ksdevice/bootdev handling (wwoods)
-- drop unused when_netdev_online function (wwoods)
-- make run_kickstart re-parse the whole commandline (wwoods)
-- set rd.{luks,dm,md,lvm}=0 unless the user says otherwise (wwoods)
-- handle inst.* cmdline args correctly (bcl)
-- fixup for syntax error in inst.ks/--kickstart patch (wwoods)
-- set ANACONDA=1 udev property in the right place (wwoods)
-- fix inst.ks handling in anaconda (wwoods)
-- Transfer network state from dracut to anaconda to keep NFS working (wwoods)
-- Schedule (no-op) btrfs format create actions. (#799154) (dlehman)
-- Schedule (no-op) btrfs format create actions. (#799154) (dlehman)
-- intelligently choose the window size (#800609) (bcl)
-- intelligently choose the window size (#800609) (bcl)
-- fix text upgrade bootloader dialog (#742207) (bcl)
-- fixups: run ks early, don't repeat netroot (wwoods)
-- fixup: "online" hook renamed "initqueue/online" upstream (wwoods)
-- Quiet bash error message if (optional) treeinfo is missing (wwoods)
-- a couple small cleanups/fixes for fedora-import-state.service (wwoods)
-- write new options to zipl.conf (dan)
-- anaconda-shell service tweaks (wwoods)
-- add fedora-import-state.service (fix NFS root: #799989) (wwoods)
-- anaconda-netroot.sh: make sure dracut writes out the ifcfg files (wwoods)
-- fix text upgrade bootloader dialog (#742207) (bcl)
-- iscsi: add iface binding support to discovery and setup TUI (#500273)
-  (rvykydal)
-- iscsi: add interface binding support to kickstart (#500273) (rvykydal)
-- iscsi: add Configure Network to advanced storage GUI (#500273) (rvykydal)
-- iscsi: Display iface in login success dialog (#500273) (rvykydal)
-- iscsi: display iface in Discovered Nodes dialog (#500273) (rvykydal)
-- iscsi: add iface binding support to iscsi device class (nic) (#500273)
-  (rvykydal)
-- iscsi: add iface binding support to discovery and setup GUI (#500273)
-  (rvykydal)
-- Implement dhcptimeout boot option (#769145) (rvykydal)
-- Use "online" hook to handle anaconda network root devices (wwoods)
-- Fetch network kickstarts from the "online" hook (wwoods)
-- set wait_for_dev /dev/root in parse-anaconda-repo.sh (wwoods)
-- fix find_runtime() and parse_kickstart() (wwoods)
-- kickstart parsing fixups: keep running if parse fails (wwoods)
-- handle more KickstartErrors (wwoods)
-- anaconda-lib: make sure we only run when_*_online jobs once (wwoods)
-- add missing newline to /tmp/ks.info (wwoods)
-- don't source dracut-lib.sh twice (it causes crashes) (wwoods)
-- New version. (bcl)
-- only allow GPT boot flag on EFI System partition (#746895) (bcl)
-- only allow GPT boot flag on EFI System partition (#746895) (bcl)
-- Add dracut args for /usr to bootloader (#787893) (bcl)
-- Add dracut args for /usr to bootloader (#787893) (bcl)
-- kickstart: only wait for kickstart if we're actually fetching it (wwoods)
-- Allow installation of optional packages from the base group via ks. (clumens)
-- fetch-kickstart-*: actually do run_kickstart (wwoods)
-- python-deps: cleanups/comments (wwoods)
-- replace pythondeps.sh with python-deps (python script) (wwoods)
-- move parse-kickstart.py back to parse-kickstart (wwoods)
-- Makefile.am: use dist_dracut_SCRIPTS to make scripts executable (wwoods)
-- fix bad path for parse-kickstart.py (wwoods)
-- refactor network handling (support ibft and ksdevice) (wwoods)
-- Fix dasd device type test in platform.py (#796791) (cherry picked from commit
-  b756228bd249fca3a6cb6b1bbfa5c1be9392f091) (dcantrell)
-- update Makefile.am (wwoods)
-- add fetch-kickstart-disk and fetch-kickstart-net (wwoods)
-- make cd autoprobe catchall rule actually run for each device (wwoods)
-- fix inst.repo=cdrom (wwoods)
-- move deprecation warnings into parse-anaconda-options.sh (wwoods)
-- add wait_for_kickstart() (wwoods)
-- Make sure all kickstart partition reqs get appropriate weight setting.
-  (dlehman)
-- Fix test for unsupported format type in kickstart. (dlehman)
-- Update the fs size limit for ext3/ext4 from 8TB to 16TB. (dlehman)
-- Don't allow /boot on logical partition except for grub. (dlehman)
-- Make sure all kickstart partition reqs get appropriate weight setting.
-  (dlehman)
-- Fix test for unsupported format type in kickstart. (dlehman)
-- Update the fs size limit for ext3/ext4 from 8TB to 16TB. (dlehman)
-- Don't allow /boot on logical partition except for grub. (dlehman)
-- parse-kickstart updates (wwoods)
-- anaconda-lib: rename check_isodir, add anaconda_live_root_dir (wwoods)
-- anaconda-{nfs,disk}root updates (wwoods)
-- split genrules into repo-genrules.sh and kickstart-genrules.sh (wwoods)
-- minor parse cleanups for kickstart and repo (wwoods)
-- improve handling of anaconda repo root stuff (wwoods)
-- parse-kickstart: return filename, drop biospart junk (wwoods)
-- make sure edd is loaded, if available (wwoods)
-- Drop dmidecode binary, just cat /sys/class/dmi/id/product_serial (wwoods)
-- empty versions shouldn't be upgradable or traceback (#791317) (bcl)
-- empty versions shouldn't be upgradable or traceback (#791317) (bcl)
-- Don't crash when broken md devices are present. (#731177) (dlehman)
-- Add missing definition of BTRFSError. (#796013) (dlehman)
-- Don't crash when broken md devices are present. (#731177) (dlehman)
-- Add missing definition of BTRFSError. (#796013) (dlehman)
-- Pass ifname to dracut for disconnected fcoe ifaces (#743784) (rvykydal)
-- iscsi: fix listing of active nodes of a target (#752066) (rvykydal)
-- dracut/anaconda-genrules.sh: add catch-all rule for autoprobing CDs (wwoods)
-- add more kickstart code, shuffle genrules code around (wwoods)
-- New version. (bcl)
-- import using the right path to iutil (bcl)
-- import using the right path to iutil (bcl)
-- move disk_to_dev_path to anaconda-lib (wwoods)
-- New version. (bcl)
-- use a dracut shutdown hook to eject media (#787461) (bcl)
-- add dracut shutdown eject hook function (#787461) (bcl)
-- The createSuggested methods have changed name (#791204, #795058). (clumens)
-- Generate repo= ks command only for repos added by user (#738577) (rvykydal)
-- Use libpwquality to check root password strength (#755883) (mgracik)
-- Generate connection UUID in inital ifcfg files created by anaconda (#705328)
-  (rvykydal)
-- Take in change of a binary name (brcm_iscsiuio -> iscsiuio) (#731761)
-  (rvykydal)
-- Set ONBOOT=yes for FCoE devices (#755147) (rvykydal)
-- Fix a typo (#794504). (clumens)
-- Add support for network --device=link in stage2 kickstart (#790332)
-  (rvykydal)
-- edit anaconda-urlroot status messages (wwoods)
-- fix typo in anaconda-urlroot (wwoods)
-- add anaconda-urlroot (handle inst.repo=[http|ftp]) (wwoods)
-- whoops, forgot anaconda-lib.sh (wwoods)
-- dracut: check for .buildstamp in /run/initramfs (wwoods)
-- New version. (bcl)
-- anaconda-dracut: make sure we execute pythondeps.sh (wwoods)
-- dumb typo fix: "convertfs", not "covertfs" (wwoods)
-- Don't set the pmbr bootable flag on Macs, whether booted via EFI or not (mjg)
-- Don't set GPT HFS+ partitions as bootable (mjg)
-- Mark HFS+ as fsckable (mjg)
-- dracut: move to /usr/lib (wwoods)
-- dracut: depend on "convertfs" module (wwoods)
-- Make anaconda-dracut subpackage noarch (wwoods)
-- Take in change of a binary name (brcm_iscsiuio -> iscsiuio) (#731761)
-  (rvykydal)
-- Add 'traceback' boot option for python-meh and libreport testing (vpodzime)
-- Set default lang and create default locale files early (wwoods)
-- Add 'traceback' boot option for python-meh and libreport testing (vpodzime)
-- Add anaconda dracut module [WIP!] (wwoods)
-- Set default lang and create default locale files early (wwoods)
-- Completely remove loader/ (wwoods)
-- We've got you cornered now, loader: remove from automake/spec/po (wwoods)
-- move linuxrc.s390 out of harm's way (wwoods)
-- move vncpassword handling into anaconda; remove recoverVNCPassword (wwoods)
-- Remove misc. references to loader (wwoods)
-- remove ancient anaconda-release-notes.txt (wwoods)
-- remove scripts/upd-initrd and scripts/upd-bootiso (wwoods)
-- Move from loader.service to anaconda.service (wwoods)
-- fix setattr in set_cmdline_bool (pschindl)
-- Add _mounttype to HFSPlus (mjg)
-- Add support for UEFI Mac installs (mjg)
-- Add support for HFS+ partitions (mjg)
-- New version. (bcl)
-- Clear partitions' metadata when 'clearpart --initlabel' used. (#783841)
-  (cherry picked from commit 15307cc091212cc69b599b90c239492c9c9586ec)
-  (dlehman)
-- Fix support for detecting existing mirrored lvs. (#734128) (dlehman)
-- fix potential EFIGRUB infinite loop (bcl)
-- finish ROOT_PATH changes in bootloader (#789169) (bcl)
-- Be more verbose about upgrade failures (#735060) (bcl)
-- Skip setting PMBR boot flag on EFI (#754850) (mjg)
-- Updated transifex config for f17-branch (bcl)
+- Fixes from F17 branch
 
 * Mon Apr 09 2012 Brian C. Lane <bcl@redhat.com> - 17.20-1
 - make dev_is_mounted more reliable (wwoods)
