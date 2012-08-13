@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.3
+Version: 18.4
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -26,7 +26,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %define intltoolver 0.31.2-3
 %define libnlver 1.0
 %define libselinuxver 1.6
-%define pykickstartver 1.99.14
+%define pykickstartver 1.99.15
 %define rpmpythonver 4.2-0.61
 %define slangver 2.0.6-2
 %define yumver 2.9.2
@@ -40,7 +40,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %define yumutilsver 1.1.11-3
 %define iscsiver 6.2.0.870-3
 %define pythoncryptsetupver 0.1.1
-%define mehver 0.13-1
+%define mehver 0.14-1
 %define sckeyboardver 1.3.1
 %define libblkidver 2.17.1-1
 %define fcoeutilsver 1.0.12-3.20100323git
@@ -89,7 +89,6 @@ BuildRequires: NetworkManager-devel >= %{nmver}
 BuildRequires: NetworkManager-glib-devel >= %{nmver}
 BuildRequires: dbus-devel >= %{dbusver}
 BuildRequires: dbus-python
-BuildRequires: system-config-keyboard >= %{sckeyboardver}
 %ifarch %livearches
 BuildRequires: desktop-file-utils
 %endif
@@ -130,7 +129,6 @@ Requires: python-cryptsetup >= %{pythoncryptsetupver}
 Requires: mdadm
 Requires: lvm2
 Requires: util-linux >= 2.15.1
-Requires: system-config-keyboard >= %{sckeyboardver}
 Requires: dbus-python
 Requires: python-pwquality
 Requires: python-bugzilla
@@ -295,12 +293,73 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Mon Aug 13 2012 Chris Lumens <clumens@redhat.com> - 18.4-1
+- dracut: fix inst.ks.sendmac (#826657) (wwoods)
+- dracut: suppress ks errors from missing %include (wwoods)
+- dracut: add comment to run_kickstart() (wwoods)
+- Remove unused writeKS methods. (clumens)
+- Only show unused devices that haven't been removed/deleted. (dlehman)
+- Don't unexpand already-expanded pages when trying to expand them again.
+  (dlehman)
+- Make parents of hidden devices appear to be leaves. (dlehman)
+- Remove the right device name from the lvm filter when unhiding device.
+  (dlehman)
+- Take configured filesystems into account when checking package space.
+  (dlehman)
+- Make sure the ksdata autopart type matches the storage one. (dlehman)
+- Base auto-generated name prefixes on productName, not device type. (dlehman)
+- Remove shrink code that was a workaround for the old ui flow. (dlehman)
+- Remove old ui progress args from devicelibs.btrfs. (dlehman)
+- Make sure we allocate partitions and grow lvm as needed in kickstart.
+  (dlehman)
+- Streamline autopart request setup slightly. (dlehman)
+- Make it possible to call setUpBootLoader safely at any time. (dlehman)
+- Move setup of new partition weight arg to Storage.newPartition. (dlehman)
+- Use a copy of the main Storage instance during custom partitioning. (dlehman)
+- Track requested sizes of btrfs subvols. (dlehman)
+- Add a method to retrieve a devicetree device by id number. (dlehman)
+- Fix DiskLabel so it can be deep-copied. (dlehman)
+- Add a method to produce a deep copy of a Storage instance. (dlehman)
+- Fix subtraction for Size. (dlehman)
+- Add support for creating device based on a top-down specification. (dlehman)
+- Add size-set managers to keep a set of growable requests in sync. (dlehman)
+- Add a function to estimate required disk space for an md array. (dlehman)
+- Add a method to estimate disk space needs for a new logical volume. (dlehman)
+- Add a convenience method for new btrfs subvols and drop subvol size args.
+  (dlehman)
+- Use the UEFI shim to load grub. (pjones)
+- Check that Gtk.main is not already running before starting another one
+  (vpodzime)
+- With tmux, we no longer need to start up a shell during VNC installs.
+  (clumens)
+- We no longer need getkeymaps, mapshdr, or readmap. (clumens)
+- Remove the last references to isysLoadKeymap. (clumens)
+- remove Security class (bcl)
+- replace lokkit for selinux settings (#815540) (bcl)
+- tests: Add tests for new SimpleConfigFile features (bcl)
+- tests: cleanup whitespace in simpleconfig_test.py (bcl)
+- simpleconfig: rewrite to better support commented config files (bcl)
+- If the anaconda process crashes, don't delete its window. (clumens)
+- On interactive installs, default the root account to locked. (clumens)
+- Make the keyboard layout test a big text area instead of a single line.
+  (clumens)
+- Remove our loadKeymap code from isys (vpodzime)
+- Replace system-config-keyboard with our methods using ksdata.keyboard
+  (vpodzime)
+- A little fix of newui -> master merge (iscsi offload devices) (rvykydal)
+- Require new version of python-meh (vpodzime)
+- Modify kernelPackages to select the right kernel for ARM systems. (dmarlin)
+- ARM: clean up the kernel selection to be consistent with the rest of the code
+  (dennis)
+- add command line option to set the arm platform. (dennis)
+- Add support to determine the ARM processor variety and select the correct
+  kernel to install. (dmarlin)
+- TODO list updates. (clumens)
+- Sent pot file updates to the master branch in transifex, not f17. (clumens)
+
 * Fri Aug 03 2012 Chris Lumens <clumens@redhat.com> - 18.3-1
 - New graphical user interface.
 - Removed loader.
-
-* Fri Jul 27 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 18.2-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
 * Wed Apr 18 2012 Brian C. Lane <bcl@redhat.com> - 18.2-1
 - Fixes from F17 branch
