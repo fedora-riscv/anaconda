@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.6
+Version: 18.7
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -26,10 +26,10 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %define intltoolver 0.31.2-3
 %define libnlver 1.0
 %define libselinuxver 1.6
-%define pykickstartver 1.99.15
+%define pykickstartver 1.99.16
 %define rpmpythonver 4.2-0.61
 %define slangver 2.0.6-2
-%define yumver 2.9.2
+%define yumver 3.4.3-32
 %define partedver 1.8.1
 %define pypartedver 2.5-2
 %define pythonpyblockver 0.45
@@ -40,11 +40,10 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %define yumutilsver 1.1.11-3
 %define iscsiver 6.2.0.870-3
 %define pythoncryptsetupver 0.1.1
-%define mehver 0.14-1
+%define mehver 0.15-1
 %define sckeyboardver 1.3.1
 %define libblkidver 2.17.1-1
 %define fcoeutilsver 1.0.12-3.20100323git
-%define isomd5sumver 1.0.6
 
 BuildRequires: audit-libs-devel
 BuildRequires: bzip2-devel
@@ -58,7 +57,6 @@ BuildRequires: gobject-introspection-devel
 BuildRequires: glade-devel
 BuildRequires: pygobject3
 BuildRequires: intltool >= %{intltoolver}
-BuildRequires: isomd5sum-static >= %{isomd5sumver}
 BuildRequires: libarchive-devel
 BuildRequires: libX11-devel
 BuildRequires: libXt-devel
@@ -145,7 +143,9 @@ Requires: zenity
 %endif
 Requires: createrepo >= %{createrepover}
 Requires: squashfs-tools
+%if ! 0%{?rhel}
 Requires: hfsplus-tools
+%endif
 Requires: genisoimage >= %{genisoimagever}
 Requires: GConf2 >= %{gconfversion}
 %ifarch %{ix86} x86_64
@@ -201,7 +201,7 @@ documentation for working with this library.
 %package dracut
 Summary: The anaconda dracut module
 BuildArch: noarch
-Requires: dracut >= 16
+Requires: dracut >= 19
 Requires: dracut-network
 Requires: xz
 Requires: pykickstart
@@ -293,6 +293,88 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Wed Aug 22 2012 Chris Lumens <clumens@redhat.com> - 18.7-1
+- Do another _main_window -> main_window change. (clumens)
+- Mark the storage category title for translation. (clumens)
+- _actions should be set up in the __init__ method. (clumens)
+- Don't require hfs-tools on RHEL (#849987). (clumens)
+- dracut: remove workarounds for broken splitsep() (wwoods)
+- dracut: update Requires: in spec (wwoods)
+- Use ksdata.timezone and timezone module instead of anaconda.timezone
+  (vpodzime)
+- Remove the last usage of the system-config-date in Anaconda (vpodzime)
+- Add support for swap --hibernation on LVM (vpodzime)
+- Don't rely on selection staying selected when doing crazy things to it
+  (vpodzime)
+- Replace nonexisting icon with an existing one (DatetimeSpoke) (vpodzime)
+- integer out of range for L format code (hamzy)
+- Network spoke: use chr() instead of str() to convert dbus.Byte (#849395)
+  (rvykydal)
+- verify package checksums against metadata (bcl)
+- use F18_PartData for hibernation flag support. (bcl)
+- fix Gtk import in software.py (bcl)
+- dracut: fix rd.neednet use in parse-kickstart (#849672) (wwoods)
+- parse-anaconda-net: Add missing semicolon for dhclient.conf (bcl)
+- anaconda-modprobe: fix .ko removal (bcl)
+- Only devices that already exist may be ISO install sources (#849482).
+  (clumens)
+- Use python-meh's MainExceptionWindow's main_window property (vpodzime)
+- dracut: fix syntax error in parse-kickstart (wwoods)
+- Show fstype as "Unknown" for devices with unrecognised formatting. (dlehman)
+- BTRFS magic for custom spoke. (dlehman)
+- The device type of preexisting devices cannot be changed. (dlehman)
+- Revert old hack that disabled btrfs in the old ui. (dlehman)
+- Use correct device instance when updating selector w/ new device. (dlehman)
+- Fix a traceback when clicking on the summary in custom spoke. (dlehman)
+- Move device size calculation and setting into DeviceFactory. (dlehman)
+- Stop pretending btrfs subvols can have a size. (dlehman)
+- Fix a typo in StorageDevice._setSize. (dlehman)
+- dracut: add info about special variables to README (wwoods)
+- dracut: fix invalid use of 'eth0' (wwoods)
+- dracut: drop upgrade-specific hack (wwoods)
+- dracut: set "$netif" correctly in initqueue/online scripts (wwoods)
+- dracut: fix old-style static ip=xxx gw=yyy... (wwoods)
+- dracut: import anaconda-lib.sh in pre-udev hook (wwoods)
+- dracut: fix set_neednet so network comes up (#849672) (wwoods)
+- dracut: drop save_netinfo (wwoods)
+- move anaconda-modprobe to pre-udev hook, silence modprobe errors (wwoods)
+- parse-kickstart: fix crash with PXE + ks=file: (#844478) (wwoods)
+- parse-kickstart: clarify/refactor Network handling (wwoods)
+- Actually create default ifcfg files (#849012) (rvykydal)
+- Don't fail on write of nonexisting IfcfgFile(SimpleConfigFile) (#849012,
+  #849095) (rvykydal)
+- If dracut left the DVD mounted, don't try to remount it (#849152). (clumens)
+- Add support for most device editing functions. (dlehman)
+- Various fixes, cleanups, and added logging for the custom spoke. (dlehman)
+- Work around some signal handling issues in the custom spoke. (dlehman)
+- Make choosing an auto-selected page after refresh slightly less fallible.
+  (dlehman)
+- Raise an exception if a new device ends up with size 0. (dlehman)
+- Split out logic to determine container based on factory and/or device.
+  (dlehman)
+- Allow adding disks to a container's disk set. (dlehman)
+- Allow passing a device into newDevice for adjustment. (dlehman)
+- Add PartitionFactory class so partitions don't need a separate code path.
+  (dlehman)
+- Add a convenience method for scheduling resize actions. (dlehman)
+- Return early from doKickstartStorage if there are no disks selected.
+  (dlehman)
+- Remove isomd5sum-static from build requires (vpodzime)
+- Don't rely on having some network devices available (vpodzime)
+- Enlightbox mainExceptionWindow (vpodzime)
+- Put mainExceptionWindow in a WindowGroup (vpodzime)
+- Bump required yum version to get the environment code. (notting)
+- Add a flag so we don't get spurious 'change' events from the treeview while
+  we're setting up the UI. (notting)
+- Wire in the new environment logic through the UI. (notting)
+- Add a local method for exposing group visibility from the comps file.
+  (notting)
+- Add methods to yumpayload for handling environments. (notting)
+- Add some nicer wording to the column heads in the software selection UI.
+  (notting)
+- Rename 'description' to 'groupDescription'. (notting)
+- dracut: add README (wwoods)
+
 * Thu Aug 16 2012 Chris Lumens <clumens@redhat.com> - 18.6-1
 - Remove linuxrc.s390 (dcantrell)
 - Source in url-lib.sh if we don't have it (#847831) (jkeating)
