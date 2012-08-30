@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.6.3
+Version: 18.6.4
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -295,6 +295,9 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Thu Aug 30 2012 Chris Lumens <clumens@redhat.com> - 18.6.4-1
+- We still need to import localeinfo for now (#853231). (clumens)
+
 * Thu Aug 30 2012 Chris Lumens <clumens@redhat.com> - 18.6.3-1
 - Setup python path /after/ we've done updates (jkeating)
 - Fix a string substitution think-o (jkeating)
