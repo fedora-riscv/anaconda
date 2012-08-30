@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.6.2
+Version: 18.6.3
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -295,6 +295,10 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Thu Aug 30 2012 Chris Lumens <clumens@redhat.com> - 18.6.3-1
+- Setup python path /after/ we've done updates (jkeating)
+- Fix a string substitution think-o (jkeating)
+
 * Wed Aug 29 2012 Chris Lumens <clumens@redhat.com> - 18.6.2-1
 - We now BuildRequires python-babel as well. (clumens)
 - Update TODO list. (clumens)
