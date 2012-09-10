@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.6.6
+Version: 18.6.7
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -300,6 +300,10 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Mon Sep 10 2012 Chris Lumens <clumens@redhat.com> - 18.6.7-1
+- fix root password setup (#855481) (bcl)
+- Mark ksdata.*.execute invocations as another step (vpodzime)
+
 * Fri Sep 07 2012 Chris Lumens <clumens@redhat.com> - 18.6.6-1
 - Rewrite expand_langs to return more items (vpodzime)
 - Don't depend on storage or instClass in EFIGRUB (pjones)
