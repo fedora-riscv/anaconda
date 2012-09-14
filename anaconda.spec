@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.6.8
+Version: 18.8
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -26,7 +26,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %define intltoolver 0.31.2-3
 %define libnlver 1.0
 %define libselinuxver 1.6
-%define pykickstartver 1.99.15
+%define pykickstartver 1.99.18
 %define rpmpythonver 4.2-0.61
 %define slangver 2.0.6-2
 %define yumver 3.4.3-32
@@ -72,7 +72,6 @@ BuildRequires: libxml2-python
 BuildRequires: newt-devel
 BuildRequires: pango-devel
 BuildRequires: pykickstart >= %{pykickstartver}
-BuildRequires: python-babel
 BuildRequires: python-devel
 BuildRequires: python-pyblock >= %{pythonpyblockver}
 BuildRequires: python-urlgrabber >= 3.9.1-5
@@ -300,46 +299,131 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
-* Wed Sep 12 2012 Brian C. Lane <bcl@redhat.com> - 18.6.8-1
+* Fri Sep 14 2012 Chris Lumens <clumens@redhat.com> - 18.8-1
+- Make sure the InstallOptionsNDialogs get the correct space labels. (clumens)
+- Get rid of the big pause going from the storage spoke back to the hub.
+  (clumens)
+- Don't fail when making updates if the symlink already exists. (clumens)
+- Make sure to set the default TZ in ksdata so the completed method works.
+  (clumens)
+- Allow creation of biosboot and prepboot partitions in the custom spoke.
+  (dlehman)
+- Hide removable disks containing install media from the custom spoke.
+  (dlehman)
+- Make the minimum size for custom spoke partitions 1MB. (dlehman)
+- The return value of execWithRedirect is an integer. (dlehman)
+- Only include following free space in partitions' max size. (dlehman)
+- Handle btrfs volumes with a dataLevel of None. (dlehman)
+- Handle newDevice partitions smaller than the default of 500MB. (#853125)
+  (dlehman)
+- Add underlines to the expander and encryption checkbox in custom
+  partitioning. (clumens)
+- Remember to mark an environment as selected in the store. (clumens)
+- Rename the addon/environment store columns to make sense. (clumens)
+- Use slightly less confusing labels for the various back buttons. (clumens)
+- Add a property to SpokeWindow for setting the single button's label.
+  (clumens)
+- Rename the SpokeWindow's back button to just button. (clumens)
+- Use the blocking read to avoid busy wait in TUI progress (msivak)
+- Make progress hub spokes possible and move the root password there (msivak)
+- Don't let user hit Add button if no new layouts are selected (vpodzime)
+- Gtk.ListStore.iter_previous now returns new iterator (#849060) (vpodzime)
 - Write storage configs after payload install for live installs. (#856836)
   (dlehman)
-
-* Mon Sep 10 2012 Chris Lumens <clumens@redhat.com> - 18.6.7-1
+- Update the pot file for various important string changes. (clumens)
+- Attempt to fix word wrapping issues with the betanag dialog (#853913).
+  (clumens)
+- CONTINUE -> BEGIN INSTALLATION (#856614). (clumens)
+- Language selection should work the same as keyboard selection (#854570).
+  (clumens)
+- Fix ransom notes cycling. (clumens)
+- Improve the clarity of the custom checkbutton label. (dlehman)
+- Add error handling around significant ui-initiated storage operations.
+  (dlehman)
+- Improve error granularity slightly in automatic partitioning. (dlehman)
+- Fix detection of preexisting md arrays again. (dlehman)
+- Handle changes to sizes of predefined devices in custom spoke. (dlehman)
+- Fix traceback when switching device type to BTRFS. (dlehman)
+- Validate mountpoints in the add-a-mountpoint dialog. (dlehman)
+- Tell 'lvm' that yes, we really, really want to remove PV (vpodzime)
+- Use 250ms interval for installation progress updating (vpodzime)
+- network spoke: hide for live CD and image installs (#854586) (rvykydal)
+- Fixed luks_add_key() (jsafrane)
+- Display a radio button next to the environment choices. (clumens)
+- Update TODO list. (clumens)
+- Set the busy spinning cursor while the UI is loading. (clumens)
+- network spoke: add "No network devices available" status (rvykydal)
+- network spoke: clear device info if no network devices are found (#853903)
+  (rvykydal)
 - fix root password setup (#855481) (bcl)
-- Mark ksdata.*.execute invocations as another step (vpodzime)
-
-* Fri Sep 07 2012 Chris Lumens <clumens@redhat.com> - 18.6.6-1
 - Rewrite expand_langs to return more items (vpodzime)
-- Don't depend on storage or instClass in EFIGRUB (pjones)
-- Use self.stage1_device where appropriate in EFIGRUB. (pjones)
+- Don't try to setup X layouts in text installation (#852447) (vpodzime)
 - Add UTF-8 enconding suffix to our language strings (#854688) (vpodzime)
-- Store "en" as the default, not "en_US". (clumens)
 - Require rsync (vpodzime)
 - Don't rely on chrony.conf file being available (#854899) (vpodzime)
 - Require chrony and rdate, because Anaconda needs them (#854899) (vpodzime)
+- Use the real path to dracut-lib.sh (#851362) (jkeating)
 - fixup live install (#853988, #854962) (bcl)
-- And then fix an assortment of non-packaging pylint errors, too. (clumens)
-- Fix problems in the packaging module that pylint detected. (clumens)
+- Only check media if we really want it (#853404) (jkeating)
+- Fix thinko in anaconda arg handling portion of multilib patch. (dlehman)
+- Honor kickstart and command line switches to enable multilib. (dlehman)
+- Quitting the live installer shouldn't reboot the system (#854904). (clumens)
+- The kickstart language-related command is "lang", not "language". (clumens)
+- Fix btrfs/lvm/raid kickstart installs (#853649). (clumens)
+- Store "en" as the default, not "en_US". (clumens)
+- Mark ksdata.*.execute invocations as another step (vpodzime)
+- Reorder and comment options passed to rsync (vpodzime)
+- Fix bug in writing keyboard configuration files (vpodzime)
 - network spoke: require connection only for url and nfs methods (#853899)
   (rvykydal)
+- Drop the addBase handling in anaconda - if you want a group, list a group.
+  (notting)
+- Don't depend on storage or instClass in EFIGRUB (pjones)
+- Use self.stage1_device where appropriate in EFIGRUB. (pjones)
 - Explicitly disable the rootpw lock (#853788) (jkeating)
 - require nm-connection-editor (#854586) (bcl)
 - Include packaging log in exception reports. (dlehman)
-- need to run make before make release (bcl)
-
-* Fri Aug 31 2012 Brian C. Lane <bcl@redhat.com> - 18.6.5-1
+- Add Kazakh as a valid translation. (clumens)
+- Deselect any existing environment when selecting a new one (#851510).
+  (clumens)
+- Use chvt command for tty switching (vpodzime)
+- Use the disk's serial number instead of index as an ID. (clumens)
+- Use the disk's ID for deleting from the shopping cart, not an index
+  (#853798). (clumens)
+- Use the F18_Partition class (#853593). (clumens)
+- Remove anaconda.instLanguage object and language module (vpodzime)
+- Remove lang-table and localeinfo.py (vpodzime)
+- parse-kickstart: handle 'network --ipv6=auto ...' (wwoods)
+- parse-kickstart: set IPV6INIT=yes when using ipv6 (#830434) (wwoods)
+- Make TUI password spoke behave the same as it's GUI counterpart (msivak)
+- Remove ROOT_PATH/etc/localtime before symlinking timezone (vpodzime)
+- Continue post-installation steps even if writing NTP configuration fails
+  (vpodzime)
 - update transifex.txt for newui (bcl)
 - Handle invalid spoke input (#853253) (jkeating)
 - Remove unnecessary (and broken) import (#853576) (jkeating)
-
-* Thu Aug 30 2012 Chris Lumens <clumens@redhat.com> - 18.6.4-1
-- We still need to import localeinfo for now (#853231). (clumens)
-
-* Thu Aug 30 2012 Chris Lumens <clumens@redhat.com> - 18.6.3-1
+- Destroy the Add Mountpoint dialog when escape is pressed (#853058). (clumens)
+- Keep the current spoke on top of the hub. (clumens)
+- And then fix an assortment of non-packaging pylint errors, too. (clumens)
+- Fix problems in the packaging module that pylint detected. (clumens)
+- Update runpylint to find newui modules correctly. (clumens)
+- Prevent duplicate mountpoint creation. (dlehman)
+- If there's only one disk, select it by default. (dlehman)
+- Evaulate growth potential for all reqs, even when allocating a fixed req.
+  (dlehman)
+- Do not honor partitions' disk attr when reallocating them. (dlehman)
+- Set size is a safe max size for partitions. (dlehman)
+- Set the ANACONDA udev property in the post-switchroot udevdb. (dlehman)
+- Calculate size func kwargs at call time to pick up changes. (dlehman)
+- Add support md devices and btrfs raid features in the custom spoke. (dlehman)
+- Move the BTRFS options to last and remove unsupported options. (dlehman)
+- Remove "Technology" ComboBoxes from device options for now. (dlehman)
+- Tweak setContainerMembers to work with a defined md array. (dlehman)
+- Add support for named md devices. (dlehman)
+- Make sure a disk is partitioned before treating it as such. (#849707)
+  (dlehman)
 - Setup python path /after/ we've done updates (jkeating)
 - Fix a string substitution think-o (jkeating)
-
-* Wed Aug 29 2012 Chris Lumens <clumens@redhat.com> - 18.6.2-1
 - We now BuildRequires python-babel as well. (clumens)
 - Update TODO list. (clumens)
 - Only show groups in the UI if they have members that install by default
@@ -378,6 +462,15 @@ update-desktop-database &> /dev/null || :
 - parse-kickstart: update some TODO comments (wwoods)
 - parse-kickstart: simplify logging (wwoods)
 - enable fastestmirror yum plugin (#849797) (bcl)
+- networking: remove Network() object (rvykydal)
+- networking: use ksdata.network.hostname instead of actual installer hostname
+  (rvykydal)
+- networking: consolidate writing/copying of configuration files (rvykydal)
+- networking: 70-persistent-net.rules doesn't exist anymore. (rvykydal)
+- networking: disable ipv6 directly in installed system config file (rvykydal)
+- networking: mirror end-of-installation network config tweaks in ksdata.
+  (rvykydal)
+- networking: write configuration in doInstall (rvykydal)
 - Add mounts before swaps so the default selection is a mount. (dlehman)
 - Use MB if a new mountpoint size does not include a unit spec. (#850839)
   (dlehman)
@@ -389,6 +482,8 @@ update-desktop-database &> /dev/null || :
 - Offer completions for new mountpoints. (dlehman)
 - Add old_source checking for closest mirror and url methods too (#851336).
   (clumens)
+- Revert "Only use mounted media that has repodata" (jkeating)
+- Only use mounted media that has repodata (jkeating)
 - _bootloaderClass -> bootloaderClass for some platforms (#848173). (clumens)
 - Make the storage info bar clickable to reveal error messages. (clumens)
 - Move the software-specific error message out of the DetailedErrorDialog
@@ -396,7 +491,7 @@ update-desktop-database &> /dev/null || :
 - Add a gui password spoke (jkeating)
 - Put traceback reports on a diet. (clumens)
 
-* Wed Aug 22 2012 Chris Lumens <clumens@redhat.com> - 18.6.1-1
+* Wed Aug 22 2012 Chris Lumens <clumens@redhat.com> - 18.7-1
 - Do another _main_window -> main_window change. (clumens)
 - Mark the storage category title for translation. (clumens)
 - _actions should be set up in the __init__ method. (clumens)
@@ -406,6 +501,7 @@ update-desktop-database &> /dev/null || :
 - Use ksdata.timezone and timezone module instead of anaconda.timezone
   (vpodzime)
 - Remove the last usage of the system-config-date in Anaconda (vpodzime)
+- Add support for swap --hibernation on LVM (vpodzime)
 - Don't rely on selection staying selected when doing crazy things to it
   (vpodzime)
 - Replace nonexisting icon with an existing one (DatetimeSpoke) (vpodzime)
