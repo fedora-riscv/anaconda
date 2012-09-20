@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 18.8
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -299,6 +299,9 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Thu Sep 20 2012 Kalev Lember <kalevlember@gmail.com> - 18.8-2
+- Rebuilt with new libgladeui
+
 * Fri Sep 14 2012 Chris Lumens <clumens@redhat.com> - 18.8-1
 - Make sure the InstallOptionsNDialogs get the correct space labels. (clumens)
 - Get rid of the big pause going from the storage spoke back to the hub.
