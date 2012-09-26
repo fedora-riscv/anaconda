@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.9
+Version: 18.10
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -299,6 +299,35 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Wed Sep 26 2012 Chris Lumens <clumens@redhat.com> - 18.10-1
+- isys.mount needs to be told when something should be mounted NFS (#860273).
+  (clumens)
+- Disks with new disklabels don't count as new devices in custom. (dlehman)
+- Fix thread synchronization issue going from storage to custom. (#860495)
+  (dlehman)
+- Treat disks with unrecognized or no formatting as empty. (#858862) (dlehman)
+- Improve management of mountpoint selectors in the custom spoke. (dlehman)
+- Improve handling of existing devices when refreshing the custom spoke.
+  (dlehman)
+- Apply custom changes not involving actions to the main devicetree. (dlehman)
+- Add a mountpoint entry to the device options area. (dlehman)
+- Move mountpoint validation out of the add mountpoint dialog. (dlehman)
+- Only run the storage sanity check if we've run autopart. (dlehman)
+- Add a method to reset a device to its original state. (dlehman)
+- Make a copy of the original format instead of just storing another ref.
+  (dlehman)
+- Reformatting effectively removes a device from an existing Root. (dlehman)
+- Fix test for whether to create biosboot during autopart. (#853628) (dlehman)
+- Close AddLayout dialog on double-click (vpodzime)
+- Remove useless handler of Cancel button (AddLayout dialog) (vpodzime)
+- Don't rely on having some month and year selected (#859185) (vpodzime)
+- Add debug option to bumpver (bcl)
+- Raise an error if bootDrive is invalid (jkeating)
+- Handle automated installs (jkeating)
+- Handle errors from text storage execute (jkeating)
+- Fix ready and completed properties for text storage (jkeating)
+- Use ksdata to determine text password completeness (jkeating)
+
 * Tue Sep 25 2012 Chris Lumens <clumens@redhat.com> - 18.9-1
 - And remove compssort.py from POTFILES.in, too. (clumens)
 - Select a default environment (#858180). (clumens)
@@ -342,9 +371,6 @@ update-desktop-database &> /dev/null || :
   (#875931). (clumens)
 - Add a way to test exception handling (vpodzime)
 - Fix dumpState to work with the new python-meh (#856235) (vpodzime)
-
-* Thu Sep 20 2012 Kalev Lember <kalevlember@gmail.com> - 18.8-2
-- Rebuilt with new libgladeui
 
 * Fri Sep 14 2012 Chris Lumens <clumens@redhat.com> - 18.8-1
 - Make sure the InstallOptionsNDialogs get the correct space labels. (clumens)
