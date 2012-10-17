@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.17
+Version: 18.18
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -44,6 +44,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %define sckeyboardver 1.3.1
 %define libblkidver 2.17.1-1
 %define fcoeutilsver 1.0.12-3.20100323git
+%define firewalldver 0.2.9-1
 
 BuildRequires: audit-libs-devel
 BuildRequires: bzip2-devel
@@ -121,7 +122,7 @@ Requires: python-pyblock >= %{pythonpyblockver}
 Requires: libuser-python
 Requires: newt-python
 Requires: authconfig
-Requires: system-config-firewall-base
+Requires: firewalld >= %{firewalldver}
 Requires: cryptsetup-luks
 Requires: python-cryptsetup >= %{pythoncryptsetupver}
 Requires: mdadm
@@ -299,6 +300,14 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Wed Oct 17 2012 Brian C. Lane <bcl@redhat.com> - 18.18-1
+- remove firewall.py from POTFILES.in (bcl)
+- Add missing pieces for kickstart's encryption cipher option. (dlehman)
+- update to use firewalld (#815540) (bcl)
+- Fix a typo in method name (#863765) (msivak)
+- Add missing import (#867296) (msivak)
+- There is no anaconda object available in writeSysconfigKernel (vpodzime)
+
 * Tue Oct 16 2012 Brian C. Lane <bcl@redhat.com> - 18.17-1
 - Add an error handler for fatal package installation errors (#865291).
   (clumens)
