@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.25
+Version: 18.26
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -300,6 +300,15 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Tue Nov 06 2012 Brian C. Lane <bcl@redhat.com> - 18.26-1
+- Fix group access after parsing btrfs subvol list output. (#868468) (dlehman)
+- ignoredisk.onlyuse contains names, not StorageDevice instances. (#873463)
+  (dlehman)
+- Correctly handle toggle of encryption state for devices. (#873445) (dlehman)
+- Handle changes to encryption state of container members. (#873445) (dlehman)
+- Change custom spoke to apply encryption to PVs, not LVs. (dlehman)
+- Enable yum langpacks plugin to get conditional packages (#868869) (jkeating)
+
 * Mon Nov 05 2012 Brian C. Lane <bcl@redhat.com> - 18.25-1
 - Fix up the InstallOptions3Dialog.refresh arguments (#873392). (clumens)
 - Mark strings at the top of spokes with N_; translate later with _ (#872791).
