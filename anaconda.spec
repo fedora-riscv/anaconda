@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.28
+Version: 18.29
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -300,6 +300,22 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Mon Nov 12 2012 Brian C. Lane <bcl@redhat.com> - 18.29-1
+- Quit after handling transaction errors. (clumens)
+- Add a function to display relevant transaction errors (#873106). (clumens)
+- Don't decorate error dialogs. (clumens)
+- Fix error handling when new device ends up with size 0. (dlehman)
+- Explicitly request all free space when no size given in custom. (#872833)
+  (dlehman)
+- Disable the language spoke off the first hub, for now (#874263). (clumens)
+- Wrap text on install options dialogs (#874265). (clumens)
+- Encode unicode strings from XklWrapper (#873762) (vpodzime)
+- New version (out of order) (bcl)
+- Network spoke: fix traceback (number of callback parameters) (#875393)
+  (rvykydal)
+- Adjust right margin for MountpointSelector (mizmo). (clumens)
+- Fix introspection warnings for widgets (stefw)
+
 * Fri Nov 09 2012 Brian C. Lane <bcl@redhat.com> - 18.28-1
 - Show NFS as the source if dracut left it for us (#875235) (jkeating)
 - Convert the accordion Button to a LinkButton (mizmo). (clumens)
