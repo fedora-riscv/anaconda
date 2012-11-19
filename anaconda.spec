@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.29
+Version: 18.29.1
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -300,6 +300,11 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Sun Nov 18 2012 Brian C. Lane <bcl@redhat.com> - 18.29.1-1
+- New version. (bcl)
+- only call bootloader.check() if bootloader is setup (#875278) (bcl)
+- Don't try to save changes to a locked luks device. (#876180) (dlehman)
+
 * Mon Nov 12 2012 Brian C. Lane <bcl@redhat.com> - 18.29-1
 - Quit after handling transaction errors. (clumens)
 - Add a function to display relevant transaction errors (#873106). (clumens)
