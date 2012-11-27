@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.29.2
+Version: 18.31
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -26,7 +26,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %define intltoolver 0.31.2-3
 %define libnlver 1.0
 %define libselinuxver 1.6
-%define pykickstartver 1.99.21
+%define pykickstartver 1.99.22
 %define rpmpythonver 4.2-0.61
 %define slangver 2.0.6-2
 %define yumver 3.4.3-32
@@ -80,7 +80,6 @@ BuildRequires: python-nose
 BuildRequires: rpm-devel
 BuildRequires: rpm-python >= %{rpmpythonver}
 BuildRequires: slang-devel >= %{slangver}
-BuildRequires: transifex-client
 BuildRequires: xmlto
 BuildRequires: yum >= %{yumver}
 BuildRequires: zlib-devel
@@ -135,8 +134,6 @@ Requires: python-nss
 Requires: tigervnc-server-minimal
 Requires: pytz
 Requires: libxklavier
-#libxklavier requires iso-codes, but does not have it as Requires: (see #813833)
-Requires: iso-codes
 Requires: libgnomekbd
 %ifarch %livearches
 Requires: usermode
@@ -300,25 +297,68 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
-* Tue Nov 20 2012 Brian C. Lane <bcl@redhat.com> - 18.29.2-1
+* Mon Nov 26 2012 Brian C. Lane <bcl@redhat.com> - 18.31-1
+- Rename icons for liveinst (conflict with redhat-logos) (#878037) (rvykydal)
+- Rework actions in the resize dialog to avoid shortcomings (#866209, #867770).
+  (clumens)
+- Check that everything's a GDK window before attempting to manipulate it.
+  (clumens)
+- On live installs, the progress hub should have a Quit button (#854904).
+  (clumens)
+- If no bootloader is to be installed, pop up a warning. (clumens)
+- Escape ampersands in spoke status text. (clumens)
+- Allow not setting any boot device via the UI (#867469). (clumens)
+- Allow specifying whether the URL you've given is a mirrorlist or not
+  (#868558). (clumens)
 - Prevent false positives when checking for encryption change. (dlehman)
 - Don't add incomplete VGs to the LVM reject filter. (#878225) (dlehman)
 - Show device names for devices in the Unknown page/subsection. (#855646)
   (dlehman)
 - Add a page to the custom RHS notebook for uneditable devices. (#875942)
   (dlehman)
+- Fix error in iutil.execCapture when fatal and non-zero exit (stefw)
+- Allow iutil.execWithCapture to work without a chroot (stefw)
 - Handle hd iso leavings by dracut (#876897) (jkeating)
-- Handle nfsiso leavings by dracut (#876223) (jkeating)
-- show error when rsync fails (#868755) (cherry picked from commit
-  c90d1bc1fb038c010a22a373fed47933aac074b9) (bcl)
-- only raise rsync error on error 12 (#868755) (cherry picked from commit
-  2032f1ee0d43df6e0cddf4004fd71a2ce7b63c67) (bcl)
-- fixup changelog for 18.29.1-1 (bcl)
+- show error when rsync fails (#868755) (bcl)
 
-* Sun Nov 18 2012 Brian C. Lane <bcl@redhat.com> - 18.29.1-1
-- New version. (bcl)
+* Mon Nov 19 2012 Brian C. Lane <bcl@redhat.com> - 18.30-1
+- only raise rsync error on error 12 (#868755) (bcl)
+- Dump default auto connection's ifcfg file instead of writing a new one
+  (#870922) (rvykydal)
+- Number timezones starting with 1 (#859342) (msivak)
 - only call bootloader.check() if bootloader is setup (#875278) (bcl)
+- Fix operator precedence when checking for the presence of transifex-client.
+  (clumens)
+- Make the custom and keyboard toolbar buttons larger (mizmo). (clumens)
+- More changes to leave the spoke via a glib idle call, not calling directly.
+  (clumens)
+- Hide the custom addon button. (clumens)
+- Enable verbose yum logging once more (jkeating)
+- rm transifex-client buildreq; check and install only if needed (sbueno)
+- Handle nfsiso leavings by dracut (#876223) (jkeating)
+- Prevent some raid-related tracebacks. (#874034) (dlehman)
 - Don't try to save changes to a locked luks device. (#876180) (dlehman)
+- Keyboard test layout padding fix (mizmo). (clumens)
+- Correct colors for selected items in mountpoint selector widget (mizmo).
+  (clumens)
+- Include hidden disks in the storage spoke's list of devices (#875475).
+  (clumens)
+- Make the DetailedErrorDialog taller by default (#874620). (clumens)
+- If there's only a Quit button, don't make it secondary. (clumens)
+- Handle package dependency errors on kickstart installs too (#865073).
+  (clumens)
+- Remove iso-codes dependency, libxklavier has it fixed now (vpodzime)
+- Rework custom partitioning alignment too (mizmo). (clumens)
+- Attempt to fix the shrunken storage UI (mizmo). (clumens)
+- Do not allow TreeView search in AddLayout dialog (#876131) (vpodzime)
+- DiskOverview widget selection color correction (mizmo). (clumens)
+- Use the main loop to control displaying the resize dialog. (clumens)
+- Use ksdata to set default runlevel (jkeating)
+- Execute xconfig data (#874868) (jkeating)
+- Write out xconfig data when executed (jkeating)
+- Code cleanups (jkeating)
+- Link to the correct default target (jkeating)
+- Add a mapping of old run level to new systemd target (jkeating)
 
 * Mon Nov 12 2012 Brian C. Lane <bcl@redhat.com> - 18.29-1
 - Quit after handling transaction errors. (clumens)
