@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.31
+Version: 18.32
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -297,6 +297,14 @@ update-desktop-database &> /dev/null || :
 /usr/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Wed Nov 28 2012 Brian C. Lane <bcl@redhat.com> - 18.32-1
+- Bootloader checking should work in terms of self.stage1/2_ attrs (#880277).
+  (clumens)
+- Catch OverflowError in manual partitioning. (sbueno+anaconda)
+- Do not accept tabs in the keyboard layout test box (#897312). (clumens)
+- Wait for slower dhcp for payload setup and hostname setting (#873468)
+  (rvykydal)
+
 * Mon Nov 26 2012 Brian C. Lane <bcl@redhat.com> - 18.31-1
 - Rename icons for liveinst (conflict with redhat-logos) (#878037) (rvykydal)
 - Rework actions in the resize dialog to avoid shortcomings (#866209, #867770).
