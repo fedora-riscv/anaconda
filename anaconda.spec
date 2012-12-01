@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.33
+Version: 18.34
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -300,6 +300,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Sat Dec 01 2012 Brian C. Lane <bcl@redhat.com> - 18.34-1
+- remove extra space in custom.py (bcl)
+
 * Fri Nov 30 2012 Brian C. Lane <bcl@redhat.com> - 18.33-1
 - Escape single percent signs in RPM changelog entries. (dcantrell)
 - Fixes for PkgWrangler review. (dcantrell)
