@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.37.5
+Version: 18.37.6
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -47,6 +47,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %define pythonurlgrabberver 3.9.1-5
 %define utillinuxver 2.15.1
 %define syslinuxver 3.73
+%define dracutver 024-16
 
 BuildRequires: audit-libs-devel
 BuildRequires: bzip2-devel
@@ -205,7 +206,7 @@ documentation for working with this library.
 %package dracut
 Summary: The anaconda dracut module
 BuildArch: noarch
-Requires: dracut >= 19
+Requires: dracut >= %{dracutver}
 Requires: dracut-network
 Requires: xz
 Requires: pykickstart
@@ -300,6 +301,14 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Thu Dec 20 2012 Brian C. Lane <bcl@redhat.com> - 18.37.6-1
+- Use systemd to run checkisomd5 (#874486) (cherry picked from commit
+  e824b44ac7ef4d096a6606775da740448440e11e) (harald)
+- fixup direct nfs iso url handling (#879187) (bcl)
+- fixup nfs repo install code (#879187) (bcl)
+- Don't generate ifcfg files for non-existing devices in parse-kickstart
+  (#886647) (rvykydal)
+
 * Wed Dec 19 2012 Brian C. Lane <bcl@redhat.com> - 18.37.5-1
 - Network spoke: add sanity check for hostname setting (#856456) (rvykydal)
 - Network spoke: add hostname setting (#856456) (rvykydal)
