@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.37.7
+Version: 18.37.8
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -301,6 +301,10 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Fri Dec 21 2012 Brian C. Lane <bcl@redhat.com> - 18.37.8-1
+- hook up help window close button (#889570) (cherry picked from commit
+  128aa94a4dabfde0e7d3b14ddcec6b88a9308b08) (bcl)
+
 * Fri Dec 21 2012 Brian C. Lane <bcl@redhat.com> - 18.37.7-1
 - Add more yum locking to yumpayload (#860022) (bcl)
 - add setKeyboardCheckButton to list of things to translate (#889352) (cherry
