@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.40
+Version: 19.1
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -303,6 +303,10 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Mon Jan 14 2013 Brian C. Lane <bcl@redhat.com> - 19.1-1
+- Rework the reclaim dialog to have a resize slider. (clumens)
+- g_type_init call is no longer needed (bcl)
+
 * Fri Jan 11 2013 Brian C. Lane <bcl@redhat.com> - 18.40-1
 - Prepare structures to save spoke completenes for firstboot and GIE (msivak)
 - Do not call exit at the end of GUI interface, just quit the main loop
