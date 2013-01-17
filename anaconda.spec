@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 19.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -303,6 +303,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Thu Jan 17 2013 Tomas Bzatek <tbzatek@redhat.com> - 19.1-2
+- Rebuilt for new libarchive
+
 * Mon Jan 14 2013 Brian C. Lane <bcl@redhat.com> - 19.1-1
 - Rework the reclaim dialog to have a resize slider. (clumens)
 - g_type_init call is no longer needed (bcl)
