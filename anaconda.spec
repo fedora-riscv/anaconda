@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 19.1
-Release: 2%{?dist}
+Version: 19.2
+Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -39,7 +39,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %define yumutilsver 1.1.11-3
 %define iscsiver 6.2.0.870-3
 %define pythoncryptsetupver 0.1.1
-%define mehver 0.16-1
+%define mehver 0.21-1
 %define sckeyboardver 1.3.1
 %define libblkidver 2.17.1-1
 %define fcoeutilsver 1.0.12-3.20100323git
@@ -165,6 +165,7 @@ Requires: libselinux-python >= %{libselinuxver}
 %ifnarch s390 s390x
 Requires: fcoe-utils >= %{fcoeutilsver}
 %endif
+Requires: device-mapper-multipath
 Requires: kbd
 Requires: chrony
 Requires: rdate
@@ -303,8 +304,51 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/lib/dracut/modules.d/80%{name}/*
 
 %changelog
-* Thu Jan 17 2013 Tomas Bzatek <tbzatek@redhat.com> - 19.1-2
-- Rebuilt for new libarchive
+* Fri Jan 25 2013 Brian C. Lane <bcl@redhat.com> - 19.2-1
+- Use only one large grid for the hubs. (clumens)
+- Indicate nothing will happen until "Begin Installation" is clicked (#883195).
+  (clumens)
+- Exit anaconda correctly on SIGTERM (vpodzime)
+- Move communication module to pyanaconda/ui (vpodzime)
+- Function getDefaultHostname was renamed some time ago. (rvykydal)
+- Use constant for default hostname ("localhost.localdomain" currently)
+  (rvykydal)
+- Make update_hostname function do just one thing - update ksdata. (rvykydal)
+- Rename wait_for_dhcp pieces to say what they actually do (rvykydal)
+- Initialize network synchronously (#902090) (rvykydal)
+- xgettext wants "utf-8", not "utf8".  Python doesn't seem to care. (clumens)
+- On the storage spoke, only show the summary button if a disk is selected.
+  (clumens)
+- Add text letting people know they can use existing filesystems (#883150).
+  (clumens)
+- Default to mirrored RAID instead of striped (#888867). (clumens)
+- Replace the RAID level checkboxes with a single combo box. (clumens)
+- Don't allow mountpoints to start with /proc or /sys either. (clumens)
+- Add 'nmcli dev list' output to data gathered after crash (vpodzime)
+- Add lsblk output to data gathered after crash (#879940) (vpodzime)
+- Cleanup some trailing whitespace on otherwise empty lines (vpodzime)
+- Refactor and cleanup exception handling pieces (vpodzime)
+- Exception handling for text mode (#865325) (vpodzime)
+- python-meh's saveExceptionWindow no longer uses the accountManager (vpodzime)
+- Enable line wrapping in a couple more places (#901551). (clumens)
+- Support /boot on RAID metadata version 1.2 (#896163). (clumens)
+- Don't check memory for rescue mode (#895948). (clumens)
+- Split __init__ and setup in TUI screens so we can set the environment and
+  search paths (msivak)
+- Add a requirement on device-mapper-multipath (#895973) (msivak)
+- Update default fs type code (#855401). (clumens)
+- Display the background gradient image from a map signal handler. (clumens)
+- Remove the old cmdline and script interfaces. (clumens)
+- anaconda-cleanup doesn't use an interface at all. (clumens)
+- Remove the old text mode UI. (clumens)
+- Move constants_text out of the textw directory. (clumens)
+- Remove more references to system-config-*. (clumens)
+- Add device NM_DEVICE_TYPE_ETHERNET to isys (#893892) (rvykydal)
+- Dump missing ifcfg ifles only for ethernet devices (#893892) (rvykydal)
+- Take over dhcp connection by NM for network root (eg nfs) (#883451, #893656)
+  (rvykydal)
+- Use DEFAULT_LANG instead of magic value "en_US.UTF-8" (vpodzime)
+- fixup spec with 19.1 commits (bcl)
 
 * Mon Jan 14 2013 Brian C. Lane <bcl@redhat.com> - 19.1-1
 - Rework the reclaim dialog to have a resize slider. (clumens)
