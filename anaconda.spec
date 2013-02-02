@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 19.2
+Version: 19.3
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -19,41 +19,26 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
-%define dmver 1.02.17-6
 %define gettextver 0.11
-%define genisoimagever 1.1.9-4
 %define gconfversion 2.28.1
 %define intltoolver 0.31.2-3
 %define libnlver 1.0
-%define libselinuxver 1.6
 %define pykickstartver 1.99.22
-%define rpmpythonver 4.2-0.61
 %define yumver 3.4.3-32
 %define partedver 1.8.1
 %define pypartedver 2.5-2
 %define pythonpyblockver 0.45
-%define e2fsver 1.41.0
 %define nmver 1:0.7.1-3.git20090414
 %define dbusver 1.2.3
-%define createrepover 0.4.7
 %define yumutilsver 1.1.11-3
-%define iscsiver 6.2.0.870-3
-%define pythoncryptsetupver 0.1.1
 %define mehver 0.21-1
 %define sckeyboardver 1.3.1
-%define libblkidver 2.17.1-1
-%define fcoeutilsver 1.0.12-3.20100323git
 %define firewalldver 0.2.9-1
 %define pythonurlgrabberver 3.9.1-5
 %define utillinuxver 2.15.1
-%define syslinuxver 3.73
 %define dracutver 024-16
 
 BuildRequires: audit-libs-devel
-BuildRequires: bzip2-devel
-BuildRequires: device-mapper-devel >= %{dmver}
-BuildRequires: e2fsprogs-devel >= %{e2fsver}
-BuildRequires: elfutils-devel
 BuildRequires: gettext >= %{gettextver}
 BuildRequires: gtk3-devel
 BuildRequires: gtk-doc
@@ -61,30 +46,19 @@ BuildRequires: gobject-introspection-devel
 BuildRequires: glade-devel
 BuildRequires: pygobject3
 BuildRequires: intltool >= %{intltoolver}
-BuildRequires: libarchive-devel
 BuildRequires: libX11-devel
 BuildRequires: libXt-devel
 BuildRequires: libXxf86misc-devel
-BuildRequires: libblkid-devel >= %{libblkidver}
-BuildRequires: libcurl-devel
 BuildRequires: libgnomekbd-devel
 BuildRequires: libnl-devel >= %{libnlver}
-BuildRequires: libselinux-devel >= %{libselinuxver}
-BuildRequires: libsepol-devel
 BuildRequires: libxklavier-devel
-BuildRequires: libxml2-python
 BuildRequires: pango-devel
 BuildRequires: pykickstart >= %{pykickstartver}
 BuildRequires: python-devel
-BuildRequires: python-pyblock >= %{pythonpyblockver}
 BuildRequires: python-urlgrabber >= %{pythonurlgrabberver}
 BuildRequires: python-nose
-BuildRequires: rpm-devel
-BuildRequires: rpm-python >= %{rpmpythonver}
 BuildRequires: systemd
-BuildRequires: xmlto
 BuildRequires: yum >= %{yumver}
-BuildRequires: zlib-devel
 BuildRequires: NetworkManager-devel >= %{nmver}
 BuildRequires: NetworkManager-glib-devel >= %{nmver}
 BuildRequires: dbus-devel >= %{dbusver}
@@ -92,41 +66,26 @@ BuildRequires: dbus-python
 %ifarch %livearches
 BuildRequires: desktop-file-utils
 %endif
-BuildRequires: iscsi-initiator-utils-devel >= %{iscsiver}
 %ifarch s390 s390x
 BuildRequires: s390utils-devel
 %endif
 
 Requires: anaconda-widgets = %{version}-%{release}
+Requires: python-blivet
 Requires: gnome-icon-theme-symbolic
 Requires: python-meh >= %{mehver}
-Requires: policycoreutils
+Requires: libselinux-python
 Requires: rpm-python >= %{rpmpythonver}
 Requires: parted >= %{partedver}
 Requires: pyparted >= %{pypartedver}
 Requires: yum >= %{yumver}
-Requires: libxml2-python
 Requires: python-urlgrabber >= %{pythonurlgrabberver}
 Requires: system-logos
 Requires: pykickstart >= %{pykickstartver}
-Requires: device-mapper >= %{dmver}
-Requires: device-mapper-libs >= %{dmver}
-Requires: dosfstools
-Requires: e2fsprogs >= %{e2fsver}
-Requires: gzip
-Requires: libarchive
 Requires: python-babel
-%ifarch %{ix86} x86_64 ia64
-Requires: dmidecode
-%endif
-Requires: python-pyblock >= %{pythonpyblockver}
 Requires: libuser-python
 Requires: authconfig
 Requires: firewalld >= %{firewalldver}
-Requires: cryptsetup-luks
-Requires: python-cryptsetup >= %{pythoncryptsetupver}
-Requires: mdadm
-Requires: lvm2
 Requires: util-linux >= %{utillinuxver}
 Requires: dbus-python
 Requires: python-pwquality
@@ -140,18 +99,7 @@ Requires: libgnomekbd
 Requires: usermode
 Requires: zenity
 %endif
-Requires: createrepo >= %{createrepover}
-Requires: squashfs-tools
-%if ! 0%{?rhel}
-Requires: hfsplus-tools
-%endif
-Requires: genisoimage >= %{genisoimagever}
 Requires: GConf2 >= %{gconfversion}
-%ifarch %{ix86} x86_64
-Requires: syslinux >= %{syslinuxver}
-Requires: makebootfat
-Requires: device-mapper
-%endif
 %ifarch s390 s390x
 Requires: openssh
 %endif
@@ -162,21 +110,11 @@ Requires: nm-connection-editor
 Requires: dhclient
 Requires: anaconda-yum-plugins
 Requires: libselinux-python >= %{libselinuxver}
-%ifnarch s390 s390x
-Requires: fcoe-utils >= %{fcoeutilsver}
-%endif
-Requires: device-mapper-multipath
 Requires: kbd
 Requires: chrony
 Requires: rdate
 Requires: rsync
 Requires: hostname
-%ifarch %{sparc}
-Requires: elftoaout piggyback
-%endif
-%ifarch x86_64
-Requires: mactel-boot
-%endif
 Obsoletes: anaconda-images <= 10
 Provides: anaconda-images = %{version}-%{release}
 Obsoletes: anaconda-runtime < %{version}-%{release}
@@ -304,6 +242,61 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Fri Feb 01 2013 Brian C. Lane <bcl@redhat.com> - 19.3-1
+- unpack product.img to correct location (#869098) (bcl)
+- Fix including _isys.so and isys/__init__.py in updates.img (vpodzime)
+- Fix typo "DHCPV6" (rvykydal)
+- Don't crash on wireless connections created in Live CD desktop (#895736)
+  (rvykydal)
+- Adapt ifcfg -> ksdata mapping to NM change from IPADDR to IPADDR0. (rvykydal)
+- Fix static and dhcp of network --ipv6 command (set IPV6_AUTOCONF=no)
+  (rvykydal)
+- NM defaults to IPV6_AUTOCONF=yes (rvykydal)
+- Fix up spacing on installation options dialog buttons a little bit. (clumens)
+- Ignore double clicks on the DiskOverviews (#902467). (clumens)
+- When the user creates a new mountpoint, display it by default (#886039).
+  (clumens)
+- Add device node name information to the storage spoke and disk cart
+  (#902617). (clumens)
+- Do not include disks that have 0 size (#903131, #904977). (clumens)
+- Preserve the state of the Customize... expanders on custom storage (#883134).
+  (clumens)
+- Make it a little more clear what's happening on the disk selection spoke
+  (#903498). (clumens)
+- Move Xorg to vt7 (bcl)
+- Network: read ipv6 configuration type from NM settings instead of ifcfg file
+  (rvykydal)
+- Don't fail on missing ifcfg file when setting default ONBOOT (#904817)
+  (rvykydal)
+- Don't fail on invalid network --device kickstart specification. (rvykydal)
+- Ignore ipv6 for a device (IPV6INIT=no) only for noipv6 option. (rvykydal)
+- Network: fix disabling of ipv6 (noipv6 option) (rvykydal)
+- Stop writing /etc/sysconfig/network (#895900) (rvykydal)
+- We dont create missing ifcfg files on our own in anaconda anymore. (rvykydal)
+- Use NM dbus interface to modify ifcfg configuration (#893892) (rvykydal)
+- Document FileSystemSpaceChecker. (clumens)
+- Add the customization category to POTFILES.in. (clumens)
+- Add a license and overview to the g-i overrides file. (clumens)
+- Create/clarify some documentation in the custom widgets. (clumens)
+- Condense string formatting in a couple custom widgets. (clumens)
+- Remove the widget-specific TODO list. (clumens)
+- Add selinux to the list of parameters we pass on (#895860). (clumens)
+- Display error status messages in a darker red color. (clumens)
+- Add newline at the end of xorg.conf generated from ksdata (vpodzime)
+- Move pyanaconda.packaging.get_mount_* into blivet.util. (dlehman)
+- Remove obsolete references to simpleFilter. (dlehman)
+- Remove the storage module and replace it with blivet. (dlehman)
+- Move tsort, platform, and baseudev into storage. (dlehman)
+- Start laying groundwork for splitting storage out of pyanaconda. (dlehman)
+- Remove anaconda flag checking from OpticalDevice.eject. (dlehman)
+- Remove unused functions and move storage-specific utils to storage. (dlehman)
+- Remove installclass arch filtering. (dlehman)
+- Handle sending program output to tty5 through the logging setup. (dlehman)
+- Use dumpe2fs output to determine dirty fs. (dlehman)
+- Remove filesystem migration code. (dlehman)
+- Use threadMgr.wait to check threads (bcl)
+- Add error reporting to threadMgr (bcl)
+
 * Fri Jan 25 2013 Brian C. Lane <bcl@redhat.com> - 19.2-1
 - Use only one large grid for the hubs. (clumens)
 - Indicate nothing will happen until "Begin Installation" is clicked (#883195).
