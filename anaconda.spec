@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 18.37.11
+Version: 18.37.12
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -301,6 +301,10 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Fri Feb 08 2013 Brian C. Lane <bcl@redhat.com> - 18.37.12-1
+- Add --dirinstall command (bcl)
+- Add mountOnly to turnOnFilesystems (bcl)
+
 * Mon Jan 07 2013 Brian C. Lane <bcl@redhat.com> - 18.37.11-1
 - Fix Quit button in standalone network spoke (#892120) (rvykydal)
 - Force disk selection for interactive installs. (#888293) (cherry picked from
