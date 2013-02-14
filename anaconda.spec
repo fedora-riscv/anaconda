@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 19.5
+Version: 19.6
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -10,12 +10,10 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 
 # To generate Source0 do:
 # git clone http://git.fedorahosted.org/git/anaconda.git
-# git checkout -b archive-branch anaconda-%{version}-%{release}
+# git checkout -b archive-branch anaconda-%%{version}-%%{release}
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
-
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -23,7 +21,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %define gconfversion 2.28.1
 %define intltoolver 0.31.2-3
 %define libnlver 1.0
-%define pykickstartver 1.99.22
+%define pykickstartver 1.99.24
 %define yumver 3.4.3-32
 %define partedver 1.8.1
 %define pypartedver 2.5-2
@@ -74,6 +72,7 @@ Requires: anaconda-widgets = %{version}-%{release}
 Requires: python-blivet
 Requires: gnome-icon-theme-symbolic
 Requires: python-meh >= %{mehver}
+Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
 Requires: rpm-python >= %{rpmpythonver}
 Requires: parted >= %{partedver}
@@ -167,20 +166,17 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %{__make} %{?_smp_mflags}
 
 %install
-%{__rm} -rf %{buildroot}
-%{__make} install DESTDIR=%{buildroot}
+%{__make_install}
 find %{buildroot} -type f -name "*.la" | xargs %{__rm}
 
 %ifarch %livearches
-desktop-file-install --vendor="" --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/liveinst.desktop
+desktop-file-install ---dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/liveinst.desktop
 %else
 %{__rm} -rf %{buildroot}%{_bindir}/liveinst %{buildroot}%{_sbindir}/liveinst
 %endif
 
 %find_lang %{name}
 
-%clean
-%{__rm} -rf %{buildroot}
 
 %ifarch %livearches
 %post
@@ -193,7 +189,6 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %files -f %{name}.lang
-%defattr(-,root,root)
 %doc COPYING
 %doc docs/command-line.txt
 %doc docs/install-methods.txt
@@ -223,25 +218,64 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %files widgets
-%defattr(-,root,root)
 %{_libdir}/libAnacondaWidgets.so.*
 %{_libdir}/girepository*/AnacondaWidgets*typelib
 %{_libdir}/python*/site-packages/gi/overrides/*
 %{_datadir}/anaconda/tzmapdata/*
 
 %files widgets-devel
-%defattr(-,root,root)
 %{_libdir}/libAnacondaWidgets.so
 %{_includedir}/*
 %{_datadir}/glade/catalogs/AnacondaWidgets.xml
 %{_datadir}/gtk-doc
 
 %files dracut
-%defattr(-,root,root)
 %dir %{_prefix}/lib/dracut/modules.d/80%{name}
 %{_prefix}/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Thu Feb 14 2013 Brian C. Lane <bcl@redhat.com> - 19.6-1
+- fix uuid reference in parse-kickstart (bcl)
+- Fixup kickstart script logging (bcl)
+- Tell libreport the crash happened in Anaconda (#885690) (vpodzime)
+- Restore older behavior regarding ks argument without a file name (#910550).
+  (clumens)
+- Move the encryption checkbox to the dialog (bcl)
+- re-fetch metadata when proxy settings change (bcl)
+- Apply some fixes to the spec file (#909592, metherid (clumens)
+- install -> installation in a couple user-visible strings. (clumens)
+- Restore support for partial kickstart files (#887254). (clumens)
+- Get rid of packagesSeen. (clumens)
+- Remove debugging print (DatetimeSpoke) (vpodzime)
+- Honor modules' __all__ when doing collect (msivak)
+- Use ksdata.addons instead of ksdata.addon and add ADDON_PATHS to sys.path
+  (vpodzime)
+- Remove unused modules (dbus) and stuff from network.py (rvykydal)
+- Replace get_NM_connection() using new nm module. (rvykydal)
+- Replace get_NM_settings_value() using new nm module (rvykydal)
+- Replace nmIsConnected() using new nm module (rvykydal)
+- Replace hasActiveNetDev() using new nm module (rvykydal)
+- Replace getDevicesProperies() using new nm module (rvykydal)
+- Replace getIPAddresses() using new nm module (rvykydal)
+- Replace getMacAddress() using new nm module (rvykydal)
+- Replace isWirelessDevice() using new nm module (rvykydal)
+- Replace getLinkStatus() using new nm module (rvykydal)
+- Replace getActiveNetDevs() using new nm module (rvykydal)
+- Replace getDevices() using new nm module (rvykydal)
+- Move NM dbus calls to separate module. (rvykydal)
+- Move networking functions from isys to network module. (rvykydal)
+- Remove unused stuff from network.py (rvykydal)
+- Remove unused networking stuff from isys (rvykydal)
+- Network spoke: remove unused NM path and interface constants (rvykydal)
+- Add 'eject' to the anaconda initramfs (wwoods)
+- Ensure hookdir exists before creating eject script (wwoods)
+- remove anaconda-cleanup-initramfs.service (wwoods)
+- Add dracut/save-initramfs.sh (wwoods)
+- Bring back the askmethod parameter (#889887). (clumens)
+- Add a new selectorFromDevice method to the accordion. (clumens)
+- The storage logger is now the blivet logger. (dlehman)
+- DeviceFactory has moved from blivet to blivet.devicefactory. (dlehman)
+
 * Fri Feb 08 2013 Brian C. Lane <bcl@redhat.com> - 19.5-1
 - Add --dirinstall command (bcl)
 - Convert the mount point entry to one containing a drop down. (clumens)
