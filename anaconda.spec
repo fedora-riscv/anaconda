@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 19.6
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -166,7 +166,7 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %{__make} %{?_smp_mflags}
 
 %install
-%{__make_install}
+%{make_install}
 find %{buildroot} -type f -name "*.la" | xargs %{__rm}
 
 %ifarch %livearches
@@ -200,7 +200,6 @@ update-desktop-database &> /dev/null || :
 %{_sbindir}/anaconda
 %{_sbindir}/handle-sshpw
 %{_sbindir}/logpicker
-%{_sbindir}/anaconda-cleanup-initramfs
 %{_datadir}/anaconda
 %{_prefix}/libexec/anaconda
 %{_libdir}/python*/site-packages/pyanaconda/*
@@ -234,6 +233,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Thu Feb 14 2013 Brian C. Lane <bcl@redhat.com> 19.6-2
+- Fixup anaconda.spec (bcl)
+
 * Thu Feb 14 2013 Brian C. Lane <bcl@redhat.com> - 19.6-1
 - fix uuid reference in parse-kickstart (bcl)
 - Fixup kickstart script logging (bcl)
