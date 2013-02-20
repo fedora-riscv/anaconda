@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 19.6
-Release: 2%{?dist}
+Version: 19.7
+Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -69,7 +69,7 @@ BuildRequires: s390utils-devel
 %endif
 
 Requires: anaconda-widgets = %{version}-%{release}
-Requires: python-blivet
+Requires: python-blivet >= 0.6
 Requires: gnome-icon-theme-symbolic
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
@@ -233,7 +233,29 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/lib/dracut/modules.d/80%{name}/*
 
 %changelog
-* Thu Feb 14 2013 Brian C. Lane <bcl@redhat.com> 19.6-2
+* Wed Feb 20 2013 Brian C. Lane <bcl@redhat.com> - 19.7-1
+- Fix RAID level test (bcl)
+- unpack product.img to /updates (#911873) (bcl)
+- If you attempt to search on the network device pane, don't crash. (clumens)
+- Don't treat the _ in x86_64 as a mnemonic. (clumens)
+- If you set_markup, the label forgets set_use_underline from glade. (clumens)
+- Don't try to update spokes that are indirect. (clumens)
+- If you cannot reclaim more space, don't show the reclaim radio (#911791).
+  (clumens)
+- Swap the order of the part scheme combo and encryption checkbox. (clumens)
+- Fix for the addons kickstart support (vpodzime)
+- kickstart.py needs udev that now lives in blivet (vpodzime)
+- Refactor pieces of the Datetime spoke and move some parts to kickstart.py
+  (vpodzime)
+- Set ONBOOT=no for default autoconnections (#905918, #886090) (rvykydal)
+- Don't use "type" to name a variable. (rvykydal)
+- Update all spokes on a Hub when spoke is exited (msivak)
+- Wait for continueButton in KS mode if the user changed anything (msivak)
+- Fix up word wrap on the DetailedErrorDialog. (clumens)
+- Display storage warnings, similar to how errors are displayed (#909410).
+  (clumens)
+- Fix reprompting and screen redrawing on invalid input (vpodzime)
+- Refresh addons_paths once we know if gui or tui takes place (vpodzime)
 - Fixup anaconda.spec (bcl)
 
 * Thu Feb 14 2013 Brian C. Lane <bcl@redhat.com> - 19.6-1
