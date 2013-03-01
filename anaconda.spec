@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 19.8
+Version: 19.9
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -34,7 +34,8 @@ Source0: %{name}-%{version}.tar.bz2
 %define firewalldver 0.2.9-1
 %define pythonurlgrabberver 3.9.1-5
 %define utillinuxver 2.15.1
-%define dracutver 024-16
+%define dracutver 024-25
+%define isomd5sum 1.0.10
 
 BuildRequires: audit-libs-devel
 BuildRequires: gettext >= %{gettextver}
@@ -102,7 +103,7 @@ Requires: GConf2 >= %{gconfversion}
 %ifarch s390 s390x
 Requires: openssh
 %endif
-Requires: isomd5sum
+Requires: isomd5sum >= %{isomd5sum}
 Requires: yum-utils >= %{yumutilsver}
 Requires: NetworkManager >= %{nmver}
 Requires: nm-connection-editor
@@ -233,6 +234,39 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Fri Mar 01 2013 Brian C. Lane <bcl@redhat.com> - 19.9-1
+- Behave nice when root password is set by kickstart (msivak)
+- Password spoke is mandatory if the created user is not an admin (msivak)
+- Use the user data provided by kickstart (msivak)
+- Add the User creation spoke including the Advanced dialog (msivak)
+- Bonding support: kickstart (rvykydal)
+- Condense some duplicated and overly wordy code in custom.py. (clumens)
+- Add a new allMembers property that returns a list of pages and members.
+  (clumens)
+- All Pages have a title, so get rid of the getattr games. (clumens)
+- Allow more than one Page to be expanded at a time. (clumens)
+- Get rid of the currentPage method. (clumens)
+- Promote page._members to page.members. (clumens)
+- Require passing the title to a Page's constructor. (clumens)
+- Pressing F12 should do the same thing as clicking "Done" (#840998). (clumens)
+- A bunch more "install" -> "installation" changes. (clumens)
+- When the user clicks "Reclaim Space", go back to the hub (#911792). (clumens)
+- Modify the logic that makes the reclaim button sensitive (#911793). (clumens)
+- Add a free space line under every disk in the reclaim dialog. (clumens)
+- Remove the initial sentence from the top of the reclaim dialog (#911793).
+  (clumens)
+- Fix a traceback in verifying optical media on the source spoke. (clumens)
+- Revert "Hook up the "Remove Packages" button on the dep solving error
+  screen." (#905899). (clumens)
+- Don't display "(null)" as a MountpointSelector's mountpoint. (clumens)
+- dracut: add anaconda-pre-shutdown.sh to fix eject (#809920) (wwoods)
+- Continue booting when checkisomd5 is aborted (#891551) (bcl)
+- Fix ksdevice=<MAC> - instead of renaming the device to ksdev0 just use it
+  (rvykydal)
+- Add pigz to initrd.img (wwoods)
+- Use %%_prefix macro value when calling configure in makeupdates (vpodzime)
+- Try to import modules the standard way first in collect (msivak)
+
 * Thu Feb 21 2013 Brian C. Lane <bcl@redhat.com> - 19.8-1
 - Add more stuff to the exception reporting skip list. (clumens)
 - Compare Sizes to Sizes in the reclaim dialog (#913484). (clumens)
