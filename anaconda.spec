@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 19.15
+Version: 19.16
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -29,7 +29,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define nmver 1:0.7.1-3.git20090414
 %define dbusver 1.2.3
 %define yumutilsver 1.1.11-3
-%define mehver 0.21-1
+%define mehver 0.22-1
 %define sckeyboardver 1.3.1
 %define firewalldver 0.2.9-1
 %define pythonurlgrabberver 3.9.1-5
@@ -234,6 +234,19 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Thu Apr 04 2013 Brian C. Lane <bcl@redhat.com> - 19.16-1
+- Modify LocaledWrapper to use our safe_dbus module (#928287) (vpodzime)
+- Add module providing safe DBus operations (vpodzime)
+- Define a DEFAULT_DBUS_TIMEOUT constant and use it (vpodzime)
+- Execute the yum transaction in another process (bcl)
+- Add anaconda-yum (bcl)
+- Add execReadlines utility (bcl)
+- Use namedtuple instead of our magic tuples (vpodzime)
+- Tell python-meh architecture of the anaconda package (vpodzime)
+- Add release number to the result of getAnacondaVersion (vpodzime)
+- Fix _isys.so location in the updates.img (vpodzime)
+- Network spoke: Fix reading of device type from combobox (#947120) (rvykydal)
+
 * Tue Apr 02 2013 Brian C. Lane <bcl@redhat.com> - 19.15-1
 - Fix two small problems with the UID/GID spin buttons (#929173, #929138).
   (clumens)
