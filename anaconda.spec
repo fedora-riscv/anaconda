@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 19.16
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -207,6 +207,7 @@ update-desktop-database &> /dev/null || :
 %{_libdir}/python*/site-packages/log_picker/*
 %{_bindir}/analog
 %{_bindir}/anaconda-cleanup
+%{_bindir}/anaconda-yum
 %ifarch %livearches
 %{_bindir}/liveinst
 %{_sbindir}/liveinst
@@ -234,6 +235,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/lib/dracut/modules.d/80%{name}/*
 
 %changelog
+* Thu Apr 04 2013 Brian C. Lane <bcl@redhat.com> 19.16-2
+- Add anaconda-yum to %files
+
 * Thu Apr 04 2013 Brian C. Lane <bcl@redhat.com> - 19.16-1
 - Modify LocaledWrapper to use our safe_dbus module (#928287) (vpodzime)
 - Add module providing safe DBus operations (vpodzime)
