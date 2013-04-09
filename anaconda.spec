@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 19.16
-Release: 2%{?dist}
+Version: 19.17
+Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -36,6 +36,8 @@ Source0: %{name}-%{version}.tar.bz2
 %define utillinuxver 2.15.1
 %define dracutver 024-25
 %define isomd5sum 1.0.10
+%define fcoeutilsver 1.0.12-3.20100323git
+%define iscsiver 6.2.0.870-3
 
 BuildRequires: audit-libs-devel
 BuildRequires: gettext >= %{gettextver}
@@ -70,7 +72,7 @@ BuildRequires: s390utils-devel
 %endif
 
 Requires: anaconda-widgets = %{version}-%{release}
-Requires: python-blivet >= 0.8
+Requires: python-blivet >= 0.10
 Requires: gnome-icon-theme-symbolic
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
@@ -115,6 +117,16 @@ Requires: chrony
 Requires: rdate
 Requires: rsync
 Requires: hostname
+%ifnarch s390 s390x
+Requires: fcoe-utils >= %{fcoeutilsver}
+%endif
+Requires: iscsi-initiator-utils >= %{iscsiver}
+%ifarch %{ix86} x86_64 ia64
+Requires: dmidecode
+%if ! 0%{?rhel}
+Requires: hfsplus-tools
+%endif
+%endif
 Obsoletes: anaconda-images <= 10
 Provides: anaconda-images = %{version}-%{release}
 Obsoletes: anaconda-runtime < %{version}-%{release}
@@ -196,7 +208,6 @@ update-desktop-database &> /dev/null || :
 %doc docs/mediacheck.txt
 %{_unitdir}/*
 %{_prefix}/lib/systemd/system-generators/*
-%{_prefix}/lib/udev/rules.d/70-anaconda.rules
 %{_bindir}/instperf
 %{_sbindir}/anaconda
 %{_sbindir}/handle-sshpw
@@ -235,8 +246,35 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/lib/dracut/modules.d/80%{name}/*
 
 %changelog
-* Thu Apr 04 2013 Brian C. Lane <bcl@redhat.com> 19.16-2
-- Add anaconda-yum to %files
+* Tue Apr 09 2013 Brian C. Lane <bcl@redhat.com> - 19.17-1
+- Pass open file to execWithRedirect for vncpasswd (#948638) (bcl)
+- Fix ip= saving in parse-kickstart (hamzy)
+- Fix initial raid level when switching to a raid-capable device type.
+  (dlehman)
+- The raid level combo cannot be not sensitive for preexisting devices.
+  (dlehman)
+- Make sure fstype combo is not sensitive for btrfs devices. (dlehman)
+- Add an entry to the raid level combo for btrfs' single. (dlehman)
+- Clean up _save_right_side and adapt to changes in blivet.devicefactory.
+  (dlehman)
+- Remove anaconda's udev rules. (dlehman)
+- Add requires for some things that aren't strictly required by blivet.
+  (dlehman)
+- Parent's finalize method needs self (vpodzime)
+- Use Sphinx syntax for docstrings (vpodzime)
+- Use None for unbounded size requests. (dlehman)
+- Disable yum lock debugging for the final release. (clumens)
+- The source spoke should display something nicer than "Not ready" (#948112).
+  (clumens)
+- Don't run storage execution in an endless loop (#948331, #948285). (clumens)
+- If an incorrect source is given for a ks install, don't fallback (#948212).
+  (clumens)
+- Fix a bug when creating a new mountpoint with no given size (#948228).
+  (clumens)
+- memInstalled has moved (#947261). (clumens)
+- Correctly report an error if OSError is hit when setting up the source
+  (#947634). (clumens)
+- Add anaconda-yum to %%files (bcl)
 
 * Thu Apr 04 2013 Brian C. Lane <bcl@redhat.com> - 19.16-1
 - Modify LocaledWrapper to use our safe_dbus module (#928287) (vpodzime)
