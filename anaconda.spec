@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 19.22
+Version: 19.23
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -38,6 +38,8 @@ Source0: %{name}-%{version}.tar.bz2
 %define isomd5sum 1.0.10
 %define fcoeutilsver 1.0.12-3.20100323git
 %define iscsiver 6.2.0.870-3
+%define rpmver 4.10.0
+%define libarchivever 3.0.4
 
 BuildRequires: audit-libs-devel
 BuildRequires: gettext >= %{gettextver}
@@ -64,6 +66,8 @@ BuildRequires: NetworkManager-devel >= %{nmver}
 BuildRequires: NetworkManager-glib-devel >= %{nmver}
 BuildRequires: dbus-devel >= %{dbusver}
 BuildRequires: dbus-python
+BuildRequires: rpm-devel >= %{rpmver}
+BuildRequires: libarchive-devel >= %{libarchivever}
 %ifarch %livearches
 BuildRequires: desktop-file-utils
 %endif
@@ -159,7 +163,6 @@ documentation for working with this library.
 
 %package dracut
 Summary: The anaconda dracut module
-BuildArch: noarch
 Requires: dracut >= %{dracutver}
 Requires: dracut-network
 Requires: xz
@@ -244,8 +247,42 @@ update-desktop-database &> /dev/null || :
 %files dracut
 %dir %{_prefix}/lib/dracut/modules.d/80%{name}
 %{_prefix}/lib/dracut/modules.d/80%{name}/*
+%{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Apr 29 2013 Brian C. Lane <bcl@redhat.com> - 19.23-1
+- Only check mandatory spokes in automated install (#956960,#895258) (bcl)
+- Add scratch-bumpver target (bcl)
+- Add Driver Update Disk repo handling to Anaconda (bcl)
+- Add Driver Update Disk support to anaconda-dracut (bcl)
+- Port driver update utilities from loader (bcl)
+- Fix a typo. (clumens)
+- Do not translate a blank window name. (clumens)
+- Add a separator under the default language on the welcome screen. (clumens)
+- Move the selected language to the top of the list on the welcome screen.
+  (clumens)
+- Remove the unused LanguageSpoke. (clumens)
+- Add the "Add FCoE" dialog (#903122). (clumens)
+- Allow enabling /etc/anaconda.repos.d repos like the docs say (#955724).
+  (clumens)
+- Move where the password quality checker is created (#956049). (clumens)
+- Allow multiple disk selection with Shift-click (#864707) (vpodzime)
+- Select all disks in the box with advanced storage as well (vpodzime)
+- Don't change DiskOverview's background on 'chosen' changed (vpodzime)
+- Fix number of arguments for languageGroups (liveDVD class) (#957038)
+  (rvykydal)
+- Apply some minor padding fixes on the container editing dialog. (clumens)
+- If no root password was given, lock root's account (#927922). (clumens)
+- Remove some unneeded boxes and alignments in the NTP config dialog. (clumens)
+- Default to using the iscsi discovery credentials for login, if provided.
+  (clumens)
+- langsupport spoke: keep data.lang.lang first in status of spoke (rvykydal)
+- Unpack property value returned by GDBus before using it (#956614) (rvykydal)
+- Don't traceback when no activated devices were found for ks network default
+  (#956614) (rvykydal)
+- Ask about VNC also in connecting state, not only connected (#952801)
+  (rvykydal)
+
 * Wed Apr 24 2013 Brian C. Lane <bcl@redhat.com> - 19.22-1
 - Container management improvements. (dlehman)
 - Include swap-related disk space needs in storage options dialogs. (#951269)
