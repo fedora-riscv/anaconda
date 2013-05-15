@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 19.25
+Version: 19.26
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -57,6 +57,9 @@ BuildRequires: libnl-devel >= %{libnlver}
 BuildRequires: libxklavier-devel
 BuildRequires: pango-devel
 BuildRequires: pykickstart >= %{pykickstartver}
+%if ! 0%{?rhel}
+BuildRequires: python-bugzilla
+%endif
 BuildRequires: python-devel
 BuildRequires: python-urlgrabber >= %{pythonurlgrabberver}
 BuildRequires: python-nose
@@ -95,13 +98,13 @@ Requires: firewalld >= %{firewalldver}
 Requires: util-linux >= %{utillinuxver}
 Requires: dbus-python
 Requires: python-pwquality
-Requires: python-bugzilla
 Requires: python-IPy
 Requires: python-nss
 Requires: tigervnc-server-minimal
 Requires: pytz
 Requires: libxklavier
 Requires: libgnomekbd
+Requires: realmd
 %ifarch %livearches
 Requires: usermode
 Requires: zenity
@@ -250,6 +253,28 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed May 15 2013 Brian C. Lane <bcl@redhat.com> - 19.26-1
+- Pressing Delete on custom part should remove the selected mountpoint.
+  (clumens)
+- Use the same text formatting on the langsupport spoke as on the welcome
+  spoke. (clumens)
+- Remove the now-unused LanguageMixIn. (clumens)
+- Do not BuildRequire python-bugzilla on RHEL (#953182) (dcantrell)
+- Don't require network configuration in Live DVD (#962485) (rvykydal)
+- Set default FS choice to LVM in text mode (#962600) (sbueno+anaconda)
+- Move udev rules generation to pre-trigger (#958924) (bcl)
+- Suggest names for btrfs mountpoints (bcl)
+- Use a method to reset current_selector (#959707) (bcl)
+- Fix non-default language being hidden in welcome spoke (mkolman)
+- Mark placeholder text in add addtnl keyboard screen as translatable.
+  (sbueno+anaconda)
+- Mark language search string translatable. (#955229) (sbueno+anaconda)
+- Remove the get_current_layout_name function (#895766) (vpodzime)
+- Add support for the realm command (mkolman)
+- Revert "Add support for the realm command" (mkolman)
+- Add support for the realm command (mkolman)
+- Support for getting NTP servers from DHCP (#862755) (mkolman)
+
 * Thu May 09 2013 Brian C. Lane <bcl@redhat.com> - 19.25-1
 - Change the buttons on the quit dialog. (clumens)
 - Add FONT=latarcyrheb-sun16 to /etc/vconsole.conf (vpodzime)
