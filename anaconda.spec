@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 19.27
+Version: 19.28
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -253,6 +253,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu May 16 2013 Brian C. Lane <bcl@redhat.com> - 19.28-1
+- Remove testing leftover (#963503) (rvykydal)
+
 * Wed May 15 2013 Brian C. Lane <bcl@redhat.com> - 19.27-1
 - Partial fix for screen resize problems (#869364) (clumens)
 - Remove an extra call to page clicked handler from refresh. (#959722)
