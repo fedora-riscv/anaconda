@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 19.30
+Version: 19.30.1
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -22,7 +22,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define intltoolver 0.31.2-3
 %define libnlver 1.0
 %define pykickstartver 1.99.30
-%define yumver 3.4.3-32
+%define yumver 3.4.3-91
 %define partedver 1.8.1
 %define pypartedver 2.5-2
 %define pythonpyblockver 0.45
@@ -253,7 +253,28 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Wed May 22 2013 Brian C. Lane <bcl@redhat.com> - 19.30-1
+* Wed May 29 2013 Brian C. Lane <bcl@redhat.com> - 19.30.1-1
+- Filter out also protected disks in doKickstartStorage (#959677) (vpodzime)
+- Create empty /etc/sysconfig/network for network service (#957897) (rvykydal)
+- Add \n when writing to stdout in _run_program (#957383) (bcl)
+- Mark software and source text UI spokes for translation. (sbueno+anaconda)
+- Destroy the modify volume group dialog on escape, too (#965755). (clumens)
+- Restart syslog for remote logging (#966464) (bcl)
+- Ignore rescue kernels (#958906) (bcl)
+- Prevent false-positives when checking for changed mountpoint. (#966070)
+  (dlehman)
+- Only update selectors' size property after scheduling a resize. (dlehman)
+- Add stub environment functions for default addons; bump yum requirement.
+  (notting)
+- Allow addons marked with 'default=true' to be selected by default. (notting)
+- Get rid of $GLADEPATH and $PIXMAPPATH. (clumens)
+- Ship our own copy of the warning triangle icon (#963958). (clumens)
+- Show all devices on the filter screens, even hidden ones (#955664). (clumens)
+- First check connecting, then connected state (#952801) (rvykydal)
+- Add support for the Interlingua language (#872423). (clumens)
+- Be explicit about which icon theme we want to use (#965365). (clumens)
+
+* Thu May 23 2013 Brian C. Lane <bcl@redhat.com> - 19.30-1
 - Fix software selection in text UI. (#965974) (sbueno+anaconda)
 - Don't call _update_summary from within _add_disk_overview. (clumens)
 - getDisks should not return a list that has duplicates in it. (clumens)
