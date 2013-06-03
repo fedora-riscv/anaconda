@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 19.30.1
+Version: 19.30.2
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -253,26 +253,17 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Jun 03 2013 Brian C. Lane <bcl@redhat.com> - 19.30.2-1
+- Add some more details to disk list in storage spoke. (#965592)
+  (sbueno+anaconda)
+- After handling a transaction error, quit instead of doing a traceback.
+  (clumens)
+- Print transaction errors in anaconda-yum so they are displayed in the UI.
+  (clumens)
+- Add variable substitution to repo urls (#967531) (bcl)
+
 * Wed May 29 2013 Brian C. Lane <bcl@redhat.com> - 19.30.1-1
-- Filter out also protected disks in doKickstartStorage (#959677) (vpodzime)
-- Create empty /etc/sysconfig/network for network service (#957897) (rvykydal)
-- Add \n when writing to stdout in _run_program (#957383) (bcl)
-- Mark software and source text UI spokes for translation. (sbueno+anaconda)
-- Destroy the modify volume group dialog on escape, too (#965755). (clumens)
-- Restart syslog for remote logging (#966464) (bcl)
-- Ignore rescue kernels (#958906) (bcl)
-- Prevent false-positives when checking for changed mountpoint. (#966070)
-  (dlehman)
-- Only update selectors' size property after scheduling a resize. (dlehman)
-- Add stub environment functions for default addons; bump yum requirement.
-  (notting)
-- Allow addons marked with 'default=true' to be selected by default. (notting)
-- Get rid of $GLADEPATH and $PIXMAPPATH. (clumens)
-- Ship our own copy of the warning triangle icon (#963958). (clumens)
-- Show all devices on the filter screens, even hidden ones (#955664). (clumens)
-- First check connecting, then connected state (#952801) (rvykydal)
-- Add support for the Interlingua language (#872423). (clumens)
-- Be explicit about which icon theme we want to use (#965365). (clumens)
+-  ()
 
 * Thu May 23 2013 Brian C. Lane <bcl@redhat.com> - 19.30-1
 - Fix software selection in text UI. (#965974) (sbueno+anaconda)
