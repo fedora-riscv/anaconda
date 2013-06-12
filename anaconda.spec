@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 19.30.4
+Version: 19.30.5
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -253,6 +253,11 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Jun 12 2013 Brian C. Lane <bcl@redhat.com> - 19.30.5-1
+- Branch transifex for f19 and updates docs (bcl)
+- Revert "Network spoke: add secret agent (static wep and wpa)" (bcl)
+- Delete yum object when finished (bcl)
+
 * Tue Jun 11 2013 Brian C. Lane <bcl@redhat.com> - 19.30.4-1
 - Set environment before selecting it (#971109) (bcl)
 - Add documentation for the geoloc boot option (mkolman)
