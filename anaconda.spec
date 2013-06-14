@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 19.30.5
+Version: 19.30.6
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -21,7 +21,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define gconfversion 2.28.1
 %define intltoolver 0.31.2-3
 %define libnlver 1.0
-%define pykickstartver 1.99.30
+%define pykickstartver 1.99.32
 %define yumver 3.4.3-91
 %define partedver 1.8.1
 %define pypartedver 2.5-2
@@ -40,6 +40,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define iscsiver 6.2.0.870-3
 %define rpmver 4.10.0
 %define libarchivever 3.0.4
+%define langtablever 0.0.5-1
 
 BuildRequires: audit-libs-devel
 BuildRequires: gettext >= %{gettextver}
@@ -79,7 +80,7 @@ BuildRequires: s390utils-devel
 %endif
 
 Requires: anaconda-widgets = %{version}-%{release}
-Requires: python-blivet >= 0.12
+Requires: python-blivet >= 0.16
 Requires: gnome-icon-theme-symbolic
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
@@ -92,6 +93,8 @@ Requires: python-urlgrabber >= %{pythonurlgrabberver}
 Requires: system-logos
 Requires: pykickstart >= %{pykickstartver}
 Requires: python-babel
+Requires: langtable-data >= %{langtablever}
+Requires: langtable-python >= %{langtablever}
 Requires: libuser-python
 Requires: authconfig
 Requires: firewalld >= %{firewalldver}
@@ -253,6 +256,20 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Jun 14 2013 Brian C. Lane <bcl@redhat.com> - 19.30.6-1
+- Use langtable instead of our magic tables and hacks (vpodzime)
+- Network spoke: re-run nm-c-e on second [Configure] click (#972959) (rvykydal)
+- Add custom storage configuration to ksdata. (#929119) (dlehman)
+- Don't try to install ntfsprogs in rhel since it isn't included. (#964586)
+  (dlehman)
+- Update kickstart md array name specification to not use minors. (#965299)
+  (dlehman)
+- Wait for storage execute to finish (bcl)
+- Prevent StorageSpoke.execute from running multiple times (#966761, #967527).
+  (clumens)
+- Put days GtkListStore before it is referenced (bcl)
+- s390 doesn't have the hwclock utility (#973999) (vpodzime)
+
 * Wed Jun 12 2013 Brian C. Lane <bcl@redhat.com> - 19.30.5-1
 - Branch transifex for f19 and updates docs (bcl)
 - Revert "Network spoke: add secret agent (static wep and wpa)" (bcl)
