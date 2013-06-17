@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 19.30.7
+Version: 19.30.8
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -256,6 +256,11 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Jun 17 2013 Brian C. Lane <bcl@redhat.com> - 19.30.8-1
+- Revert "Revert "Network spoke: add secret agent (static wep and wpa)"" (bcl)
+- The delete key shouldn't always delete a mountpoint (#969197, #970185).
+  (clumens)
+
 * Fri Jun 14 2013 Brian C. Lane <bcl@redhat.com> - 19.30.7-1
 - Update Raid to use F19_Raid. (#974689) (dlehman)
 - Don't use any grub theme by default. (pjones)
