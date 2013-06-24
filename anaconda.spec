@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 19.30.10
+Version: 19.30.11
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -256,6 +256,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Jun 24 2013 Brian C. Lane <bcl@redhat.com> - 19.30.11-1
+- Convert escaped spaces on cmdline to _ (#874381) (bcl)
+
 * Mon Jun 24 2013 Brian C. Lane <bcl@redhat.com> - 19.30.10-1
 - Translate None for LVM RAID selection (#974801) (bcl)
 - Add a way to validate unmodified preexisting stage1 devices.
