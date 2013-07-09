@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 19.30
+Version: 20.1
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -21,8 +21,8 @@ Source0: %{name}-%{version}.tar.bz2
 %define gconfversion 2.28.1
 %define intltoolver 0.31.2-3
 %define libnlver 1.0
-%define pykickstartver 1.99.30
-%define yumver 3.4.3-32
+%define pykickstartver 1.99.33
+%define yumver 3.4.3-91
 %define partedver 1.8.1
 %define pypartedver 2.5-2
 %define pythonpyblockver 0.45
@@ -40,6 +40,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define iscsiver 6.2.0.870-3
 %define rpmver 4.10.0
 %define libarchivever 3.0.4
+%define langtablever 0.0.5-1
 
 BuildRequires: audit-libs-devel
 BuildRequires: gettext >= %{gettextver}
@@ -79,7 +80,7 @@ BuildRequires: s390utils-devel
 %endif
 
 Requires: anaconda-widgets = %{version}-%{release}
-Requires: python-blivet >= 0.12
+Requires: python-blivet >= 0.18
 Requires: gnome-icon-theme-symbolic
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
@@ -92,6 +93,8 @@ Requires: python-urlgrabber >= %{pythonurlgrabberver}
 Requires: system-logos
 Requires: pykickstart >= %{pykickstartver}
 Requires: python-babel
+Requires: langtable-data >= %{langtablever}
+Requires: langtable-python >= %{langtablever}
 Requires: libuser-python
 Requires: authconfig
 Requires: firewalld >= %{firewalldver}
@@ -253,7 +256,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Wed May 22 2013 Brian C. Lane <bcl@redhat.com> - 19.30-1
+* Tue Jul 09 2013 Brian C. Lane <bcl@redhat.com> - 20.1-1
+
+* Thu May 23 2013 Brian C. Lane <bcl@redhat.com> - 19.30-1
 - Fix software selection in text UI. (#965974) (sbueno+anaconda)
 - Don't call _update_summary from within _add_disk_overview. (clumens)
 - getDisks should not return a list that has duplicates in it. (clumens)
