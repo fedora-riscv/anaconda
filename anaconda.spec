@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 20.1
+Version: 20.2
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -40,7 +40,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define iscsiver 6.2.0.870-3
 %define rpmver 4.10.0
 %define libarchivever 3.0.4
-%define langtablever 0.0.5-1
+%define langtablever 0.0.7-1
 
 BuildRequires: audit-libs-devel
 BuildRequires: gettext >= %{gettextver}
@@ -92,7 +92,6 @@ Requires: yum >= %{yumver}
 Requires: python-urlgrabber >= %{pythonurlgrabberver}
 Requires: system-logos
 Requires: pykickstart >= %{pykickstartver}
-Requires: python-babel
 Requires: langtable-data >= %{langtablever}
 Requires: langtable-python >= %{langtablever}
 Requires: libuser-python
@@ -256,6 +255,15 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Jul 15 2013 Brian C. Lane <bcl@redhat.com> - 20.2-1
+- Use the new wait for connectivity function (mkolman)
+- Improve waiting for network connectivity (mkolman)
+- Use langtable to get default layout instead of our magic (#485137) (vpodzime)
+- Adapt to the new localization module (vpodzime)
+- Rewrite the localization module (vpodzime)
+- Make the Welcome spoke wait for Geolocation lookup to finish (#975193)
+  (mkolman)
+
 * Tue Jul 09 2013 Brian C. Lane <bcl@redhat.com> - 20.1-1
 
 * Thu May 23 2013 Brian C. Lane <bcl@redhat.com> - 19.30-1
