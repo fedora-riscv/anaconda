@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 20.10
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -255,6 +255,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Sep 04 2013 Kalev Lember <kalevlember@gmail.com> - 20.10-2
+- Rebuilt for libgladeui soname bump
+
 * Tue Sep 03 2013 Brian C. Lane <bcl@redhat.com> - 20.10-1
 - Optionally hide the GUI option to install updates (dshea)
 - Move the really_hide and really_show functions to utils (vpodzime)
