@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 20.20
+Version: 20.21
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -21,7 +21,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define gconfversion 2.28.1
 %define intltoolver 0.31.2-3
 %define libnlver 1.0
-%define pykickstartver 1.99.36
+%define pykickstartver 1.99.41
 %define yumver 3.4.3-91
 %define partedver 1.8.1
 %define pypartedver 2.5-2
@@ -220,11 +220,9 @@ update-desktop-database &> /dev/null || :
 %{_bindir}/instperf
 %{_sbindir}/anaconda
 %{_sbindir}/handle-sshpw
-%{_sbindir}/logpicker
 %{_datadir}/anaconda
 %{_prefix}/libexec/anaconda
 %{_libdir}/python*/site-packages/pyanaconda/*
-%{_libdir}/python*/site-packages/log_picker/*
 %{_bindir}/analog
 %{_bindir}/anaconda-cleanup
 %ifarch %livearches
@@ -255,6 +253,39 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Sep 27 2013 Brian C. Lane <bcl@redhat.com> - 20.21-1
+- Remove another reference to log_picker. (clumens)
+- Turn spinner back on for configuration (bcl)
+- Use assertIsInstance in the kickstart version test. (clumens)
+- If the full device path is given in repo=hd:, still select it in the UI
+  (#980479). (clumens)
+- Display newly created partitions without a mountpoint, too (#886039).
+  (clumens)
+- Don't require pressing escape twice to kill the media check window (#965625).
+  (clumens)
+- Fix display of weak password warning (#1011850) (dshea)
+- Fix the tui simpleline imports. (dshea)
+- Don't confuse users by misleading tooltip (#1011112) (vpodzime)
+- Assorted other pylint fixes for scripts and utils (dshea)
+- Pass string format arguments as paramters to logging (dshea)
+- Ignore the use of func_globals in a test case (dshea)
+- Fix issues in the AnacondaWidgets python wrapper (dshea)
+- Make exception handling more specific (dshea)
+- Remove unused imports and variables (dshea)
+- Remove unnecessary lambdas (dshea)
+- Remove obsolete files. (dshea)
+- Check whether the commit matches the tree (dshea)
+- Run pylint on all python files (dshea)
+- Don't use relative imports (dshea)
+- Use g_signal_handler_disconnect instead of g_object_disconnect (#1010486)
+  (vpodzime)
+- Fixup Eula class (bcl)
+- Allow searching for keyboard layouts in English (#1009806) (vpodzime)
+- network: don't create ksdata for devices enslaved in GUI (#1011826)
+  (rvykydal)
+- Allow a proxy to be set before the method is saved (#1012096) (dshea)
+- Export the pykickstart Eula command (vpodzime)
+
 * Wed Sep 25 2013 Brian C. Lane <bcl@redhat.com> - 20.20-1
 - Encrypt normal user passwords when doing text install. (#977732)
   (sbueno+anaconda)
