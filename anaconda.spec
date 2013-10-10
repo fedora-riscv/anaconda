@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 20.23
+Version: 20.24
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -81,7 +81,7 @@ BuildRequires: s390utils-devel
 
 Requires: anaconda-widgets = %{version}-%{release}
 Requires: dnf
-Requires: python-blivet >= 0.18
+Requires: python-blivet >= 0.23
 Requires: gnome-icon-theme-symbolic
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
@@ -253,6 +253,20 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Oct 09 2013 Brian C. Lane <bcl@redhat.com> - 20.24-1
+- Clear bootDisk and bootloader stage info on errors (#1013482) (bcl)
+- Catch BootLoaderError when setting up bootloader (#1013474) (bcl)
+- Fix an incorrect formatting string in makeupdates. (clumens)
+- network: remove function we don't need anymore (rvykydal)
+- Don't translate constant strings. (dshea)
+- Take into account disk space when calculating swap suggestion (#1016673)
+  (vpodzime)
+- DNFPayload: adapt to DNF change c3de85d6 of Base.install() error reporting.
+  (ales)
+- DNFPayload: the new libcomps makes env.option_ids a list of GroupID objects.
+  (ales)
+- Fix warning message when package version is not found in Koji (mkolman)
+
 * Tue Oct 08 2013 Brian C. Lane <bcl@redhat.com> - 20.23-1
 - Use Unicode in the TUI buffer strings (#1015620) (dshea)
 - DNFPayload: install DNF itself. (ales)
