@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 20.24
+Version: 20.25
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -31,7 +31,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define yumutilsver 1.1.11-3
 %define mehver 0.23-1
 %define sckeyboardver 1.3.1
-%define firewalldver 0.2.9-1
+%define firewalldver 0.3.5-1
 %define pythonurlgrabberver 3.9.1-5
 %define utillinuxver 2.15.1
 %define dracutver 024-25
@@ -253,6 +253,24 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Oct 11 2013 Brian C. Lane <bcl@redhat.com> - 20.25-1
+- Don't use g_object_set on initialized objects. (dshea)
+- Remove the "other" tab in the network spoke. (dshea)
+- Fix duplicated id in custom.glade (dshea)
+- Correctly generate rescue initrd (#1013087) (bcl)
+- Refresh swap suggestion once we know which disks to use (vpodzime)
+- Initialize the kickstart install method (#1017614) (dshea)
+- Use correct format for raise in kickstart.py (bcl)
+- Add install-requires target to the Anaconda makefile (mkolman)
+- fix luksformat references (#1014493) (bcl)
+- kickstart: check for correct format (#1014545) (bcl)
+- Add checks for unexpanded macros. (dshea)
+- UIScreen doesn't necessarily have the ready property (vpodzime)
+- Print long widgets in a nice way (vpodzime)
+- Consider errno 5 I/O errors hardware faults (vpodzime)
+- Install kernel-lpae if supported (#1013015) (vpodzime)
+- Bump firewalld version (mkolman)
+
 * Wed Oct 09 2013 Brian C. Lane <bcl@redhat.com> - 20.24-1
 - Clear bootDisk and bootloader stage info on errors (#1013482) (bcl)
 - Catch BootLoaderError when setting up bootloader (#1013474) (bcl)
