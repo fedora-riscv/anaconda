@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 20.25
+Version: 20.26
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -23,6 +23,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define libnlver 1.0
 %define pykickstartver 1.99.42
 %define yumver 3.4.3-91
+%define dnfver 0.4.4
 %define partedver 1.8.1
 %define pypartedver 2.5-2
 %define pythonpyblockver 0.45
@@ -80,8 +81,8 @@ BuildRequires: s390utils-devel
 %endif
 
 Requires: anaconda-widgets = %{version}-%{release}
-Requires: dnf
-Requires: python-blivet >= 0.23
+Requires: dnf >= %{dnfver}
+Requires: python-blivet >= 0.24
 Requires: gnome-icon-theme-symbolic
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
@@ -253,6 +254,42 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Oct 16 2013 Brian C. Lane <bcl@redhat.com> - 20.26-1
+- Install bootloader to loop device in disk image installations. (#1019502)
+  (dlehman)
+- Don't try to configure a bootloader for s390 disk image installs. (#1019502)
+  (dlehman)
+- Fix initramfs generation for disk image installations. (#1019502) (dlehman)
+- Save mountpoints specified for existing btrfs volumes. (#892747) (dlehman)
+- Add a command line option for disabling friendly multipath names. (#977815)
+  (dlehman)
+- Remove en (dshea)
+- "Fix" the zSeries device filter "label" (dshea)
+- Replace placeholders with the strings from python (dshea)
+- Add and fix keyboard accelerators (dshea)
+- Check for labels with use_underline and no accelerator (dshea)
+- Support checking the translation of plural strings (dshea)
+- Specify a node id in check_accelerator exceptions (dshea)
+- BTRFS cannot hold swap, no need to care about fstab swaps (vpodzime)
+- Add ANACONDA_INSTALL_CLASSES to testenv.sh. (clumens)
+- Put a version on the DNF requirement. (clumens)
+- Revert "For now, ignore checking dnfpayload.py with pylint." (clumens)
+- Fix the alignment of the Network Time switch (#1019301) (dshea)
+- Tell blivet which swaps should appear in the fstab (#1011391) (vpodzime)
+- Put only newly created or reformated swaps to the new root (vpodzime)
+- Make code to get new devices reusable as property (vpodzime)
+- Grab journal only from the last boot (vpodzime)
+- DNFPayload: allow enable/disable calls for repos that do not exist. (ales)
+- Add shell spoke to s390x installations (vpodzime)
+- Put TUI spokes in common categories (vpodzime)
+- MountpointSelector is a widget, set its property properly (#1013612)
+  (vpodzime)
+- Include the journal log on installed system (bcl)
+- DNFPayload: error handling and logging cleanups. (ales)
+- DNFPayload: reset the transaction goal on new package selection check. (ales)
+- DNFPayload: implement environmentGroups() (ales)
+- Some partition scheme is always selected (#1017435) (vpodzime)
+
 * Fri Oct 11 2013 Brian C. Lane <bcl@redhat.com> - 20.25-1
 - Don't use g_object_set on initialized objects. (dshea)
 - Remove the "other" tab in the network spoke. (dshea)
