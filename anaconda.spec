@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 20.25.1
+Version: 20.25.2
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -34,7 +34,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define firewalldver 0.3.5-1
 %define pythonurlgrabberver 3.9.1-5
 %define utillinuxver 2.15.1
-%define dracutver 024-25
+%define dracutver 034-7
 %define isomd5sum 1.0.10
 %define fcoeutilsver 1.0.12-3.20100323git
 %define iscsiver 6.2.0.870-3
@@ -253,6 +253,21 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Oct 21 2013 Brian C. Lane <bcl@redhat.com> - 20.25.2-1
+- Adds additional debug logging to yumpayload.py. (amulhern)
+- Handle invalid JSON in geoloc (#1021410) (dshea)
+- Revert "Only prompt for LUKS password if the user has chosen to configure
+  automatically." (amulhern)
+- Reset checks on both password fields. (#1020580) (dshea)
+- Fix swaps added to fstab for noformat (gene)
+- Don't update hub's continue button and label for every spoke (#1020373)
+  (vpodzime)
+- BootLoaderError should not reset storage (#1019541) (bcl)
+- Only prompt for LUKS password if the user has chosen to configure
+  automatically. (amulhern)
+- network gui spoke: use GDBus to obtain list of settings (#1018467) (rvykydal)
+- Fix liveinst to work with livemedia-creator (#1009711) (bcl)
+
 * Wed Oct 16 2013 Brian C. Lane <bcl@redhat.com> - 20.25.1-1
 - New transifex branch for f20 (bcl)
 - Fix python-blivet buildrequires for new f20-branch version. (dlehman)
