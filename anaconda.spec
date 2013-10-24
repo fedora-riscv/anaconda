@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 20.25.2
+Version: 20.25.3
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -253,6 +253,11 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Oct 23 2013 Brian C. Lane <bcl@redhat.com> - 20.25.3-1
+- remove signal disconnect (#996899) (bcl)
+- Always use decimal notation for Size specs (dshea)
+- Use more general status for installations from media (#1017703) (vpodzime)
+
 * Mon Oct 21 2013 Brian C. Lane <bcl@redhat.com> - 20.25.2-1
 - Adds additional debug logging to yumpayload.py. (amulhern)
 - Handle invalid JSON in geoloc (#1021410) (dshea)
