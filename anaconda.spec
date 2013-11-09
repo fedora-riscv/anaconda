@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.5
+Version: 21.6
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -41,7 +41,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define iscsiver 6.2.0.870-3
 %define rpmver 4.10.0
 %define libarchivever 3.0.4
-%define langtablever 0.0.7-1
+%define langtablever 0.0.18-1
 
 BuildRequires: audit-libs-devel
 BuildRequires: gettext >= %{gettextver}
@@ -213,9 +213,6 @@ update-desktop-database &> /dev/null || :
 
 %files -f %{name}.lang
 %doc COPYING
-%doc docs/command-line.txt
-%doc docs/install-methods.txt
-%doc docs/mediacheck.txt
 %{_unitdir}/*
 %{_prefix}/lib/systemd/system-generators/*
 %{_bindir}/instperf
@@ -254,6 +251,27 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Nov 08 2013 Brian C. Lane <bcl@redhat.com> - 21.6-1
+- Fix typos in translation functions (dshea)
+- Put the cityCompletion back on the list of widgets (vpodzime)
+- Do not translate strings defined at the module or class level. (clumens)
+- Fix a couple places where we're doing %% inside of _(). (clumens)
+- Add a custom pylint module to check i18n problems. (clumens)
+- Remove an unused import. (clumens)
+- Provide our own sorting functions for regions and timezones (#1025029)
+  (vpodzime)
+- Set locale for our process (vpodzime)
+- Translate timezones in GUI (vpodzime)
+- network gui: add apply tooltip to Configure button (#1018471) (rvykydal)
+- Make dialog return code checking more robust (amulhern)
+- Show last 4 bytes of wwid (#1024966) (jstodola)
+- Handle focus changes of MountpointSelectors from outside (#975838) (vpodzime)
+- network: do not crash when device for network --device is not found
+  (#1023829) (rvykydal)
+- Log continuing from hub if there are no spokes (vpodzime)
+- Updates to boot-options.txt document (#1026449) (amulhern)
+- No longer install anaconda user documentation (#1026449) (amulhern)
+
 * Fri Nov 01 2013 Brian C. Lane <bcl@redhat.com> - 21.5-1
 - Fix spoke sorting issues in text-mode. (#929177) (sbueno+anaconda)
 - Send the continue click after the queue is empty (#1025347) (bcl)
