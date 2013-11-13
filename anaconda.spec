@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 20.25.6
+Version: 20.25.7
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -21,7 +21,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define gconfversion 2.28.1
 %define intltoolver 0.31.2-3
 %define libnlver 1.0
-%define pykickstartver 1.99.42
+%define pykickstartver 1.99.46
 %define yumver 3.4.3-91
 %define partedver 1.8.1
 %define pypartedver 2.5-2
@@ -40,7 +40,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define iscsiver 6.2.0.870-3
 %define rpmver 4.10.0
 %define libarchivever 3.0.4
-%define langtablever 0.0.7-1
+%define langtablever 0.0.18-1
 
 BuildRequires: audit-libs-devel
 BuildRequires: gettext >= %{gettextver}
@@ -80,8 +80,8 @@ BuildRequires: s390utils-devel
 %endif
 
 Requires: anaconda-widgets = %{version}-%{release}
-Requires: dnf
-Requires: python-blivet >= 0.23.3
+Requires: dnf >= 0.4.7
+Requires: python-blivet >= 0.23.5
 Requires: gnome-icon-theme-symbolic
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
@@ -212,9 +212,6 @@ update-desktop-database &> /dev/null || :
 
 %files -f %{name}.lang
 %doc COPYING
-%doc docs/command-line.txt
-%doc docs/install-methods.txt
-%doc docs/mediacheck.txt
 %{_unitdir}/*
 %{_prefix}/lib/systemd/system-generators/*
 %{_bindir}/instperf
@@ -253,6 +250,28 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Nov 12 2013 Brian C. Lane <bcl@redhat.com> - 20.25.7-1
+- use deepcopy on ksdata method (#1028243) (bcl)
+- Change source spoke proxy handling to use local copy (#967805) (bcl)
+- Add tmpfs support (#918621) (mkolman)
+- Match layouts with stripped accents in AddLayout dialog (vpodzime)
+- Sort layout descriptions properly (#1026238) (vpodzime)
+- Make AddLayout dialog persistent (vpodzime)
+- Use Sphinx syntax in the iutil module (vpodzime)
+- Fix issues in the datetime_spoke.glade file (#1028630) (vpodzime)
+- DNFPayload: tweak to the API changes in dnf-0.4.7. (ales)
+- Add tests for iutil (mkolman)
+- Remove duplicate definition of the regions GtkListStore (vpodzime)
+- Put the cityCompletion back on the list of widgets (vpodzime)
+- Provide our own sorting functions for regions and timezones (#1025029)
+  (vpodzime)
+- Set locale for our process (vpodzime)
+- Translate timezones in GUI (vpodzime)
+- Fix the selection of default groups (#1023263) (dshea)
+- Log continuing from hub if there are no spokes (vpodzime)
+- Updates to boot-options.txt document (#1026448) (amulhern)
+- No longer install anaconda user documentation (#1026448) (amulhern)
+
 * Fri Nov 01 2013 Brian C. Lane <bcl@redhat.com> - 20.25.6-1
 - Send the continue click after the queue is empty (#1025347) (bcl)
 - No longer use summary screen visit to decide whether bootloader has been
