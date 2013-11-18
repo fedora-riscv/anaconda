@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.6
+Version: 21.7
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -17,17 +17,19 @@ Source0: %{name}-%{version}.tar.bz2
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
-%define gettextver 0.18.1
+
+# Also update in AM_GNU_GETTEXT_VERSION in configure.ac
+%define gettextver 0.18.3
 %define gconfversion 2.28.1
 %define intltoolver 0.31.2-3
 %define libnlver 1.0
-%define pykickstartver 1.99.42
+%define pykickstartver 1.99.46
 %define yumver 3.4.3-91
-%define dnfver 0.4.4
+%define dnfver 0.4.7
 %define partedver 1.8.1
 %define pypartedver 2.5-2
 %define pythonpyblockver 0.45
-%define nmver 1:0.7.1-3.git20090414
+%define nmver 0.9.9.0-10.git20130906
 %define dbusver 1.2.3
 %define yumutilsver 1.1.11-3
 %define mehver 0.23-1
@@ -82,7 +84,7 @@ BuildRequires: s390utils-devel
 
 Requires: anaconda-widgets = %{version}-%{release}
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= 0.26
+Requires: python-blivet >= 0.27
 Requires: gnome-icon-theme-symbolic
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
@@ -109,6 +111,7 @@ Requires: pytz
 Requires: libxklavier
 Requires: libgnomekbd
 Requires: realmd
+Requires: teamd
 %ifarch %livearches
 Requires: usermode
 Requires: zenity
@@ -251,6 +254,56 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Nov 18 2013 Brian C. Lane <bcl@redhat.com> - 21.7-1
+- Expand the use of ANACONDA_WIDGETS_DATADIR. (dshea)
+- Make thread manager operations atomic (#1029898) (mkolman)
+- Run pylint in multiple processes (vpodzime)
+- Fix how "changed" signal is emitted on the TreeSelection (vpodzime)
+- Pass biosdevname boot option to installed system (#1023609) (rvykydal)
+- network: update required NetworkManager version (team support) (rvykydal)
+- Use timing decorator for more actions (vpodzime)
+- Add test for the have_word_match function (vpodzime)
+- A nice decorator making Anaconda's GUI more responsive (vpodzime)
+- Short-circuit layouts matching (vpodzime)
+- Enforce upper bound for resize. (#1027947) (dlehman)
+- Fix some pylint problems in network.py. (clumens)
+- Add an updates location for the AnacondaWidgets overrides (dshea)
+- Fix typo (#1003591) (rvykydal)
+- network: call GDBus proxy methods like python (rvykydal)
+- network: add team support for kickstart %%pre phase (#1003591) (rvykydal)
+- network: generate kickstart commands for team devices (#1003591) (rvykydal)
+- network: support for adding team devices (#1003591) (rvykydal)
+- network: display team devices in status (#1003591) (rvykydal)
+- network: add team support to kickstart (#1003591) (rvykydal)
+- Initialize the AddLayouts dialog in advance in the KeyboardSpoke (vpodzime)
+- Add function to map functions on items in the main thread (vpodzime)
+- Allow having unique thread names with given prefix (vpodzime)
+- Remove an unused and non-working leftover function resetResolve (vpodzime)
+- Always center dialogs shown on top of lightbox (vpodzime)
+- Set spokes' distribution and beta warning only once (vpodzime)
+- use deepcopy on ksdata method (#1028243) (bcl)
+- Change source spoke proxy handling to use local copy (#967805) (bcl)
+- Apply a little tweak to the VNC password length message. (clumens)
+- Match layouts with stripped accents in AddLayout dialog (vpodzime)
+- Sort layout descriptions properly (#1026238) (vpodzime)
+- Make AddLayout dialog persistent (vpodzime)
+- Use Sphinx syntax in the iutil module (vpodzime)
+- Warn if vnc passwd is longer than 8 chars (hamzy)
+- Don't try to unicode unicode strings (#1029109) (vpodzime)
+- Add tmpfs support (#918621) (mkolman)
+- Added a few things that autoscan complained about (dshea)
+- Actually use the config header we generate (dshea)
+- Redirect pylint stderr to stdout (dshea)
+- Fix the handling of files generated for xgettext (dshea)
+- Use gettext to process glade files. (dshea)
+- Always use $prefix in directory names. (dshea)
+- Pass --enable-gtk-doc to configure in distcheck (dshea)
+- Fix the liveinst install/uninstall hooks (dshea)
+- Clean up after intltool (dshea)
+- Add missing files to dist (dshea)
+- DNFPayload: tweak to the API changes in dnf-0.4.7. (ales)
+- Add tests for iutil (mkolman)
+
 * Fri Nov 08 2013 Brian C. Lane <bcl@redhat.com> - 21.6-1
 - Fix typos in translation functions (dshea)
 - Put the cityCompletion back on the list of widgets (vpodzime)
