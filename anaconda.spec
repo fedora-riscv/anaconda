@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.7
+Version: 21.8
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -20,7 +20,6 @@ Source0: %{name}-%{version}.tar.bz2
 
 # Also update in AM_GNU_GETTEXT_VERSION in configure.ac
 %define gettextver 0.18.3
-%define gconfversion 2.28.1
 %define intltoolver 0.31.2-3
 %define libnlver 1.0
 %define pykickstartver 1.99.46
@@ -53,9 +52,6 @@ BuildRequires: gobject-introspection-devel
 BuildRequires: glade-devel
 BuildRequires: pygobject3
 BuildRequires: intltool >= %{intltoolver}
-BuildRequires: libX11-devel
-BuildRequires: libXt-devel
-BuildRequires: libXxf86misc-devel
 BuildRequires: libgnomekbd-devel
 BuildRequires: libnl-devel >= %{libnlver}
 BuildRequires: libxklavier-devel
@@ -82,10 +78,17 @@ BuildRequires: desktop-file-utils
 BuildRequires: s390utils-devel
 %endif
 
-Requires: anaconda-widgets = %{version}-%{release}
+Requires: anaconda-core = %{version}-%{release}
+Requires: anaconda-gui = %{version}-%{release}
+Requires: anaconda-tui = %{version}-%{release}
+
+%description
+The anaconda package is a metapackage for the Anaconda installer.
+
+%package core
+Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
 Requires: python-blivet >= 0.27
-Requires: gnome-icon-theme-symbolic
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -94,7 +97,6 @@ Requires: parted >= %{partedver}
 Requires: pyparted >= %{pypartedver}
 Requires: yum >= %{yumver}
 Requires: python-urlgrabber >= %{pythonurlgrabberver}
-Requires: system-logos
 Requires: pykickstart >= %{pykickstartver}
 Requires: langtable-data >= %{langtablever}
 Requires: langtable-python >= %{langtablever}
@@ -106,24 +108,18 @@ Requires: dbus-python
 Requires: python-pwquality
 Requires: python-IPy
 Requires: python-nss
-Requires: tigervnc-server-minimal
 Requires: pytz
-Requires: libxklavier
-Requires: libgnomekbd
 Requires: realmd
 Requires: teamd
 %ifarch %livearches
 Requires: usermode
-Requires: zenity
 %endif
-Requires: GConf2 >= %{gconfversion}
 %ifarch s390 s390x
 Requires: openssh
 %endif
 Requires: isomd5sum >= %{isomd5sum}
 Requires: yum-utils >= %{yumutilsver}
 Requires: NetworkManager >= %{nmver}
-Requires: nm-connection-editor
 Requires: dhclient
 Requires: anaconda-yum-plugins
 Requires: libselinux-python >= %{libselinuxver}
@@ -141,15 +137,46 @@ Requires: dmidecode
 Requires: hfsplus-tools
 %endif
 %endif
+
+# required because of the rescue mode and VNC question
+Requires: anaconda-tui = %{version}-%{release}
+
 Obsoletes: anaconda-images <= 10
 Provides: anaconda-images = %{version}-%{release}
 Obsoletes: anaconda-runtime < %{version}-%{release}
 Provides: anaconda-runtime = %{version}-%{release}
 Obsoletes: booty <= 0.107-1
 
-%description
-The anaconda package contains the program which was used to install your
+%description core
+The anaconda-core package contains the program which was used to install your
 system.
+
+%package gui
+Summary: Graphical user interface for the Anaconda installer
+BuildArch: noarch
+Requires: anaconda-core = %{version}-%{release}
+Requires: anaconda-widgets = %{version}-%{release}
+Requires: python-meh-gui >= %{mehver}
+Requires: gnome-icon-theme-symbolic
+Requires: system-logos
+Requires: tigervnc-server-minimal
+Requires: libxklavier
+Requires: libgnomekbd
+Requires: nm-connection-editor
+%ifarch %livearches
+Requires: zenity
+%endif
+
+%description gui
+This package contains graphical user interface for the Anaconda installer.
+
+%package tui
+Summary: Textual user interface for the Anaconda installer
+BuildArch: noarch
+Requires: anaconda-core = %{version}-%{release}
+
+%description tui
+This package contains textual user interface for the Anaconda installer.
 
 %package widgets
 Summary: A set of custom GTK+ widgets for use with anaconda
@@ -214,7 +241,10 @@ update-desktop-database &> /dev/null || :
 update-desktop-database &> /dev/null || :
 %endif
 
-%files -f %{name}.lang
+%files
+%doc COPYING
+
+%files core -f %{name}.lang
 %doc COPYING
 %{_unitdir}/*
 %{_prefix}/lib/systemd/system-generators/*
@@ -222,8 +252,13 @@ update-desktop-database &> /dev/null || :
 %{_sbindir}/anaconda
 %{_sbindir}/handle-sshpw
 %{_datadir}/anaconda
+%exclude %{_datadir}/anaconda/tzmapdata
 %{_prefix}/libexec/anaconda
 %{_libdir}/python*/site-packages/pyanaconda/*
+%exclude %{_libdir}/python*/site-packages/pyanaconda/rescue.py
+%exclude %{_libdir}/python*/site-packages/pyanaconda/text.py
+%exclude %{_libdir}/python*/site-packages/pyanaconda/ui/gui/*
+%exclude %{_libdir}/python*/site-packages/pyanaconda/ui/tui/*
 %{_bindir}/analog
 %{_bindir}/anaconda-cleanup
 %ifarch %livearches
@@ -235,6 +270,14 @@ update-desktop-database &> /dev/null || :
 %{_datadir}/applications/*.desktop
 %{_datadir}/icons/hicolor/*
 %endif
+
+%files gui
+%{_libdir}/python*/site-packages/pyanaconda/ui/gui/*
+
+%files tui
+%{_libdir}/python*/site-packages/pyanaconda/rescue.py
+%{_libdir}/python*/site-packages/pyanaconda/text.py
+%{_libdir}/python*/site-packages/pyanaconda/ui/tui/*
 
 %files widgets
 %{_libdir}/libAnacondaWidgets.so.*
@@ -254,6 +297,22 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Nov 20 2013 Brian C. Lane <bcl@redhat.com> - 21.8-1
+- Fix geolocation on live installs (mkolman)
+- Ignore the pylint warning on importing GraphicalUserInterface. (clumens)
+- Fall back to text mode if GUI is not available (vpodzime)
+- Get rid of unused isys.isCapsLockEnabled function (vpodzime)
+- Don't rely on having zenity and require it only for GUI (vpodzime)
+- No longer need the Gconf2 package (vpodzime)
+- Split out anaconda's user interfaces into separate packages (vpodzime)
+- Do not include tzmapdata into the main package (vpodzime)
+- Create directories for stubs if they don't exist (vpodzime)
+- Do not try to fetch our own packages that will be built (vpodzime)
+- Remove the unused flags import from installclass.py. (clumens)
+- Fix logging of pylint-one output (bcl)
+- Do yum lock logging only with inst.debug or loglevel=debug (vpodzime)
+- Don't panic on installclasses failing with inst.debug (vpodzime)
+
 * Mon Nov 18 2013 Brian C. Lane <bcl@redhat.com> - 21.7-1
 - Expand the use of ANACONDA_WIDGETS_DATADIR. (dshea)
 - Make thread manager operations atomic (#1029898) (mkolman)
