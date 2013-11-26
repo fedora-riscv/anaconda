@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 20.25.10
+Version: 20.25.11
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -80,8 +80,8 @@ BuildRequires: s390utils-devel
 %endif
 
 Requires: anaconda-widgets = %{version}-%{release}
-Requires: dnf >= 0.4.7
-Requires: python-blivet >= 0.23.5
+Requires: dnf >= 0.4.8
+Requires: python-blivet >= 0.23.6
 Requires: gnome-icon-theme-symbolic
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
@@ -251,6 +251,14 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Nov 25 2013 Brian C. Lane <bcl@redhat.com> - 20.25.11-1
+- Handle non-leaf btrfs volumes with mountpoints. (#1016959) (dlehman)
+- Use en_spec for blivet Size spec strings with constant components. (#1029616)
+  (dshea)
+- Fix spoke sorting issues in text-mode. (#929177) (sbueno+anaconda)
+- DNFPayload: tweak to the API changes in dnf-0.4.8 (ales)
+- Don't use cached packages with different release id (mkolman)
+
 * Fri Nov 22 2013 Brian C. Lane <bcl@redhat.com> - 20.25.10-1
 - Remove base_repo cache (#1011555) (bcl)
 - Make _yum.preconf setup atomic (#1028245) (bcl)
