@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.10
+Version: 21.11
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -295,6 +295,23 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Nov 27 2013 Brian C. Lane <bcl@redhat.com> - 21.11-1
+- Use raid RAID level constants instead of mdraid RAID level constants.
+  (amulhern)
+- Use level objects instead of level integer codes. (amulhern)
+- clear software environment (#1029536) (bcl)
+- Update source on errors (#1030997) (bcl)
+- Fix errors in kickstart.py. (dshea)
+- Update gettext.txt (dshea)
+- Don't allow bootloader and /boot on iSCSI on s390 (#1034222) (vpodzime)
+- Round float values coming from the Gtk stack (#1013586) (vpodzime)
+- Generate missing machine-id (bcl)
+- Fix problems reported by pylint. (dshea)
+- Add HDD ISO support for TUI (#1000327) (mkolman)
+- Use a directory in build tree for pylint data. (dshea)
+- Remove MOSTLYCLEANDIRS from Makefile.am (dshea)
+- fixup spec for fedup (bcl)
+
 * Mon Nov 25 2013 Brian C. Lane <bcl@redhat.com> - 21.10-1
 - Cleanup anaconda.spec.in (bcl)
 - Handle non-leaf btrfs volumes with mountpoints. (#1016959) (dlehman)
@@ -1103,4 +1120,3 @@ update-desktop-database &> /dev/null || :
 
 * Tue Jul 09 2013 Brian C. Lane <bcl@redhat.com> - 20.1-1
 - bump major version number
-
