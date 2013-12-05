@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.11
+Version: 21.12
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -43,6 +43,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define rpmver 4.10.0
 %define libarchivever 3.0.4
 %define langtablever 0.0.18-1
+%define libtimezonemapver 0.4.1-2
 
 BuildRequires: audit-libs-devel
 BuildRequires: gettext >= %{gettextver}
@@ -77,6 +78,7 @@ BuildRequires: desktop-file-utils
 %ifarch s390 s390x
 BuildRequires: s390utils-devel
 %endif
+BuildRequires: libtimezonemap-devel >= %{libtimezonemapver}
 
 Requires: anaconda-core = %{version}-%{release}
 Requires: anaconda-gui = %{version}-%{release}
@@ -88,7 +90,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= 0.28
+Requires: python-blivet >= 0.29
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -111,6 +113,7 @@ Requires: python-nss
 Requires: pytz
 Requires: realmd
 Requires: teamd
+Requires: libtimezonemap >= %{libtimezonemapver}
 %ifarch %livearches
 Requires: usermode
 %endif
@@ -165,6 +168,8 @@ Requires: nm-connection-editor
 %ifarch %livearches
 Requires: zenity
 %endif
+Requires: scrot
+Requires: keybinder3
 
 %description gui
 This package contains graphical user interface for the Anaconda installer.
@@ -281,7 +286,6 @@ update-desktop-database &> /dev/null || :
 %{_libdir}/libAnacondaWidgets.so.*
 %{_libdir}/girepository*/AnacondaWidgets*typelib
 %{_libdir}/python*/site-packages/gi/overrides/*
-%{_datadir}/anaconda/tzmapdata/*
 
 %files widgets-devel
 %{_libdir}/libAnacondaWidgets.so
@@ -295,6 +299,47 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Dec 04 2013 Brian C. Lane <bcl@redhat.com> - 21.12-1
+- Handle cancelation of device resize in the custom spoke. (#1027947) (dlehman)
+- Disallow /boot on lvm until grub2 fully supports it. (#1036705) (dlehman)
+- Disallow /boot on btrfs subvolume until grubby supports it. (#864198)
+  (dlehman)
+- Remove an empty initialize function. (clumens)
+- Move PathDict into pyanaconda/ui/__init__.py. (clumens)
+- Add one more directory for ignoring test log files (dshea)
+- Defer translation of device_type_name (dshea)
+- Disable pylint errors about gobject-introspection methods (dshea)
+- Remove unused variables (dshea)
+- Document the instl.multilib boot option (vpodzime)
+- Minor tweak of our driver disk documentation (vpodzime)
+- network: GUI, don't ask for wifi secrets upon Configure (#1033073) (rvykydal)
+- network: GUI, add support for virtual devices removing (#1030870) (rvykydal)
+- network: fix naming of slave ifcfg files from kickstart (#1036047) (rvykydal)
+- network: GUI, handle virtual devices (bond, vlan, team) properly (#1036047)
+  (rvykydal)
+- Change how we test if the GUI is available in the anaconda script. (clumens)
+- Update boot-options.txt. (amulhern)
+- Omit /dev/sr* from list-harddrives (#1032500) (sbueno+anaconda)
+- Fix EditTUISpoke to operate only on visible entries (vpodzime)
+- Don't try to investigate empty string for unicode chars (#1035799) (vpodzime)
+- Fix issues reported by the check_pw_visibility test (vpodzime)
+- Add check testing visibility of password entries (vpodzime)
+- Put tests of .glade files into a separate directory (vpodzime)
+- Save a reference to the imported Xkl module for get_current_layout (dshea)
+- Fix the Makefile.am subdirs for widget data. (dshea)
+- Fix some pylint warnings. (clumens)
+- Switch to libtimezonemap for the timezone map. (dshea)
+- Set the _config_dialog property during __init__. (dshea)
+- Fix handling of long release ids (mkolman)
+- Store older valid packages in separate folder (mkolman)
+- Fetch older valid releases (mkolman)
+- Import Xkl only when really needed (vpodzime)
+- Global screenshot support (#1025038) (mkolman)
+- Require new version of python-blivet (vpodzime)
+- Hide password characters in iSCSI login fields (#1034202) (vpodzime)
+- Use format names instead of types in the resize dialog (vpodzime)
+- Do not write out the vconsole.keymap boot option (#1035316) (vpodzime)
+
 * Wed Nov 27 2013 Brian C. Lane <bcl@redhat.com> - 21.11-1
 - Use raid RAID level constants instead of mdraid RAID level constants.
   (amulhern)
