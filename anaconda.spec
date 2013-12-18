@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.13
+Version: 21.14
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -43,6 +43,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define rpmver 4.10.0
 %define libarchivever 3.0.4
 %define langtablever 0.0.18-1
+%define libxklavierver 5.4
 %define libtimezonemapver 0.4.1-2
 
 BuildRequires: audit-libs-devel
@@ -55,7 +56,7 @@ BuildRequires: pygobject3
 BuildRequires: intltool >= %{intltoolver}
 BuildRequires: libgnomekbd-devel
 BuildRequires: libnl-devel >= %{libnlver}
-BuildRequires: libxklavier-devel
+BuildRequires: libxklavier-devel >= %{libxklavierver}
 BuildRequires: pango-devel
 BuildRequires: pykickstart >= %{pykickstartver}
 %if ! 0%{?rhel}
@@ -90,7 +91,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= 0.29
+Requires: python-blivet >= 0.34
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -161,7 +162,7 @@ Requires: python-meh-gui >= %{mehver}
 Requires: gnome-icon-theme-symbolic
 Requires: system-logos
 Requires: tigervnc-server-minimal
-Requires: libxklavier
+Requires: libxklavier >= %{libxklavierver}
 Requires: libgnomekbd
 Requires: nm-connection-editor
 %ifarch %livearches
@@ -298,6 +299,42 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Dec 18 2013 Brian C. Lane <bcl@redhat.com> - 21.14-1
+- Fix the release notes image cycler. (#1043393) (dshea)
+- Do not schedule resize actions for non-resizing requests (#1039491)
+  (vpodzime)
+- Use ceil for minSize in resize dialog (#1040012) (bcl)
+- Use integer numbers of megabytes in the Reclaim dialog (#1040012) (vpodzime)
+- fcoe gui: repopulate device tree only if device was actually added (#1039223)
+  (rvykydal)
+- Exclude FCoE disks from local disks (#1039223) (rvykydal)
+- fcoe: repopulate devicetree after adding FCoE SAN (#1039223) (rvykydal)
+- Add initial 64-bit ARM aarch64 EFI support (#1034428) (dmarlin)
+- Rename network spoke header (mkolman)
+- Show the Shell spoke in debug mode (vpodzime)
+- Accept only .iso files from the IsoChooser dialog (#1015169) (vpodzime)
+- Just run the IsoChooser dialog lightbox (vpodzime)
+- Use libxklavier's new methods instead of our nasty hack (vpodzime)
+- Move atexit registration before running rescue mode (#1038855) (vpodzime)
+- Only display the addon separator if there's a reason to. (clumens)
+- Stop using deprecated gtk margin functions. (clumens)
+- Fix the check_accelerators srcdir path. (dshea)
+- Show msg in TUI if user attempts to create invalid username. (#965561)
+  (sbueno+anaconda)
+- Fix up username checking regex a bit. (sbueno+anaconda)
+- Fix default device for ks=cdrom (#1042500) (bcl)
+- createUser is already in a chroot (#1038241) (bcl)
+- Skip checks on files that are not staged for commit. (dshea)
+- Allow catching exceptions from threads (vpodzime)
+- Enable warnings about abstract methods not overridden (dshea)
+- Provide empty methods to override abstract parent methods. (dshea)
+- Implement status in StandaloneSpoke. (dshea)
+- Move a bunch of abstract methods from Payload to PackagePayload (dshea)
+- Remove some methods from packaging.Payload. (dshea)
+- Disable abstract method warnings in intermediate abstract classes. (dshea)
+- Remove Personalization spoke (dshea)
+- Remove some vestigal code from an earlier version of GUICheck (dshea)
+
 * Thu Dec 12 2013 Brian C. Lane <bcl@redhat.com> - 21.13-1
 - Refresh environment addons on source change (#1033749) (bcl)
 - Fix selector device matching for unallocated partitions. (#1039292) (dlehman)
