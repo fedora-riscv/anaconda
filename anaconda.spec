@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.14
+Version: 21.15
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -21,7 +21,6 @@ Source0: %{name}-%{version}.tar.bz2
 # Also update in AM_GNU_GETTEXT_VERSION in configure.ac
 %define gettextver 0.18.3
 %define intltoolver 0.31.2-3
-%define libnlver 1.0
 %define pykickstartver 1.99.46
 %define yumver 3.4.3-91
 %define dnfver 0.4.8
@@ -55,7 +54,6 @@ BuildRequires: glade-devel
 BuildRequires: pygobject3
 BuildRequires: intltool >= %{intltoolver}
 BuildRequires: libgnomekbd-devel
-BuildRequires: libnl-devel >= %{libnlver}
 BuildRequires: libxklavier-devel >= %{libxklavierver}
 BuildRequires: pango-devel
 BuildRequires: pykickstart >= %{pykickstartver}
@@ -299,6 +297,27 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Jan 07 2014 Brian C. Lane <bcl@redhat.com> - 21.15-1
+- Use the new Gtk.ListBox for displaying environments and addons (#1039683).
+  (clumens)
+- Display additional disk attributes in TUI storage spoke. (#1024760)
+  (sbueno+anaconda)
+- Fix 'select all disks' logic in TUI storage spoke. (sbueno+anaconda)
+- Ignore the compile script (dshea)
+- network GUI: don't crash when wifi is activated in standalone spoke
+  (#1046138) (rvykydal)
+- Use the right test for there being any storage actions. (clumens)
+- Only display the actions summary dialog if there are any actions (#1030511).
+  (clumens)
+- Do not support kickstart+live installs (#1027160). (clumens)
+- We no longer directly use libnl (#1034830). (clumens)
+- Remove _transactionErrors from yumpayload.py. (clumens)
+- Move xhost handling to the xinit script (#1045280) (dshea)
+- Check for ready before baseRepo in completed (#1044985) (bcl)
+- Treat the output of vncpasswd as binary data, since it is (#1045119) (dshea)
+- Add iutil.exec* options for handling binary data (dshea)
+- Print a message and exit if a user attempts to upgrade via kickstart. (dshea)
+
 * Wed Dec 18 2013 Brian C. Lane <bcl@redhat.com> - 21.14-1
 - Fix the release notes image cycler. (#1043393) (dshea)
 - Do not schedule resize actions for non-resizing requests (#1039491)
