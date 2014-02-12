@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.20
+Version: 21.21
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -21,7 +21,7 @@ Source0: %{name}-%{version}.tar.bz2
 # Also update in AM_GNU_GETTEXT_VERSION in configure.ac
 %define gettextver 0.18.3
 %define intltoolver 0.31.2-3
-%define pykickstartver 1.99.46
+%define pykickstartver 1.99.49
 %define yumver 3.4.3-91
 %define dnfver 0.4.8
 %define partedver 1.8.1
@@ -91,7 +91,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= 0.40
+Requires: python-blivet >= 0.41
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -130,6 +130,7 @@ Requires: kbd
 Requires: chrony
 Requires: python-ntplib
 Requires: rsync
+Requires: systemd
 %ifarch %{ix86} x86_64
 Requires: fcoe-utils >= %{fcoeutilsver}
 %endif
@@ -298,6 +299,46 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Feb 11 2014 Brian C. Lane <bcl@redhat.com> - 21.21-1
+- Move save_netinfo into a hook (#1048231) (bcl)
+- Cleanup log message for pylint (bcl)
+- kickstart user accounts should be locked by default (#1063554) (bcl)
+- pre-push hook checking bugzilla IDs on rhelX branches (vpodzime)
+- Make sure LUKS devices can say they have a key (#1060255) (amulhern)
+- Handle LUKS passphrase before doing sanity check (#1060255) (amulhern)
+- Remove some unnecessary resets (#1060255) (amulhern)
+- Do not consider no available LUKS passphrase an error in do_autopart
+  (#1060255) (amulhern)
+- Adapt to new blivet.sanityCheck() return type (#1060255) (amulhern)
+- Adapt StorageChecker class for changed return type of sanityCheck (#1060255)
+  (amulhern)
+- Add sanityCheck functionality back into AutoPart.execute() (#1060255)
+  (amulhern)
+- Bump blivet version for changed sanityCheck() interface (amulhern)
+- UnmanagedDeviceError and UnknownConnectionError are in the nm module.
+  (clumens)
+- blivet no longer has a protectedDevices property. (clumens)
+- network: adapt to changed handling of devices without carrier in NM
+  (#1062417) (rvykydal)
+- driverdisk: Rename skip_dds to make pylint happy (bcl)
+- driverdisk: Use a single systemd service to start DD UI (#1035663) (bcl)
+- driverdisk: Add dd_args_ks handling to driver-updates (#1035663) (bcl)
+- driverdisk: Process kickstart driverdisk commands (#1035663) (bcl)
+- driverdisk: Handle kickstart driverdisk command (#1035663) (bcl)
+- driverdisk: Use getargs instead of the env variable (#1035663) (bcl)
+- Remove now-unused isys/devices.[ch]. (clumens)
+- Call finalize functions in parent classes. (dshea)
+- Fix crashes in the LayoutIndicator dispose function. (dshea)
+- Require systemd (dshea)
+- Remove the now-unused anaconda_spoke_header.png. (clumens)
+- Minor aesthetic cleanups (#1045250). (duffy)
+- Add a topbar design to SpokeWindows. (#1045250) (duffy)
+- Update the Aarch64 packages to include efibootmgr. (dmarlin)
+- Add a sidebar to the standalone and hub windows (#1045250) (duffy)
+- Allow specifying an environment in the kickstart file (#1050994). (clumens)
+- The autopart scheme combo should work for creating partitions manually, too.
+  (clumens)
+
 * Tue Feb 04 2014 Brian C. Lane <bcl@redhat.com> - 21.20-1
 - makebumpver: Any failure should cancel the bump (bcl)
 - Add option help text for --image and --dirinstall flags (#1056791) (amulhern)
