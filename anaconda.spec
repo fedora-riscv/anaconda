@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.21
+Version: 21.22
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -95,7 +95,7 @@ Requires: python-blivet >= 0.41
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
-Requires: rpm-python >= %{rpmpythonver}
+Requires: rpm-python >= %{rpmver}
 Requires: parted >= %{partedver}
 Requires: pyparted >= %{pypartedver}
 Requires: yum >= %{yumver}
@@ -125,7 +125,7 @@ Requires: isomd5sum >= %{isomd5sum}
 Requires: yum-utils >= %{yumutilsver}
 Requires: NetworkManager >= %{nmver}
 Requires: dhclient
-Requires: libselinux-python >= %{libselinuxver}
+Requires: libselinux-python
 Requires: kbd
 Requires: chrony
 Requires: python-ntplib
@@ -299,6 +299,17 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Feb 14 2014 Brian C. Lane <bcl@redhat.com> - 21.22-1
+- Remove app_paintable from a couple nav boxes (#1064708). (clumens)
+- Give a more correct error for missing groups/packages on exclude (#1060194).
+  (clumens)
+- Fix some incorrect RPM macros in the spec file. (clumens)
+- Allow using globs and alternative paths for specifying boot drive (#1057282).
+  (clumens)
+- Don't reset input check status when disabling a check (#1062273) (dshea)
+- Fix how an input check is disabled (#1062275). (dshea)
+- ListStore.remove expects an iter, not an int (#1062752). (clumens)
+
 * Tue Feb 11 2014 Brian C. Lane <bcl@redhat.com> - 21.21-1
 - Move save_netinfo into a hook (#1048231) (bcl)
 - Cleanup log message for pylint (bcl)
