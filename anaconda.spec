@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.25
+Version: 21.26
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -91,7 +91,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= 0.41
+Requires: python-blivet >= 0.44
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -302,6 +302,36 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Mar 07 2014 Brian C. Lane <bcl@redhat.com> - 21.26-1
+- Don't traceback, just log a warning if connection is unavailable (#1070928)
+  (mkolman)
+- Remove unnecessary use_markup attributes. (dshea)
+- Add a check for unnecessary markup. (dshea)
+- Ignore the server keymap for spoke status if using VNC (#1045115) (dshea)
+- Call % outside of the translation (dshea)
+- Fix pylint errors about dangerous default values (dshea)
+- Typo fix (dshea)
+- driver-updates: skip iso selection with OEMDRV (#1066784) (bcl)
+- driver-updates: allow interactive mode to load multiple devices (wwoods)
+- driver-updates: add DoRefresh loop to select_iso() (#1066784) (wwoods)
+- driver-updates: add 'refresh' to selection_menu() (wwoods)
+- driver-updates: rework 'dd_finished' handling (wwoods)
+- driver-updates: refactor dd_scan (wwoods)
+- driver-updates: refactor menu to allow other options (wwoods)
+- Bump blivet Requires for DASD changes. (#1064423) (sbueno+anaconda)
+- Add GUI and TUI logic to handle unformatted DASDs. (#1064423)
+  (sbueno+anaconda)
+- Show unformatted DASDs in the local disk store. (#1064423) (sbueno+anaconda)
+- Add dialog box to warn about formatting DASDs. (#1064423) (sbueno+anaconda)
+- Update disk refs when recovering from a devicefactory failure. (#1032141)
+  (dlehman)
+- Add typelib and library paths to the test environment. (dshea)
+- Run pylint with NO_AT_BRIDGE=1 set in the environment (dshea)
+- pylint: Clean up accordion warnings (bcl)
+- Let Gtk pick the size for the isoChooserDialog (#973376) (dshea)
+- network kickstart: do not bind to MAC if SUBCHANNELS are present (#1070232)
+  (rvykydal)
+
 * Fri Feb 28 2014 Brian C. Lane <bcl@redhat.com> - 21.25-1
 - pylint: Add a pile of new E1101 exceptions (bcl)
 - pylint: change disable-msg to disable (bcl)
