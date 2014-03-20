@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.27
+Version: 21.28
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -21,9 +21,9 @@ Source0: %{name}-%{version}.tar.bz2
 # Also update in AM_GNU_GETTEXT_VERSION in configure.ac
 %define gettextver 0.18.3
 %define intltoolver 0.31.2-3
-%define pykickstartver 1.99.49
+%define pykickstartver 1.99.51
 %define yumver 3.4.3-91
-%define dnfver 0.4.15
+%define dnfver 0.4.18
 %define partedver 1.8.1
 %define pypartedver 2.5-2
 %define pythonpyblockver 0.45
@@ -44,6 +44,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define langtablever 0.0.18-1
 %define libxklavierver 5.4
 %define libtimezonemapver 0.4.1-2
+%define blivetver 0.45
 
 BuildRequires: audit-libs-devel
 BuildRequires: gettext >= %{gettextver}
@@ -80,6 +81,27 @@ BuildRequires: desktop-file-utils
 BuildRequires: s390utils-devel
 %endif
 BuildRequires: libtimezonemap-devel >= %{libtimezonemapver}
+# build requirements to execute the tests
+BuildRequires: langtable-data >= %{langtablever}
+BuildRequires: langtable-python >= %{langtablever}
+BuildRequires: pytz
+BuildRequires: libuser-python
+BuildRequires: python-mock
+BuildRequires: python-pwquality
+BuildRequires: python-IPy
+BuildRequires: python-ntplib
+BuildRequires: python-blivet >= %{blivetver}
+BuildRequires: cppcheck
+BuildRequires: python-lxml
+# additional requirements for pylint tests
+BuildRequires: pylint
+BuildRequires: koji
+BuildRequires: python-meh >= %{mehver}
+BuildRequires: python-meh-gui >= %{mehver}
+BuildRequires: python-coverage
+BuildRequires: python-polib
+BuildRequires: dnf >= %{dnfver}
+BuildRequires: keybinder3
 
 Requires: anaconda-core = %{version}-%{release}
 Requires: anaconda-gui = %{version}-%{release}
@@ -91,7 +113,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= 0.44
+Requires: python-blivet >= %{blivetver}
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -114,7 +136,6 @@ Requires: python-nss
 Requires: pytz
 Requires: realmd
 Requires: teamd
-Requires: libtimezonemap >= %{libtimezonemapver}
 %ifarch %livearches
 Requires: usermode
 %endif
@@ -168,6 +189,7 @@ Requires: system-logos
 Requires: tigervnc-server-minimal
 Requires: libxklavier >= %{libxklavierver}
 Requires: libgnomekbd
+Requires: libtimezonemap >= %{libtimezonemapver}
 Requires: nm-connection-editor
 %ifarch %livearches
 Requires: zenity
@@ -236,6 +258,10 @@ desktop-file-install ---dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_
 
 %find_lang %{name}
 
+%check
+export LANG=en_US.utf8
+export VERBOSE=1
+%{__make} check
 
 %ifarch %livearches
 %post
@@ -302,6 +328,70 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Mar 20 2014 Brian C. Lane <bcl@redhat.com> - 21.28-1
+- Get the DBus session bus address in a method (dshea)
+- Specify string format arguments as logging function parameters (dshea)
+- Inhibit the screen saver on live installs (#928825) (dshea)
+- Handle the dbus method call not returning anything. (dshea)
+- Convert errors raised during dbus connection to DBusCallError (dshea)
+- driverdisk: Show selection menu for network driver isos (#1075918) (bcl)
+- Write a modprobe blacklist (#1073130) (bcl)
+- Append cmdline arg values in BootArgs (#1073130) (bcl)
+- Wait for other threads to finish before sending ready (#1075103) (bcl)
+- set proxy related environmental variables (#854029) (bcl)
+- Fix pylint error in yumpayload. (sbueno+anaconda)
+- The custom spoke requires mountPointStore and mountPointCompletion, too.
+  (clumens)
+- Make the lists of files to check consistent across all checks. (dshea)
+- Fix error handling in cmdline mode. (#1034773) (sbueno+anaconda)
+- Don't create bootloader entries for kdump initrd and kernel. (#1036086)
+  (sbueno+anaconda)
+- Add a setting to network.py that got left out of the cherry-pick. (clumens)
+- Enable make check in %%check and add the necessary BuildRequires (atodorov)
+- Make it obvious user is going to begin installation. (#975793)
+  (sbueno+anaconda)
+- Move libtimezonemap requires to the anaconda-gui subpackage (vpodzime)
+- network: apply ks configuration to devices activated in initramfs (#1037605)
+  (rvykydal)
+- Add support for kickstart --interfacename for vlans (#1061646) (rvykydal)
+- network: handle race condition of disappearing active connection (#1073424)
+  (rvykydal)
+- Convert iter from filter model iter to backing store iter (#1074188)
+  (amulhern)
+- Provide ways in kickstart to skip kernel and bootloader (#1074522). (clumens)
+- DNFPayload: apply the kickstart excludedList. (ales)
+- Only pylint files that are in the git working copy (dshea)
+- Move accordion population into a separate function (vpodzime)
+- Short-circuit testing if root has any devices (vpodzime)
+- Getting new devices is not enough cheap operation for being a property
+  (vpodzime)
+- Hide and unhide the same set of disks in the Custom spoke (vpodzime)
+- Use GtkActionList when populating filesystem store (vpodzime)
+- Fix XDG_RUNTIME_DIR not set messages by creating one (dshea)
+- Make the ui_storage_logger reusable (vpodzime)
+- Decide on supported RAID levels in a better way (vpodzime)
+- Fix typo in the comment (vpodzime)
+- Add and use MountpointSelector's attributes we need (vpodzime)
+- Make code to get Size instance from user's input reusable (vpodzime)
+- Make getting raid level less hacky (vpodzime)
+- Implement a function to get container type name (vpodzime)
+- Make custom partitioning helper constants look as constants (vpodzime)
+- Simplify mountpoint validation and error reporting (vpodzime)
+- Simplify label validation and error reporting (vpodzime)
+- Move translated_new_install_name to the right place (vpodzime)
+- Rename the __storage attribute to a more propriate name (vpodzime)
+- Split out helper code from the Custom partitioning spoke (vpodzime)
+- The reset button should only be sensitive if there's something to reset.
+  (clumens)
+- Confirm before resetting custom partitioning selections (#970093). (clumens)
+- DNFPayload: Add languageGroups(). (ales)
+- Use ROOT_PATH not /mnt/sysimage (bcl)
+- Override ROOT_PATH with environmental variable (bcl)
+- Import /etc/login.defs in libuser.conf (#979815) (dshea)
+- Fix environment group changes based on ListBox row activation (dshea)
+- DNFPayload: do not crash when an addon is unavailable. (ales)
+- Payloads: make DEFAULT_REPOS a part of the interface. (ales)
+
 * Tue Mar 11 2014 Brian C. Lane <bcl@redhat.com> - 21.27-1
 - Don't disable anaconda repo on rawhide (bcl)
 - Set log level to debug when using an updates image (bcl)
