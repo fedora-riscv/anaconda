@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.28
+Version: 21.29
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -21,7 +21,7 @@ Source0: %{name}-%{version}.tar.bz2
 # Also update in AM_GNU_GETTEXT_VERSION in configure.ac
 %define gettextver 0.18.3
 %define intltoolver 0.31.2-3
-%define pykickstartver 1.99.51
+%define pykickstartver 1.99.52
 %define yumver 3.4.3-91
 %define dnfver 0.4.18
 %define partedver 1.8.1
@@ -44,7 +44,6 @@ Source0: %{name}-%{version}.tar.bz2
 %define langtablever 0.0.18-1
 %define libxklavierver 5.4
 %define libtimezonemapver 0.4.1-2
-%define blivetver 0.45
 
 BuildRequires: audit-libs-devel
 BuildRequires: gettext >= %{gettextver}
@@ -81,27 +80,6 @@ BuildRequires: desktop-file-utils
 BuildRequires: s390utils-devel
 %endif
 BuildRequires: libtimezonemap-devel >= %{libtimezonemapver}
-# build requirements to execute the tests
-BuildRequires: langtable-data >= %{langtablever}
-BuildRequires: langtable-python >= %{langtablever}
-BuildRequires: pytz
-BuildRequires: libuser-python
-BuildRequires: python-mock
-BuildRequires: python-pwquality
-BuildRequires: python-IPy
-BuildRequires: python-ntplib
-BuildRequires: python-blivet >= %{blivetver}
-BuildRequires: cppcheck
-BuildRequires: python-lxml
-# additional requirements for pylint tests
-BuildRequires: pylint
-BuildRequires: koji
-BuildRequires: python-meh >= %{mehver}
-BuildRequires: python-meh-gui >= %{mehver}
-BuildRequires: python-coverage
-BuildRequires: python-polib
-BuildRequires: dnf >= %{dnfver}
-BuildRequires: keybinder3
 
 Requires: anaconda-core = %{version}-%{release}
 Requires: anaconda-gui = %{version}-%{release}
@@ -113,7 +91,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= %{blivetver}
+Requires: python-blivet >= 0.45
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -258,10 +236,6 @@ desktop-file-install ---dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_
 
 %find_lang %{name}
 
-%check
-export LANG=en_US.utf8
-export VERBOSE=1
-%{__make} check
 
 %ifarch %livearches
 %post
@@ -328,6 +302,38 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Mar 26 2014 Brian C. Lane <bcl@redhat.com> - 21.29-1
+- Add a Makefile target to create a set of empty .po files. (dshea)
+- os.path.exists -> os.path.lexists when checking for authconfig. (clumens)
+- Add support for tarfiles to liveimg kickstart command (bcl)
+- mountExistingSystem raises an exception with dirty FS (#1080210) (vpodzime)
+- Don't do yum lock logging when using updates.img (vpodzime)
+- Pass Size(0) instead of 0 to the ContainerDialog if no size is given
+  (vpodzime)
+- Update the BaseWindow and HubWindow example UI fragments (dshea)
+- Convert GtkHBox and GtkVBox to GtkBox. (dshea)
+- Fix keyboard accelerator collisions from former stock buttons (dshea)
+- Set the secret agent icon in the glade file (dshea)
+- Remove stock labels and icons. (dshea)
+- Run the pykickstart version test on the commands in parse-dracut (dshea)
+- Don't reimport os - it's imported very early on. (clumens)
+- Use an alternative image if logo is missing (mkolman)
+- Update parse-kickstart for the new bootloader command. (clumens)
+- Make sure the error info message starts on a new line (vpodzime)
+- Define two env variables removing useless warnings (vpodzime)
+- Check boot args for None (#1075918) (bcl)
+- Revert "Enable make check in %%check and add the necessary BuildRequires"
+  (dshea)
+- Fix the argument list passed to the payloadInitialize thread (#1079628)
+  (dshea)
+- Fix filtering the _storage_playground out (vpodzime)
+- Sync up step counts in install.py with reality. (clumens)
+- Avoid the "unable to init server" message. (dshea)
+- Do not attempt to run authconfig if it doesn't exist. (clumens)
+- Allow skipping installation of the core group, if asked for in kickstart.
+  (clumens)
+- Drop the vconsole.font boot arg (#1074113) (vpodzime)
+
 * Thu Mar 20 2014 Brian C. Lane <bcl@redhat.com> - 21.28-1
 - Get the DBus session bus address in a method (dshea)
 - Specify string format arguments as logging function parameters (dshea)
