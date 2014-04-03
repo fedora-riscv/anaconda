@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.30
+Version: 21.31
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -302,6 +302,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Apr 02 2014 Brian C. Lane <bcl@redhat.com> - 21.31-1
+- Only install consolehelper link on livearches (bcl)
+
 * Wed Apr 02 2014 Brian C. Lane <bcl@redhat.com> - 21.30-1
 - Add support ppc64le (hamzy)
 - Validate proxy URLs (dshea)
