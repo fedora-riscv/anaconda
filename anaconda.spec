@@ -1,8 +1,8 @@
-%define livearches %{ix86} x86_64 ppc ppc64
+%define livearches %{ix86} x86_64 ppc ppc64 ppc64le
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.29
+Version: 21.30
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -230,9 +230,9 @@ find %{buildroot} -type f -name "*.la" | xargs %{__rm}
 
 %ifarch %livearches
 desktop-file-install ---dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/liveinst.desktop
-%else
-%{__rm} -rf %{buildroot}%{_bindir}/liveinst %{buildroot}%{_sbindir}/liveinst
 %endif
+# NOTE: If you see "error: Installed (but unpackaged) file(s) found" that include liveinst files,
+#       check the IS_LIVEINST_ARCH in configure.ac to make sure your architecture is properly defined
 
 %find_lang %{name}
 
@@ -302,6 +302,21 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Apr 02 2014 Brian C. Lane <bcl@redhat.com> - 21.30-1
+- Add support ppc64le (hamzy)
+- Validate proxy URLs (dshea)
+- Provide feedback for invalid NTP hostnames. (dshea)
+- Use GUIDialogInputCheckHandler in the advanced user dialog (dshea)
+- Add a new InputCheck status for silent failures. (dshea)
+- Add an InputCheckHandler subclass for dialogs. (dshea)
+- Generalized and improved the proxy URL parsing regex (dshea)
+- Update makebumpver for the newer python-bugzilla on rawhide. (clumens)
+- network: don't crash on virtual devices turned off (#1080640) (rvykydal)
+- network: don't pop HWADDR twice for vlan on s390 (#1061646) (rvykydal)
+- Make safe_dbus module's functions less 'safe' (vpodzime)
+- Add a list of cmdline args that append instead of replace (#1073130) (bcl)
+- safe_dbus: Don't export DBus connection addresses as variables (walters)
+
 * Wed Mar 26 2014 Brian C. Lane <bcl@redhat.com> - 21.29-1
 - Add a Makefile target to create a set of empty .po files. (dshea)
 - os.path.exists -> os.path.lexists when checking for authconfig. (clumens)
