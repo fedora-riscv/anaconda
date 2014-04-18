@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.32
+Version: 21.33
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -91,7 +91,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= 0.45
+Requires: python-blivet >= 0.48
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -302,6 +302,34 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Apr 17 2014 Brian C. Lane <bcl@redhat.com> - 21.33-1
+- Add an option to copy translation files to an updates.img (dshea)
+- Set the selinux state from the command line (#784828) (dshea)
+- Remove a whole bunch of pylint false positives (dshea)
+- Ignore more informational messages printed by pylint pragmas (dshea)
+- Use more wildcards in the tests dist_ variable (dshea)
+- Make sure the idx variable is used instead of the old found variable
+  (vpodzime)
+- Disable a false positive from pylint (dshea)
+- Only run dialogs in the enlightbox context (vpodzime)
+- Separate code for finding item in containers combo and processing it
+  (vpodzime)
+- Check Update Settings button sensitivity when saving changes in one place
+  (vpodzime)
+- Only save changes if needed when adding mountpoint (vpodzime)
+- No need to call bool() on a boolean expression result (vpodzime)
+- Give names to some magic tuples, make them reusable and reuse them (vpodzime)
+- Add DEVICE_TYPE_DISK's text description to the mapping (vpodzime)
+- Move a few constants and mappings to the storage_utils module (vpodzime)
+- Split long label's string into two lines (vpodzime)
+- Don't rely on the ordering of autopart types in the combobox (vpodzime)
+- Only save changes if there are any changes to be saved (vpodzime)
+- Add device type constants to the device type combobox's store (vpodzime)
+- Change some anaconda-yum DEBUGs to be more informative (bcl)
+- Change Proxy Add Button to Ok (bcl)
+- Display a message for missing required packages and groups (#1064565) (dshea)
+- Fix issues with the errorHandler callback arguments (dshea)
+
 * Thu Apr 10 2014 Brian C. Lane <bcl@redhat.com> - 21.32-1
 - Refactor the code setting up the device type combobox a method (vpodzime)
 - Rename 'swap' variable to 'is_swap' to better express its meaning (vpodzime)
