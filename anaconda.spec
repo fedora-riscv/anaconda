@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.35
+Version: 21.36
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -91,7 +91,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= 0.48
+Requires: python-blivet >= 0.52
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -162,7 +162,7 @@ Summary: Graphical user interface for the Anaconda installer
 Requires: anaconda-core = %{version}-%{release}
 Requires: anaconda-widgets = %{version}-%{release}
 Requires: python-meh-gui >= %{mehver}
-Requires: gnome-icon-theme-symbolic
+Requires: adwaita-icon-theme
 Requires: system-logos
 Requires: tigervnc-server-minimal
 Requires: libxklavier >= %{libxklavierver}
@@ -302,6 +302,18 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu May 08 2014 Brian C. Lane <bcl@redhat.com> - 21.36-1
+- Switch to adwaita-icon-theme (kalevlember)
+- Hook up the TUI categories to autoconf/make. (#1095220) (dshea)
+- Fix the object type specifying argument name for findActions (vpodzime)
+- Remove keyword args 'ignoreErrors' from umountFilesystems() call. (amulhern)
+- Updates for new blivet.size.Size.__new__ interface. (amulhern)
+- Change uses of 'format' keyword param to 'fmt' keyword param (amulhern)
+- Update devicetree.findActions invocations to match blivet interface change
+  (amulhern)
+- Bump blivet version to ensure next four patches get the right interface.
+  (amulhern)
+
 * Mon May 05 2014 Brian C. Lane <bcl@redhat.com> - 21.35-1
 - Use format strings in the new kickstart error message translations. (clumens)
 - Mark kickstart errors as translatable, and hopefully make them more useful
