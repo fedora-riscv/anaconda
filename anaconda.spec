@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.39
-Release: 2%{?dist}
+Version: 21.40
+Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -91,7 +91,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= 0.52
+Requires: python-blivet >= 0.55
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -302,8 +302,40 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 21.39-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+* Tue Jun 10 2014 Brian C. Lane <bcl@redhat.com> - 21.40-1
+- fedora-welcome: Correct an icon name after the switch to Adwaita
+  (kalevlember)
+- Pass/check displaymode in collect_categories and collectCategoriesAndSpokes.
+  (sbueno+anaconda)
+- Add help texts to some Anaconda CLI options (mkolman)
+- Don't install implicitly added but explicitly excluded packages (#1105013)
+  (vpodzime)
+- Update configure, make files, and PO files with new category changes.
+  (sbueno+anaconda)
+- Fix up collectCategoriesAndSpokes function. (sbueno+anaconda)
+- Update all relevant UI files with new category path. (sbueno+anaconda)
+- Move categories to pyanaconda.ui.categories. (sbueno+anaconda)
+- Allow testing a regular install from the live environment. (clumens)
+- Make sure /var/log/anaconda gets copied under the right root. (clumens)
+- format.setup in blivet takes only kwargs. (clumens)
+- Tweak spacing in the other storage options grid. (clumens)
+- Remove the dlable option (mkolman)
+- change default for grub2 save_entry to 0 (gczarcinski)
+- Revert "Refresh after checkbox clicked (#1074188)" (dshea)
+- Move assureLogoImage to GraphicalUserInterface (#1102238) (dshea)
+- If we cannot activate keyboard, at least populate the missing items
+  (#1104541) (vpodzime)
+- network: generate dracut arguments also for IPADDRn ifcfg values (#1103571)
+  (rvykydal)
+- Memoize the results for *RaidLevelsSupported() functions (amulhern)
+- RAID related changes for custom spoke. (amulhern)
+- Bump required blivet version. (amulhern)
+- Make parse-kickstart aware of the %%addon section (#1083002) (vpodzime)
+- Revert "Work around a parsing bug in GtkBuilder" (dshea)
+- Fix a typo in one of the bootloader installation warning messages (#1103410)
+  (mkolman)
+- Don't require network in standalone spoke for media installs (#1066807)
+  (rvykydal)
 
 * Mon Jun 02 2014 Brian C. Lane <bcl@redhat.com> - 21.39-1
 - eu_ES has been dropped from the supported languages (bcl)
