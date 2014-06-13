@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.41
+Version: 21.42
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -91,7 +91,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= 0.55
+Requires: python-blivet >= 0.56
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -302,6 +302,13 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Jun 12 2014 Brian C. Lane <bcl@redhat.com> - 21.42-1
+- Adjust the ui package paths to find hubs and spokes (bcl)
+- Change emphasis from subvolumes to snapshots in removal warning. (dlehman)
+- Reflect the fact that some block devices cannot be reformatted. (dlehman)
+- Use StorageDevice.direct to detemine if a device is directly accessible.
+  (dlehman)
+
 * Wed Jun 11 2014 Brian C. Lane <bcl@redhat.com> - 21.41-1
 - Use /usr/lib* in updates images. (dshea)
 - Fix the paths we check for spokes. (sbueno+anaconda)
