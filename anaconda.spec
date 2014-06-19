@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.42
+Version: 21.43
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -21,7 +21,7 @@ Source0: %{name}-%{version}.tar.bz2
 # Also update in AM_GNU_GETTEXT_VERSION in configure.ac
 %define gettextver 0.18.3
 %define intltoolver 0.31.2-3
-%define pykickstartver 1.99.55
+%define pykickstartver 1.99.56
 %define yumver 3.4.3-91
 %define dnfver 0.4.18
 %define partedver 1.8.1
@@ -91,7 +91,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= 0.56
+Requires: python-blivet >= 0.57
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -302,6 +302,25 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Jun 19 2014 Brian C. Lane <bcl@redhat.com> - 21.43-1
+- Allow NFS addon repos (#985080) (dshea)
+- Add --disklabel support to clearpart (#1078537) (bcl)
+- Replace redundant ifs with direct assignments to the anaconda variables
+  (mkolman)
+- Replace ifs when assigning option values to flags where possible (mkolman)
+- Use True/False instead of 1/0 for flags (mkolman)
+- Store auto gui results in the same directory as the test itself. (clumens)
+- Use whatever network device was used to start installation. (clumens)
+- Ignore more deprecation warnings. (dshea)
+- Add help texts for the dmraid and nodmraid options (mkolman)
+- Use True instead of 1 for the dmraid flag default value (mkolman)
+- Add help texts for the ibft and noibft options (mkolman)
+- Use True instead of 1 for the ibft flag default value (mkolman)
+- Remove the iscsi and noiscsi options (mkolman)
+- Add a new log level 'lock' for _yum_lock (bcl)
+- Replace uses of gtk-missing-image (dshea)
+- Improve the SpokeSelector icon error reporting. (dshea)
+
 * Thu Jun 12 2014 Brian C. Lane <bcl@redhat.com> - 21.42-1
 - Adjust the ui package paths to find hubs and spokes (bcl)
 - Change emphasis from subvolumes to snapshots in removal warning. (dlehman)
