@@ -169,6 +169,7 @@ Requires: libxklavier >= %{libxklavierver}
 Requires: libgnomekbd
 Requires: libtimezonemap >= %{libtimezonemapver}
 Requires: nm-connection-editor
+Requires: NetworkManager-wifi
 %ifarch %livearches
 Requires: zenity
 %endif
