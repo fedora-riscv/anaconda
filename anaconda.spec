@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.44
+Version: 21.45
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -302,6 +302,14 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Jun 27 2014 Brian C. Lane <bcl@redhat.com> - 21.45-1
+- Switch to tty1 if we get an exception before meh is setup (dshea)
+- Remove surprises from X startup. (dshea)
+- Import KS_MISSING_IGNORE from pykickstart.constants in DNF payload (mkolman)
+- Import Pykickstart constants directly (mkolman)
+- Switch error exit codes to 1 (bcl)
+- Add help texts for the remaining Anaconda options (mkolman)
+
 * Wed Jun 25 2014 Brian C. Lane <bcl@redhat.com> - 21.44-1
 - Fix storage checker docstring (bcl)
 - Modify --dirinstall to take a path (bcl)
