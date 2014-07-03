@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.45
+Version: 21.46
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -91,7 +91,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= 0.58
+Requires: python-blivet >= 0.60
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -122,7 +122,7 @@ Requires: openssh
 %endif
 Requires: isomd5sum >= %{isomd5sum}
 Requires: yum-utils >= %{yumutilsver}
-Requires: createrepo
+Requires: createrepo_c
 Requires: NetworkManager >= %{nmver}
 Requires: dhclient
 Requires: libselinux-python
@@ -302,6 +302,31 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Jul 02 2014 Brian C. Lane <bcl@redhat.com> - 21.46-1
+- Ignore an error from pylint incorrectly analyzing types in dbus-python
+  (dshea)
+- Remove the Lightbox widget (dshea)
+- Implement the lightbox in MainWindow (dshea)
+- Added a method to create new GdkPixbufs from in-memory data (dshea)
+- Add a delete-event handler for the main window (dshea)
+- Add a window to manage Anaconda screen transitions. (dshea)
+- Add a class BaseStandalone. (dshea)
+- Increased the version of anaconda-widgets to 3.0 (dshea)
+- Use globs for the anaconda widgets library paths (dshea)
+- Remove the custom accelerators from custom storage. (dshea)
+- Add a couple more deprecation warning ignores (dshea)
+- Use a dict for string substitutions in a /boot/efi message. (clumens)
+- Use the right index for selecting region (#1114234) (vpodzime)
+- Add autopart --fstype support (#1112697) (bcl)
+- Patches to allow /boot/efi to be RAID1 (#788313) (amulhern)
+- Bump blivet version for succeeding commit. (amulhern)
+- Map our log levels to syslog log levels (bcl)
+- makeupdates: Put systemd files under /usr/lib/ (bcl)
+- Make octal literals Python 3 compatible (mkolman)
+- Use the built-in next() function for generators (mkolman)
+- Make reduce function usage Python 3 compatible (mkolman)
+- Use createrepo_c in place of createrepo (mkolman)
+
 * Fri Jun 27 2014 Brian C. Lane <bcl@redhat.com> - 21.45-1
 - Switch to tty1 if we get an exception before meh is setup (dshea)
 - Remove surprises from X startup. (dshea)
