@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 21.46
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -302,6 +302,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Jul 02 2014 Brian C. Lane <bcl@redhat.com> 21.46-2
+- Update sources file
+
 * Wed Jul 02 2014 Brian C. Lane <bcl@redhat.com> - 21.46-1
 - Ignore an error from pylint incorrectly analyzing types in dbus-python
   (dshea)
