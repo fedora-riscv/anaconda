@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.46
-Release: 2%{?dist}
+Version: 21.47
+Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -21,7 +21,7 @@ Source0: %{name}-%{version}.tar.bz2
 # Also update in AM_GNU_GETTEXT_VERSION in configure.ac
 %define gettextver 0.18.3
 %define intltoolver 0.31.2-3
-%define pykickstartver 1.99.56
+%define pykickstartver 1.99.57
 %define yumver 3.4.3-91
 %define dnfver 0.4.18
 %define partedver 1.8.1
@@ -91,7 +91,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= 0.60
+Requires: python-blivet >= 0.61
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -302,8 +302,34 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Wed Jul 02 2014 Brian C. Lane <bcl@redhat.com> 21.46-2
-- Update sources file
+* Fri Jul 11 2014 Brian C. Lane <bcl@redhat.com> - 21.47-1
+- Fix references to requiredPackages (bcl)
+- Drop anaconda. prefix from copied logs (bcl)
+- dnf should put its logs in /tmp/ (bcl)
+- Make sure the software listboxes are shown (bcl)
+- dnf should report that it supports Closest Mirror (bcl)
+- Do not prefer /tmp for dnf downloads (bcl)
+- Reset dnf package sack (bcl)
+- Fix dnf base repo setup to fall back to default gracefully (bcl)
+- Move addDriverRepo into PackagePayload class (bcl)
+- Rename some dnf items to match yum (bcl)
+- rpmostreepayload: Drop selinux-ensure-labeled call (walters)
+- Run anaconda in fullscreen whenever possible. (dshea)
+- Correct the constant used with gtk_widget_set_state_flags (dshea)
+- Restore some CSS rules from the pre-3.13 Adwaita theme. (dshea)
+- Adapt to changes in blivet.udev interface. (amulhern)
+- Bump blivet version to pick up blivet.udev interface changes. (amulhern)
+- Use the enlightbox context manager for the add network device dialog
+  (mkolman)
+- DNFPayload: do not add group 'core' twice. (ales)
+- Remove the window property from UIObject. (dshea)
+- Unravel the Hub and Spoke classes. (dshea)
+- Fix --kickstart option (bcl)
+- Bump up the required pykickstart version (vpodzime)
+- Use GtkRevealer for widget hiding in storage spoke (mkolman)
+- rpmostreepayload: create /var/spool/mail required when adding user (rvykydal)
+- rpmostreepayload: Don't recreateInitrds for this payload (walters)
+- Don't use geolocation when installing with kickstart (mkolman)
 
 * Wed Jul 02 2014 Brian C. Lane <bcl@redhat.com> - 21.46-1
 - Ignore an error from pylint incorrectly analyzing types in dbus-python
