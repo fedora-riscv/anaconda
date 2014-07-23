@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.48
-Release: 2%{?dist}
+Version: 21.48.1
+Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -303,8 +303,7 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Tue Jul 22 2014 Kalev Lember <kalevlember@gmail.com> - 21.48-2
-- Rebuilt for gobject-introspection 1.41.4
+* Wed Jul 23 2014 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 21.48.1-1
 
 * Wed Jul 16 2014 Brian C. Lane <bcl@redhat.com> - 21.48-1
 - Fix the custom accelerators in custom partitioning (#1118999) (dshea)
