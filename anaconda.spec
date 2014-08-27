@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.48.2
-Release: 2%{?dist}
+Version: 21.48.3
+Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -198,6 +198,7 @@ This package contains a set of custom GTK+ widgets used by the anaconda installe
 Summary: Development files for anaconda-widgets
 Group: Development/Libraries
 Requires: glade
+Requires: %{name}-widgets%{?_isa} = %{version}-%{release}
 
 %description widgets-devel
 This package contains libraries and header files needed for writing the anaconda
@@ -237,6 +238,9 @@ desktop-file-install ---dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_
 
 %find_lang %{name}
 
+%post widgets -p /sbin/ldconfig
+%postun widgets -p /sbin/ldconfig
+
 
 %ifarch %livearches
 %post
@@ -262,8 +266,8 @@ update-desktop-database &> /dev/null || :
 %exclude %{_datadir}/anaconda/tzmapdata
 %{_prefix}/libexec/anaconda
 %{_libdir}/python*/site-packages/pyanaconda/*
-%exclude %{_libdir}/python*/site-packages/pyanaconda/rescue.py
-%exclude %{_libdir}/python*/site-packages/pyanaconda/text.py
+%exclude %{_libdir}/python*/site-packages/pyanaconda/rescue.py*
+%exclude %{_libdir}/python*/site-packages/pyanaconda/text.py*
 %exclude %{_libdir}/python*/site-packages/pyanaconda/ui/gui/*
 %exclude %{_libdir}/python*/site-packages/pyanaconda/ui/tui/*
 %{_bindir}/analog
@@ -303,8 +307,21 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Fri Aug 15 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 21.48.2-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+* Wed Aug 27 2014 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 21.48.3-1
+- Prevent crashes due to accessing X server from multiple threads (#1134507)
+  (vpodzime)
+- Remove anaconda_make_pixbuf (dshea)
+- Require anaconda-widgets from anaconda-widgets-devel (dshea)
+- Run /sbin/ldconfig when installing or uninstalling anaconda-widgets (dshea)
+- Remove the shebang from anaconda.py (dshea)
+- Exclude the compiled text and rescue files from anaconda-core (dshea)
+- Update our copy of the GPL (dshea)
+- Rearrange the entry, example and tip on Advanced User dialog (vpodzime)
+- Write storage after liveimg install (#1080396) (bcl)
+- Add some sanity checking to live payload (vpodzime)
+- Use blivet's getFreeSpace for limitting automatic swap size (vpodzime)
+- Ask users for enough space right at the first time (#876916) (vpodzime)
+- Don't require user creation when root is locked (#1030626) (bcl)
 
 * Fri Aug 01 2014 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 21.48.2-1
 - Mark zRAM devices as protected and ignore them (vpodzime)
