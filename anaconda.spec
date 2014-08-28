@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 22.3
+Version: 22.4
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -198,6 +198,7 @@ This package contains a set of custom GTK+ widgets used by the anaconda installe
 Summary: Development files for anaconda-widgets
 Group: Development/Libraries
 Requires: glade
+Requires: %{name}-widgets%{?_isa} = %{version}-%{release}
 
 %description widgets-devel
 This package contains libraries and header files needed for writing the anaconda
@@ -237,6 +238,9 @@ desktop-file-install ---dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_
 
 %find_lang %{name}
 
+%post widgets -p /sbin/ldconfig
+%postun widgets -p /sbin/ldconfig
+
 
 %ifarch %livearches
 %post
@@ -262,8 +266,8 @@ update-desktop-database &> /dev/null || :
 %exclude %{_datadir}/anaconda/tzmapdata
 %{_prefix}/libexec/anaconda
 %{_libdir}/python*/site-packages/pyanaconda/*
-%exclude %{_libdir}/python*/site-packages/pyanaconda/rescue.py
-%exclude %{_libdir}/python*/site-packages/pyanaconda/text.py
+%exclude %{_libdir}/python*/site-packages/pyanaconda/rescue.py*
+%exclude %{_libdir}/python*/site-packages/pyanaconda/text.py*
 %exclude %{_libdir}/python*/site-packages/pyanaconda/ui/gui/*
 %exclude %{_libdir}/python*/site-packages/pyanaconda/ui/tui/*
 %{_bindir}/analog
@@ -303,6 +307,29 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Aug 27 2014 Brian C. Lane <bcl@redhat.com> - 22.4-1
+- jwb would like us to be clear that bugs could be the system firmware...
+  (pjones)
+- Fix installing from a second iso (#1040722) (bcl)
+- Remove anaconda_make_pixbuf (dshea)
+- Trick automake into taking our wildcards (dshea)
+- Distribute the right docs files (vpodzime)
+- Require anaconda-widgets from anaconda-widgets-devel (dshea)
+- Run /sbin/ldconfig when installing or uninstalling anaconda-widgets (dshea)
+- Remove the shebang from anaconda.py (dshea)
+- Exclude the compiled text and rescue files from anaconda-core (dshea)
+- Update our copy of the GPL (dshea)
+- Remove unused methods from packaging.Payload (dshea)
+- Rearrange the entry, example and tip on Advanced User dialog (vpodzime)
+- Change our docs that are close to ReST to proper ReST (vpodzime)
+- Remove old outdated docs nobody should read (vpodzime)
+- Send run-hub and run-spoke into the great beyond (dshea)
+- Use one thread for payload setup. (dshea)
+- Remove logging to tty3 and tty5 (#1073336) (bcl)
+- Make missing encryption key error message more helpful (#1074441) (amulhern)
+- Fix problems with the hdiso method. (clumens)
+- Update makebumpver to include flags on first request (bcl)
+
 * Fri Aug 15 2014 Brian C. Lane <bcl@redhat.com> - 22.3-1
 - Add some tests for execReadlines (dshea)
 - Remove iutil.fork_orphan (dshea)
