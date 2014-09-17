@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.48.6
+Version: 21.48.7
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -307,6 +307,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Sep 17 2014 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 21.48.7-1
+- Set flags.rescue_mode not anaconda.rescue (#1101341) (amulhern)
+
 * Thu Sep 11 2014 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 21.48.6-1
 - Update tx config (sbueno+anaconda)
 - Use only the digits from productVersion (bcl)
