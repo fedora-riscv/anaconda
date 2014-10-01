@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.48.7
+Version: 21.48.8
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -21,7 +21,7 @@ Source0: %{name}-%{version}.tar.bz2
 # Also update in AM_GNU_GETTEXT_VERSION in configure.ac
 %define gettextver 0.18.3
 %define intltoolver 0.31.2-3
-%define pykickstartver 1.99.57
+%define pykickstartver 1.99.60
 %define yumver 3.4.3-91
 %define dnfver 0.4.18
 %define partedver 1.8.1
@@ -91,7 +91,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= 0.61
+Requires: python-blivet >= 0.61.3
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -174,6 +174,7 @@ Requires: zenity
 %endif
 Requires: keybinder3
 Requires: NetworkManager-wifi
+Requires: yelp
 
 %description gui
 This package contains graphical user interface for the Anaconda installer.
@@ -307,6 +308,35 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Oct 01 2014 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 21.48.8-1
+- Show help also when alt+F1 is pressed (mkolman)
+- Support display of the custom mnemonics on the help button (mkolman)
+- Activate the built-in help when F1 is pressed (mkolman)
+- Specify help file names for hubs and spokes (mkolman)
+- Add a help button to every Anaconda screen (mkolman)
+- Don't attempt terminal size detection on the s390 (#1145065) (mkolman)
+- Fix Welcome spoke not showing up during kickstart installation (#1147943)
+  (mkolman)
+- Clear the list of watched PIDs before exiting. (#1146708) (dshea)
+- Avoid the possibility of size variables being unset (#1146585) (dshea)
+- Adapt to corrected interpetation of logvol --percent. (#1146156) (dlehman)
+- Handle cancellation of new container creation. (dlehman)
+- Reflect previous custom/autopart selection in the storage spoke. (#1144520)
+  (dlehman)
+- Clear out custom storage ksdata after first attempt to apply it. (#1144560)
+  (dlehman)
+- Pass size as Size when adjusting container after device removal. (#1141707)
+  (dlehman)
+- Handle 0's returned by Gdk (dshea)
+- When running on HiDPI monitors, scale anaconda by a factor of 2 (dshea)
+- Highlight languages in langsupport that contain selected locales (dshea)
+- Add a wrapper function for GtkTreeViewColumn.set_cell_data_func (dshea)
+- Clear the kickstart password if cleared by the user (#1133185) (dshea)
+- Remove inactive languages from LINGUAS. (dshea)
+- Use suggested-action on more buttons (#1131254) (dshea)
+- Filter empty comps groups from both specific and generic lists (dshea)
+- Use one thread for payload setup. (dshea)
+
 * Wed Sep 17 2014 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 21.48.7-1
 - Set flags.rescue_mode not anaconda.rescue (#1101341) (amulhern)
 
