@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 22.6
+Version: 22.7
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -21,7 +21,7 @@ Source0: %{name}-%{version}.tar.bz2
 # Also update in AM_GNU_GETTEXT_VERSION in configure.ac
 %define gettextver 0.18.3
 %define intltoolver 0.31.2-3
-%define pykickstartver 1.99.58
+%define pykickstartver 1.99.60
 %define yumver 3.4.3-91
 %define dnfver 0.4.18
 %define partedver 1.8.1
@@ -91,7 +91,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= 0.64
+Requires: python-blivet >= 0.65
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -310,6 +310,59 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Sep 30 2014 Brian C. Lane <bcl@redhat.com> - 22.7-1
+- Fix Welcome spoke not showing up during kickstart installation (#1147943)
+  (mkolman)
+- Don't allow /boot on lvm on s390x. (sbueno+anaconda)
+- Handle failures to instantiate storage devices when parsing kickstart.
+  (dlehman)
+- Add the new langsupport.py TUI spoke to POTFILES.in. (clumens)
+- Remove the now-unused imports of storageInitialize. (clumens)
+- Add support for language selection in text mode. (sbueno+anaconda)
+- packaging: handle new NFS installation source with inst.stage2=nfs:...
+  (wwoods)
+- Allow cdrom-swapping when doing "inst.ks=cdrom[:...]" (wwoods)
+- anaconda-lib.sh: add tell_user() and dev_is_cdrom() (wwoods)
+- Don't force a user to return to the storage spoke after dasdfmt
+  (sbueno+anaconda)
+- Don't run storageInitialize after dasdfmt (sbueno+anaconda)
+- Shut up, parallel (dshea)
+- Really fix unexpected exits in execReadlines (dshea)
+- Add a context manager for executing code while UI signals are blocked.
+  (clumens)
+- Avoid the possibility of size variables being unset (#1146585) (dshea)
+- s390x: Apply disk selection before dasdfmt to preserve data.
+  (sbueno+anaconda)
+- Fix a bad use of WIFSIGNALED (dshea)
+- Handle 0's returned by Gdk (dshea)
+- Adapt to corrected interpetation of logvol --percent. (dlehman)
+- Always use iutil to start processes. (dshea)
+- Move the X startup logic to iutil (dshea)
+- Move process watching to iutil. (dshea)
+- Close file descriptors while daemonizing auditd (dshea)
+- Add an option to only capture stdout with execWithCapture (dshea)
+- Simplify iutil.execReadlines. (dshea)
+- Add close_fds to the Popen call. (dshea)
+- Add an option to startProgram to reset signal handlers. (dshea)
+- Add a method startProgram to handle process starting (dshea)
+- Lock program_log_lock closer to where the log is written. (dshea)
+- Record early crashes to ipmi (dshea)
+- Clear the list of watched PIDs before exiting. (dshea)
+- Remove the exitCode parameter from exitHandler. (dshea)
+- Warn about uses of the string module. (dshea)
+- Import _ from the i18n module instead of hand-crafting a copy of it (dshea)
+- Import gettext in iutil instead of passing the module reference to iutil
+  (dshea)
+- Fix a typo in a comment (dshea)
+- When running on HiDPI monitors, scale anaconda by a factor of 2 (dshea)
+- Sort the contents of the file system type combo box. (clumens)
+- Remove the border on the layout testing box. (clumens)
+- Explain what the IPMI constants mean. (clumens)
+- Don't attempt terminal size detection on the s390 (#1145065) (mkolman)
+- Don't show the Add DASD button unless on s390x. (sbueno+anaconda)
+- Don't show the Add DASD button unless on s390x. (sbueno+anaconda)
+- Preserve network args on s390x. (sbueno+anaconda)
+
 * Fri Sep 19 2014 Brian C. Lane <bcl@redhat.com> - 22.6-1
 - Don't call storage.write for dirinstall (#1120206) (bcl)
 - Fix pylint warning from a recent commit. (dlehman)
