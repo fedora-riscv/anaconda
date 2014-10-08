@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.48.8
+Version: 21.48.9
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -91,7 +91,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= 0.61.3
+Requires: python-blivet >= 1:0.61.4
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -173,7 +173,9 @@ Requires: nm-connection-editor
 Requires: zenity
 %endif
 Requires: keybinder3
+%ifnarch s390 s390x
 Requires: NetworkManager-wifi
+%endif
 Requires: yelp
 
 %description gui
@@ -264,6 +266,7 @@ update-desktop-database &> /dev/null || :
 %{_sbindir}/anaconda
 %{_sbindir}/handle-sshpw
 %{_datadir}/anaconda
+%{_datadir}/anaconda/help/*
 %exclude %{_datadir}/anaconda/tzmapdata
 %{_prefix}/libexec/anaconda
 %{_libdir}/python*/site-packages/pyanaconda/*
@@ -308,6 +311,45 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Oct 08 2014 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 21.48.9-1
+- Bump blivet version requires for all the DASD changes in 0.61.4.
+  (sbueno+anaconda)
+- We now need to specify an epoch for the python-blivet version requires.
+  (clumens)
+- Fix autotools rules to properly include help placeholders (#1072033)
+  (mkolman)
+- Modify nm to return defaults when no dbus is available (bcl)
+- Skip networkInitialize for image and dir installations (bcl)
+- Ignore safe_dbus errors in keyboard setup (bcl)
+- Skip syslog for dirinstall (bcl)
+- s390x: show dialog if kernel cmdline in zipl.conf is too long.
+  (sbueno+anaconda)
+- Really exit when "Exit installer" in the error dialog is clicked (vpodzime)
+- Don't allow /boot on lvm on s390x. (sbueno+anaconda)
+- Add the new langsupport.py TUI spoke to POTFILES.in. (clumens)
+- Remove the now-unused imports of storageInitialize. (clumens)
+- Add support for language selection in text mode. (sbueno+anaconda)
+- Don't force a user to return to the storage spoke after dasdfmt
+  (sbueno+anaconda)
+- Don't run storageInitialize after dasdfmt (sbueno+anaconda)
+- s390x: Apply disk selection before dasdfmt to preserve data.
+  (sbueno+anaconda)
+- Don't show the Add DASD button unless on s390x. (sbueno+anaconda)
+- Don't show the Add DASD button unless on s390x. (sbueno+anaconda)
+- Preserve network args on s390x. (sbueno+anaconda)
+- Deprecate RUNKS cmdline option. (sbueno+anaconda)
+- Re-order the tz's in text mode to mirror the graphical order.
+  (sbueno+anaconda)
+- Fix an issue with bad NFS info specified in source spoke. (sbueno+anaconda)
+- Warn if software selection size exceeds available space. (sbueno+anaconda)
+- Fix q for quit issue in text mode (#997405) (sbueno+anaconda)
+- Change the accelerator key for Add DASD label. (sbueno+anaconda)
+- Add dialog box for adding DASDs. (sbueno+anaconda)
+- Add a button for adding an ECKD DASD. (sbueno+anaconda)
+- Change a confusing string in TUI NFS configuration screen. (#1057690)
+  (sbueno+anaconda)
+- NM-wifi is missing on s390(x) (dan)
+
 * Wed Oct 01 2014 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 21.48.8-1
 - Show help also when alt+F1 is pressed (mkolman)
 - Support display of the custom mnemonics on the help button (mkolman)
