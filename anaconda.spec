@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.48.9
+Version: 21.48.10
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -21,7 +21,7 @@ Source0: %{name}-%{version}.tar.bz2
 # Also update in AM_GNU_GETTEXT_VERSION in configure.ac
 %define gettextver 0.18.3
 %define intltoolver 0.31.2-3
-%define pykickstartver 1.99.60
+%define pykickstartver 1.99.63
 %define yumver 3.4.3-91
 %define dnfver 0.4.18
 %define partedver 1.8.1
@@ -91,7 +91,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= 1:0.61.4
+Requires: python-blivet >= 1:0.61.5
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -311,6 +311,47 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Oct 15 2014 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 21.48.10-1
+- Change our docs that are close to ReST to proper ReST (vpodzime)
+- Run restorecon on /etc/hostname (#1133368) (bcl)
+- Add authconfig and firewalld packages when used in ks (#1147687) (bcl)
+- Allow kickstart with no method (#972265) (bcl)
+- Fix a typo from 73d3a8e5. (sbueno+anaconda)
+- Respect both ways how to disable bootloader installation (vpodzime)
+- Don't care about crash args in bootloader (#1116323) (vpodzime)
+- Add nombr to anaconda to suppress updating MBR (#886502) (gczarcinski)
+- Use translated versions of the AM/PM strings consistently (vpodzime)
+- Import GUI-specific stuff only when running GUI in entropy handling
+  (vpodzime)
+- Always store the information about display mode in ksdata (vpodzime)
+- Make the date format locale-dependent in our GUI (#1044233) (vpodzime)
+- A function for resolving date format and order (vpodzime)
+- Reorganize the right side of the Custom spoke (#1094856) (vpodzime)
+- Move _verifyLUKSDevicesHaveKey to Anaconda's codebase (vpodzime)
+- Add support for thin pool profile specification in kickstart (vpodzime)
+- Fix file name of the entropy dialog in POTFILES.in (vpodzime)
+- Require minimum random data entropy when creating LUKS (#1073679) (vpodzime)
+- Give blivet callbacks for reporting partitioning progress (vpodzime)
+- Split localed's converted layouts and variants (#1073825) (vpodzime)
+- Create free space snapshot before doing custom->autopart (vpodzime)
+- Specify thin pool metadata/chunk size only if given by user (#1140635)
+  (vpodzime)
+- Distribute the right docs files (vpodzime)
+- Don't automatically select environments for kickstart installs (#1018226)
+  (dshea)
+- Initialize the GUI lock in a way that doesn't break the API (dshea)
+- Don't check enabledPlugins if plugins are not yet enabled (#1142544) (dshea)
+- Really fix an enlightbox call. (dshea)
+- Don't strip accents from the user-inputted keyboard string (dshea)
+- Convert strings to unicode in have_word_match (#1146581) (dshea)
+- Switch to using the new help content path (#1072033) (mkolman)
+- Fix a race between checking for Gtk.main_level and running Gtk.main (dshea)
+- Allow recursive lightbox calls (#1147337) (dshea)
+- Disable the ntp service with --nontp (#1135768) (dshea)
+- Ignore partition start if there is a biosboot partition (#1044849) (bcl)
+- Require a larger /boot (#1129629). (clumens)
+- Remove duplicates when adding new devices (#887526) (bcl)
+
 * Wed Oct 08 2014 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 21.48.9-1
 - Bump blivet version requires for all the DASD changes in 0.61.4.
   (sbueno+anaconda)
