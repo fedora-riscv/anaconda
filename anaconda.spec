@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.48.10
+Version: 21.48.11
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -311,6 +311,11 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Oct 20 2014 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 21.48.11-1
+- Don't panic prematurely on a missing size (#1154190) (amulhern)
+- Log when using updates from /tmp/updates/ (bcl)
+- Fix # handling in SimpleConfigFile (#1045687) (bcl)
+
 * Wed Oct 15 2014 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 21.48.10-1
 - Change our docs that are close to ReST to proper ReST (vpodzime)
 - Run restorecon on /etc/hostname (#1133368) (bcl)
