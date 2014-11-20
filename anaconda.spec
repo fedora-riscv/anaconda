@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.48.15
+Version: 21.48.16
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -283,7 +283,6 @@ update-desktop-database &> /dev/null || :
 %config(noreplace) %{_sysconfdir}/security/console.apps/*
 %{_sysconfdir}/X11/xinit/xinitrc.d/*
 %{_datadir}/applications/*.desktop
-%{_datadir}/icons/hicolor/*
 %endif
 
 %files gui
@@ -311,6 +310,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Nov 20 2014 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 21.48.16-1
+- Support high contrast mode in fedora-welcome (#1160499) (dshea)
+
 * Tue Nov 18 2014 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 21.48.15-1
 - do not delete liveimg --url=file:/// file (gczarcinski)
 - Provide useful hints on TTY1 during the installation (mkolman)
