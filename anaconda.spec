@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.48.16
+Version: 21.48.17
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -310,6 +310,11 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Nov 26 2014 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 21.48.17-1
+- Make sure storage info bar is displayed (#1166730) (bcl)
+- Fix SELINUX_DEFAULT import (#1167047) (bcl)
+- Fix noselinux cmdline default (#1167047) (bcl)
+
 * Thu Nov 20 2014 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 21.48.16-1
 - Support high contrast mode in fedora-welcome (#1160499) (dshea)
 
