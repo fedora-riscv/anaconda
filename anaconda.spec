@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 21.48.18
+Version: 21.48.19
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -310,6 +310,10 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Nov 28 2014 Vratislav Podzimek <vpodzime@redhat.com> - 21.48.19-1
+- Search for a valid stage1 device on disks with stage1 mount points (#1168118)
+  (awilliam)
+
 * Thu Nov 27 2014 Vratislav Podzimek <vpodzime@redhat.com> - 21.48.18-1
 - Tell curl it should follow redirects when fetching updates.img (#1168561)
   (vpodzime)
