@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 22.12
+Version: 22.13
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -21,7 +21,7 @@ Source0: %{name}-%{version}.tar.bz2
 # Also update in AM_GNU_GETTEXT_VERSION in configure.ac
 %define gettextver 0.18.3
 %define intltoolver 0.31.2-3
-%define pykickstartver 1.99.63
+%define pykickstartver 1.99.65
 %define yumver 3.4.3-91
 %define dnfver 0.4.18
 %define partedver 1.8.1
@@ -44,6 +44,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define langtablever 0.0.18-1
 %define libxklavierver 5.4
 %define libtimezonemapver 0.4.1-2
+%define helpver 22.1-1
 
 BuildRequires: audit-libs-devel
 BuildRequires: gettext >= %{gettextver}
@@ -110,7 +111,6 @@ Requires: util-linux >= %{utillinuxver}
 Requires: dbus-python
 Requires: python-pwquality
 Requires: python-IPy
-Requires: python-nss
 Requires: pytz
 Requires: realmd
 Requires: teamd
@@ -175,6 +175,7 @@ Requires: keybinder3
 %ifnarch s390 s390x
 Requires: NetworkManager-wifi
 %endif
+Requires: anaconda-user-help >= %{helpver}
 Requires: yelp
 
 %description gui
@@ -265,7 +266,6 @@ update-desktop-database &> /dev/null || :
 %{_sbindir}/anaconda
 %{_sbindir}/handle-sshpw
 %{_datadir}/anaconda
-%{_datadir}/anaconda/help/*
 %{_prefix}/libexec/anaconda
 %{_libdir}/python*/site-packages/pyanaconda/*
 %exclude %{_libdir}/python*/site-packages/pyanaconda/rescue.py*
@@ -308,6 +308,73 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Dec 19 2014 Brian C. Lane <bcl@redhat.com> - 22.13-1
+- Print the result to the log, not the variable name. (clumens)
+- Ellipsize comboboxes (#1170275) (dshea)
+- Allow the columns of the container combo box to flow (#1170275) (dshea)
+- Allow specifying how much from kickstart_tests to keep. (clumens)
+- Fix up two problems in run_kickstart_tests.sh. (clumens)
+- Fix detecting errors in groups-and-envs-1.ks. (clumens)
+- Add a network command to the various kickstart test ks files. (clumens)
+- Reorganize run_kickstart_tests.sh a bit to use parallel. (clumens)
+- Use the anaconda-user-help package for help content (mkolman)
+- Fix which TUI field is being checked for which input (#1169533) (dshea)
+- Fix pylint-reported issues in RPMOSTreePayload (vpodzime)
+- rpmostreepayload: Rework remote add handling (walters)
+- Remove Requires: python-nss (vpodzime)
+- If there's no boot.iso, skip the kickstart tests. (clumens)
+- Test that a kickstart file with both an environment and group installs both.
+  (clumens)
+- Move the ostree test out of its own directory. (clumens)
+- Add a general-purpose kickstart-driven testing setup. (clumens)
+- Move the pykickstart version test into a different subdirectory. (clumens)
+- Really hide and show passphrase warnings (#1162828) (dshea)
+- Unsetup the payload on the way out of anaconda (#1164577) (dshea)
+- Beware of 0 being the same bool value as None when setting time (vpodzime)
+- Fix the last member of the struct_time struct (vpodzime)
+- Use a flag to determine if the datetime spoke is shown (vpodzime)
+- Put AM/PM label and buttons in a revealer and hide/unhide them (vpodzime)
+- Fix issues with the date&time not being updated on timezone changes
+  (vpodzime)
+- Fix the way we create the list of DASDs needing dasdfmt. (#1073982)
+  (sbueno+anaconda)
+- Fix threading issues for dasdfmt in gui storage. (#1073982) (sbueno+anaconda)
+- Add sshkey kickstart command (bcl)
+- Skip setting up env and groups in software spoke for ks (#1173350) (bcl)
+- Add missing dnf package selection support (#1169056) (bcl)
+- Add variable substitution to DNF (#1164803) (bcl)
+- Simplify and robustify handling of fstype combo box. (amulhern)
+- Fix warnings about the default parameter that gdk deprecated (dshea)
+- Remove the color override from MountpointSelector. (dshea)
+- Move the layout indicator color to css and fix the colors (dshea)
+- Don't crash in pre-commit if no files changed (dshea)
+- Make the Selected Disks and Configure Mount Point dialogs wider (#1171834).
+  (clumens)
+- Sync up the Selected Disks and Configure Mount Points dialogs (#1171838).
+  (clumens)
+- Make sure /boot is not LVM LV if we're on s390x (#873135) (sbueno+anaconda)
+- Only show the "SYSTEM" heading if there are data mount points under it.
+  (clumens)
+- Remove an unused import in rpmostreepayload.py. (clumens)
+- Use DNF by default (#1156483) (mkolman)
+- Check system-release for whether to enable betanag or not (#1168829).
+  (clumens)
+- rpmostreepayload: Avoid shutil.copytree in favor of cp -r to fix symlinks
+  (walters)
+- Look for Requires: and BuildRequires: at the front of a line. (clumens)
+- Don't attempt to install anaconda packages from the install-requires target.
+  (clumens)
+- Remove _assureLogoImage (dshea)
+- Add a stylesheet property to BaseInstallClass (dshea)
+- Fix EOF error that occurs if user input required in x3270. (#1171135)
+  (jstodola)
+- Print an error when the kickstart file is missing (bcl)
+- Remove UserInterface.basepath and UserInterface.basemask definitions.
+  (amulhern)
+- Remove pointless overrides identified by the pointless override checker.
+  (amulhern)
+- Add a simple pointless-override checker to pylint checkers. (amulhern)
+
 * Thu Dec 04 2014 Brian C. Lane <bcl@redhat.com> - 22.12-1
 - add code so that initramfs created for rescue kernel (#1170589) (gczarcinski)
 - Start vncconfig for cutNpaste (hamzy)
