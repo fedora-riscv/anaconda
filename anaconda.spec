@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 22.14
+Version: 22.15
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -124,6 +124,7 @@ Requires: isomd5sum >= %{isomd5sum}
 Requires: yum-utils >= %{yumutilsver}
 Requires: createrepo_c
 Requires: NetworkManager >= %{nmver}
+Requires: NetworkManager-glib >= %{nmver}
 Requires: dhclient
 Requires: libselinux-python
 Requires: kbd
@@ -177,6 +178,9 @@ Requires: NetworkManager-wifi
 %endif
 Requires: anaconda-user-help >= %{helpver}
 Requires: yelp
+
+# Needed to compile the gsettings files
+BuildRequires: gsettings-desktop-schemas
 
 %description gui
 This package contains graphical user interface for the Anaconda installer.
@@ -285,6 +289,7 @@ update-desktop-database &> /dev/null || :
 
 %files gui
 %{_libdir}/python*/site-packages/pyanaconda/ui/gui/*
+%{_datadir}/anaconda/window-manager/glib-2.0/schemas/*
 
 %files tui
 %{_libdir}/python*/site-packages/pyanaconda/rescue.py
@@ -308,6 +313,33 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Jan 16 2015 Brian C. Lane <bcl@redhat.com> - 22.15-1
+- makebumpver needs to know about anaconda-1 transifex name (bcl)
+- Switch to temporary transifex branch (bcl)
+- Fix an issue in the previous pre-existing repo kickstart patch. (clumens)
+- Require the livecd target to be larger now. (clumens)
+- Hook up jenkins support into makebumpver. (clumens)
+- Change default console font to eurlatgr (myllynen)
+- Update help text for the nodnf option (mkolman)
+- Run AnacondaExceptionHandler in cmdline mode (bcl)
+- Install a metacity theme to remove the titlebar. (dshea)
+- Move metacity gsettings overrides into anaconda (dshea)
+- Maximize anaconda instead of running fullscreen (#1164457) (dshea)
+- Use a formatter on remotelog lines (bcl)
+- Include NetworkManager-glib in anaconda-core (bcl)
+- Make colon optional while adding iSCSI Initiator Name (sujithpshankar)
+- If using pre-existing, no size needs to be specified in ksdata (#1172172)
+  (amulhern)
+- Add support for sending logs to a remote host with --remotelog (bcl)
+- Implement askmethod in dnfpayload (dshea)
+- Add an installclass property for the default package environment (#1175826)
+  (dshea)
+- Fix the FIXME re: tui default software selection (dshea)
+- Add missing translation contexts for TUI navigation keys (dshea)
+- Translate 'c' in the tui software spoke (dshea)
+- Expect addons to have categories for both GUI and TUI (vpodzime)
+- Remove an unused import in pyanaconda/ui/__init__.py (vpodzime)
+
 * Fri Jan 09 2015 Brian C. Lane <bcl@redhat.com> - 22.14-1
 - Add error checks to liveimg mount code (#1178703) (bcl)
 - Switch kickstart tests to doing VNC instead of graphical. (clumens)
