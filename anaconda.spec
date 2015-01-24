@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 22.15
+Version: 22.16
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -290,6 +290,7 @@ update-desktop-database &> /dev/null || :
 %files gui
 %{_libdir}/python*/site-packages/pyanaconda/ui/gui/*
 %{_datadir}/anaconda/window-manager/glib-2.0/schemas/*
+%{_datadir}/themes/Anaconda/*
 
 %files tui
 %{_libdir}/python*/site-packages/pyanaconda/rescue.py
@@ -313,6 +314,19 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Jan 23 2015 Brian C. Lane <bcl@redhat.com> - 22.16-1
+- Add some tests for kickstart and package selection for dnf. (clumens)
+- Double quote when printing error results from a kickstart test. (clumens)
+- Restrict payload kernel versions to kernels in the payload (#1074358) (dshea)
+- Actually add the new definition of an already-defined repo. (clumens)
+- Move hdiso handling code to PackagePayload (#1180765) (dshea)
+- Actually install the metacity theme data (dshea)
+- Show the event box immediately when setting infobar messages. (dshea)
+- Move environment group selection logic to PackagePayload (#1179362) (dshea)
+- Add a parameter to environmentGroups for wheter to include optionlist.
+  (dshea)
+- Remove unused methods for deselecting environments (dshea)
+
 * Fri Jan 16 2015 Brian C. Lane <bcl@redhat.com> - 22.15-1
 - makebumpver needs to know about anaconda-1 transifex name (bcl)
 - Switch to temporary transifex branch (bcl)
