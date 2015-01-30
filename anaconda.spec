@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 22.16
+Version: 22.17
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -21,19 +21,16 @@ Source0: %{name}-%{version}.tar.bz2
 # Also update in AM_GNU_GETTEXT_VERSION in configure.ac
 %define gettextver 0.18.3
 %define intltoolver 0.31.2-3
-%define pykickstartver 1.99.65
+%define pykickstartver 1.99.66
 %define yumver 3.4.3-91
 %define dnfver 0.4.18
 %define partedver 1.8.1
 %define pypartedver 2.5-2
-%define pythonpyblockver 0.45
 %define nmver 0.9.9.0-10.git20130906
 %define dbusver 1.2.3
 %define yumutilsver 1.1.11-3
 %define mehver 0.23-1
-%define sckeyboardver 1.3.1
 %define firewalldver 0.3.5-1
-%define pythonurlgrabberver 3.9.1-5
 %define utillinuxver 2.15.1
 %define dracutver 034-7
 %define isomd5sum 1.0.10
@@ -64,7 +61,7 @@ BuildRequires: pykickstart >= %{pykickstartver}
 BuildRequires: python-bugzilla
 %endif
 BuildRequires: python-devel
-BuildRequires: python-urlgrabber >= %{pythonurlgrabberver}
+BuildRequires: python-requests
 BuildRequires: python-nose
 BuildRequires: systemd
 BuildRequires: yum >= %{yumver}
@@ -100,7 +97,7 @@ Requires: rpm-python >= %{rpmver}
 Requires: parted >= %{partedver}
 Requires: pyparted >= %{pypartedver}
 Requires: yum >= %{yumver}
-Requires: python-urlgrabber >= %{pythonurlgrabberver}
+Requires: python-requests
 Requires: pykickstart >= %{pykickstartver}
 Requires: langtable-data >= %{langtablever}
 Requires: langtable-python >= %{langtablever}
@@ -125,6 +122,7 @@ Requires: yum-utils >= %{yumutilsver}
 Requires: createrepo_c
 Requires: NetworkManager >= %{nmver}
 Requires: NetworkManager-glib >= %{nmver}
+Requires: NetworkManager-team
 Requires: dhclient
 Requires: libselinux-python
 Requires: kbd
@@ -260,17 +258,18 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %files
-%doc COPYING
 
 %files core -f %{name}.lang
-%doc COPYING
+%license COPYING
 %{_unitdir}/*
 %{_prefix}/lib/systemd/system-generators/*
 %{_bindir}/instperf
+%{_bindir}/anaconda-disable-nm-ibft-plugin
 %{_sbindir}/anaconda
 %{_sbindir}/handle-sshpw
 %{_datadir}/anaconda
 %{_prefix}/libexec/anaconda
+%exclude %{_prefix}/libexec/anaconda/dd_*
 %{_libdir}/python*/site-packages/pyanaconda/*
 %exclude %{_libdir}/python*/site-packages/pyanaconda/rescue.py*
 %exclude %{_libdir}/python*/site-packages/pyanaconda/text.py*
@@ -314,6 +313,70 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Jan 30 2015 Brian C. Lane <bcl@redhat.com> - 22.17-1
+- Fix pylint complaints about log lines (bcl)
+- Add JENKINS_PROXY support to makebumpver (bcl)
+- Copy the kickstart package tests for testing with yum (bcl)
+- Pass multiple args to runone in run_kickstart_tests.sh (bcl)
+- Ignore some accelerator collisions on the filter dialog. (clumens)
+- Remove an unused variable. (clumens)
+- network: fix a typo making creating virtual devices in %%pre fail (#1075195)
+  (rvykydal)
+- network: support for bridge, require pykickstart with the support (#1075195)
+  (rvykydal)
+- network: Catch exception from NM failing to create a bridge device (#1075195)
+  (rvykydal)
+- network: add bridge support for kickstart %%pre phase (#1075195) (rvykydal)
+- network: generate kickstart commands for bridge devices (#1075195) (rvykydal)
+- network: add bridge support to kickstart (#1075195) (rvykydal)
+- network: support for adding bridge devices (#1075195) (rvykydal)
+- network: display bridge devices in status (#1075195) (rvykydal)
+- Fix position of Refresh List button in filter spoke (#1065716) (rvykydal)
+- Fix accelerator collision of Refresh button (#1065716) (rvykydal)
+- gui: add Refresh button to network storage UI (#1065716) (rvykydal)
+- iscsi: display portal (address:port) of node in node list (#1114820)
+  (rvykydal)
+- iscsi: when logging into nodes consider ip:port of node (#1114820) (rvykydal)
+- network: display only actual fqdn of ip we offer for vnc connection
+  (#1089429) (rvykydal)
+- network: GUI: reactivate connection automatically after configuration
+  (#1033063) (rvykydal)
+- Don't traceback if connection does not have read-only setting (#1158919)
+  (rvykydal)
+- network: enable NM ibft plugin only for ip=ibft boot option (#804511)
+  (rvykydal)
+- network: add support for vlan tag in iBFT (#804511) (rvykydal)
+- network: pass team opts to dracut for netroot (#1075666) (rvykydal)
+- Remove unused version macros from anaconda.spec.in (vpodzime)
+- Don't process continue-clicked events for windows that aren't shown.
+  (clumens)
+- Add back an empty %%files for the anaconda metapackage (dshea)
+- Do not include dd_list and dd_extract in the anaconda-core package. (clumens)
+- Replace long usage with int (#1014220) (mkolman)
+- Do not use sys.exc_type (#1014220) (mkolman)
+- Replace StandardError with Exception (#1014220) (mkolman)
+- Make filter() usage Python 3 compatible (#1014220) (mkolman)
+- network: add teamd package if team is used during installation (#1185670)
+  (rvykydal)
+- network: add NetworkManager-team (#1182633) (rvykydal)
+- Don't allow weak LUKS passwords either (bcl)
+- Use %%license in anaconda.spec.in (bcl)
+- Don't allow weak passwords (text mode). (sbueno+anaconda)
+- Remove the press done twice to exit text (bcl)
+- Don't allow weak user passwords (bcl)
+- Don't allow weak root passwords (bcl)
+- Increase minimum password length to 8 (bcl)
+- Remove the unused re import from nm.py. (clumens)
+- Remove IPy from nm.py for python 23 compatibility. (rvykydal)
+- Show empty VGs in the custom spoke. (dlehman)
+- Use the rpm database to find kernel package versions (#1074358) (dshea)
+- Check whether a payload has an instclass (#1185588) (dshea)
+- Remove the unused indexed_dict module (vpodzime)
+- Use threadMgr to wait for exception handling to finish (vpodzime)
+- Add a method for waiting for error handling to finish (vpodzime)
+- Move HW errors processing to the code that runs in the main thread (vpodzime)
+- Replace python-urlgrabber with python-requests (#1141242) (mkolman)
+
 * Fri Jan 23 2015 Brian C. Lane <bcl@redhat.com> - 22.16-1
 - Add some tests for kickstart and package selection for dnf. (clumens)
 - Double quote when printing error results from a kickstart test. (clumens)
