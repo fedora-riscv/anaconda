@@ -2,14 +2,14 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 22.17
+Version: 22.18
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
 
 # To generate Source0 do:
-# git clone http://git.fedorahosted.org/git/anaconda.git
+# git clone https://github.com/rhinstaller/anaconda
 # git checkout -b archive-branch anaconda-%%{version}-%%{release}
 # ./autogen.sh
 # make dist
@@ -141,6 +141,7 @@ Requires: hfsplus-tools
 %endif
 
 Requires: python-coverage
+Requires: pygobject3
 
 # required because of the rescue mode and VNC question
 Requires: anaconda-tui = %{version}-%{release}
@@ -193,7 +194,6 @@ This package contains textual user interface for the Anaconda installer.
 %package widgets
 Summary: A set of custom GTK+ widgets for use with anaconda
 Group: System Environment/Libraries
-Requires: pygobject3
 Requires: python
 
 %description widgets
@@ -313,6 +313,23 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Feb 06 2015 Brian C. Lane <bcl@redhat.com> - 22.18-1
+- dracut needs iscsi_firmware cmdline arg (#1185792) (bcl)
+- Clear the default titlebar text (mkolman)
+- Move the pygobject3 dependency to the core package (#1188850) (mkolman)
+- Bump the livecd making timeout to 90 minutes. (clumens)
+- If a VM isn't going to finish in 60 minutes, it likely isn't going to finish.
+  (clumens)
+- Check that package globs install more than just the first package. (dshea)
+- Remove some stray parenthesis (#1188618) (dshea)
+- Replace urllib with python-requests for network access (#1014220) (mkolman)
+- The repo has moved to github, so reflect that in the spec. (clumens)
+- Fix pylint problems with the autopart commit. (clumens)
+- network: adapt to NM fixing virtual device disconnection (#1084953)
+  (rvykydal)
+- Replace xrange() with range() (vpodzime)
+- Move autopart functionality to anaconda (vpodzime)
+
 * Fri Jan 30 2015 Brian C. Lane <bcl@redhat.com> - 22.17-1
 - Fix pylint complaints about log lines (bcl)
 - Add JENKINS_PROXY support to makebumpver (bcl)
