@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 22.19
+Version: 22.20
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -89,7 +89,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= 1:0.74
+Requires: python-blivet >= 1:1.0
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -313,6 +313,15 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Feb 16 2015 Brian C. Lane <bcl@redhat.com> - 22.20-1
+- Make range usage Python 3 compatible (#1014220) (mkolman)
+- Make map() usage Python 3 compatible (#1014220) (mkolman)
+- Make the iter*() dictionary methods Python 3 compatible (#1014220) (mkolman)
+- Remove the autopart.py module from POTFILES.in (vpodzime)
+- Adapt to autopart and installation-specific code move in blivet (#1192702)
+  (vpodzime)
+- Revert "Move autopart functionality to anaconda" (vpodzime)
+
 * Fri Feb 13 2015 Brian C. Lane <bcl@redhat.com> - 22.19-1
 - Make sure yum is included in the packageset for yumpayload (#1152753) (bcl)
 - Tweak parallel args. (clumens)
