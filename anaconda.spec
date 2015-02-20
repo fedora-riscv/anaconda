@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 22.20
+Version: 22.20.1
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -51,7 +51,6 @@ BuildRequires: gtk3-devel-docs
 BuildRequires: glib2-doc
 BuildRequires: gobject-introspection-devel
 BuildRequires: glade-devel
-BuildRequires: pygobject3
 BuildRequires: intltool >= %{intltoolver}
 BuildRequires: libgnomekbd-devel
 BuildRequires: libxklavier-devel >= %{libxklavierver}
@@ -61,14 +60,8 @@ BuildRequires: pykickstart >= %{pykickstartver}
 BuildRequires: python-bugzilla
 %endif
 BuildRequires: python-devel
-BuildRequires: python-requests
 BuildRequires: python-nose
 BuildRequires: systemd
-BuildRequires: yum >= %{yumver}
-BuildRequires: NetworkManager-devel >= %{nmver}
-BuildRequires: NetworkManager-glib-devel >= %{nmver}
-BuildRequires: dbus-devel >= %{dbusver}
-BuildRequires: dbus-python
 BuildRequires: rpm-devel >= %{rpmver}
 BuildRequires: libarchive-devel >= %{libarchivever}
 %ifarch %livearches
@@ -313,6 +306,27 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Feb 20 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 22.20.1-1
+- Remove unused imports (dshea)
+- Check for unused imports in __init__ files (dshea)
+- Remove timestamp-based version support. (#1194494) (dshea)
+- Add test lib methods to check regexes (dshea)
+- Update txconfig for f22-branch (again).... (sbueno+anaconda)
+- Update txconfig for f22-branch. (sbueno+anaconda)
+- Cleanup BuildRequires (mkolman)
+- Remove obsolete imports. (amulhern)
+- Make print statement print output w/out surrounding parentheses. (amulhern)
+- Remove an unused import (dshea)
+- rpmostreepayload: Honor noverifyssl (walters)
+- typo: packaging: Don't vary name of "verified" (walters)
+- Disable the metacity mouse-button-modifier setting (dshea)
+- Fix completion setting in TUI language spoke. (#1192230) (sbueno+anaconda)
+- Remove the pylint false positives for the GLib module (dshea)
+- Use ExtendAction for --ignore flag (amulhern)
+- Use a simple ExtendAction for add_rpms option. (amulhern)
+- Fix log message formating (mkolman)
+- Don't clear nonexistent DNF package download location (#1193121) (mkolman)
+
 * Mon Feb 16 2015 Brian C. Lane <bcl@redhat.com> - 22.20-1
 - Make range usage Python 3 compatible (#1014220) (mkolman)
 - Make map() usage Python 3 compatible (#1014220) (mkolman)
