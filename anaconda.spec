@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 23.0
+Version: 23.1
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -21,9 +21,9 @@ Source0: %{name}-%{version}.tar.bz2
 # Also update in AM_GNU_GETTEXT_VERSION in configure.ac
 %define gettextver 0.18.3
 %define intltoolver 0.31.2-3
-%define pykickstartver 1.99.66
+%define pykickstartver 2.0
 %define yumver 3.4.3-91
-%define dnfver 0.4.18
+%define dnfver 0.6.4
 %define partedver 1.8.1
 %define pypartedver 2.5-2
 %define nmver 0.9.9.0-10.git20130906
@@ -55,13 +55,14 @@ BuildRequires: intltool >= %{intltoolver}
 BuildRequires: libgnomekbd-devel
 BuildRequires: libxklavier-devel >= %{libxklavierver}
 BuildRequires: pango-devel
-BuildRequires: pykickstart >= %{pykickstartver}
+BuildRequires: python-kickstart >= %{pykickstartver}
 %if ! 0%{?rhel}
 BuildRequires: python-bugzilla
 %endif
 BuildRequires: python-devel
 BuildRequires: python-nose
 BuildRequires: systemd
+# rpm and libarchive are needed for driver disk handling
 BuildRequires: rpm-devel >= %{rpmver}
 BuildRequires: libarchive-devel >= %{libarchivever}
 %ifarch %livearches
@@ -82,6 +83,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
+Requires: python-dnf >= %{dnfver}
 Requires: python-blivet >= 1:1.0
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
@@ -91,7 +93,7 @@ Requires: parted >= %{partedver}
 Requires: pyparted >= %{pypartedver}
 Requires: yum >= %{yumver}
 Requires: python-requests
-Requires: pykickstart >= %{pykickstartver}
+Requires: python-kickstart >= %{pykickstartver}
 Requires: langtable-data >= %{langtablever}
 Requires: langtable-python >= %{langtablever}
 Requires: libuser-python
@@ -208,7 +210,7 @@ Summary: The anaconda dracut module
 Requires: dracut >= %{dracutver}
 Requires: dracut-network
 Requires: xz
-Requires: pykickstart
+Requires: python-kickstart
 
 %description dracut
 The 'anaconda' dracut module handles installer-specific boot tasks and
@@ -306,6 +308,24 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Feb 27 2015 Brian C. Lane <bcl@redhat.com> - 23.1-1
+- Make sure python2 dnf is required (bcl)
+- Fix pykickstart requirement. (clumens)
+- Extract xattrs from tar payload (#1195462) (bcl)
+- Add a script to rebase and merge pull requests (dshea)
+- Update translation documentation for Zanata (bcl)
+- Switch translation support to fedora.zanata.org (bcl)
+- install.py: fix the 'is team device' check (awilliam)
+- Explain why Anaconda requires rpm-devel and libarchive-devel during build
+  (mkolman)
+- Revert "Switch to temporary transifex branch" (bcl)
+- Revert "makebumpver needs to know about anaconda-1 transifex name" (bcl)
+- Commit 23.0 anaconda.pot file (bcl)
+- Rename queue.py to queuefactory.py. (clumens)
+- Remove references to old_tests, which no longer exists. (clumens)
+- Fix package and group removing with the dnf payload. (clumens)
+- Don't try to run new-kernel-pkg if it doesn't exist. (clumens)
+
 * Fri Feb 20 2015 Brian C. Lane <bcl@redhat.com> - 23.0-1
 - Remove unused imports (dshea)
 - Check for unused imports in __init__ files (dshea)
