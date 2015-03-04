@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 22.20.2
+Version: 22.20.3
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -82,7 +82,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: dnf >= %{dnfver}
-Requires: python-blivet >= 1:1.0
+Requires: python-blivet >= 1:1.0.1
 Requires: python-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python
@@ -306,6 +306,11 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Mar 04 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 22.20.3-1
+- Fix the import of mountExistingSystem (vpodzime)
+- Fix import error in anaconda-cleanup. (sbueno+anaconda)
+- Use the new static method to get possible PE sizes (vpodzime)
+
 * Tue Mar 03 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 22.20.2-1
 - Fix a bad usage of execWithRedirect (#1197290) (dshea)
 - Use the LUKS device for swap in fstab (#1196200) (vpodzime)
