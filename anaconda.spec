@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 22.20.3
+Version: 22.20.4
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -135,6 +135,9 @@ Requires: hfsplus-tools
 
 Requires: python-coverage
 Requires: pygobject3
+
+# Used by rescue.py and the low RAM message in /sbin/anaconda
+Requires: newt-python
 
 # required because of the rescue mode and VNC question
 Requires: anaconda-tui = %{version}-%{release}
@@ -306,6 +309,20 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Mar 13 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 22.20.4-1
+- Only insert strings into the environment (#1201411) (dshea)
+- Fix the rescue kernel version list in writeBootLoader (#1201429) (dshea)
+- Fix the handling of nfs:// URLs. (dshea)
+- Add glob support for the -a/--add option in makeupdates (mkolman)
+- Require newt-python in anaconda-core (dshea)
+- Fix the help button mnemonic display on spokes (dshea)
+- Display an error for exceptions during GUI setup (dshea)
+- Remove unused invisible char properties (dshea)
+- Add a check for invisible_char validity (dshea)
+- Connect viewport adjustments to child focus adjustments (#1192155) (dshea)
+- Try using the global LUKS passphrase if none is given for LV/part (#1196112)
+  (vpodzime)
+
 * Wed Mar 04 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 22.20.3-1
 - Fix the import of mountExistingSystem (vpodzime)
 - Fix import error in anaconda-cleanup. (sbueno+anaconda)
