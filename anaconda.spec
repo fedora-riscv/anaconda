@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 23.2
+Version: 23.3
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -137,6 +137,9 @@ Requires: hfsplus-tools
 
 Requires: python-coverage
 Requires: pygobject3
+
+# Used by rescue.py and the low RAM message in /sbin/anaconda
+Requires: newt-python
 
 # required because of the rescue mode and VNC question
 Requires: anaconda-tui = %{version}-%{release}
@@ -308,6 +311,23 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Mar 13 2015 Brian C. Lane <bcl@redhat.com> - 23.3-1
+- Only insert strings into the environment (#1201411) (dshea)
+- Fix the rescue kernel version list in writeBootLoader (#1201429) (dshea)
+- Missing local variable check (omerusta)
+- Fix the handling of nfs:// URLs. (dshea)
+- Add glob support for the -a/--add option in makeupdates (mkolman)
+- White Space fixes (omerusta)
+- Put all mock results into the top-level source dir. (clumens)
+- Merge pull request #31 from dcantrell/master (david.l.cantrell)
+- Require newt-python in anaconda-core (dshea)
+- Make merge-pr executable (dshea)
+- Display an error for exceptions during GUI setup (dshea)
+- Remove unused invisible char properties (dshea)
+- Add a check for invisible_char validity (dshea)
+- Connect viewport adjustments to child focus adjustments (#1192155) (dshea)
+- Support '%%packages --multilib' in dnfpayload.py (#1192628) (dcantrell)
+
 * Fri Mar 06 2015 Brian C. Lane <bcl@redhat.com> - 23.2-1
 - Add rc-release target (bcl)
 - Change --skip-tx to --skip-zanata in scratch-bumpver (bcl)
