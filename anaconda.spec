@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 22.20.4
+Version: 22.20.5
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -309,6 +309,11 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Mar 17 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 22.20.5-1
+- Fix enlightbox call in ZFCPDialog. (#1151144) (sbueno+anaconda)
+- Improve the addon repo name collision code (#1125322) (bcl)
+- Handle New_Repository name collision source spoke (#1125322) (bcl)
+
 * Fri Mar 13 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 22.20.4-1
 - Only insert strings into the environment (#1201411) (dshea)
 - Fix the rescue kernel version list in writeBootLoader (#1201429) (dshea)
