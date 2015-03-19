@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 22.20.5
+Version: 22.20.6
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -31,6 +31,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define yumutilsver 1.1.11-3
 %define mehver 0.23-1
 %define firewalldver 0.3.5-1
+%define pythonurlgrabberver 3.9.1-5
 %define utillinuxver 2.15.1
 %define dracutver 034-7
 %define isomd5sum 1.0.10
@@ -60,6 +61,7 @@ BuildRequires: pykickstart >= %{pykickstartver}
 BuildRequires: python-bugzilla
 %endif
 BuildRequires: python-devel
+BuildRequires: python-urlgrabber >= %{pythonurlgrabberver}
 BuildRequires: python-nose
 BuildRequires: systemd
 BuildRequires: rpm-devel >= %{rpmver}
@@ -90,6 +92,7 @@ Requires: rpm-python >= %{rpmver}
 Requires: parted >= %{partedver}
 Requires: pyparted >= %{pypartedver}
 Requires: yum >= %{yumver}
+Requires: python-urlgrabber >= %{pythonurlgrabberver}
 Requires: python-requests
 Requires: pykickstart >= %{pykickstartver}
 Requires: langtable-data >= %{langtablever}
@@ -309,6 +312,12 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Mar 19 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 22.20.6-1
+- Handle /boot on btrfs for live (#1200539) (bcl)
+- Switch back to urllib for determining livepayload size (dshea)
+- Revert "Replace python-urlgrabber with python-requests (#1141242)" (dshea)
+- Tweak tmux configuration file (jkonecny)
+
 * Tue Mar 17 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 22.20.5-1
 - Fix enlightbox call in ZFCPDialog. (#1151144) (sbueno+anaconda)
 - Improve the addon repo name collision code (#1125322) (bcl)
