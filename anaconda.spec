@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 22.20.6
+Version: 22.20.7
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -137,7 +137,7 @@ Requires: hfsplus-tools
 %endif
 
 Requires: python-coverage
-Requires: pygobject3
+Requires: pygobject3-base
 
 # Used by rescue.py and the low RAM message in /sbin/anaconda
 Requires: newt-python
@@ -176,6 +176,7 @@ Requires: NetworkManager-wifi
 %endif
 Requires: anaconda-user-help >= %{helpver}
 Requires: yelp
+Requires: pygobject3
 
 # Needed to compile the gsettings files
 BuildRequires: gsettings-desktop-schemas
@@ -312,6 +313,23 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Mar 26 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 22.20.7-1
+- Add documentation on %%anaconda kickstart command (bcl)
+- Change --skip-tx to --skip-zanata in scratch-bumpver (bcl)
+- Update translation documentation for Zanata (bcl)
+- Switch translation support to fedora.zanata.org (bcl)
+- Only depend on pygobject3-base in anaconda-core (#1204469) (mkolman)
+- Use proxy when configured for the base repo (#1196953) (sjenning)
+- Add boolean as return to ThreadManager.wait (jkonecny)
+- Assume UTC if setting the system time without a timezone (#1200444) (dshea)
+- Make sure LANG is always set to something (#1201896) (dshea)
+- Implement %%anaconda kickstart section for pwpolicy (bcl)
+- Add pwpolicy support to TUI interface (bcl)
+- Add pwpolicy for the LUKS passphrase dialog. (bcl)
+- Add pwpolicy for the user spoke. (bcl)
+- Use pwpolicy for the root password spoke. (bcl)
+- Add the text for weak passwords to constants (bcl)
+
 * Thu Mar 19 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 22.20.6-1
 - Handle /boot on btrfs for live (#1200539) (bcl)
 - Switch back to urllib for determining livepayload size (dshea)
