@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 22.20.7
+Version: 22.20.8
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -313,6 +313,15 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Apr 02 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 22.20.8-1
+- Allow overriding password policy check (sgallagh)
+- Do not use min_luks_entropy with pre-existing devices (#1206101) (dshea)
+- Remove the dnf cache directory when resetting the repo (dshea)
+- Do not add separators to the addon list when not needed (dshea)
+- Only use the instclass environment if it actually exists. (#1198953) (dshea)
+- Prevent Storage spoke Done button method from multiple launch (jkonecny)
+- Prevent spokes from being exited more times. (jkonecny)
+
 * Thu Mar 26 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 22.20.7-1
 - Add documentation on %%anaconda kickstart command (bcl)
 - Change --skip-tx to --skip-zanata in scratch-bumpver (bcl)
