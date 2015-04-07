@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 22.20.8
+Version: 22.20.9
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -313,6 +313,10 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Apr 07 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 22.20.9-1
+- Revert "allow /boot on btrfs subvol or filesystem" (bcl)
+- Connect scroll adjustments in the right class (#1206472) (dshea)
+
 * Thu Apr 02 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 22.20.8-1
 - Allow overriding password policy check (sgallagh)
 - Do not use min_luks_entropy with pre-existing devices (#1206101) (dshea)
