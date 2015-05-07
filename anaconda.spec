@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 22.20.11
+Version: 22.20.12
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -237,6 +237,10 @@ find %{buildroot} -type f -name "*.la" | xargs %{__rm}
 
 %ifarch %livearches
 desktop-file-install ---dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/liveinst.desktop
+
+# Add a sitecustomize.py to be loaded by liveinst
+mkdir -p %{buildroot}%{_datadir}/anaconda/site-python
+install -m 0644 pyanaconda/sitecustomize.py %{buildroot}%{_datadir}/anaconda/site-python/
 %endif
 # NOTE: If you see "error: Installed (but unpackaged) file(s) found" that include liveinst files,
 #       check the IS_LIVEINST_ARCH in configure.ac to make sure your architecture is properly defined
@@ -313,6 +317,14 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu May 07 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 22.20.12-1
+- Force an encoding of utf-8 on liveinst installs (#1217504) (dshea)
+- Catch libblockdev's CryptoError when trying to unlock LUKS (#1217438)
+  (vpodzime)
+- Distinguish between NTP pools and servers in GUI (vpodzime)
+- Add support for chrony pool directive (mlichvar)
+- Configure proxy settings for dnf payload (#1211122) (bcl)
+
 * Mon Apr 27 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 22.20.11-1
 - Create and use snapshot of on-disk storage with no modifications (#1166598)
   (vpodzime)
