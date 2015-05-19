@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 22.20.12
+Version: 22.20.13
 Release: 1%{?dist}
 License: GPLv2+
 Group:   Applications/System
@@ -317,6 +317,10 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue May 19 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 22.20.13-1
+- Fix a typo that caused us to discard corrected target sizes. (#1211746)
+  (dlehman)
+
 * Thu May 07 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 22.20.12-1
 - Force an encoding of utf-8 on liveinst installs (#1217504) (dshea)
 - Catch libblockdev's CryptoError when trying to unlock LUKS (#1217438)
