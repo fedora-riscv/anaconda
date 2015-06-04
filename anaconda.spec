@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 23.8
+Version: 23.9
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -21,7 +21,7 @@ Source0: %{name}-%{version}.tar.bz2
 # Also update in AM_GNU_GETTEXT_VERSION in configure.ac
 %define gettextver 0.18.3
 %define intltoolver 0.31.2-3
-%define pykickstartver 2.6
+%define pykickstartver 2.8
 %define dnfver 0.6.4
 %define partedver 1.8.1
 %define pypartedver 2.5-2
@@ -226,9 +226,7 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %setup -q
 
 %build
-%configure --disable-static \
-           --enable-introspection \
-           --enable-gtk-doc
+%configure
 %{__make} %{?_smp_mflags}
 
 %install
@@ -313,6 +311,45 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Jun 03 2015 Brian C. Lane <bcl@redhat.com> - 23.9-1
+- Fix a usage typo in run_once_ks script. (sbueno+anaconda)
+- Add kickstart tests for keyboard settings. (sbueno+anaconda)
+- Add a kickstart test for lang settings. (sbueno+anaconda)
+- Fix a %% call inside _(). (clumens)
+- Convert ntp-pools.* to using the new kstest functions and autopart. (clumens)
+- Fix up the expected output in parse-kickstart_test.py. (clumens)
+- Fix a couple more pylint problems in the s390 code. (clumens)
+- Use the adapted Timezone class for kickstart data (vpodzime)
+- Add a kickstart test for processing NTP servers/pools configuration
+  (vpodzime)
+- Show error on invalid username attempts in TUI. (#1171778) (sbueno+anaconda)
+- Fix dracut reads ksdevice from missing os enviromnent (jkonecny)
+- Run kickstart tests through an LMC-like program, not LMC itself. (clumens)
+- Move common kickstart_test code out into its own functions.sh file. (clumens)
+- Switch to using autopart in the kickstart tests. (clumens)
+- Fix a couple pylint errors. (sbueno+anaconda)
+- Make anaconda changes necessary for libblockdev s390 plugin.
+  (sbueno+anaconda)
+- Add a kickstart test for lvm with percentage-based sizes. (dlehman)
+- Add kickstart test for basic fixed-size lvm layout. (dlehman)
+- Add a kickstart test to validate the default fstype. (dlehman)
+- Add kickstart test to test bond interface creation (jkonecny)
+- Add kickstart test to test vlan creation (jkonecny)
+- Fix --device=link and --device not specified (#1085310) (rvykydal)
+- Add kickstart test to test hostname (jkonecny)
+- Add a /boot to tmpfs-fixed_size.ks. (clumens)
+- Fix bad warning message when user set illegal IP (jkonecny)
+- Fix bad check of illegal ip address (jkonecny)
+- Add a simple tmpfs kickstart test (mkolman)
+- Add a kickstart test for escrow packets and backup passphrases (dshea)
+- Fix a typo that caused us to discard corrected target sizes. (#1211746)
+  (dlehman)
+- Don't pass anything to ./configure. (dshea)
+- Fix a pylint problem in parse-kickstart_test.py. (clumens)
+- Fix 0 choice in Language and Storage in TUI mode (jkonecny)
+- Update html documentation for new boot-options section (bcl)
+- Convert boot-options to ReST and include it in the Sphinx documents. (bcl)
+
 * Fri May 15 2015 Brian C. Lane <bcl@redhat.com> - 23.8-1
 - Clean up after processKickstart in parse-kickstart_test.py. (clumens)
 - Add support to dnfpayload.py for addon NFS repos. (clumens)
