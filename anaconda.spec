@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 23.9
+Version: 23.10
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -27,7 +27,6 @@ Source0: %{name}-%{version}.tar.bz2
 %define pypartedver 2.5-2
 %define nmver 0.9.9.0-10.git20130906
 %define dbusver 1.2.3
-%define yumutilsver 1.1.11-3
 %define mehver 0.23-1
 %define firewalldver 0.3.5-1
 %define utillinuxver 2.15.1
@@ -54,12 +53,12 @@ BuildRequires: intltool >= %{intltoolver}
 BuildRequires: libgnomekbd-devel
 BuildRequires: libxklavier-devel >= %{libxklavierver}
 BuildRequires: pango-devel
-BuildRequires: python-kickstart >= %{pykickstartver}
+BuildRequires: python3-kickstart >= %{pykickstartver}
 %if ! 0%{?rhel}
-BuildRequires: python-bugzilla
+BuildRequires: python3-bugzilla
 %endif
-BuildRequires: python-devel
-BuildRequires: python-nose
+BuildRequires: python3-devel
+BuildRequires: python3-nose
 BuildRequires: systemd
 # rpm and libarchive are needed for driver disk handling
 BuildRequires: rpm-devel >= %{rpmver}
@@ -81,29 +80,28 @@ The anaconda package is a metapackage for the Anaconda installer.
 
 %package core
 Summary: Core of the Anaconda installer
-Requires: dnf >= %{dnfver}
-Requires: python-dnf >= %{dnfver}
-Requires: python-blivet >= 1:1.3
-Requires: python-meh >= %{mehver}
+Requires: python3-dnf >= %{dnfver}
+Requires: python3-blivet >= 1:1.0
+Requires: python3-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
-Requires: libselinux-python
-Requires: rpm-python >= %{rpmver}
+Requires: libselinux-python3
+Requires: rpm-python3 >= %{rpmver}
 Requires: parted >= %{partedver}
-Requires: pyparted >= %{pypartedver}
-Requires: python-requests
-Requires: python-requests-file
-Requires: python-requests-ftp
-Requires: python-kickstart >= %{pykickstartver}
+Requires: python3-pyparted >= %{pypartedver}
+Requires: python3-requests
+Requires: python3-requests-file
+Requires: python3-requests-ftp
+Requires: python3-kickstart >= %{pykickstartver}
 Requires: langtable-data >= %{langtablever}
-Requires: langtable-python >= %{langtablever}
-Requires: libuser-python
+Requires: langtable-python3 >= %{langtablever}
+Requires: libuser-python3
 Requires: authconfig
 Requires: firewalld >= %{firewalldver}
 Requires: util-linux >= %{utillinuxver}
-Requires: dbus-python
-Requires: python-pwquality
-Requires: python-IPy
-Requires: pytz
+Requires: python3-dbus
+Requires: python3-pwquality
+Requires: python-IPy-python3
+Requires: python3-pytz
 Requires: realmd
 Requires: teamd
 %ifarch %livearches
@@ -113,16 +111,14 @@ Requires: usermode
 Requires: openssh
 %endif
 Requires: isomd5sum >= %{isomd5sum}
-Requires: yum-utils >= %{yumutilsver}
 Requires: createrepo_c
 Requires: NetworkManager >= %{nmver}
 Requires: NetworkManager-glib >= %{nmver}
 Requires: NetworkManager-team
 Requires: dhclient
-Requires: libselinux-python
 Requires: kbd
 Requires: chrony
-Requires: python-ntplib
+Requires: python3-ntplib
 Requires: rsync
 Requires: systemd
 %ifarch %{ix86} x86_64
@@ -136,11 +132,10 @@ Requires: hfsplus-tools
 %endif
 Requires: kexec-tools
 
-Requires: python-coverage
-Requires: pygobject3-base
+Requires: python3-coverage
 
 # Used by rescue.py and the low RAM message in /sbin/anaconda
-Requires: newt-python
+Requires: newt-python3
 
 # required because of the rescue mode and VNC question
 Requires: anaconda-tui = %{version}-%{release}
@@ -159,7 +154,7 @@ system.
 Summary: Graphical user interface for the Anaconda installer
 Requires: anaconda-core = %{version}-%{release}
 Requires: anaconda-widgets = %{version}-%{release}
-Requires: python-meh-gui >= %{mehver}
+Requires: python3-meh-gui >= %{mehver}
 Requires: adwaita-icon-theme
 Requires: system-logos
 Requires: tigervnc-server-minimal
@@ -176,7 +171,7 @@ Requires: NetworkManager-wifi
 %endif
 Requires: anaconda-user-help >= %{helpver}
 Requires: yelp
-Requires: pygobject3
+Requires: python3-gobject
 
 # Needed to compile the gsettings files
 BuildRequires: gsettings-desktop-schemas
@@ -194,7 +189,7 @@ This package contains textual user interface for the Anaconda installer.
 %package widgets
 Summary: A set of custom GTK+ widgets for use with anaconda
 Group: System Environment/Libraries
-Requires: python
+Requires: python3
 
 %description widgets
 This package contains a set of custom GTK+ widgets used by the anaconda installer.
@@ -215,7 +210,7 @@ Summary: The anaconda dracut module
 Requires: dracut >= %{dracutver}
 Requires: dracut-network
 Requires: xz
-Requires: python-kickstart
+Requires: python3-kickstart
 
 %description dracut
 The 'anaconda' dracut module handles installer-specific boot tasks and
@@ -311,6 +306,90 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Jun 10 2015 Brian C. Lane <bcl@redhat.com> - 23.10-1
+- Deal with encrypted partitions not being readable by virt-cat. (clumens)
+- Make use of the restore_signals Popen argument (dshea)
+- Don't allow /boot on iSCSI. (#1164195) (sbueno+anaconda)
+- Merge pull request #127 from mulkieran/master-kickstart (mulkieran)
+- Actually distribute the clickable message test, too (dshea)
+- Fix disk argument passing to virt-cat in the ostree test. (clumens)
+- Relabel all password and group files in %%post (#1228489) (dshea)
+- Deal with the order of ifcfg files not being guaranteed. (clumens)
+- Add a __init__.py to fix up an error when running iutil_test.py. (clumens)
+- Actually run the clickable message test (dshea)
+- Add a false positive to pylint checking for S390Error. (clumens)
+- Let the excludedocs test pass if there are only directories left. (clumens)
+- Allow successful kstest results to provide more details. (clumens)
+- The escrow_cert test cannot use autopart. (clumens)
+- Don't warn on PyInit__isys being unused. (clumens)
+- Test that root LV is encrypted. (amulhern)
+- Deal with subprocess returning bytes in tests/lib/filelist.py, too. (clumens)
+- Make anaconda+python3+pocketlint work. (clumens)
+- Start using our new shared pylint framework in anaconda. (clumens)
+- Remove our extra pylint checkers. (clumens)
+- Remove a duplicate libselinux-python3 requires. (clumens)
+- Run makeupdates with Python 2 for now (mkolman)
+- Don't use the _safechars private property (#1014220) (mkolman)
+- Make sure directory size is returned as int (#1014220) (mkolman)
+- Only warn about missing yum-utils (#1014220) (mkolman)
+- Make sure set_system_time() gets an integer (#1014220) (mkolman)
+- Make sure the column number in TUI is an integer (#1141242) (mkolman)
+- Python 3 compatible sorting fixes (#1014220) (mkolman)
+- Make version comparison Python 3 compatible (#1014220) (mkolman)
+- Don't apply numeric comparison on None (#1141242) (mkolman)
+- Avoid comparing None to an integer (#1141242) (mkolman)
+- Handle urllib split (#1014220) (mkolman)
+- Don't try to decode strings (#1014220) (mkolman)
+- Rename function attributes (#1014220) (mkolman)
+- Replace raw_input() with input() (#1014220) (mkolman)
+- Make iterators and their usage Python 3 compatible (#1014220) (mkolman)
+- Convert Python 2 metaclass magic to Python 3 metaclass magic (#1014220)
+  (mkolman)
+- Make the raise syntax Python 3 compatible (#1014220) (mkolman)
+- Python 3 no longer does tuple parameter unpacking (#1014220) (mkolman)
+- Make isys Python 3 compatible (#1014220) (mkolman)
+- Set a correct mode for the tempfile (#1014220) (mkolman)
+- Python 3 temp files no longer reflect external changes (#1014220) (mkolman)
+- Make print usage Python 3 compatible (#1014220) (mkolman)
+- Rename the warnings spoke to warnings_spoke (#1014220) (mkolman)
+- Replace list comprehension with for at class level (mkolman)
+- Make gettext usage Python 3 compatible (#1014220) (mkolman)
+- Do not open tty5 for writing in the "a" mode (#1014220) (vpodzime)
+- Do not use pykickstart's RepoData as a key in a dict (#1014220) (vpodzime)
+- Do not run repo attrs' checks if they are not set up yet (#1014220)
+  (vpodzime)
+- Don't depend on side effects of map() (#1141242) (mkolman)
+- Don't use exceptions' message attribute (#1014220) (vpodzime)
+- Addapt to string type changes (#1014220) (mkolman)
+- Handle modules returning bytes in Python 3 (#1014220) (mkolman)
+- Add and use function that makes sure we work with strings (#1014220)
+  (vpodzime)
+- Handle modules requiring different string types in Python 3 (#1014220)
+  (mkolman)
+- Remove sitecustomize (#1014220) (mkolman)
+- Make ASCII conversions Python compatible (#1014220) (mkolman)
+- Remove "is Unicode" tests (#1014220) (mkolman)
+- Fix ASCII conversion tests (#1014220) (mkolman)
+- Return a string when calling a program (#1014220) (mkolman)
+- Handle subprocess returning bytes (#1014220) (mkolman)
+- Handle latin-1 strings in locale -a output (#1014220) (mkolman)
+- Open the VNC password file for binary writing (#1014220) (mkolman)
+- Update parse-kickstart for python3 (#1014220) (bcl)
+- Update driver-updates for python3 (#1014220) (bcl)
+- Update python-deps for python3 (#1014220) (bcl)
+- Add a test for parse-kickstart (#1014220) (bcl)
+- Make the import Python 3 compatible (#1014220) (mkolman)
+- Change configparser and queue imports (#1014220) (mkolman)
+- Remove imports from the __future__ (#1014220) (mkolman)
+- Use the imp module directly (#1014220) (mkolman)
+- Use Python 3 versions of Python dependencies  (#1014220) (mkolman)
+- Use /usr/bin/python3 in scripts (#1014220) (mkolman)
+- Use Python 3 versions of nose and Pylint (#1014220) (mkolman)
+- Build the Anaconda widgets for Python 3 (#1014220) (mkolman)
+- Update makebumpver for python3 (#1014220) (bcl)
+- Fix Kickstart installation without default gateway errors out (jkonecny)
+- Fix results checking in a couple ks tests. (clumens)
+
 * Wed Jun 03 2015 Brian C. Lane <bcl@redhat.com> - 23.9-1
 - Fix a usage typo in run_once_ks script. (sbueno+anaconda)
 - Add kickstart tests for keyboard settings. (sbueno+anaconda)
