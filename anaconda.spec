@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 23.10
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -130,7 +130,9 @@ Requires: iscsi-initiator-utils >= %{iscsiver}
 Requires: hfsplus-tools
 %endif
 %endif
+%ifnarch aarch64
 Requires: kexec-tools
+%endif
 
 Requires: python3-coverage
 
@@ -306,6 +308,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Jun 17 2015 Peter Robinson <pbrobinson@fedoraproject.org> 23.10-3
+- aarch64 doesn't have kexec-tools
+
 * Tue Jun 16 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 23.10-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
