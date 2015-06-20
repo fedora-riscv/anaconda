@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 23.10
-Release: 3%{?dist}
+Version: 23.11
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -33,7 +33,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define dracutver 034-7
 %define isomd5sum 1.0.10
 %define fcoeutilsver 1.0.12-3.20100323git
-%define iscsiver 6.2.0.870-3
+%define iscsiver 6.2.0.873-26
 %define rpmver 4.10.0
 %define libarchivever 3.0.4
 %define langtablever 0.0.18-1
@@ -81,7 +81,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: python3-dnf >= %{dnfver}
-Requires: python3-blivet >= 1:1.0
+Requires: python3-blivet >= 1:1.4
 Requires: python3-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python3
@@ -124,13 +124,13 @@ Requires: systemd
 %ifarch %{ix86} x86_64
 Requires: fcoe-utils >= %{fcoeutilsver}
 %endif
-Requires: iscsi-initiator-utils >= %{iscsiver}
+Requires: python3-iscsi-initiator-utils >= %{iscsiver}
 %ifarch %{ix86} x86_64
 %if ! 0%{?rhel}
 Requires: hfsplus-tools
 %endif
 %endif
-%ifnarch aarch64
++%ifnarch aarch64
 Requires: kexec-tools
 %endif
 
@@ -308,11 +308,38 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Wed Jun 17 2015 Peter Robinson <pbrobinson@fedoraproject.org> 23.10-3
-- aarch64 doesn't have kexec-tools
-
-* Tue Jun 16 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 23.10-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+* Fri Jun 19 2015 Brian C. Lane <bcl@redhat.com> - 23.11-1
+- Do not import iutil from flags (dshea)
+- Ignore EINTR errors in files unlikely to encounter them (dshea)
+- Reimplement the open override for the dracut scripts (dshea)
+- Wrap the only non-open call found by the new pocketlint checks (dshea)
+- Redefine open to retry on EINTR (dshea)
+- Remove __future__ imports (dshea)
+- Use python 3's OSError subclasses instead of checking errno (dshea)
+- Allow kwargs in eintr_retry_call (dshea)
+- Remove explicit uses of /dev/null (dshea)
+- Do not retry calls to close or dup2 (dshea)
+- Remove another function from isys (dshea)
+- Make dialogs behave better with timed input validation (dshea)
+- Fix the password/confirm checks to work with delayed validation (dshea)
+- Move the URL protocol removal out of the input check (dshea)
+- Remove the vestigal capslock label from the password spoke (dshea)
+- Re-saved a few glade files (dshea)
+- Run set_status unconditionally from update_check_status (dshea)
+- Do not run input checks for every keystroke of input (#1206307) (dshea)
+- Add a method to execute timed actions early (dshea)
+- Use comps.environments instead of comps.environments_iter (#1221736) (dshea)
+- Merge pull request #83 from mulkieran/master-requires (mulkieran)
+- Only show supported autopart choices in choices combo. (amulhern)
+- Strip out device types that blivet is not able to support. (amulhern)
+- Update blivet required version. (amulhern)
+- Fix nfs4 stage2 and repo handling (#1230329) (bcl)
+- Update upd-kernel so that it actually works (#1166535) (bcl)
+- Fix passing ,nfsvers=3 to dracut (#1161820) (bcl)
+- Require the python3 version of iscsi-initiator-utils (dshea)
+- Fix the pylint pre-commit hook for python3 and pocketlint (dshea)
+- Fix a type check to work with python 3. (dshea)
+- Do not log Xorg output to tty5 (dshea)
 
 * Wed Jun 10 2015 Brian C. Lane <bcl@redhat.com> - 23.10-1
 - Deal with encrypted partitions not being readable by virt-cat. (clumens)
