@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 23.11
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -130,7 +130,7 @@ Requires: python3-iscsi-initiator-utils >= %{iscsiver}
 Requires: hfsplus-tools
 %endif
 %endif
-+%ifnarch aarch64
+%ifnarch aarch64
 Requires: kexec-tools
 %endif
 
