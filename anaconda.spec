@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 23.13
+Version: 23.14
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -266,11 +266,13 @@ update-desktop-database &> /dev/null || :
 %{_datadir}/anaconda
 %{_prefix}/libexec/anaconda
 %exclude %{_prefix}/libexec/anaconda/dd_*
-%{_libdir}/python*/site-packages/pyanaconda/*
-%exclude %{_libdir}/python*/site-packages/pyanaconda/rescue.py*
-%exclude %{_libdir}/python*/site-packages/pyanaconda/text.py*
-%exclude %{_libdir}/python*/site-packages/pyanaconda/ui/gui/*
-%exclude %{_libdir}/python*/site-packages/pyanaconda/ui/tui/*
+%{python3_sitearch}/pyanaconda/*
+%exclude %{python3_sitearch}/pyanaconda/rescue.py*
+%exclude %{python3_sitearch}/pyanaconda/text.py*
+%exclude %{python3_sitearch}/pyanaconda/__pycache__/rescue.*
+%exclude %{python3_sitearch}/pyanaconda/__pycache__/text.*
+%exclude %{python3_sitearch}/pyanaconda/ui/gui/*
+%exclude %{python3_sitearch}/pyanaconda/ui/tui/*
 %{_bindir}/analog
 %{_bindir}/anaconda-cleanup
 %ifarch %livearches
@@ -283,19 +285,21 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %files gui
-%{_libdir}/python*/site-packages/pyanaconda/ui/gui/*
+%{python3_sitearch}/pyanaconda/ui/gui/*
 %{_datadir}/anaconda/window-manager/glib-2.0/schemas/*
 %{_datadir}/themes/Anaconda/*
 
 %files tui
-%{_libdir}/python*/site-packages/pyanaconda/rescue.py
-%{_libdir}/python*/site-packages/pyanaconda/text.py
-%{_libdir}/python*/site-packages/pyanaconda/ui/tui/*
+%{python3_sitearch}/pyanaconda/rescue.py
+%{python3_sitearch}/pyanaconda/text.py
+%{python3_sitearch}/pyanaconda/__pycache__/rescue.*
+%{python3_sitearch}/pyanaconda/__pycache__/text.*
+%{python3_sitearch}/pyanaconda/ui/tui/*
 
 %files widgets
 %{_libdir}/libAnacondaWidgets.so.*
 %{_libdir}/girepository*/AnacondaWidgets*typelib
-%{_libdir}/python*/site-packages/gi/overrides/*
+%{python3_sitearch}/gi/overrides/*
 
 %files widgets-devel
 %{_libdir}/libAnacondaWidgets.so
@@ -309,6 +313,50 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Jul 10 2015 Brian C. Lane <bcl@redhat.com> - 23.14-1
+- Catch blivet formatDevice ValueError in custom (#1240226) (bcl)
+- There's now a python3-rpmfluff, so revert this. (clumens)
+- Fix a couple other pylint problems in the driver disk tests. (clumens)
+- Merge pull request #194 from wgwoods/master (wwoods)
+- dracut: fix boot failure waiting for finished/dd.sh (wwoods)
+- Use builddir instead of srcdir to find the dd utils (dshea)
+- Fix the dd_test for python3. (dshea)
+- Fix %%files to deal with compiled python3 modules (dshea)
+- Add a bunch of gi.require_version calls (dshea)
+- Temporarily disable the error about not importing rpmfluff. (clumens)
+- Don't try to iterate over threads directly in wait_all. (clumens)
+- Update the btrfs kickstart tests to use functions.sh. (clumens)
+- Merge pull request #182 from wgwoods/dd-refactor (wwoods)
+- driver_updates: fixes from patch review (wwoods)
+- Don't be too picky about what name is --device=link (dshea)
+- Ignore stderr output from parse-kickstart. (dshea)
+- Add an option to execReadlines to filter out stderr. (dshea)
+- Ignore interruptible system calls in the dd test (dshea)
+- Fix an undefined variable in writeStorageLate (dshea)
+- Connect zfcp entries to the discovery buttons (dshea)
+- Connect iscsi activations to buttons (dshea)
+- Connect the dasd number entry to the discovery buttons. (dshea)
+- Add keyboard layouts on the row-activated signal. (dshea)
+- Connect dialog inputs to default actions. (dshea)
+- Remove unnecessary GtkNotebooks. (dshea)
+- Re-save some dialog glade files. (dshea)
+- Merge pull request #181 from wgwoods/master (wwoods)
+- dd-refactor: dracut + build bits (wwoods)
+- Add kickstart test for RAID1 (bcl)
+- pass PYTHONPATH to the kickstart test framework (bcl)
+- Write servers to chronyd.conf even if it's off (#1197575) (wwoods)
+- Refresh advanced disks after disk summary dialog (#1226354) (bcl)
+- parse-kickstart: just emit 'inst.dd=XXX' for driverdisk (wwoods)
+- parse-kickstart: pylint fixes (wwoods)
+- dd-refactor: new driver_updates.py + tests (wwoods)
+- payload: fix driverdisk repos (wwoods)
+- dracut: fix boot with inst.ks and no inst.{repo,stage2} (#1238987) (wwoods)
+- Use the most recent versions of the btrfs, logvol, part, and raid commands.
+  (clumens)
+- Allow /boot partition on iscsi with ibft (#1164195) (jkonecny)
+- Add kickstart tests to test btrfs installation (vtrefny)
+- Fix broken test by infiniband patch (#1177032) (jkonecny)
+
 * Thu Jul 02 2015 Brian C. Lane <bcl@redhat.com> - 23.13-1
 - Add a switch for the Airplane Mode label (dshea)
 - Connect labels with keyboard accelerators to a widget (dshea)
