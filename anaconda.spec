@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 23.14
+Version: 23.15
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -212,6 +212,7 @@ documentation for working with this library.
 Summary: The anaconda dracut module
 Requires: dracut >= %{dracutver}
 Requires: dracut-network
+Requires: dracut-live
 Requires: xz
 Requires: python3-kickstart
 
@@ -313,6 +314,14 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Jul 13 2015 Brian C. Lane <bcl@redhat.com> - 23.15-1
+- Some dracut modules anaconda needs have been split into their own package.
+  (clumens)
+- User operation kickstart tests. (kvalek)
+- Kickstart tests for UTC and LOCAL hwclock. (kvalek)
+- Kickstart firewall tests. (kvalek)
+- Fix Repository New_Repository has no mirror or baseurl (#1215963) (jkonecny)
+
 * Fri Jul 10 2015 Brian C. Lane <bcl@redhat.com> - 23.14-1
 - Catch blivet formatDevice ValueError in custom (#1240226) (bcl)
 - There's now a python3-rpmfluff, so revert this. (clumens)
