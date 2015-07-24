@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 23.16
+Version: 23.17
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -21,7 +21,7 @@ Source0: %{name}-%{version}.tar.bz2
 # Also update in AM_GNU_GETTEXT_VERSION in configure.ac
 %define gettextver 0.18.3
 %define intltoolver 0.31.2-3
-%define pykickstartver 2.8
+%define pykickstartver 2.9
 %define dnfver 0.6.4
 %define partedver 1.8.1
 %define pypartedver 2.5-2
@@ -135,9 +135,6 @@ Requires: kexec-tools
 %endif
 
 Requires: python3-coverage
-
-# Used by rescue.py and the low RAM message in /sbin/anaconda
-Requires: newt-python3
 
 # required because of the rescue mode and VNC question
 Requires: anaconda-tui = %{version}-%{release}
@@ -268,9 +265,7 @@ update-desktop-database &> /dev/null || :
 %exclude %{_prefix}/libexec/anaconda/dd_*
 %{python3_sitearch}/pyanaconda/*
 %exclude %{python3_sitearch}/pyanaconda/rescue.py*
-%exclude %{python3_sitearch}/pyanaconda/text.py*
 %exclude %{python3_sitearch}/pyanaconda/__pycache__/rescue.*
-%exclude %{python3_sitearch}/pyanaconda/__pycache__/text.*
 %exclude %{python3_sitearch}/pyanaconda/ui/gui/*
 %exclude %{python3_sitearch}/pyanaconda/ui/tui/*
 %{_bindir}/analog
@@ -291,9 +286,7 @@ update-desktop-database &> /dev/null || :
 
 %files tui
 %{python3_sitearch}/pyanaconda/rescue.py
-%{python3_sitearch}/pyanaconda/text.py
 %{python3_sitearch}/pyanaconda/__pycache__/rescue.*
-%{python3_sitearch}/pyanaconda/__pycache__/text.*
 %{python3_sitearch}/pyanaconda/ui/tui/*
 
 %files widgets
@@ -313,6 +306,62 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Jul 24 2015 Brian C. Lane <bcl@redhat.com> - 23.17-1
+- Fix Initial PPC PReP Boot Selector Name (#1172755) (rmarshall)
+- Require a newer version of pykickstart (vpodzime)
+- Use dictionaries is thread-safe manner. (dshea)
+- Merge pull request #234 from wgwoods/master (wwoods)
+- Auto-load ks.cfg if OEMDRV volume available. (#1057271) (sbueno+anaconda)
+- Check the encrypt checkbox when encrypted specified in KS (vtrefny)
+- Do not raise KickstartValueError for missing passphrase (vtrefny)
+- Ask for encryption passphrase when not specified in ks (#1213096) (vtrefny)
+- dracut: minor cleanup (wwoods)
+- dracut: fix missing messages for inst.ks=cdrom (wwoods)
+- Wait forever for kickstarts on CDROM (#1168902) (wwoods)
+- Use abs_builddir instead of builddir so paths will look more reasonable.
+  (clumens)
+- Add a new makefile target that does everything needed for jenkins. (clumens)
+- Merge pull request #228 from AdamWill/logind (dshea)
+- Fix crash when mirrorlist checkbox is checked (jkonecny)
+- Fix crash when user start typing proxy credentials (jkonecny)
+- Check repository URL before leaving Source Spoke (jkonecny)
+- Add IDs to identify addon repositories (jkonecny)
+- Repositories can be checked without a selection (jkonecny)
+- Consolidate the language environment variables. (dshea)
+- Change the generated API indices slightly (dshea)
+- Ignore "mountpoint" used a format specifier (dshea)
+- filesystems -> file systems, per the style guide (dshea)
+- Properly parameterize a translated string (dshea)
+- Fix pylint errors in rescue.py. (dshea)
+- Remove unused imports (dshea)
+- Remove text.py from spec file (#965985) (sbueno+anaconda)
+- Merge pull request #220 from AdamWill/1243962 (dshea)
+- Fix adding 'boot=' option in FIPS mode (vtrefny)
+- anaconda.target: Wants systemd-logind.service (#1222413) (awilliam)
+- Remove the last usage of newt and get rid of it as a dependency (#965985)
+  (sbueno+anaconda)
+- Enable anaconda to use the new rescue mode. (#965985) (sbueno+anaconda)
+- Get rid of unnecessary constants in constants_text. (#965985)
+  (sbueno+anaconda)
+- Get rid of some unnecessary files. (#965985) (sbueno+anaconda)
+- Display verbose packaging errors to the user (bcl)
+- Show source errors from refresh method (bcl)
+- Fix the validate functions in the btrfs kickstart_tests. (clumens)
+- Connect kickstart lang data to dnf-langpacks (#1051816) (dshea)
+- Add simple_replace config file function (bcl)
+- Remove some vestiges of the old packaging module (dshea)
+- Remove window boot block detection functions. (dshea)
+- Remove iutil.xprogressive_delay. (dshea)
+- Simplify iutil.mkdirChain. (dshea)
+- Decode wifi SSIDs into strings. (#1240398) (dshea)
+- Actually use the temp directory so test files get cleaned up (dshea)
+- Disable the output from rpmbuild (dshea)
+- Remove stray references to python2. (dshea)
+- Fix possible to start installation without network (#1221109) (jkonecny)
+- Fix 'q' (to quit) do not work in TUI hub (jkonecny)
+- act on the right objects when stripping URL protocols (#1243962) (awilliam)
+- Fix 'App' object has no attribute 'queue' (#1243316) (jkonecny)
+
 * Thu Jul 16 2015 Brian C. Lane <bcl@redhat.com> - 23.16-1
 - fix storage writing for live and ostree installs (#1236937) (awilliam)
 - Add O_CREAT to the open flags when extracting rpm files. (dshea)
