@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 23.17
+Version: 23.18
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -36,7 +36,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define iscsiver 6.2.0.873-26
 %define rpmver 4.10.0
 %define libarchivever 3.0.4
-%define langtablever 0.0.18-1
+%define langtablever 0.0.34
 %define libxklavierver 5.4
 %define libtimezonemapver 0.4.1-2
 %define helpver 22.1-1
@@ -170,7 +170,7 @@ Requires: NetworkManager-wifi
 %endif
 Requires: anaconda-user-help >= %{helpver}
 Requires: yelp
-Requires: python3-gobject
+Requires: python3-gobject-base
 
 # Needed to compile the gsettings files
 BuildRequires: gsettings-desktop-schemas
@@ -306,6 +306,39 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Jul 31 2015 Brian C. Lane <bcl@redhat.com> - 23.18-1
+- Move the proxy server script into a common file. (dshea)
+- Use python3 for the proxy server and remove python2 compatibility (dshea)
+- makePickle now needs to return bytes (bcl)
+- gi.require_version raises ValueError (bcl)
+- Remove duplicate signal setup block (bcl)
+- Fix three bugs discovered by driverdisk-disk.ks (clumens)
+- Fix error with OEMDRV ks auto-load check. (#1057271) (sbueno+anaconda)
+- Make sure TUI is readable for non-latin languages (#1182562) (mkolman)
+- Equalize capacity & mount point entries (#1212615) (dshea)
+- Disable GRUB os_prober on POWER (#1193281) (rmarshall)
+- Cancel Container Edit Sensitizes Update (#1168656) (rmarshall)
+- Fix SoftwareSpoke._kickstarted. (dshea)
+- Disable a Pylint false-positive (#1234896) (mkolman)
+- Add support for autostep and --autoscreenshot (#1234896) (mkolman)
+- Escape \'s in doc strings (dshea)
+- Ellipsize the file system type combo box (#1212615) (dshea)
+- Add graphviz to make-sphinx-doc script (jkonecny)
+- Remove many of a documentation compilation errors (jkonecny)
+- Add class diagrams to existing spokes and hubs (jkonecny)
+- Add class diagram settings to documentation (jkonecny)
+- Fix the UnusuableConfigurationError dialog (#1246915) (dshea)
+- Chase pygobject's stupid moving target (dshea)
+- Add missing translation contexts (dshea)
+- Actually translate the container type labels (dshea)
+- Check whether a translated string requires a context or comment. (dshea)
+- Clean up the temporary pools virt-install makes. (clumens)
+- Return the same object for repeated calls to __get__ (#1245423) (dshea)
+- Use sys.exit instead of os._exit. (clumens)
+- Add parentheses around the IPV6 regex fragment. (dshea)
+- Add tests for IPv6 literals in URLs (dshea)
+- Modify Installation Source Proxy Label (#11688554) (rmarshall)
+
 * Fri Jul 24 2015 Brian C. Lane <bcl@redhat.com> - 23.17-1
 - Fix Initial PPC PReP Boot Selector Name (#1172755) (rmarshall)
 - Require a newer version of pykickstart (vpodzime)
