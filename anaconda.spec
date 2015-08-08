@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 23.18
+Version: 23.19
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -81,7 +81,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: python3-dnf >= %{dnfver}
-Requires: python3-blivet >= 1:1.4
+Requires: python3-blivet >= 1:1.12
 Requires: python3-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python3
@@ -133,6 +133,7 @@ Requires: hfsplus-tools
 %ifnarch aarch64
 Requires: kexec-tools
 %endif
+Requires: python3-pid
 
 Requires: python3-coverage
 
@@ -306,6 +307,35 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Aug 07 2015 Brian C. Lane <bcl@redhat.com> - 23.19-1
+- Add basic support for LVM cache creation in kickstart (vpodzime)
+- Use labels for the rest of the non-autopart test results. (dshea)
+- Use a disk label to find the filesystem for escrow results (dshea)
+- Use someone else's code for PID file management. (dshea)
+- Prevent incomplete translations from making the TUI unusable (#1235617)
+  (mkolman)
+- Apply the environment substitutions more liberally in nfs-repo-and-addon
+  (dshea)
+- Use stage2=hd: instead of stage2=live: (dshea)
+- Add test for liveimg kickstart command (bcl)
+- Fix pre-install script execution (bcl)
+- test pre-install kickstart section (bcl)
+- Use sys.exit() instead of the exit() created by site.py. (dshea)
+- Call ipmi_report before sys.exit (dshea)
+- Add a test for proxy authentication (dshea)
+- Add optional authentication to the proxy server (dshea)
+- Add more tests to proxy-kickstart (dshea)
+- Show an alternative prompt if a hub contains only a single spoke (#1199234)
+  (mkolman)
+- Add few docs and improvement in check_ip_address (jkonecny)
+- Check whether files actually contain translatable strings. (dshea)
+- Add specific error string to TUI user dialog (#1248421) (bcl)
+- Make EditTUIDialog error generic (#1248421) (bcl)
+- Fix and expand nfs-repo-and-addon.ks (dshea)
+- Added a script to make the packages used by nfs-repo-and-addon (dshea)
+- Implement the rest of the repo options in dnfpayload. (dshea)
+- Fix kickstart test for bond interface creation (jkonecny)
+
 * Fri Jul 31 2015 Brian C. Lane <bcl@redhat.com> - 23.18-1
 - Move the proxy server script into a common file. (dshea)
 - Use python3 for the proxy server and remove python2 compatibility (dshea)
