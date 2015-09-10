@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 23.19.2
-Release: 2%{?dist}
+Version: 23.19.3
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -305,8 +305,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Sat Sep 05 2015 Kalev Lember <klember@redhat.com> - 23.19.2-2
-- Rebuilt for librpm soname bump
+* Thu Sep 10 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 23.19.3-1
+- Don't try to concatenate a list with a string (#1252444) (mkolman)
+- set sysroot correctly when setting root password (#1260875) (awilliam)
 
 * Thu Sep 03 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 23.19.2-1
 - Verify Initial Setup services are present before turning them ON/OFF
