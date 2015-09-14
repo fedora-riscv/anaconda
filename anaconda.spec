@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 23.19.3
+Version: 23.19.4
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -305,6 +305,11 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Sep 14 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 23.19.4-1
+- Add missing python dependencies for requests. (#1259506) (dshea)
+- Fix the types passed to chown_dir_tree (#1260318) (dshea)
+- Add a test for home directory reuse (#1260318) (dshea)
+
 * Thu Sep 10 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 23.19.3-1
 - Don't try to concatenate a list with a string (#1252444) (mkolman)
 - set sysroot correctly when setting root password (#1260875) (awilliam)
