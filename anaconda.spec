@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 23.19.4
+Version: 23.19.5
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -305,6 +305,14 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Sep 24 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 23.19.5-1
+- Fix branding when iso is downloaded from nfs or hd (#1252756) (jkonecny)
+- Fix unused import pylint error (jkonecny)
+- Autopart use 90%% of disk capacity for required space compare (#1224048)
+  (jkonecny)
+- Fix include packages install size when downloading on root (#1224048)
+  (jkonecny)
+
 * Mon Sep 14 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 23.19.4-1
 - Add missing python dependencies for requests. (#1259506) (dshea)
 - Fix the types passed to chown_dir_tree (#1260318) (dshea)
