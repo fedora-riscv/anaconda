@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 23.19.7
+Version: 23.19.8
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -305,6 +305,10 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Oct 20 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 23.19.8-1
+- decode package name for /etc/sysconfig/kernel (RHBZ #1261569) (awilliam)
+- Warn user before using Delete all (jkonecny)
+
 * Thu Oct 15 2015 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 23.19.7-1
 - Fix traceback when trying to create list of unformatted DASDs. (#1268764)
   (sbueno+anaconda)
