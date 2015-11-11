@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 24.6
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -305,6 +305,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Nov 10 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 24.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Changes/python3.5
+
 * Fri Nov 06 2015 Brian C. Lane <bcl@redhat.com> - 24.6-1
 - Fix a pylint error in the previous commits. (clumens)
 - Honor ANACONDA_WIDGETS_OVERRIDES (atodorov)
