@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 24.10
-Release: 2%{?dist}
+Version: 24.11
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -305,8 +305,45 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 24.10-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+* Fri Feb 05 2016 Brian C. Lane <bcl@redhat.com> - 24.11-1
+- Fix makeupdates for anaconda move to anaconda.py (bcl)
+- Rename ./anaconda to ./anaconda.py to work around coverage.py #425 (atodorov)
+- Remove special handling for interruptible system calls. (dshea)
+- Handle PEP 3101 strings in the gettext context check (dshea)
+- Improve RHS summary strings in multiselection (#1265620) (jkonecny)
+- Increase GI version required of AnacondaWidgets (jkonecny)
+- Increment version of g-introspection for widgets (jkonecny)
+- Increment the AnacondaWidgets version (jkonecny)
+- Switch to the new Initial Setup unit name (#1299210) (mkolman)
+- Uncomment self.check_lang_locale_views in tests/gui/ (atodorov)
+- Add dogtail to test requirements (atodorov)
+- Add config for easier combining of kickstart and Jenkins coverage data
+  (atodorov)
+- Apply the fallback style to anaconda selectors. (dshea)
+- Redo the stylesheet for Gtk 3.19+ (dshea)
+- Directly overwrite /usr/share/anaconda/anaconda-gtk.css (dshea)
+- Merge pull request #463 from dashea/translation-tests (dshea)
+- Display the name of the addon while executing it (bcl)
+- Add page selection summary to the right side (#1265620) (jkonecny)
+- Ask when removing new items in multiselection (#1265620) (jkonecny)
+- Add multiselection with SHIFT key (#1265620) (jkonecny)
+- Use show_arrow feature implemented in Selector (#1265620) (jkonecny)
+- Add new property to show/hide arrow in Selector (#1265620) (jkonecny)
+- Change selection logic when opening Page (#1265620) (jkonecny)
+- Add new BasePage class (#1265620) (jkonecny)
+- Add signal and methods to MountpointSelector (#1265620) (jkonecny)
+- Fix errors with multiselection (#1265620) (jkonecny)
+- Accordion class now process events for selectors (#1265620) (jkonecny)
+- Change cammel case for accordion.py to new pep8 (jkonecny)
+- Move selection logic from custom spoke to accordion (#1265620) (jkonecny)
+- Modify ConfirmDeleteDialog now the checkbox is optional (#1265620) (jkonecny)
+- Multiselection works in GUI with remove (#1265620) (jkonecny)
+- Add multiselection to Accordion with control key (#1265620) (jkonecny)
+- Remove bad translations from the source tarball. (dshea)
+- Treat warnings from xgettext as errors. (dshea)
+- Run translation-canary tests from make check. (dshea)
+- Do not run pylint on translation-canary (dshea)
+- Squashed 'translation-canary/' content from commit 5a45c19 (dshea)
 
 * Fri Jan 29 2016 Brian C. Lane <bcl@redhat.com> - 24.10-1
 - Add a finished method to spokes (#1300499) (bcl)
