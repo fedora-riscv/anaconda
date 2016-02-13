@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 24.11
+Version: 24.12
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -132,6 +132,7 @@ Requires: hfsplus-tools
 Requires: kexec-tools
 %endif
 Requires: python3-pid
+Requires: python3-ordered-set >= 2.0.0
 
 Requires: python3-coverage >= 4.0-0.12.b3
 
@@ -227,6 +228,9 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %{make_install}
 find %{buildroot} -type f -name "*.la" | xargs %{__rm}
 
+# Create an empty directory for addons
+mkdir %{buildroot}%{_datadir}/anaconda/addons
+
 %ifarch %livearches
 desktop-file-install ---dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/liveinst.desktop
 %endif
@@ -305,6 +309,16 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Feb 12 2016 Brian C. Lane <bcl@redhat.com> - 24.12-1
+- Use host storage for directory or image install dnf download (bcl)
+- Log payloadError so we know why installation failed. (bcl)
+- Add the addons directory to the rpm. (dshea)
+- Use the packaged version of ordered-set (dshea)
+- Remove an unused import (dshea)
+- Add an uninstall hook for the renamed anaconda (dshea)
+- Make langpack work in DNF (#1297823) (jsilhan)
+- New Anaconda documentation - 24.11 (bcl)
+
 * Fri Feb 05 2016 Brian C. Lane <bcl@redhat.com> - 24.11-1
 - Fix makeupdates for anaconda move to anaconda.py (bcl)
 - Rename ./anaconda to ./anaconda.py to work around coverage.py #425 (atodorov)
