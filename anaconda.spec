@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 25.0
+Version: 25.1
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -282,8 +282,9 @@ update-desktop-database &> /dev/null || :
 %{_sbindir}/liveinst
 %config(noreplace) %{_sysconfdir}/pam.d/*
 %config(noreplace) %{_sysconfdir}/security/console.apps/*
-%{_sysconfdir}/X11/xinit/xinitrc.d/*
+%{_libexecdir}/liveinst-setup.sh
 %{_datadir}/applications/*.desktop
+%{_sysconfdir}/xdg/autostart/*.desktop
 %endif
 
 %files gui
@@ -313,6 +314,16 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Mar 09 2016 Brian C. Lane <bcl@redhat.com> - 25.1-1
+- don't install kernel-PAE on x86_64 (#1313957) (awilliam)
+- except block in py3.5 undefines the variable (bcl)
+- Remove some history from the liveinst setup. (dshea)
+- Do not run the liveinst setup if not in a live environment. (dshea)
+- Set GDK_BACKEND=x11 before running anaconda from liveinst. (dshea)
+- Run zz-liveinst as an autostart application (dshea)
+- Translate the help button. (dshea)
+- Translate the required space labes in resize.py (dshea)
+
 * Fri Mar 04 2016 Brian C. Lane <bcl@redhat.com> - 25.0-1
 - Add device id to dasdfmt screen. (#1269174) (sbueno+anaconda)
 - Unify displayed columns in custom spoke dialogs. (#1289577) (sbueno+anaconda)
