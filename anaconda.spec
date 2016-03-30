@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 25.4
+Version: 25.5
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -85,7 +85,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: python3-dnf >= %{dnfver}
-Requires: python3-blivet >= 1:1.12
+Requires: python3-blivet >= 1:2.0.0
 Requires: python3-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python3
@@ -318,6 +318,11 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Mar 30 2016 Brian C. Lane <bcl@redhat.com> - 25.5-1
+- Don't provide subclasses of the multipath or dmraid commands. (clumens)
+- Add support for chunksize raid kickstart parameter. (vtrefny)
+- Convert to blivet-2.0 API. (dlehman)
+
 * Thu Mar 24 2016 Brian C. Lane <bcl@redhat.com> - 25.4-1
 - Require that the English locale data be available. (#1315494) (dshea)
 - Revert "Change the default locale to C.UTF-8 (#1312607)" (#1315494) (dshea)
