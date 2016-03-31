@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 24.13.1
+Version: 24.13.2
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -143,6 +143,9 @@ Requires: python3-coverage >= 4.0-0.12.b3
 # required because of the rescue mode and VNC question
 Requires: anaconda-tui = %{version}-%{release}
 
+# Make sure we get the en locale one way or another
+Requires: (glibc-langpack-en or glibc-all-langpacks)
+
 Obsoletes: anaconda-images <= 10
 Provides: anaconda-images = %{version}-%{release}
 Obsoletes: anaconda-runtime < %{version}-%{release}
@@ -178,6 +181,7 @@ Requires: python3-gobject-base
 
 # Needed to compile the gsettings files
 BuildRequires: gsettings-desktop-schemas
+BuildRequires: metacity
 
 %description gui
 This package contains graphical user interface for the Anaconda installer.
@@ -314,6 +318,13 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Mar 31 2016 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 24.13.2-1
+- Require that the English locale data be available. (#1315494) (dshea)
+- Revert "Change the default locale to C.UTF-8 (#1312607)" (#1315494) (dshea)
+- Make windows in metacity closable (#1319590) (dshea)
+- Fix the use of CSS psuedo-classes in the widgets. (dshea)
+- Use a lock for repoStore access (#1315414) (bcl)
+
 * Wed Mar 09 2016 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 24.13.1-1
 - don't install kernel-PAE on x86_64 (#1313957) (awilliam)
 - except block in py3.5 undefines the variable (bcl)
