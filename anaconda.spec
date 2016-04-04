@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 24.13.2
+Version: 24.13.3
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -144,7 +144,7 @@ Requires: python3-coverage >= 4.0-0.12.b3
 Requires: anaconda-tui = %{version}-%{release}
 
 # Make sure we get the en locale one way or another
-Requires: (glibc-langpack-en or glibc-all-langpacks)
+Requires: glibc-langpack-en
 
 Obsoletes: anaconda-images <= 10
 Provides: anaconda-images = %{version}-%{release}
@@ -318,6 +318,14 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Apr 04 2016 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 24.13.3-1
+- Don't use booleans in Requires (#1323314) (dshea)
+- Set CSS names on all of the anaconda classes. (#1322036) (dshea)
+- Don't crash if no groups are specified (#1316816) (dshea)
+- Fix only one address is shown in anaconda (#1264400) (jkonecny)
+- Use an icon that exists in Adwaita for the dasd confirmation (#1316601)
+  (dshea)
+
 * Thu Mar 31 2016 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 24.13.2-1
 - Require that the English locale data be available. (#1315494) (dshea)
 - Revert "Change the default locale to C.UTF-8 (#1312607)" (#1315494) (dshea)
