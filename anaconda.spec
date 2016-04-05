@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 25.5
+Version: 25.6
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -85,7 +85,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: python3-dnf >= %{dnfver}
-Requires: python3-blivet >= 1:2.0.0
+Requires: python3-blivet >= 1:2.0.2
 Requires: python3-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python3
@@ -144,7 +144,7 @@ Requires: python3-coverage >= 4.0-0.12.b3
 Requires: anaconda-tui = %{version}-%{release}
 
 # Make sure we get the en locale one way or another
-Requires: (glibc-langpack-en or glibc-all-langpacks)
+Requires: glibc-langpack-en
 
 Obsoletes: anaconda-images <= 10
 Provides: anaconda-images = %{version}-%{release}
@@ -318,6 +318,18 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Apr 04 2016 Brian C. Lane <bcl@redhat.com> - 25.6-1
+- Remove an unused import from anaconda-cleanup. (clumens)
+- Don't use booleans in Requires (#1323314) (dshea)
+- Set CSS names on all of the anaconda classes. (#1322036) (dshea)
+- Don't crash if no groups are specified (#1316816) (dshea)
+- Fix only one address is shown in anaconda (#1264400) (jkonecny)
+- Fix call to update optical media format. (#1322943) (dlehman)
+- Reset invalid disk selection before proceeding. (dlehman)
+- Multiple Dogtail tests improvements (atodorov)
+- Do not allow liveinst with --image or --dirinstall (#1276349) (dshea)
+- New Anaconda documentation - 25.5 (bcl)
+
 * Wed Mar 30 2016 Brian C. Lane <bcl@redhat.com> - 25.5-1
 - Don't provide subclasses of the multipath or dmraid commands. (clumens)
 - Add support for chunksize raid kickstart parameter. (vtrefny)
