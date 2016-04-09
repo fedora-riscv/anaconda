@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 25.6
+Version: 25.7
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -318,6 +318,15 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Apr 08 2016 Brian C. Lane <bcl@redhat.com> - 25.7-1
+- Blivet API change getDeviceBy* is now get_device_by_* (bcl)
+- network: don't set 803-3-ethernet.name setting (#1323589) (rvykydal)
+- Log non-critical user/group errors (#1308679) (bcl)
+- Fix btrfs metadata raid level kwarg. (dlehman)
+- docs: Add release building document (bcl)
+- Minor improvements - README and test dependencies (atodorov)
+- Add more matches for network connectivity (atodorov)
+
 * Mon Apr 04 2016 Brian C. Lane <bcl@redhat.com> - 25.6-1
 - Remove an unused import from anaconda-cleanup. (clumens)
 - Don't use booleans in Requires (#1323314) (dshea)
