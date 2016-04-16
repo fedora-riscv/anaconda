@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 25.7
+Version: 25.8
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -21,7 +21,7 @@ Source0: %{name}-%{version}.tar.bz2
 # Also update in AM_GNU_GETTEXT_VERSION in configure.ac
 %define gettextver 0.19.1
 %define intltoolver 0.31.2-3
-%define pykickstartver 2.20
+%define pykickstartver 2.28
 %define dnfver 0.6.4
 %define partedver 1.8.1
 %define pypartedver 2.5-2
@@ -318,6 +318,21 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Apr 15 2016 Brian C. Lane <bcl@redhat.com> - 25.8-1
+- network: handle null wireless AP SSID object (#1262556) (awilliam)
+- Change new_tmpfs to new_tmp_fs. (clumens)
+- Add support for kickstart %%onerror scripts. (clumens)
+- Show network spoke in the TUI reconfig mode (#1302165) (mkolman)
+- network: copy static routes configured in installer to system (#1255801)
+  (rvykydal)
+- network: fix vlan over bond in kickstart (#1234849) (rvykydal)
+- network: use NAME to find ifcfg on s390 with net.ifnames=0 (#1249750)
+  (rvykydal)
+- Get rid of the reimport of MultipathDevice. (clumens)
+- Fix iSCSI kickstart options aren't generated (#1252879) (jkonecny)
+- Fix adding offload iSCSI devices (vtrefny)
+- Make the list-harddrives script mode robust (mkolman)
+
 * Fri Apr 08 2016 Brian C. Lane <bcl@redhat.com> - 25.7-1
 - Blivet API change getDeviceBy* is now get_device_by_* (bcl)
 - network: don't set 803-3-ethernet.name setting (#1323589) (rvykydal)
