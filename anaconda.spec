@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 25.10
+Version: 25.11
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -323,6 +323,13 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri May 06 2016 Brian C. Lane <bcl@redhat.com> - 25.11-1
+- Don't join two absolute paths (#1249598) (mkolman)
+- Don't crash when taking a screenshot on the hub (#1327456) (mkolman)
+- Fix pylint errors. (phil)
+- Factor out common grub1/grub2 stuff into mixin, and other factoring (phil)
+- Add GRUB1 (legacy) support back to Anaconda (phil)
+
 * Fri Apr 29 2016 Brian C. Lane <bcl@redhat.com> - 25.10-1
 - Handle unmounting ostree when exiting (bcl)
 - ostree: Use bind mounts to setup ostree root (bcl)
