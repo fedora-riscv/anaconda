@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 24.13.4
+Version: 24.13.5
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -21,7 +21,7 @@ Source0: %{name}-%{version}.tar.bz2
 # Also update in AM_GNU_GETTEXT_VERSION in configure.ac
 %define gettextver 0.19.1
 %define intltoolver 0.31.2-3
-%define pykickstartver 2.20
+%define pykickstartver 2.25-3
 %define dnfver 0.6.4
 %define partedver 1.8.1
 %define pypartedver 2.5-2
@@ -318,6 +318,14 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri May 13 2016 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 24.13.5-1
+- Update the required pykickstart version. (dshea)
+- Implement %%packages --excludeWeakdeps (#1331100) (james)
+- Remove detach-client from tmux.conf (#1330300) (dshea)
+- Remove the subnet label for wired devices. (#1327615) (dshea)
+- Fix how unusued network labels are hidden (#1327615) (dshea)
+- Look higher for the combobox associated with an entry (#1333530) (dshea)
+
 * Mon Apr 18 2016 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 24.13.4-1
 - Refresh metadata when updates checkbox changes (#1211907) (bcl)
 - network: handle null wireless AP SSID object (#1262556) (awilliam)
