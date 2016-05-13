@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 25.11
+Version: 25.12
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -21,7 +21,7 @@ Source0: %{name}-%{version}.tar.bz2
 # Also update in AM_GNU_GETTEXT_VERSION in configure.ac
 %define gettextver 0.19.1
 %define intltoolver 0.31.2-3
-%define pykickstartver 2.28
+%define pykickstartver 2.30-1
 %define dnfver 0.6.4
 %define partedver 1.8.1
 %define pypartedver 2.5-2
@@ -323,6 +323,27 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri May 13 2016 Brian C. Lane <bcl@redhat.com> - 25.12-1
+- Add single language mode (#1235726) (mkolman)
+- Move default X keyboard setting out of the Welcome spoke (mkolman)
+- Rerun writeBootLoader on Live BTRFS installs (bcl)
+- Check for mounted partitions as part of sanity_check (#1330820) (bcl)
+- Merge pull request #620 from dashea/new-canary (dshea)
+- Update the required pykickstart version. (dshea)
+- Implement %%packages --excludeWeakdeps (#1331100) (james)
+- Fix bad addon handling when addon import failed (jkonecny)
+- Add retry when downloading .treeinfo (#1292613) (jkonecny)
+- Return xprogressive delay back (jkonecny)
+- Change where tests on translated strings are run. (dshea)
+- Merge the latest from translation-canary (dshea)
+- Squashed 'translation-canary/' changes from 5a45c19..3bc2ad6 (dshea)
+- Add new Makefile target for gui tests (atodorov)
+- Define missing srcdir in run_gui_tests.sh and enable coverage (atodorov)
+- Split gui test running out into its own script. (clumens)
+- Look higher for the combobox associated with an entry (#1333530) (dshea)
+- Use createrepo_c in the ci target. (dshea)
+- Compile glib schema overrides with --strict. (dshea)
+
 * Fri May 06 2016 Brian C. Lane <bcl@redhat.com> - 25.11-1
 - Don't join two absolute paths (#1249598) (mkolman)
 - Don't crash when taking a screenshot on the hub (#1327456) (mkolman)
