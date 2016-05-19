@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 25.12
+Version: 25.13
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -20,7 +20,6 @@ Source0: %{name}-%{version}.tar.bz2
 
 # Also update in AM_GNU_GETTEXT_VERSION in configure.ac
 %define gettextver 0.19.1
-%define intltoolver 0.31.2-3
 %define pykickstartver 2.30-1
 %define dnfver 0.6.4
 %define partedver 1.8.1
@@ -49,7 +48,6 @@ BuildRequires: gtk3-devel-docs
 BuildRequires: glib2-doc
 BuildRequires: gobject-introspection-devel
 BuildRequires: glade-devel
-BuildRequires: intltool >= %{intltoolver}
 BuildRequires: libgnomekbd-devel
 BuildRequires: libxklavier-devel >= %{libxklavierver}
 BuildRequires: pango-devel
@@ -251,7 +249,8 @@ desktop-file-install ---dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_
 # NOTE: If you see "error: Installed (but unpackaged) file(s) found" that include liveinst files,
 #       check the IS_LIVEINST_ARCH in configure.ac to make sure your architecture is properly defined
 
-%find_lang %{name}
+# If no langs found, keep going
+%find_lang %{name} || :
 
 %post widgets -p /sbin/ldconfig
 %postun widgets -p /sbin/ldconfig
@@ -268,6 +267,9 @@ update-desktop-database &> /dev/null || :
 %endif
 
 %files
+
+# Allow the lang file to be empty
+%define _empty_manifest_terminate_build 0
 
 %files core -f %{name}.lang
 %license COPYING
@@ -323,6 +325,18 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu May 19 2016 Brian C. Lane <bcl@redhat.com> - 25.13-1
+- Fix writeStorageLate for live installations (#1334019) (bcl)
+- Remove the locale list from zanata.xml (dshea)
+- Ditch autopoint. (dshea)
+- Ditch intltool. (dshea)
+- Rename fedora-welcome to fedora-welcome.js (dshea)
+- Fix UEFI installation after EFIBase refactor (bcl)
+- Fix error handling for s390 bootloader errors (sbueno+anaconda)
+- Deselect all addons correctly (#1333505) (bcl)
+- gui-testing needs isys to be compiled. (clumens)
+- Add more to the selinux check in tests/gui/base.py. (clumens)
+
 * Fri May 13 2016 Brian C. Lane <bcl@redhat.com> - 25.12-1
 - Add single language mode (#1235726) (mkolman)
 - Move default X keyboard setting out of the Welcome spoke (mkolman)
