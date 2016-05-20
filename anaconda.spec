@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 25.13
+Version: 25.14
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -325,6 +325,10 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri May 20 2016 Brian C. Lane <bcl@redhat.com> - 25.14-1
+- Temporarily disable translations (bcl)
+- Don't crash when selecting the same hdd ISO again (#1275771) (mkolman)
+
 * Thu May 19 2016 Brian C. Lane <bcl@redhat.com> - 25.13-1
 - Fix writeStorageLate for live installations (#1334019) (bcl)
 - Remove the locale list from zanata.xml (dshea)
