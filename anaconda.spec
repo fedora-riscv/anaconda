@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 25.17
+Version: 25.19
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -18,8 +18,7 @@ Source0: %{name}-%{version}.tar.bz2
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
 
-# Also update in AM_GNU_GETTEXT_VERSION in configure.ac
-%define gettextver 0.19.1
+%define gettextver 0.19.8
 %define pykickstartver 2.30-1
 %define dnfver 0.6.4
 %define partedver 1.8.1
@@ -325,6 +324,41 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Jun 24 2016 Brian C. Lane <bcl@redhat.com> - 25.19-1
+- hostname: don't set installer env hostname to localhost.localdomain
+  (#1290858) (rvykydal)
+- hostname: add tooltip to Apply button (#1290858) (rvykydal)
+- hostname: fix accelerator collision (#1290858) (rvykydal)
+- hostname: don't set hostname in initrafms of target system (#1290858)
+  (rvykydal)
+- hostname: set current hostname from target system hostname on demand
+  (#1290858) (rvykydal)
+- hostname: suggest current hostname for storage containers (#1290858)
+  (rvykydal)
+- hostname: don't set target system static hostname to current hostname
+  (#1290858) (rvykydal)
+- network tui: do not activate device when setting its onboot value (#1261864)
+  (rvykydal)
+- network tui: edit persistent configuration, not active connection (#1261864)
+  (rvykydal)
+- network: validate netmask in tui (#1331054) (rvykydal)
+- Add wordwrap to text mode and use it by default (#1267881) (rvykydal)
+- Fix adding new VG in Custom spoke can't be applied (#1263715) (jkonecny)
+- Fix SimpleConfigFile file permissions (#1346364) (bcl)
+- Re-configure proxy when updateBaseRepo is called (#1332472) (bcl)
+
+* Fri Jun 17 2016 Brian C. Lane <bcl@redhat.com> - 25.18-1
+- Only use <> for markup (#1317297) (bcl)
+- Update iscsi dialog for Blivet 2.0 API change (bcl)
+- Use the signal handlers to set initial widget sensitivies (dshea)
+- Fix bad sensitivity on boxes in source spoke (jkonecny)
+- Fix install-buildrequires (bcl)
+- Added optional [/prefix] as pattern (kvalek)
+- Require network for network-based driver disks (dshea)
+- Add missing pkgs to install-buildrequires (#612) (phil)
+- Increase the required version of gettext (dshea)
+- Fix the name sensitivity in the custom spoke. (dshea)
+
 * Fri Jun 10 2016 Brian C. Lane <bcl@redhat.com> - 25.17-1
 - Revert "Temporarily disable translations" (bcl)
 - Change where to look for the iscsi object (#1344131) (dshea)
