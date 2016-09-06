@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 26.1
+Version: 26.2
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -21,6 +21,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define gettextver 0.19.8
 %define pykickstartver 2.31-1
 %define dnfver 0.6.4
+%define dnfmaxver 2.0.0
 %define partedver 1.8.1
 %define pypartedver 2.5-2
 %define nmver 0.9.9.0-10.git20130906
@@ -81,7 +82,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 
 %package core
 Summary: Core of the Anaconda installer
-Requires: python3-dnf >= %{dnfver}
+Requires: python3-dnf >= %{dnfver}, python3-dnf < %{dnfmaxver}
 Requires: python3-blivet >= 1:2.1.2
 Requires: python3-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
@@ -324,6 +325,21 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Sep 06 2016 Martin Kolman <mkolman@redhat.com> - 26.2-1
+- Add git merging examples to the contribution guidelines (mkolman)
+- network: don't stumble upon new Device.Statistics NM dbus iface (#1370099)
+  (rvykydal)
+- Current Anaconda is not compatible with DNF 2.0.0 (jkonecny)
+- Filter out all merge commits from the changelog (mkolman)
+- Make it possible to override Zanata branch name (mkolman)
+- Switch to argparse & autodetect name, version and bug email address (mkolman)
+- Fix multi-inheritance (phil)
+- Fix replacement of deprecated DNF method (jkonecny)
+- Replace deprecated method of DNF (jmracek)
+- Static checker recommended improvements (mkolman)
+- Fix replacement of deprecated DNF method (jkonecny)
+- Replace deprecated method of DNF (jmracek)
+
 * Mon Aug 29 2016 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 26.1-1
 - Fix a pylint no-member warning (mkolman)
 - Translate press-c-to-continue correctly in TUI (#1364539) (mkolman)
