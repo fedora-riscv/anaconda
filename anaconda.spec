@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 25.20
-Release: 2%{?dist}
+Version: 25.20.1
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -19,8 +19,9 @@ Source0: %{name}-%{version}.tar.bz2
 # match the requires versions of things).
 
 %define gettextver 0.19.8
-%define pykickstartver 2.30-1
+%define pykickstartver 2.31-1
 %define dnfver 0.6.4
+%define dnfmaxver 2.0.0
 %define partedver 1.8.1
 %define pypartedver 2.5-2
 %define nmver 0.9.9.0-10.git20130906
@@ -81,8 +82,8 @@ The anaconda package is a metapackage for the Anaconda installer.
 
 %package core
 Summary: Core of the Anaconda installer
-Requires: python3-dnf >= %{dnfver}
-Requires: python3-blivet >= 1:2.0.2
+Requires: python3-dnf >= %{dnfver}, python3-dnf < %{dnfmaxver}
+Requires: python3-blivet >= 1:2.1.2
 Requires: python3-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python3
@@ -324,8 +325,81 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 25.20-2
-- https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
+* Thu Sep 08 2016 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 25.20.1-1
+- Update zanata.xml file for f25. (sbueno+anaconda)
+- Fix a small typo in makebumpver script. (sbueno+anaconda)
+- Merge pull request #778 from M4rtinK/f25-release-zanata_branch_hotfix
+  (martin.kolman)
+- Fix the git branch name/Zanata branch name mismatch (mkolman)
+- Merge pull request #769 from rvykydal/f25-devel-port-1370099 (rvykydal)
+- Merge pull request #743 from M4rtinK/f25-devel-how_to_merge (martin.kolman)
+- Add git merging examples to the contribution guidelines (mkolman)
+- network: don't stumble upon new Device.Statistics NM dbus iface (#1370099)
+  (rvykydal)
+- Merge pull request #760 from jkonecny12/f25-reaplly-dev-fix-dnf-change
+  (jkonecny)
+- Current Anaconda is not compatible with DNF 2.0.0 (jkonecny)
+- Fix replacement of deprecated DNF method (jkonecny)
+- Replace deprecated method of DNF (jmracek)
+- Merge pull request #751 from M4rtinK/f25-devel-fix_systemd_sysroot
+  (martin.kolman)
+- Translate press-c-to-continue correctly in TUI (#1364539) (mkolman)
+- Merge pull request #744 from jkonecny12/f25-dev-fix-bootloader-bootpart
+  (jkonecny)
+- Fix bootDrive driveorder fallback (#1355795) (jkonecny)
+- Fix bootloader when re-using existing /boot part (#1355795) (jkonecny)
+- Add support for device specification variants (#1200833) (mkolman)
+- Revert "Update zanata.xml for f25-devel branch." (sbueno+anaconda)
+- Update zanata.xml for f25-devel branch. (sbueno+anaconda)
+- Merge pull request #736 from jkonecny12/master-fix-net-reset-payload
+  (jkonecny)
+- network: don't require gateway for static ipv4 config in TUI (#1365532)
+  (rvykydal)
+- Merge pull request #732 from jkonecny12/master-fix-ana-pre-service (jkonecny)
+- Improve connection network change detection (jkonecny)
+- Revert "Revalidate source only if nm-con-ed change settings (#1270354)"
+  (jkonecny)
+- Fix anaconda-pre.service wasn't properly installed (#1255659) (jkonecny)
+- Merge pull request #704 from snbueno/contributing (snbueno)
+- Rename function for better consistency (#1259284) (rvykydal)
+- Update error message for consistency (#1259284) (rvykydal)
+- Add more specific username check messages also to gui (#1360334) (rvykydal)
+- fix style guide test false positive on username variable (#1350375)
+  (rvykydal)
+- tui: use functions instead of fake REs for checking values (#1350375)
+  (rvykydal)
+- tui: get proper index of entry we are handling in input (#1331054) (rvykydal)
+- tui: fix user name validity checking (#1350375) (rvykydal)
+- More descriptive message on invalid username (kvalek)
+- Fix another pep8 name issue (jkonecny)
+- iscsi: fix getting iscsi target iface of bound target (#1359739) (rvykydal)
+- Fix needsNetwork testing only additional repositories (#1358788) (jkonecny)
+- Fix restart payload only when repo needs network (#1358788) (jkonecny)
+- Cleanup remaining runlevel references (mkolman)
+- Clarify a nosave related log message (mkolman)
+- Use Screen Access Manager (mkolman)
+- Add screen entry/exit callbacks (mkolman)
+- Add screen access manager (mkolman)
+- A simple formatting fix (mkolman)
+- Fix another blivet-2.0 pep8 error (jkonecny)
+- Quickfix of failing test (japokorn)
+- Some docstring refactoring & typo fixes for the TUI base classes (mkolman)
+- Add a file about contributing. (sbueno+anaconda)
+- Store logs before anaconda starts (#1255659) (japokorn)
+- DD can now replace existing drivers (#1101653) (japokorn)
+- Use the F25 timezone kickstart command version (mkolman)
+- Use sshd-keygen.target instead of hardcoded sshd-keygen script (jjelen)
+- Make it possible to disable sshd service from running. (#1262707)
+  (sbueno+anaconda)
+- Change bootloader boot drive fallback (jkonecny)
+- Merge pull request #702 from japokorn/master_quickfix (japokorn)
+- Fix of Python3x uncompatible commands (japokorn)
+- Add NTP server configuration to the TUI (#1269399) (mkolman)
+- Move the NTP server checking constants to constants.py (mkolman)
+- Use a constant for the NTP check thread name prefix (mkolman)
+- Fix another victim of the python 2->3 conversion. (#1354020) (dshea)
+- Attempt to unload modules updated by a driver disk (dshea)
+- Fix the processing of device nodes as driver disks (dshea)
 
 * Fri Jul 08 2016 Brian C. Lane <bcl@redhat.com> - 25.20-1
 - Allow kickstart users to ignore the free space error (dshea)
