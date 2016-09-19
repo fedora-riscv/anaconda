@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 26.2
+Version: 26.3
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -19,7 +19,7 @@ Source0: %{name}-%{version}.tar.bz2
 # match the requires versions of things).
 
 %define gettextver 0.19.8
-%define pykickstartver 2.31-1
+%define pykickstartver 2.32-1
 %define dnfver 0.6.4
 %define dnfmaxver 2.0.0
 %define partedver 1.8.1
@@ -83,7 +83,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: python3-dnf >= %{dnfver}, python3-dnf < %{dnfmaxver}
-Requires: python3-blivet >= 1:2.1.2
+Requires: python3-blivet >= 1:2.1.3
 Requires: python3-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python3
@@ -325,6 +325,39 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Sep 19 2016 Martin Kolman <mkolman@redhat.com> - 26.3-1
+- network: set onboot correctly for vlan on bond device in ks (#1234849)
+  (rvykydal)
+- network: don't show ibft configured devices in UI (#1309661) (rvykydal)
+- iscsi: don't generate kickstart iscsi commands for offload devices (#1252879)
+  (rvykydal)
+- iscsi: allow installing bootloader on offload iscsi disks (qla4xxx)
+  (#1325134) (rvykydal)
+- network: adapt to changed NM ibft plugin enablement configuration (#1371188)
+  (rvykydal)
+- network: don't activate bond/team devices regardless of --activate (#1358795)
+  (rvykydal)
+- Fix traceback when payload have None as url (#1371494) (jkonecny)
+- Add new Dracut test and fix another ones (#1101653) (jkonecny)
+- Fix bug when we add set to list (#1101653) (jkonecny)
+- Add new helper script files to build system (#1101653) (jkonecny)
+- Document new helper scripts to the DriverDisk README (#1101653) (jkonecny)
+- Fix driver unload is disabling network settings (#1101653) (jkonecny)
+- dud: fix multiple inst.dd=http:// instances stalling in dracut (#1268792)
+  (rvykydal)
+- network: fix ksdata generating for for non-active virtual devices (#1321288)
+  (rvykydal)
+- network: update kickstart data also with bond bridge slaves (#1321288)
+  (rvykydal)
+- network: add support for bridge bond slaves (#1321288) (rvykydal)
+- screen_access: Ensure we write config to real sysroot (walters)
+- Add release commit support to makebumpver (mkolman)
+- Makefile improvements for separate release commits & tarball creation
+  (mkolman)
+- network: add support for --no-activate kickstart opton (#1277975) (rvykydal)
+- fixup! Add base.close() after base.do_transaction (RhBug:1313240) (jmracek)
+- Add base.close() after base.do_transaction (RhBug:1313240) (jmracek)
+
 * Tue Sep 06 2016 Martin Kolman <mkolman@redhat.com> - 26.2-1
 - Add git merging examples to the contribution guidelines (mkolman)
 - network: don't stumble upon new Device.Statistics NM dbus iface (#1370099)
