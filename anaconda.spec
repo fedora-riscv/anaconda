@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 26.6
+Version: 26.7
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -20,8 +20,7 @@ Source0: %{name}-%{version}.tar.bz2
 
 %define gettextver 0.19.8
 %define pykickstartver 2.32-1
-%define dnfver 0.6.4
-%define dnfmaxver 2.0.0
+%define dnfver 2.0.0
 %define partedver 1.8.1
 %define pypartedver 2.5-2
 %define nmver 0.9.9.0-10.git20130906
@@ -82,7 +81,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 
 %package core
 Summary: Core of the Anaconda installer
-Requires: python3-dnf >= %{dnfver}, python3-dnf < %{dnfmaxver}
+Requires: python3-dnf >= %{dnfver}
 Requires: python3-blivet >= 1:2.1.5
 Requires: python3-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
@@ -325,6 +324,11 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Sep 30 2016 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 26.7-1
+- Increse python3-blivet version to 1:2.1.5 (jkonecny)
+- Fix dnf.repo.Repo now requires dnf.conf.Conf (jkonecny)
+- Provides compatibility with DNF-2.0 (jmracek)
+
 * Tue Sep 27 2016 Martin Kolman <mkolman@redhat.com> - 26.6-1
 - Don't deactivate all storage in anaconda-cleanup. (#1225184) (dlehman)
 - Stop setting ANACONDA udev environment variable. (#1225184) (dlehman)
