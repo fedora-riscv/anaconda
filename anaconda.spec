@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 26.7
+Version: 26.8
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -324,6 +324,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Oct 03 2016 Martin Kolman <mkolman@redhat.com> - 26.8-1
+- Fix network spoke being incorrectly marked as mandatory (#1374864) (mkolman)
+
 * Fri Sep 30 2016 Samantha N. Bueno <sbueno+anaconda@redhat.com> - 26.7-1
 - Increse python3-blivet version to 1:2.1.5 (jkonecny)
 - Fix dnf.repo.Repo now requires dnf.conf.Conf (jkonecny)
