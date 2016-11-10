@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 26.10
+Version: 26.11
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -82,7 +82,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: python3-dnf >= %{dnfver}
-Requires: python3-blivet >= 1:2.1.5
+Requires: python3-blivet >= 1:2.1.6-3
 Requires: python3-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python3
@@ -324,6 +324,19 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Nov 10 2016 Martin Kolman <mkolman@redhat.com> - 26.11-1
+- Relax blivet dependency to >= 2.1.6-3 (awilliam)
+- Bump required Blivet version (#1378156) (mkolman)
+- Fix bad exception handling from blivet in iscsi (#1378156) (jkonecny)
+- tui: New class for prompt (vponcova)
+- iSCSI: adjust to change in blivet auth info (#1378156) (awilliam)
+- Disable false positive pylint error (jkonecny)
+- Add some error checking when users don't provide input for DASD devices.
+  (sbueno+anaconda)
+- Add some error checking when users don't provide input for zFCP devices.
+  (sbueno+anaconda)
+- Fix tui timezone region selection by name (vponcova)
+
 * Fri Nov 04 2016 Martin Kolman <mkolman@redhat.com> - 26.10-1
 - F26_DisplayMode was added by non-interactive mode (jkonecny)
 - Fix pyanaconda tests for display mode (jkonecny)
