@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 26.11
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -148,6 +148,9 @@ Requires: anaconda-tui = %{version}-%{release}
 
 # Make sure we get the en locale one way or another
 Requires: glibc-langpack-en
+
+# needed for the call to udevadm to work
+Requires: systemd-udev
 
 Obsoletes: anaconda-images <= 10
 Provides: anaconda-images = %{version}-%{release}
@@ -324,6 +327,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Sat Nov 12 2016 Dennis Gilmore <dennis@ausil.us> - 26.11-2
+- add Requires on systemd-udev for rhbz#1392591
+
 * Thu Nov 10 2016 Martin Kolman <mkolman@redhat.com> - 26.11-1
 - Relax blivet dependency to >= 2.1.6-3 (awilliam)
 - Bump required Blivet version (#1378156) (mkolman)
