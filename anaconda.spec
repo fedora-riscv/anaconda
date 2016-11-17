@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 26.11
-Release: 2%{?dist}
+Version: 26.12
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -134,9 +134,7 @@ Requires: python3-iscsi-initiator-utils >= %{iscsiver}
 Requires: hfsplus-tools
 %endif
 %endif
-%ifnarch aarch64
 Requires: kexec-tools
-%endif
 Requires: python3-pid
 Requires: python3-ordered-set >= 2.0.0
 Requires: python3-wrapt
@@ -327,6 +325,18 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Nov 17 2016 Martin Kolman <mkolman@redhat.com> - 26.12-1
+- Mock chroot environment is chosed by a git branch (jkonecny)
+- Set Zanata branch from git-find-branch script (jkonecny)
+- Add git-find-branch script for finding parent branch (jkonecny)
+- fix pykickstart docks link (gitDeveloper)
+- aarch64 now has kexec-tools (pbrobinson)
+- Resolve directory ownership (mkolman)
+- Fix user interaction config handling in image & directory install modes
+  (#1379106) (mkolman)
+- tui: Available help system (vponcova)
+- network: index team slave connection names starting with 1 (rvykydal)
+
 * Sat Nov 12 2016 Dennis Gilmore <dennis@ausil.us> - 26.11-2
 - add Requires on systemd-udev for rhbz#1392591
 
