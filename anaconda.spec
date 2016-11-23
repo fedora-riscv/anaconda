@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 26.13
+Version: 26.14
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -38,6 +38,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define libxklavierver 5.4
 %define libtimezonemapver 0.4.1-2
 %define helpver 22.1-1
+%define libblockdevver 2.1
 
 BuildRequires: audit-libs-devel
 BuildRequires: gettext >= %{gettextver}
@@ -83,6 +84,8 @@ The anaconda package is a metapackage for the Anaconda installer.
 Summary: Core of the Anaconda installer
 Requires: python3-dnf >= %{dnfver}
 Requires: python3-blivet >= 1:2.1.6-3
+Requires: python3-blockdev >= %{libblockdevver}
+Requires: libblockdev-plugins-all >= %{libblockdevver}
 Requires: python3-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
 Requires: libselinux-python3
@@ -325,6 +328,12 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Nov 23 2016 Martin Kolman <mkolman@redhat.com> - 26.14-1
+- Changed the required version of BlockDev to 2.0. (vponcova)
+- Remove auto generated documentation (mkolman)
+- Fix generated zanata.xml from https unstable branch (jkonecny)
+- Don't crash if the UIC file can't be written (#1375702) (mkolman)
+
 * Wed Nov 23 2016 Martin Kolman <mkolman@redhat.com> - 26.13-1
 - Fix calling of can_touch_runtime_system function (jkonecny)
 - fix formating a bit (gitDeveloper)
