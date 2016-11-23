@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 26.12
+Version: 26.13
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -325,6 +325,11 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Nov 23 2016 Martin Kolman <mkolman@redhat.com> - 26.13-1
+- Fix calling of can_touch_runtime_system function (jkonecny)
+- fix formating a bit (gitDeveloper)
+- Fix zanata.xml.in in substitution variables (mkolman)
+
 * Thu Nov 17 2016 Martin Kolman <mkolman@redhat.com> - 26.12-1
 - Mock chroot environment is chosed by a git branch (jkonecny)
 - Set Zanata branch from git-find-branch script (jkonecny)
