@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 26.15
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -328,6 +328,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Dec 13 2016 Charalampos Stratakis <cstratak@redhat.com> - 26.15-2
+- Rebuild for Python 3.6
+
 * Mon Dec 05 2016 Martin Kolman <mkolman@redhat.com> - 26.15-1
 - Don't pass storage to firstboot.setup() (mkolman)
 - RTD fixes (mkolman)
