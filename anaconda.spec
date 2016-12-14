@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 26.15
-Release: 2%{?dist}
+Version: 26.16
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -83,7 +83,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 %package core
 Summary: Core of the Anaconda installer
 Requires: python3-dnf >= %{dnfver}
-Requires: python3-blivet >= 1:2.1.6-3
+Requires: python3-blivet >= 1:2.1.7-3
 Requires: python3-blockdev >= %{libblockdevver}
 Requires: libblockdev-plugins-all >= %{libblockdevver}
 Requires: python3-meh >= %{mehver}
@@ -149,9 +149,6 @@ Requires: anaconda-tui = %{version}-%{release}
 
 # Make sure we get the en locale one way or another
 Requires: glibc-langpack-en
-
-# needed for the call to udevadm to work
-Requires: systemd-udev
 
 Obsoletes: anaconda-images <= 10
 Provides: anaconda-images = %{version}-%{release}
@@ -328,8 +325,13 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Tue Dec 13 2016 Charalampos Stratakis <cstratak@redhat.com> - 26.15-2
-- Rebuild for Python 3.6
+* Wed Dec 14 2016 Martin Kolman <mkolman@redhat.com> - 26.16-1
+- rpmostreepayload: Rework binds to be recursive (walters)
+- Let DNF do its own substitutions (riehecky)
+- Bump Blivet version due to systemd-udev dependency (mkolman)
+- Don't log "Invalid bridge option" when network has no --bridgeopts.
+  (rvykydal)
+- Fix updating of bridge slave which is bond. (rvykydal)
 
 * Mon Dec 05 2016 Martin Kolman <mkolman@redhat.com> - 26.15-1
 - Don't pass storage to firstboot.setup() (mkolman)
@@ -368,9 +370,6 @@ update-desktop-database &> /dev/null || :
   (#1379106) (mkolman)
 - tui: Available help system (vponcova)
 - network: index team slave connection names starting with 1 (rvykydal)
-
-* Sat Nov 12 2016 Dennis Gilmore <dennis@ausil.us> - 26.11-2
-- add Requires on systemd-udev for rhbz#1392591
 
 * Thu Nov 10 2016 Martin Kolman <mkolman@redhat.com> - 26.11-1
 - Relax blivet dependency to >= 2.1.6-3 (awilliam)
