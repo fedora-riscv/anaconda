@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 26.16
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -325,6 +325,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Dec 21 2016 Adam Williamson <awilliam@redhat.com> - 26.16-2
+- Rebuild for Python 3.6, again
+
 * Wed Dec 14 2016 Martin Kolman <mkolman@redhat.com> - 26.16-1
 - rpmostreepayload: Rework binds to be recursive (walters)
 - Let DNF do its own substitutions (riehecky)
