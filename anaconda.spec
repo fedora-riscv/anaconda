@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 26.16
-Release: 2%{?dist}
+Version: 26.17
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -325,8 +325,23 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Wed Dec 21 2016 Adam Williamson <awilliam@redhat.com> - 26.16-2
-- Rebuild for Python 3.6, again
+* Wed Jan 04 2017 Martin Kolman <mkolman@redhat.com> - 26.17-1
+- Fix a GTK Widget related deprecation warning (mkolman)
+- Fix GTK screen/display related deprecation warnings (mkolman)
+- Fix GObject and GLib deprecation warnings (mkolman)
+- Fix selection of no software environment (#1400045) (vponcova)
+- Use signals for Spoke & Hub entry/exit callbacks (mkolman)
+- Fix the name of StorageDiscoveryConfig attribute (#1395350) (vponcova)
+- Iutil PEP8 & formatting fixes (mkolman)
+- Add inst.ksstrict option to show kickstart warnings as errors. (vponcova)
+- Use the structured installation task classes (mkolman)
+- Improved password quality checking (mkolman)
+- Add unit tests for password quality checking (mkolman)
+- Use Enum for password status constants (mkolman)
+- Use a sane unified password checking policy (mkolman)
+- Add install task processing classes and unit tests (mkolman)
+- Add a signal/slot implementation (mkolman)
+- Set correctly the default partitioning. (vponcova)
 
 * Wed Dec 14 2016 Martin Kolman <mkolman@redhat.com> - 26.16-1
 - rpmostreepayload: Rework binds to be recursive (walters)
