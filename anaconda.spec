@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 26.18
+Version: 26.19
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -325,6 +325,14 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Jan 16 2017 Martin Kolman <mkolman@redhat.com> - 26.19-1
+- Use initialization controller for spoke initialization (mkolman)
+- Add module initialization controller (mkolman)
+- Fix link to the documentation in the README file (jkonecny)
+- There is no thread for dasd formatting in tui. (vponcova)
+- Move the (mkolman)
+- Fix the status of the StorageSpoke for dasd formatting (#1274596) (vponcova)
+
 * Mon Jan 09 2017 Martin Kolman <mkolman@redhat.com> - 26.18-1
 - Always refresh the size of swap before autopartitioning. (vponcova)
 - Run the space check only if the spokes are complete (#1403505) (vponcova)
