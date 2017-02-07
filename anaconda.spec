@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 26.19
+Version: 26.20
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -23,7 +23,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define dnfver 2.0.0
 %define partedver 1.8.1
 %define pypartedver 2.5-2
-%define nmver 0.9.9.0-10.git20130906
+%define nmver 1.0
 %define dbusver 1.2.3
 %define mehver 0.23-1
 %define firewalldver 0.3.5-1
@@ -120,7 +120,7 @@ Requires: openssh
 Requires: isomd5sum >= %{isomd5sum}
 Requires: createrepo_c
 Requires: NetworkManager >= %{nmver}
-Requires: NetworkManager-glib >= %{nmver}
+Requires: NetworkManager-libnm >= %{nmver}
 Requires: NetworkManager-team
 Requires: dhclient
 Requires: kbd
@@ -325,6 +325,29 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Feb 07 2017 Martin Kolman <mkolman@redhat.com> - 26.20-1
+- Update dracut test for network --ipv6gateway (rvykydal)
+- Correctly propagate --ipv6gateway to ifcfg files(#1170845) (mkolman)
+- network: respect --activate value for bridge from kickstart (rvykydal)
+- network: fix --activate for bridge slaves configured via %%pre ks (rvykydal)
+- network: activate bridge for first network command in ks via %%pre (rvykydal)
+- network: unify slave connection names for ks %%pre with ks and gui (rvykydal)
+- network: bind slave connections to DEVICE, not HWADDR (#1373360) (rvykydal)
+- Do not allow creating ntfs filesystem in custom spoke (vtrefny)
+- Various minor formatting fixes (mkolman)
+- PEP8 and refactoring for packaging (mkolman)
+- PEP8 and refactoring for vnc.py (mkolman)
+- PEP8 and refactoring for storage_utils.py (mkolman)
+- PEP8 and refactoring for network.py (mkolman)
+- PEP8 and refactoring for kickstart.py (mkolman)
+- PEP8 and refactoring for image.py (mkolman)
+- Cosmetic PEP8 and refactoring for flags.py (mkolman)
+- PEP8 and refactoring for exception.py (mkolman)
+- PEP8 and refactoring for bootloader.py (mkolman)
+- PEP8 and refactoring for anaconda_log.py (mkolman)
+- Validate dasd and zfcp user input (#1335092) (vponcova)
+- network: use introspection data from libnm instead of libnm-glib (lkundrak)
+
 * Mon Jan 16 2017 Martin Kolman <mkolman@redhat.com> - 26.19-1
 - Use initialization controller for spoke initialization (mkolman)
 - Add module initialization controller (mkolman)
