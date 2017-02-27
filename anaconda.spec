@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 26.20
+Version: 26.21
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -39,6 +39,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define libtimezonemapver 0.4.1-2
 %define helpver 22.1-1
 %define libblockdevver 2.1
+%define blivetguiver 2.1.0
 
 BuildRequires: audit-libs-devel
 BuildRequires: gettext >= %{gettextver}
@@ -182,6 +183,7 @@ Requires: NetworkManager-wifi
 Requires: anaconda-user-help >= %{helpver}
 Requires: yelp
 Requires: python3-gobject-base
+Requires: blivet-gui >= %{blivetguiver}
 
 # Needed to compile the gsettings files
 BuildRequires: gsettings-desktop-schemas
@@ -325,6 +327,17 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Feb 27 2017 Martin Kolman <mkolman@redhat.com> - 26.21-1
+- Add blivet-gui as requirement for the GUI package (vtrefny)
+- Add a bottom bar to the Blivet GUI spoke (mkolman)
+- Hide storage config spokes marked by SAM as visited (mkolman)
+- Keep last used partitioning method selected (mkolman)
+- Rollback planned storage changes if partitioning method changes (mkolman)
+- Add blivet-gui spoke (vpodzime)
+- docs: fix formating a bit for Links (Frodox)
+- Fix a typo (mkolman)
+- Polish unsupported filesystems in the custom spoke (jkonecny)
+
 * Tue Feb 07 2017 Martin Kolman <mkolman@redhat.com> - 26.20-1
 - Update dracut test for network --ipv6gateway (rvykydal)
 - Correctly propagate --ipv6gateway to ifcfg files(#1170845) (mkolman)
