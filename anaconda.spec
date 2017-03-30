@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 27.2
+Version: 27.3
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -328,6 +328,12 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Mar 30 2017 Martin Kolman <mkolman@redhat.com> - 27.3-1
+- Enable the install class to customize the storage checking (vponcova)
+- Replace sanity check with more advanced storage checker (vponcova)
+- Various log-capture script improvements (mkolman)
+- Rename StorageChecker to StorageCheckHandler (vponcova)
+
 * Thu Mar 16 2017 Martin Kolman <mkolman@redhat.com> - 27.2-1
 - Correction of some typographic mistakes in documentation. (rludva)
 - Fix bullet point formatting in contribution guidelines (mkolman)
