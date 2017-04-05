@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 26.21.1
+Version: 26.21.2
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -20,7 +20,7 @@ Source0: %{name}-%{version}.tar.bz2
 
 %define gettextver 0.19.8
 %define pykickstartver 2.32-1
-%define dnfver 2.0.0
+%define dnfver 2.2.0
 %define partedver 1.8.1
 %define pypartedver 2.5-2
 %define nmver 1.0
@@ -328,6 +328,20 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Apr 05 2017 Martin Kolman <mkolman@redhat.com> - 26.21.2-1
+- Display progress for the post installation phase (mkolman)
+- Enable the install class to customize the storage checking (vponcova)
+- Replace sanity check with more advanced storage checker (vponcova)
+- Various log-capture script improvements (mkolman)
+- Rename StorageChecker to StorageCheckHandler (vponcova)
+- Correction of some typographic mistakes in documentation. (rludva)
+- Fix bullet point formatting in contribution guidelines (mkolman)
+- Propagate firstboot --disable to Screen Access Manager (mkolman)
+- util: Add script to capture logs (riehecky)
+- Fix a typo (mkolman)
+- Enhance git-find-branch script (jkonecny)
+- Improve how storage configuration settings are displayed (mkolman)
+
 * Mon Mar 06 2017 Martin Kolman <mkolman@redhat.com> - 26.21.1-1
 - We should not have pyanaconda submodules on PYTHONPATH (vponcova)
 - Lock empty root password during kickstart installation (#1383656) (mkolman)
