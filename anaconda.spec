@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 27.3
+Version: 27.4
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -20,7 +20,7 @@ Source0: %{name}-%{version}.tar.bz2
 
 %define gettextver 0.19.8
 %define pykickstartver 2.32-1
-%define dnfver 2.0.0
+%define dnfver 2.2.0
 %define partedver 1.8.1
 %define pypartedver 2.5-2
 %define nmver 1.0
@@ -39,7 +39,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define libtimezonemapver 0.4.1-2
 %define helpver 22.1-1
 %define libblockdevver 2.1
-%define blivetguiver 2.1.0
+%define blivetguiver 2.1.2
 
 BuildRequires: audit-libs-devel
 BuildRequires: gettext >= %{gettextver}
@@ -328,6 +328,23 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Apr 11 2017 Martin Kolman <mkolman@redhat.com> - 27.4-1
+- Hide options based on storage configuration method (#1439519) (mkolman)
+- Catch exception when reading from in-memory connection being removed
+  (#1439051) (rvykydal)
+- docs/boot-options.rst: Fix #dhcpd anchor (mopsfelder)
+- docs/boot-options.rst: Remove trailing spaces (mopsfelder)
+- Fix logging of the storage checker report. (vponcova)
+- Fix a property name of luks devices in storage checking (#1439411) (vponcova)
+- Bump required version for blivet-gui (vtrefny)
+- Use newly created swaps after the installation (#1439729) (vtrefny)
+- docs/boot-options.rst: Fix #dhcpd anchor (mopsfelder)
+- docs/boot-options.rst: Remove trailing spaces (mopsfelder)
+- Set default FS type for blivet-gui (#1439581) (vtrefny)
+- Display progress for the post installation phase (mkolman)
+- Display progress for the post installation phase (mkolman)
+- Increase verbosity of lvmdump in pre logging script (#1255659) (jkonecny)
+
 * Thu Mar 30 2017 Martin Kolman <mkolman@redhat.com> - 27.3-1
 - Enable the install class to customize the storage checking (vponcova)
 - Replace sanity check with more advanced storage checker (vponcova)
