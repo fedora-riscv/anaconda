@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 27.4
+Version: 27.5
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -19,7 +19,7 @@ Source0: %{name}-%{version}.tar.bz2
 # match the requires versions of things).
 
 %define gettextver 0.19.8
-%define pykickstartver 2.32-1
+%define pykickstartver 2.33-1
 %define dnfver 2.2.0
 %define partedver 1.8.1
 %define pypartedver 2.5-2
@@ -328,6 +328,25 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Apr 27 2017 Martin Kolman <mkolman@redhat.com> - 27.5-1
+- make anaconda working back again with tmux2.4 (pallotron)
+- Trigger the entered signal only once the screen is shown (#1443011) (mkolman)
+- Use constants in storage checker constraints. (vponcova)
+- Gtk: Fix creating images from resources. (vponcova)
+- Fix partial kickstart software selection in GUI (#1404158) (jkonecny)
+- Removed unused code in the Software spoke (#1404158) (jkonecny)
+- Fix selection logic in Software spoke (#1404158) (jkonecny)
+- Fix Driver Disc documentation (#1377233) (jkonecny)
+- Support DD rpm loading from local disk device (#1377233) (jkonecny)
+- Gtk: Replace deprecated get_misc_set_alignment in widgets. (vponcova)
+- Gtk: Replace deprecated Gtk.Viewport.get_v/hadjustment. (vponcova)
+- Gtk: Replace deprecated methods. (vponcova)
+- Set the info bar only once if the partitioning method changes. (vponcova)
+- Fix pylint issue Catching too general exception Exception (jkonecny)
+- Support --noboot and --noswap options in autopartitioning (#1220866)
+  (vponcova)
+- Support --nohome option in the autopartitioning (vponcova)
+
 * Tue Apr 11 2017 Martin Kolman <mkolman@redhat.com> - 27.4-1
 - Hide options based on storage configuration method (#1439519) (mkolman)
 - Catch exception when reading from in-memory connection being removed
