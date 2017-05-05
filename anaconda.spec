@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 26.21.4
+Version: 26.21.5
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -39,7 +39,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define libtimezonemapver 0.4.1-2
 %define helpver 22.1-1
 %define libblockdevver 2.1
-%define blivetguiver 2.1.2
+%define blivetguiver 2.1.4
 
 BuildRequires: audit-libs-devel
 BuildRequires: gettext >= %{gettextver}
@@ -328,6 +328,15 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri May 05 2017 Martin Kolman <mkolman@redhat.com> - 26.21.5-1
+- Make some missed adjustments to blivet API changes. (#1440134) (dlehman)
+- Bump required version for blivet-gui (vtrefny)
+- BlivetGuiSpoke: Set keyboard shortcuts for blivet-gui (#1439608) (vtrefny)
+- BlivetGuiSpoke: Refresh blivet-gui UI after spoke is entered (vtrefny)
+- Really fix with tmux 2.4 (version comparison was busted) (awilliam)
+- Show or hide the content of the expander on Fedora (vponcova)
+- itertools.chain can be iterated only once (#1414391) (vponcova)
+
 * Fri Apr 28 2017 Martin Kolman <mkolman@redhat.com> - 26.21.4-1
 - Use `time.tzset()` to apply timezone changes when we can (awilliam)
 - Tweak epoch definition to fix system clock setting (#1433560) (awilliam)
