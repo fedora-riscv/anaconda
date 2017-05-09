@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 26.21.5
+Version: 26.21.6
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -19,7 +19,7 @@ Source0: %{name}-%{version}.tar.bz2
 # match the requires versions of things).
 
 %define gettextver 0.19.8
-%define pykickstartver 2.33-1
+%define pykickstartver 2.34-1
 %define dnfver 2.2.0
 %define partedver 1.8.1
 %define pypartedver 2.5-2
@@ -328,6 +328,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue May 09 2017 Martin Kolman <mkolman@redhat.com> - 26.21.6-1
+- Bump Pykickstart version (mkolman)
+
 * Fri May 05 2017 Martin Kolman <mkolman@redhat.com> - 26.21.5-1
 - Make some missed adjustments to blivet API changes. (#1440134) (dlehman)
 - Bump required version for blivet-gui (vtrefny)
