@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 27.9
+Version: 27.10
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -85,7 +85,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 Summary: Core of the Anaconda installer
 Requires: python3-libs
 Requires: python3-dnf >= %{dnfver}
-Requires: python3-blivet >= 1:2.1.7-3
+Requires: python3-blivet >= 1:2.1.9-1
 Requires: python3-blockdev >= %{libblockdevver}
 Requires: libblockdev-plugins-all >= %{libblockdevver}
 Requires: python3-meh >= %{mehver}
@@ -328,6 +328,35 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Jun 01 2017 Martin Kolman <mkolman@redhat.com> - 27.10-1
+- Bump Blivet version (mkolman)
+- Remove GUI logging prefixes from Network spoke (mkolman)
+- Rename TUI spokes (mkolman)
+- Rename GUI spokes (mkolman)
+- Rename anaconda_argparse.py to argument_parsing.py (mkolman)
+- Rename install_tasks.py to installation_tasks.py (mkolman)
+- Rename install.py to installation.py (mkolman)
+- Rename threads.py to threading.py (mkolman)
+- Get special purpose loggers from anaconda_loggers (mkolman)
+- Use structured logging in Anaconda modules (mkolman)
+- Use unique 3 letter log level names (mkolman)
+- Use constants for special purpose logger names (mkolman)
+- Add the anaconda_loggers module (mkolman)
+- Rename anaconda_log.py to anaconda_logging.py (mkolman)
+- Add support for structured logging to the anaconda logger (mkolman)
+- Make it possible to set filters for file handlers (mkolman)
+- Add custom filter and formatter support for the syslog handler (mkolman)
+- Add AnacondaPrefixFilter (mkolman)
+- Fixes for Pylint 1.7 (vponcova)
+- Add support for IPoIB in tui (#1366935) (rvykydal)
+- Fix pylint unused import error (jkonecny)
+- network: handle multiple connections for one device better (#1444887)
+  (rvykydal)
+- Fix setting errors and warnings in the StorageCheckHandler (vponcova)
+- Add inst.waitfornet option (#1315160) (rvykydal)
+- network: catch exception when reading in-memory connection being removed
+  (#1439220) (rvykydal)
+
 * Thu May 25 2017 Martin Kolman <mkolman@redhat.com> - 27.9-1
 - Add support for DNF-2.5.0 (jkonecny)
 - Fix simpleline_getpass related Pylint warning (mkolman)
