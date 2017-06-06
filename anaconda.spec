@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 27.10
+Version: 27.11
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -328,6 +328,11 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Jun 06 2017 Martin Kolman <mkolman@redhat.com> - 27.11-1
+- Fix renaming error (mkolman)
+- Add a getter for the Anaconda root logger (mkolman)
+- Disable test-install in Makefile (jkonecny)
+
 * Thu Jun 01 2017 Martin Kolman <mkolman@redhat.com> - 27.10-1
 - Bump Blivet version (mkolman)
 - Remove GUI logging prefixes from Network spoke (mkolman)
