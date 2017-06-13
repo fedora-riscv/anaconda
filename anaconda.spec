@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 27.11
+Version: 27.12
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -328,6 +328,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Jun 13 2017 Martin Kolman <mkolman@redhat.com> - 27.12-1
+- Show warning if swap is smaller then recommended (#1290360) (vponcova)
+
 * Tue Jun 06 2017 Martin Kolman <mkolman@redhat.com> - 27.11-1
 - Fix renaming error (mkolman)
 - Add a getter for the Anaconda root logger (mkolman)
