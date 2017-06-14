@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 27.12
+Version: 27.13
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -328,6 +328,12 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Jun 14 2017 Martin Kolman <mkolman@redhat.com> - 27.13-1
+- Fix source.glade renaming mixup (#1461469) (mkolman)
+- Separate blivet-daily builds in mock config (jkonecny)
+- network: bind to device name (not hwaddr) when dumping connections (#1457215)
+  (rvykydal)
+
 * Tue Jun 13 2017 Martin Kolman <mkolman@redhat.com> - 27.12-1
 - Show warning if swap is smaller then recommended (#1290360) (vponcova)
 
