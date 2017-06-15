@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 26.21.8
+Version: 26.21.9
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -19,7 +19,7 @@ Source0: %{name}-%{version}.tar.bz2
 # match the requires versions of things).
 
 %define gettextver 0.19.8
-%define pykickstartver 2.34-1
+%define pykickstartver 2.35-1
 %define dnfver 2.2.0
 %define partedver 1.8.1
 %define pypartedver 2.5-2
@@ -85,7 +85,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 Summary: Core of the Anaconda installer
 Requires: python3-libs
 Requires: python3-dnf >= %{dnfver}
-Requires: python3-blivet >= 1:2.1.7-3
+Requires: python3-blivet >= 1:2.1.9-1
 Requires: python3-blockdev >= %{libblockdevver}
 Requires: libblockdev-plugins-all >= %{libblockdevver}
 Requires: python3-meh >= %{mehver}
@@ -328,6 +328,12 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Jun 15 2017 Martin Kolman <mkolman@redhat.com> - 26.21.9-1
+- Bump version of Pykickstart and Blivet (#1113207) (jkonecny)
+- Add XFS uuid changer (#1113207) (jkonecny)
+- Support --when parameter in snapshot (#1113207) (jkonecny)
+- Add snapshot support (#1113207) (jkonecny)
+
 * Tue Jun 13 2017 Martin Kolman <mkolman@redhat.com> - 26.21.8-1
 - Show warning if swap is smaller then recommended (#1290360) (vponcova)
 - Disable test-install in Makefile (jkonecny)
