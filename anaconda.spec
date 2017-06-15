@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 27.13
+Version: 27.14
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -19,7 +19,7 @@ Source0: %{name}-%{version}.tar.bz2
 # match the requires versions of things).
 
 %define gettextver 0.19.8
-%define pykickstartver 2.34-1
+%define pykickstartver 2.35-1
 %define dnfver 2.2.0
 %define partedver 1.8.1
 %define pypartedver 2.5-2
@@ -328,6 +328,12 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Jun 15 2017 Martin Kolman <mkolman@redhat.com> - 27.14-1
+- Bump version of Pykickstart and Blivet (#1113207) (jkonecny)
+- Add XFS uuid changer (#1113207) (jkonecny)
+- Support --when parameter in snapshot (#1113207) (jkonecny)
+- Add snapshot support (#1113207) (jkonecny)
+
 * Wed Jun 14 2017 Martin Kolman <mkolman@redhat.com> - 27.13-1
 - Fix source.glade renaming mixup (#1461469) (mkolman)
 - Separate blivet-daily builds in mock config (jkonecny)
