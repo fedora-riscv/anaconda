@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 27.16
+Version: 27.17
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -39,7 +39,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define libtimezonemapver 0.4.1-2
 %define helpver 22.1-1
 %define libblockdevver 2.1
-%define blivetguiver 2.1.4
+%define blivetguiver 2.1.5-2
 
 BuildRequires: audit-libs-devel
 BuildRequires: gettext >= %{gettextver}
@@ -184,7 +184,7 @@ Requires: NetworkManager-wifi
 Requires: anaconda-user-help >= %{helpver}
 Requires: yelp
 Requires: python3-gobject-base
-Requires: blivet-gui >= %{blivetguiver}
+Requires: blivet-gui-runtime >= %{blivetguiver}
 
 # Needed to compile the gsettings files
 BuildRequires: gsettings-desktop-schemas
@@ -328,6 +328,10 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Sat Jul 01 2017 Martin Kolman <mkolman@redhat.com> - 27.17-1
+- Require "blivet-gui-runtime" instead of "blivet-gui" (vtrefny)
+- Fix a typo in python-meh initialization (#1462825) (mkolman)
+
 * Mon Jun 26 2017 Martin Kolman <mkolman@redhat.com> - 27.16-1
 - Install class shouldn't set the default boot fstype (#1463297) (vponcova)
 - Store testing logs properly (jkonecny)
