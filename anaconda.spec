@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 27.18
-Release: 2%{?dist}
+Version: 27.19
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -328,6 +328,25 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Jul 27 2017 Radek Vykydal <rvykydal@redhat.com> - 27.19-1
+- rpmostreepayload: Set up /var first (walters)
+- rpmostreepayload: Explicitly create /var/lib before tmpfiles (walters)
+- rpmostreepayload: Rework mount setup to support admin-defined mounts
+  (walters)
+- rpmostreepayload: try to verify local ostree repo cache (dusty)
+- rpmostreepayload: ignore <F25 location, support RHEL (dusty)
+- rpmostreepayload: use correct secondary url location (dusty)
+- Add tracking of requirements application to requirements container.
+  (rvykydal)
+- Add langpacks via payload requirements (rvykydal)
+- Add NTP_PACKAGE via installation requirements (rvykydal)
+- timezone: simplify kickstart setup metod (rvykydal)
+- Store payload (packages, groups) requirements in a container. (rvykydal)
+- Fix anaconda --help fail with traceback (#1470514) (jkonecny)
+- rpmostreepayload: Do /sysroot mount non-recursively (walters)
+- Add isolated-test makefile target (jkonecny)
+- gui: show supported locales on Atomic Host installs (jlebon)
+
 * Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 27.18-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
