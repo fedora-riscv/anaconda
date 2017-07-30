@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 27.19
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -328,6 +328,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Sun Jul 30 2017 Florian Weimer <fweimer@redhat.com> - 27.19-2
+- Rebuild with binutils fix for ppc64le (#1475636)
+
 * Thu Jul 27 2017 Radek Vykydal <rvykydal@redhat.com> - 27.19-1
 - rpmostreepayload: Set up /var first (walters)
 - rpmostreepayload: Explicitly create /var/lib before tmpfiles (walters)
