@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 27.19
-Release: 5%{?dist}
+Release: 6%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -328,6 +328,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Aug 11 2017 Igor Gnatenko <ignatenko@redhat.com> - 27.19-6
+- Rebuilt after RPM update (№ 3)
+
 * Thu Aug 10 2017 Igor Gnatenko <ignatenko@redhat.com> - 27.19-5
 - Rebuilt for RPM soname bump
 
