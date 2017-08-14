@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 27.19
-Release: 6%{?dist}
+Version: 27.20
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -19,7 +19,7 @@ Source0: %{name}-%{version}.tar.bz2
 # match the requires versions of things).
 
 %define gettextver 0.19.8
-%define pykickstartver 2.35-1
+%define pykickstartver 2.36-1
 %define dnfver 2.2.0
 %define partedver 1.8.1
 %define pypartedver 2.5-2
@@ -105,6 +105,8 @@ Requires: firewalld >= %{firewalldver}
 Requires: util-linux >= %{utillinuxver}
 Requires: python3-dbus
 Requires: python3-pwquality
+Requires: python3-systemd
+Requires: python3-pydbus
 
 # pwquality only "recommends" the dictionaries it needs to do anything useful,
 # which is apparently great for containers but unhelpful for the rest of us
@@ -328,20 +330,30 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Fri Aug 11 2017 Igor Gnatenko <ignatenko@redhat.com> - 27.19-6
-- Rebuilt after RPM update (№ 3)
-
-* Thu Aug 10 2017 Igor Gnatenko <ignatenko@redhat.com> - 27.19-5
-- Rebuilt for RPM soname bump
-
-* Thu Aug 10 2017 Igor Gnatenko <ignatenko@redhat.com> - 27.19-4
-- Rebuilt for RPM soname bump
-
-* Wed Aug 02 2017 Fedora Release Engineering <releng@fedoraproject.org> - 27.19-3
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
-
-* Sun Jul 30 2017 Florian Weimer <fweimer@redhat.com> - 27.19-2
-- Rebuild with binutils fix for ppc64le (#1475636)
+* Mon Aug 14 2017 Martin Kolman <mkolman@redhat.com> - 27.20-1
+- Add support for automatic generating of DBus specification. (vponcova)
+- Add support for generating XML (vponcova)
+- Add support for DBus typing system (vponcova)
+- dnfpayload: do not try to contact disabled repo (artem.bityutskiy)
+- Add message to setup-test-env is ran (jkonecny)
+- Use SHA256 instead of MD5 for repoMDHash (#1341280) (bcl)
+- Add lorax-packages.log to bug report. (rvykydal)
+- Use SHA256 instead of MD5 for repoMDHash (#1341280) (jkonecny)
+- 80-setfilecons: Add a few paths (/var/run, /var/spool) (walters)
+- Also capture anaconda-pre logs if they exist (riehecky)
+- Don't mock modules with sys in unit tests (vponcova)
+- logging: replace SyslogHandler with JournalHandler (rvykydal)
+- Add setup-test-env target to the Makefile (jkonecny)
+- Add tests for the install class factory (vponcova)
+- Support for the installclass kickstart command (vponcova)
+- Modules with install classes should define __all__ (vponcova)
+- Refactorization of the installclass.py (vponcova)
+- docs: minor fixups of release document (rvykydal)
+- rescue: add RTD documentation (rvykydal)
+- rescue: clean up method for mounting root (rvykydal)
+- rescue: separate UI and execution logic (rvykydal)
+- Make kickstart rescue command noninteractive. (rvykydal)
+- Remove unused argument and code. (rvykydal)
 
 * Thu Jul 27 2017 Radek Vykydal <rvykydal@redhat.com> - 27.19-1
 - rpmostreepayload: Set up /var first (walters)
@@ -361,9 +373,6 @@ update-desktop-database &> /dev/null || :
 - rpmostreepayload: Do /sysroot mount non-recursively (walters)
 - Add isolated-test makefile target (jkonecny)
 - gui: show supported locales on Atomic Host installs (jlebon)
-
-* Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 27.18-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
 * Mon Jul 03 2017 Martin Kolman <mkolman@redhat.com> - 27.18-1
 - rpmostreepayload: Reuse the local repo as a cache (walters)
