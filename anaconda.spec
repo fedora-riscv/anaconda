@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 27.20
+Version: 28.1
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -18,34 +18,36 @@ Source0: %{name}-%{version}.tar.bz2
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
 
-%define gettextver 0.19.8
-%define pykickstartver 2.36-1
-%define dnfver 2.2.0
-%define partedver 1.8.1
-%define pypartedver 2.5-2
-%define nmver 1.0
-%define dbusver 1.2.3
-%define mehver 0.23-1
-%define firewalldver 0.3.5-1
-%define utillinuxver 2.15.1
-%define dracutver 034-7
-%define isomd5sum 1.0.10
-%define fcoeutilsver 1.0.12-3.20100323git
-%define iscsiver 6.2.0.873-26
-%define rpmver 4.10.0
-%define libarchivever 3.0.4
-%define langtablever 0.0.34
-%define libxklavierver 5.4
-%define libtimezonemapver 0.4.1-2
-%define helpver 22.1-1
-%define libblockdevver 2.1
 %define blivetguiver 2.1.5-2
+%define dbusver 1.2.3
+%define dnfver 2.2.0
+%define dracutver 034-7
+%define fcoeutilsver 1.0.12-3.20100323git
+%define firewalldver 0.3.5-1
+%define gettextver 0.19.8
+%define gtk3ver 3.22.17
+%define helpver 22.1-1
+%define iscsiver 6.2.0.873-26
+%define isomd5sum 1.0.10
+%define langtablever 0.0.34
+%define libarchivever 3.0.4
+%define libblockdevver 2.1
+%define libtimezonemapver 0.4.1-2
+%define libxklavierver 5.4
+%define mehver 0.23-1
+%define nmver 1.0
+%define partedver 1.8.1
+%define pykickstartver 2.36-1
+%define pypartedver 2.5-2
+%define rpmver 4.10.0
+%define simplelinever 0.4-1
+%define utillinuxver 2.15.1
 
 BuildRequires: audit-libs-devel
 BuildRequires: gettext >= %{gettextver}
-BuildRequires: gtk3-devel
+BuildRequires: gtk3-devel >= %{gtk3ver}
 BuildRequires: gtk-doc
-BuildRequires: gtk3-devel-docs
+BuildRequires: gtk3-devel-docs >= %{gtk3ver}
 BuildRequires: glib2-doc
 BuildRequires: gobject-introspection-devel
 BuildRequires: glade-devel
@@ -103,6 +105,7 @@ Requires: langtable-python3 >= %{langtablever}
 Requires: authconfig
 Requires: firewalld >= %{firewalldver}
 Requires: util-linux >= %{utillinuxver}
+Requires: python3-gobject-base
 Requires: python3-dbus
 Requires: python3-pwquality
 Requires: python3-systemd
@@ -185,7 +188,6 @@ Requires: NetworkManager-wifi
 %endif
 Requires: anaconda-user-help >= %{helpver}
 Requires: yelp
-Requires: python3-gobject-base
 Requires: blivet-gui-runtime >= %{blivetguiver}
 
 # Needed to compile the gsettings files
@@ -198,6 +200,7 @@ This package contains graphical user interface for the Anaconda installer.
 %package tui
 Summary: Textual user interface for the Anaconda installer
 Requires: anaconda-core = %{version}-%{release}
+Requires: python3-simpleline >= %{simplelinever}
 
 %description tui
 This package contains textual user interface for the Anaconda installer.
@@ -306,7 +309,6 @@ update-desktop-database &> /dev/null || :
 
 %files gui
 %{python3_sitearch}/pyanaconda/ui/gui/*
-%{_datadir}/themes/Anaconda/*
 
 %files tui
 %{python3_sitearch}/pyanaconda/rescue.py
@@ -330,6 +332,29 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Aug 29 2017 Martin Kolman <mkolman@redhat.com> - 28.1-1
+- Remove the metacity theme. (vponcova)
+- Add the option inst.decorated to allow title bar in GUI (vponcova)
+- Move python3-gobject Requires to core (jkonecny)
+- Return simpleline removed ipmi calls back (jkonecny)
+- Use new list container from Simpleline (jkonecny)
+- Remove old simpleline from anaconda (jkonecny)
+- Ask multiple times for wrong input (jkonecny)
+- Show TUI exception only first time (jkonecny)
+- Add simpleline logger to the Anaconda (jkonecny)
+- Modify TUI to use new Simpleline package (jkonecny)
+- Make 64-bit kernel on 32-bit firmware work for x86 efi machines (pjones)
+- Add missing gtk3 required version to spec file (jkonecny)
+- Sort spec required versions alphabetically (jkonecny)
+- Fix testing of the kickstart version (vponcova)
+- Move the installclass command to the %%anaconda section. (vponcova)
+- Fix SL install class to use right efi dir (riehecky)
+- Fix accelerator key for blivet-gui partitioning (#1482438) (vtrefny)
+- Add blivet-gui logs to python-meh file list (vtrefny)
+- Remove the title bar in anaconda by default (#1468801) (vponcova)
+- Add simple script to read journal with message code source and thread info.
+  (rvykydal)
+
 * Mon Aug 14 2017 Martin Kolman <mkolman@redhat.com> - 27.20-1
 - Add support for automatic generating of DBus specification. (vponcova)
 - Add support for generating XML (vponcova)
