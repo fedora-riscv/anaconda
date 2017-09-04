@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.1
+Version: 28.2
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -40,7 +40,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define pykickstartver 2.36-1
 %define pypartedver 2.5-2
 %define rpmver 4.10.0
-%define simplelinever 0.4-1
+%define simplelinever 0.5-1
 %define utillinuxver 2.15.1
 
 BuildRequires: audit-libs-devel
@@ -332,6 +332,17 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Sep 04 2017 Martin Kolman <mkolman@redhat.com> - 28.2-1
+- Fix catch TUI not main thread exceptions (jkonecny)
+- Document Anaconda branching workflow (mkolman)
+- Use constants for version number bumps and additions (mkolman)
+- Fix closest mirror now needs network (jkonecny)
+- Fix restart payload thread in Network spoke GUI (#1478970) (jkonecny)
+- Network spoke freeze when testing availability (#1478970) (jkonecny)
+- Add support for adding version numbers to makebumpver (mkolman)
+- Add support for major version bump to makebumpver (mkolman)
+- Fix proxy settings badly used when testing repos (#1478970) (jkonecny)
+
 * Tue Aug 29 2017 Martin Kolman <mkolman@redhat.com> - 28.1-1
 - Remove the metacity theme. (vponcova)
 - Add the option inst.decorated to allow title bar in GUI (vponcova)
