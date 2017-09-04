@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 27.20.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -14,6 +14,9 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
+
+# Fix catch TUI not main thread exceptions (Fedora 27 Beta hotfix)
+Patch0: 0001-Fix-catch-TUI-not-main-thread-exceptions.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -40,7 +43,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define pykickstartver 2.36-1
 %define pypartedver 2.5-2
 %define rpmver 4.10.0
-%define simplelinever 0.4-1
+%define simplelinever 0.5-1
 %define utillinuxver 2.15.1
 
 BuildRequires: audit-libs-devel
@@ -239,6 +242,7 @@ runtime on NFS/HTTP/FTP servers or local disks.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %configure
@@ -332,6 +336,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Sep 04 2017 Martin Kolman <mkolman@redhat.com> - 27.20.1-2
+- Fix catch TUI not main thread exceptions (jkonecny)
+
 * Tue Aug 29 2017 Martin Kolman <mkolman@redhat.com> - 27.20.1-1
 - Remove the metacity theme. (vponcova)
 - Add the option inst.decorated to allow title bar in GUI (vponcova)
