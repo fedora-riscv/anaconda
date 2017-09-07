@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 27.20.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -17,6 +17,9 @@ Source0: %{name}-%{version}.tar.bz2
 
 # Fix catch TUI not main thread exceptions (Fedora 27 Beta hotfix)
 Patch0: 0001-Fix-catch-TUI-not-main-thread-exceptions.patch
+
+# Another UEFI booting fix (#1489144)
+Patch1: 0002-Make-EFIGRUB._efi_binary-a-property-not-a-method.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -243,6 +246,7 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %configure
@@ -336,6 +340,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Sep 07 2017 Martin Kolman <mkolman@redhat.com> - 27.20.1-3
+- Make EFIGRUB._efi_binary a property, not a method (adamw)
+
 * Mon Sep 04 2017 Martin Kolman <mkolman@redhat.com> - 27.20.1-2
 - Fix catch TUI not main thread exceptions (jkonecny)
 
