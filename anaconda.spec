@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 28.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -14,6 +14,9 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
+
+# UEFI booting hotfix for rawhide
+Patch0: 0001-Make-EFIGRUB._efi_binary-a-property-not-a-method.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -240,6 +243,8 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %prep
 %setup -q
 
+%patch0 -p1
+
 %build
 %configure
 %{__make} %{?_smp_mflags}
@@ -332,6 +337,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Sep 08 2017 Martin Kolman <mkolman@redhat.com> - 28.2-2
+- Make EFIGRUB._efi_binary a property, not a method (adamw)
+
 * Mon Sep 04 2017 Martin Kolman <mkolman@redhat.com> - 28.2-1
 - Fix catch TUI not main thread exceptions (jkonecny)
 - Document Anaconda branching workflow (mkolman)
