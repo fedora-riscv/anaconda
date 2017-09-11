@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.2
-Release: 2%{?dist}
+Version: 28.3
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -14,9 +14,6 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
-
-# UEFI booting hotfix for rawhide
-Patch0: 0001-Make-EFIGRUB._efi_binary-a-property-not-a-method.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -43,7 +40,7 @@ Patch0: 0001-Make-EFIGRUB._efi_binary-a-property-not-a-method.patch
 %define pykickstartver 2.36-1
 %define pypartedver 2.5-2
 %define rpmver 4.10.0
-%define simplelinever 0.5-1
+%define simplelinever 0.6-1
 %define utillinuxver 2.15.1
 
 BuildRequires: audit-libs-devel
@@ -243,8 +240,6 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %prep
 %setup -q
 
-%patch0 -p1
-
 %build
 %configure
 %{__make} %{?_smp_mflags}
@@ -337,8 +332,19 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Fri Sep 08 2017 Martin Kolman <mkolman@redhat.com> - 28.2-2
-- Make EFIGRUB._efi_binary a property, not a method (adamw)
+* Mon Sep 11 2017 Martin Kolman <mkolman@redhat.com> - 28.3-1
+- Add missing dot to the availability status message (mail)
+- Bump Simpleline version (jkonecny)
+- Make EFIGRUB._efi_binary a property, not a method (awilliam)
+- Better storing logs from build and tests (jkonecny)
+- Provide a default install class. (vponcova)
+- Do not use hidden install classes. (vponcova)
+- Make geolocation with kickstart possible (#1358331) (mkolman)
+- Run python-meh as modal in TUI (jkonecny)
+- Use GLib event loop in the simpleline (jkonecny)
+- TUI progress reporting is handled by show_all (jkonecny)
+- Add efi_dir to the BaseInstallClass (#1412391) (vponcova)
+- Use /usr/bin/python3 shebang once again (miro)
 
 * Mon Sep 04 2017 Martin Kolman <mkolman@redhat.com> - 28.2-1
 - Fix catch TUI not main thread exceptions (jkonecny)
