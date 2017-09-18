@@ -344,7 +344,7 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Thu Sep 18 2017 Martin Kolman <mkolman@redhat.com> - 27.20.1-4
+* Mon Sep 18 2017 Martin Kolman <mkolman@redhat.com> - 27.20.1-4
 - Don't setup the hub twice (#1491333) (vponcova)
 
 * Thu Sep 07 2017 Martin Kolman <mkolman@redhat.com> - 27.20.1-3
