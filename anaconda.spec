@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 27.20.1
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -23,6 +23,12 @@ Patch1: 0002-Make-EFIGRUB._efi_binary-a-property-not-a-method.patch
 
 # Fix automatic installation issues (#1491333)
 Patch2: 0003-Don-t-setup-the-hub-twice-1491333.patch
+
+
+# Fix missing environment translation (#1491119)
+Patch3: 0004-Rename-processingDone-to-processing_done-variable.patch
+Patch4: 0005-Fix-test-for-unset-TUI-software-environment-1491119.patch
+Patch5: 0006-Fix-missing-id-to-name-environment-transition-149111.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -251,6 +257,9 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
 
 %build
 %configure
@@ -344,6 +353,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Sep 21 2017 Martin Kolman <mkolman@redhat.com> - 27.20.1-5
+- Fix missing enviromnent translation (#1491119) (jkonecny)
+
 * Mon Sep 18 2017 Martin Kolman <mkolman@redhat.com> - 27.20.1-4
 - Don't setup the hub twice (#1491333) (vponcova)
 
