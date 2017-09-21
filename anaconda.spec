@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.4
+Version: 28.5
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -332,6 +332,11 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Sep 21 2017 Martin Kolman <mkolman@redhat.com> - 28.5-1
+- Fix missing id to name environment transition (#1491119) (jkonecny)
+- Fix test for unset TUI software environment (#1491119) (jkonecny)
+- Rename processingDone to processing_done variable (jkonecny)
+
 * Mon Sep 18 2017 Martin Kolman <mkolman@redhat.com> - 28.4-1
 - network: add support for kickstart --bindto=mac for virtual devices
   (#1328576) (rvykydal)
