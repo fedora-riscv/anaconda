@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.5
+Version: 28.6
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -332,6 +332,19 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Sep 29 2017 Martin Kolman <mkolman@redhat.com> - 28.6-1
+- Add changelog entries from the unstable branch (mkolman)
+- Log when we are executing command in chroot (jkonecny)
+- Use name instead of index in TUI env selection (#1495204) (jkonecny)
+- Fix missing container in TUI source spoke (#1494801) (jkonecny)
+- Add MOCK_EXTRA_ARGS to Makefile (jkonecny)
+- tui source spoke: initialize nfs values when switching to nfs (rvykydal)
+- Deselect encryption when switching to blivet-gui partitioning (vtrefny)
+- Add 2 spaces between functions in iutil (jkonecny)
+- rpmostreepayload: Fix logic for copying of EFI data (walters)
+- rpmostreepayload: Avoid recursing for fstab mounts (walters)
+- payload: Add handlesBootloaderConfiguration(), teach bootloader.py (walters)
+
 * Thu Sep 21 2017 Martin Kolman <mkolman@redhat.com> - 28.5-1
 - Fix missing id to name environment transition (#1491119) (jkonecny)
 - Fix test for unset TUI software environment (#1491119) (jkonecny)
@@ -789,7 +802,7 @@ update-desktop-database &> /dev/null || :
 - Don't directly import items from anaconda_log (mkolman)
 - Remove old useless code (mkolman)
 - Move the rescue ui startup code to the rescue module (mkolman)
-- Move set-installation-method-from-anaconda code to startup_utils (mkolman)
+- Move set-installation-thod-from-anaconda code to startup_utils (mkolman)
 - Move the live startup code to startup_utils (mkolman)
 - Move code printing the startup note to startup_utils (mkolman)
 - Move the pstore cleanup function to startup_utils (mkolman)
@@ -867,7 +880,7 @@ update-desktop-database &> /dev/null || :
 - network: add support for bridge bond slaves (#1321288) (rvykydal)
 - screen_access: Ensure we write config to real sysroot (walters)
 - Add release commit support to makebumpver (mkolman)
-- Makefile improvements for separate release commits & tarball creation
+- Makefile improvents for separate release commits & tarball creation
   (mkolman)
 - network: add support for --no-activate kickstart opton (#1277975) (rvykydal)
 - fixup! Add base.close() after base.do_transaction (RhBug:1313240) (jmracek)
