@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.6
+Version: 28.8
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -37,10 +37,10 @@ Source0: %{name}-%{version}.tar.bz2
 %define mehver 0.23-1
 %define nmver 1.0
 %define partedver 1.8.1
-%define pykickstartver 2.39-1
+%define pykickstartver 2.40-1
 %define pypartedver 2.5-2
 %define rpmver 4.10.0
-%define simplelinever 0.6-1
+%define simplelinever 0.7-1
 %define utillinuxver 2.15.1
 
 BuildRequires: audit-libs-devel
@@ -332,6 +332,39 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Oct 17 2017 Martin Kolman <mkolman@redhat.com> - 28.8-1
+- Bump simpleline version requires (jkonecny)
+- Remove DataHolder class (jkonecny)
+- Remove EditTUISpoke EditTUIDialog and EditTUISpokeEntry (jkonecny)
+- Replace EditTUI* from the TUI Storage spoke (jkonecny)
+- Replace EditTUI* from the TUI User spoke (jkonecny)
+- Replace EditTUI* from the TUI Source spoke (jkonecny)
+- Replace EditTUI* from the TUI Network spoke (jkonecny)
+- Password spoke is using PasswordDialog now (jkonecny)
+- Return default policy if nothing match (jkonecny)
+- Add Dialog and PasswordDialog TUI objects (jkonecny)
+- Remove EditTUIDialog from time_spoke (jkonecny)
+- packaging: clear downloaded packages repo cache before using it (#1480790)
+  (rvykydal)
+- Do substitutions only after translating the string (mkolman)
+- Fix a translation check error (mkolman)
+- Do not run commands in messages in Makefile (jkonecny)
+- Fix storage spoke completeness checking (#1496416) (rvykydal)
+
+* Thu Oct 12 2017 Martin Kolman <mkolman@redhat.com> - 28.7-1
+- Mark the mount point assignment in TUI as experimental (vpodzime)
+- Reset storage on change in text mode (vpodzime)
+- Only allow the supported file systems in text mode (vpodzime)
+- Textual configuration of mount points (vpodzime)
+- Add support for the new 'mount' kickstart command (vpodzime)
+- Fix dnf exception repository not set (#1495211) (jkonecny)
+- Add logging of complete spokes in GUI. (rvykydal)
+- Do not execute storage when the spoke is left with no selected disk
+  (#1496327) (rvykydal)
+- Reflect building from master branch in the release docs (mkolman)
+- Add checks for group names (#1497676) (vponcova)
+- Add new checks for user names (#1491006) (vponcova)
+
 * Fri Sep 29 2017 Martin Kolman <mkolman@redhat.com> - 28.6-1
 - Add changelog entries from the unstable branch (mkolman)
 - Log when we are executing command in chroot (jkonecny)
