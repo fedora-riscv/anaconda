@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.8
+Version: 28.9
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -40,7 +40,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define pykickstartver 2.40-1
 %define pypartedver 2.5-2
 %define rpmver 4.10.0
-%define simplelinever 0.7-1
+%define simplelinever 0.8-1
 %define utillinuxver 2.15.1
 
 BuildRequires: audit-libs-devel
@@ -332,6 +332,13 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Oct 26 2017 Martin Kolman <mkolman@redhat.com> - 28.9-1
+- Mac EFI installs need grub2-tools (#1503496) (awilliam)
+- network: create default ifcfg also for missing default NM connection
+  (#1478141) (rvykydal)
+- Print screen stack next to exception in TUI (jkonecny)
+- Enable Custom GRUB2 Password Utility (#985962) (rmarshall)
+
 * Tue Oct 17 2017 Martin Kolman <mkolman@redhat.com> - 28.8-1
 - Bump simpleline version requires (jkonecny)
 - Remove DataHolder class (jkonecny)
