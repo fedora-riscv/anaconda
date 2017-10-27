@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 27.20.4
-Release: 2%{?dist}
+Release: 2.boltron.1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -20,6 +20,9 @@ Patch1: 0001-network-create-default-ifcfg-also-for-missing-defaul.patch
 
 # fix Mac EFI
 Patch2: 0002-Mac-EFI-installs-need-grub2-tools-1503496.patch
+
+# Hack to support modular repos
+Patch1001: 1227.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -247,6 +250,7 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %setup -q
 %patch1 -p1
 %patch2 -p1
+%patch1001 -p1
 
 %build
 %configure
@@ -340,6 +344,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Oct 27 2017 Stephen Gallagher <sgallagh@redhat.com> - 27.20.4-2.boltron.1
+- Add a hack to properly detect the modular base repo for netinst
+
 * Thu Oct 12 2017 Martin Kolman <mkolman@redhat.com> - 27.20.4-2
 - network: create default ifcfg also for missing default NM connection (#1478141) (rvykydal)
 - Mac EFI installs need grub2-tools (#1503496) (adamw)
