@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 27.20.4
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -21,13 +21,16 @@ Patch1: 0001-network-create-default-ifcfg-also-for-missing-defaul.patch
 # fix Mac EFI
 Patch2: 0002-Mac-EFI-installs-need-grub2-tools-1503496.patch
 
-# fix being unable to continue installation without selecting 
+# fix being unable to continue installation without selecting
 # and add-ons in TUI
 Patch3: 0003-Add-logging-to-TUI-software-selection-spoke-1505090.patch
 Patch4: 0004-Fix-changing-source-don-t-erase-old-environment-TUI-.patch
 
 # fix closest source selection for modular F27
 Patch5: 0005-Add-modular-server-repo-to-the-base-repositories-150.patch
+
+# Second attempt to fix Mac EFI
+Patch6: 0006-Fix-MAC-EFI-try-2.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -258,6 +261,7 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 %configure
@@ -351,6 +355,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Nov 02 2017 Martin Kolman <mkolman@redhat.com> - 27.20.4-4
+- Really install all the right packages on Mac UEFI installs (adamw)
+
 * Mon Oct 30 2017 Martin Kolman <mkolman@redhat.com> - 27.20.4-3
 - Add logging to TUI software selection spoke (#1505090) (jkonecny)
 - Fix changing source don't erase old environment TUI (#1505090) (jkonecny)
