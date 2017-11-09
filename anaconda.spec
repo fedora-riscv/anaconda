@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.9
+Version: 28.10
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -87,7 +87,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 Summary: Core of the Anaconda installer
 Requires: python3-libs
 Requires: python3-dnf >= %{dnfver}
-Requires: python3-blivet >= 1:2.1.9-1
+Requires: python3-blivet >= 1:3.0.0-0.1.b1
 Requires: python3-blockdev >= %{libblockdevver}
 Requires: libblockdev-plugins-all >= %{libblockdevver}
 Requires: python3-meh >= %{mehver}
@@ -332,6 +332,26 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Nov 09 2017 Martin Kolman <mkolman@redhat.com> - 28.10-1
+- Bump required Blivet version to 3.0 (mkolman)
+- Add modular server repo to the base repositories (#1506894) (jkonecny)
+- Split addon and environment refresh in software TUI (jkonecny)
+- Fix changing source don't erase old environment TUI (#1505090) (jkonecny)
+- Add logging to TUI software selection spoke (#1505090) (jkonecny)
+- Do not try to use protected disks for autopart (vtrefny)
+- Adapt new storage tui spoke to storage code move. (dlehman)
+- Update blivet upstream URL in testing README. (dlehman)
+- Adapt to devicefactory API change. (dlehman)
+- Adapt to removal of default rounding in blivet.size.Size. (dlehman)
+- Use anaconda's logic for ostree sys/physical root. (dlehman)
+- Adapt to removal of blivet.udev.device_is_realdisk. (dlehman)
+- Adapt to move of disklabel type logic into DiskLabel. (dlehman)
+- Move blivet.partspec into pyanaconda.storage. (dlehman)
+- Move blivet.platform to pyanaconda.platform. (dlehman)
+- Fix traceback from mocked partitions in clearpart test. (dlehman)
+- Move blivet.osinstall to pyanaconda.storage. (dlehman)
+- Move autopart from blivet to pyanaconda.storage. (dlehman)
+
 * Thu Oct 26 2017 Martin Kolman <mkolman@redhat.com> - 28.9-1
 - Mac EFI installs need grub2-tools (#1503496) (awilliam)
 - network: create default ifcfg also for missing default NM connection
