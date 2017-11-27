@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.10
+Version: 28.11
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -18,7 +18,7 @@ Source0: %{name}-%{version}.tar.bz2
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
 
-%define blivetguiver 2.1.5-2
+%define blivetguiver 2.1.7-2
 %define dbusver 1.2.3
 %define dnfver 2.2.0
 %define dracutver 034-7
@@ -37,7 +37,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define mehver 0.23-1
 %define nmver 1.0
 %define partedver 1.8.1
-%define pykickstartver 2.40-1
+%define pykickstartver 2.42-1
 %define pypartedver 2.5-2
 %define rpmver 4.10.0
 %define simplelinever 0.8-1
@@ -332,6 +332,44 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Nov 27 2017 Martin Kolman <mkolman@redhat.com> - 28.11-1
+- Bump Blivet GUI version (mkolman)
+- Change path to start-module script when running locally (mkolman)
+- Handle DBUS module related files in makeupdates (mkolman)
+- Handle DBUS_STARTER_ADDRESS not being defined (mkolman)
+- Use start-module script in DBUS service files (mkolman)
+- Add a DBUS module startup script (mkolman)
+- Add Makefile.am for DBUS modules an addons (mkolman)
+- Add the setup-updates script (mkolman)
+- Add __init__.py file to anaconda/modules (mkolman)
+- Add a unit file for Boss startup (mkolman)
+- Really install all the right packages on Mac UEFI installs (awilliam)
+- Refactor DASD formatting and support detection of LDL DASDs. (vponcova)
+- Remove unused import sys from run_boss_locally script (jkonecny)
+- Fix blivet imports in the Fedora Server install class (#1513024) (vponcova)
+- Update the use of suggest_container_name method (vponcova)
+- Devicetree doesn't have protected_dev_names (vponcova)
+- Add pyanaconda.dbus to Makefile (vponcova)
+- Add pyanaconda.storage to Makefile (#1511735) (vponcova)
+- network: GUI, be more robust when displaying vlan parent and id (#1507913)
+  (rvykydal)
+- network: GUI, fix lookup of existing device configurations (#1507913)
+  (rvykydal)
+- network: GUI, don't crash on added vlan without device name specified
+  (#1507913) (rvykydal)
+- Add a script for running Boss & modules locally (mkolman)
+- Add an example addon (mkolman)
+- Add DBUS module examples (mkolman)
+- Add Boss (mkolman)
+- Add a base class for DBUS modules (mkolman)
+- Add .service and .conf files for the DBUS modules (mkolman)
+- Add constants for DBUS module namespaces (mkolman)
+- Add support for logging from DBUS modules (mkolman)
+- Add the get_bus() method (mkolman)
+- Remove storage check for too small swap (#1466964) (vponcova)
+- Migrate fedora-server installclass into the anaconda repository (#1466967)
+  (rvykydal)
+
 * Thu Nov 09 2017 Martin Kolman <mkolman@redhat.com> - 28.10-1
 - Bump required Blivet version to 3.0 (mkolman)
 - Add modular server repo to the base repositories (#1506894) (jkonecny)
