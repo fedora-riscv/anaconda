@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.12
+Version: 28.13
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -37,7 +37,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define mehver 0.23-1
 %define nmver 1.0
 %define partedver 1.8.1
-%define pykickstartver 2.42-1
+%define pykickstartver 2.43-1
 %define pypartedver 2.5-2
 %define rpmver 4.10.0
 %define simplelinever 0.8-1
@@ -334,6 +334,32 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Dec 12 2017 Martin Kolman <mkolman@redhat.com> - 28.13-1
+- Unregister and unpublish all DBus services and objects (vponcova)
+- Add tests for InstallManager (jkonecny)
+- Add tests for Tasks (jkonecny)
+- Add run_in_glib decorator for tests (jkonecny)
+- Instantiate and publish InstallManager in Boss (jkonecny)
+- Add Makefile for install_manager (jkonecny)
+- Implement InstallManager with interface (jkonecny)
+- Init threading in modules (jkonecny)
+- Provide installation tasks from modules (jkonecny)
+- Remove *.Anaconda.Modules interface from Boss (jkonecny)
+- Implementing example tasks for modules (jkonecny)
+- Add Makefile for Task (jkonecny)
+- Base implementation of Task (jkonecny)
+- Add Task interface class (jkonecny)
+- Remove in-memory kickstart representation from traceback file (#1519895)
+  (mkolman)
+- Support call_when_thread_terminates in ThreadManager (jkonecny)
+- Change gtk_action_wait/nowait as general use decorators (jkonecny)
+- Add controllable loop to run_boss_locally script (jkonecny)
+- Tweak run_boss_locally script (jkonecny)
+- Enable SE/HMC file access to repo (vponcova)
+- Change string formatting to format method (jkonecny)
+- Pass handler instance, not class to SplitKickstartParser (rvykydal)
+- Add kickstart parser for splitting kickstart (rvykydal)
+
 * Thu Dec 07 2017 Martin Kolman <mkolman@redhat.com> - 28.12-1
 - Fix unit tests (mkolman)
 - Fixes in makefiles (vponcova)
