@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.13
+Version: 28.14
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -44,7 +44,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define utillinuxver 2.15.1
 
 BuildRequires: audit-libs-devel
-BuildRequires: gettext >= %{gettextver}
+BuildRequires: gettext-devel >= %{gettextver}
 BuildRequires: gtk3-devel >= %{gtk3ver}
 BuildRequires: gtk-doc
 BuildRequires: gtk3-devel-docs >= %{gtk3ver}
@@ -241,7 +241,8 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %setup -q
 
 %build
-%configure
+# use actual build-time release number, not tarball creation time release number
+%configure ANACONDA_RELEASE=%{release}
 %{__make} %{?_smp_mflags}
 
 %install
@@ -334,6 +335,25 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Dec 18 2017 Martin Kolman <mkolman@redhat.com> - 28.14-1
+- Use observers in the install manager (vponcova)
+- Modify readme file for tests (jkonecny)
+- Do not bump version when testing installation (jkonecny)
+- Add set up test environment script (jkonecny)
+- Add dependency solver script (jkonecny)
+- Differentiate upstream and build-time version (#1493952) (mkolman)
+- Fix bad bash '*' expansion when loading kernel modules (#1525841) (jkonecny)
+- Fix connection to a signal in the install manager (vponcova)
+- Use the InterfaceTemplate in the InstallationInterface (vponcova)
+- Use the InterfaceTemplate in the TaskInterface (vponcova)
+- Add a base class for DBus interfaces (vponcova)
+- Update module manager to use observers (vponcova)
+- Add DBus observers for better access to proxies. (vponcova)
+- Remove running CI in mock from Makefile (jkonecny)
+- Add xfsprogs and git to the test requirements (jkonecny)
+- The gettext-devel is required by autogen (jkonecny)
+- Remove kickstart-test dependencies from test requires (jkonecny)
+
 * Tue Dec 12 2017 Martin Kolman <mkolman@redhat.com> - 28.13-1
 - Unregister and unpublish all DBus services and objects (vponcova)
 - Add tests for InstallManager (jkonecny)
