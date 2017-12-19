@@ -1,0 +1,34 @@
+From e4d336b9c005f5b74bf46f4534f7884f9daeadbf Mon Sep 17 00:00:00 2001
+From: Adam Williamson <awilliam@redhat.com>
+Date: Tue, 19 Dec 2017 14:57:14 -0800
+Subject: [PATCH] Restore fix for RHBZ #1323012 (`set_name` not `setName`)
+
+This was initially fixed in blivet by
+https://github.com/rhinstaller/blivet/pull/354 , but the fix
+was inadvertently reversed by a refactoring commit that
+landed shortly afterwards:
+https://github.com/storaged-project/blivet/commit/d3ac10d8
+The wrong code was then subsequently moved to anaconda, still
+with the wrong method name. So, let's fix it again.
+
+Signed-off-by: Adam Williamson <awilliam@redhat.com>
+---
+ pyanaconda/storage/osinstall.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/pyanaconda/storage/osinstall.py b/pyanaconda/storage/osinstall.py
+index 251bae338..6ad6a80b0 100644
+--- a/pyanaconda/storage/osinstall.py
++++ b/pyanaconda/storage/osinstall.py
+@@ -1247,7 +1247,7 @@ class InstallerStorage(Blivet):
+                 # Set the boot partition's name on disk labels that support it
+                 if dev.parted_partition.disk.supportsFeature(parted.DISK_TYPE_PARTITION_NAME):
+                     ped_partition = dev.parted_partition.getPedPartition()
+-                    ped_partition.setName(dev.format.name)
++                    ped_partition.set_name(dev.format.name)
+                     log.info("Setting label on %s to '%s'", dev, dev.format.name)
+ 
+                 dev.disk.setup()
+-- 
+2.15.1
+
