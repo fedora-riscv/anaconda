@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.14
-Release: 2%{?dist}
+Version: 28.15
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -14,11 +14,6 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
-
-# Downstream patch as no anaconda devs are around and Rawhide is
-# busted: re-fix RHBZ #1323012, see
-# https://github.com/rhinstaller/anaconda/pull/1281
-Patch0: 0001-Restore-fix-for-RHBZ-1323012-set_name-not-setName.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -244,7 +239,6 @@ runtime on NFS/HTTP/FTP servers or local disks.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -341,8 +335,19 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Tue Dec 19 2017 Adam Williamson <awilliam@redhat.com> - 28.14-2
-- Backport #1281 to re-fix RHBZ #1323012 (crash in UEFI installs)
+* Wed Dec 20 2017 Martin Kolman <mkolman@redhat.com> - 28.15-1
+- Remove spurious echo call from tmux service file (#1526861) (mkolman)
+- Restore fix for RHBZ #1323012 (`set_name` not `setName`) (awilliam)
+- Fix Makefile for modules/[foo,bar]/tasks and for install_manager (rvykydal)
+- Make passing kickstart to boss more visible. (rvykydal)
+- Add tests for KickstartManager. (rvykydal)
+- Add kickstart dispatching to anaconda. (rvykydal)
+- Add kickstart dispatching to local boss run script (rvykydal)
+- Add KickstartManager for Boss. (rvykydal)
+- Add method for getting line mapping from kickstart elements to kickstart
+  (rvykydal)
+- Add info about handled kickstart commands to modules (rvykydal)
+- Add missing Makefile for kickstart_dispatcher (rvykydal)
 
 * Mon Dec 18 2017 Martin Kolman <mkolman@redhat.com> - 28.14-1
 - Use observers in the install manager (vponcova)
