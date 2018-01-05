@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.16
+Version: 28.17
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -37,7 +37,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define mehver 0.23-1
 %define nmver 1.0
 %define partedver 1.8.1
-%define pykickstartver 2.43-1
+%define pykickstartver 2.44-1
 %define pypartedver 2.5-2
 %define rpmver 4.10.0
 %define simplelinever 0.8-1
@@ -335,6 +335,21 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Jan 05 2018 Martin Kolman <mkolman@redhat.com> - 28.17-1
+- Modules should use the proxy pattern. (vponcova)
+- Variants need to be instances of the Variant class (vponcova)
+- kickstart: support firewall --use-system-defaults (#1526450) (dusty)
+- Check payload is set before accessing its data (#1524785) (mkolman)
+- Do not fail when test are failing in setup-env script (jkonecny)
+- Support running multiple commands at once (jkonecny)
+- Support copy Anaconda result dir out of mock (jkonecny)
+- Remove dependencies from Makefile (jkonecny)
+- Add path to Anaconda in mock to constant (jkonecny)
+- Properly exclude packages from the install set (ngompa13)
+- Add the _prepare_command helper function to setup-test-env (jkonecny)
+- Add run-tests parameter to setup-test-env script (jkonecny)
+- Remove /anaconda in mock before copying new one (jkonecny)
+
 * Tue Jan 02 2018 Martin Kolman <mkolman@redhat.com> - 28.16-1
 - Improve password checking status and error messages (mkolman)
 - Spin kickstarts shouldn't be test dependency (jkonecny)
