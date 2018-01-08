@@ -1,0 +1,58 @@
+From 9c5298ffa02314e1ea25c7fa13ddcef456a39af8 Mon Sep 17 00:00:00 2001
+From: Jiri Konecny <jkonecny@redhat.com>
+Date: Thu, 4 Jan 2018 11:04:52 +0100
+Subject: [PATCH 7/8] Set correct pykickstart version
+
+For Fedora devel branch the pykickstart version should be set correctly.
+---
+ dracut/parse-kickstart  | 4 ++--
+ pyanaconda/kickstart.py | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/dracut/parse-kickstart b/dracut/parse-kickstart
+index 202898215..35c139d31 100755
+--- a/dracut/parse-kickstart
++++ b/dracut/parse-kickstart
+@@ -36,7 +36,7 @@ import uuid
+ import glob
+ from pykickstart.parser import KickstartParser, preprocessKickstart
+ from pykickstart.sections import NullSection
+-from pykickstart.version import returnClassForVersion
++from pykickstart.version import returnClassForVersion, F27
+ from pykickstart.errors import KickstartError
+ # pylint: disable=wildcard-import,unused-wildcard-import
+ from pykickstart.constants import *
+@@ -263,7 +263,7 @@ dracutCmds = {
+     'text': DisplayMode,
+     'bootloader': Bootloader,
+ }
+-handlerclass = returnClassForVersion()
++handlerclass = returnClassForVersion(F27)
+ class DracutHandler(handlerclass):
+     def __init__(self):
+         handlerclass.__init__(self, commandUpdates=dracutCmds)
+diff --git a/pyanaconda/kickstart.py b/pyanaconda/kickstart.py
+index d277c012d..793fb21f5 100644
+--- a/pyanaconda/kickstart.py
++++ b/pyanaconda/kickstart.py
+@@ -78,7 +78,7 @@ from pykickstart.parser import KickstartParser
+ from pykickstart.parser import Script as KSScript
+ from pykickstart.sections import NullSection, PackageSection, PostScriptSection, PreScriptSection, PreInstallScriptSection, \
+                                  OnErrorScriptSection, TracebackScriptSection, Section
+-from pykickstart.version import returnClassForVersion
++from pykickstart.version import returnClassForVersion, F27
+ 
+ from pyanaconda import anaconda_logging
+ from pyanaconda.anaconda_loggers import get_module_logger, get_stdout_logger, get_stderr_logger, get_blivet_logger, get_anaconda_root_logger
+@@ -2275,7 +2275,7 @@ dataMap = {
+     "VolGroupData": VolGroupData,
+ }
+ 
+-superclass = returnClassForVersion()
++superclass = returnClassForVersion(version=F27)
+ 
+ class AnacondaKSHandler(superclass):
+     AddonClassType = AddonData
+-- 
+2.14.3
+

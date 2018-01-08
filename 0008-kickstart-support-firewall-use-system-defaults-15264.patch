@@ -1,0 +1,77 @@
+From 660e896b085b189f058664be95760cd90bf9a8a7 Mon Sep 17 00:00:00 2001
+From: Dusty Mabe <dusty@dustymabe.com>
+Date: Thu, 14 Dec 2017 15:54:23 -0500
+Subject: [PATCH 8/8] kickstart: support firewall --use-system-defaults
+ (#1526450)
+
+Needed for [1] where we would like to include firewalld
+and configure firewalld in Atomic Host (in the ostree) and
+have Anaconda leave the delivered "defaults" in place. The
+action here is to do nothing if the user specified
+--use-system-defaults.
+
+[1] https://pagure.io/atomic-wg/issue/401
+
+Resolves: rhbz#1526450
+(cherry picked from commit 8d064062e71fd313f67e3522faf8d11e768c1986)
+---
+ anaconda.spec.in        |  2 +-
+ pyanaconda/kickstart.py | 14 ++++++++++++--
+ 2 files changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/anaconda.spec.in b/anaconda.spec.in
+index 2bd76cfdb..4ce60159d 100644
+--- a/anaconda.spec.in
++++ b/anaconda.spec.in
+@@ -37,7 +37,7 @@ Source0: %{name}-%{version}.tar.bz2
+ %define mehver 0.23-1
+ %define nmver 1.0
+ %define partedver 1.8.1
+-%define pykickstartver 2.40-1
++%define pykickstartver 2.44-1
+ %define pypartedver 2.5-2
+ %define rpmver 4.10.0
+ %define simplelinever 0.6-1
+diff --git a/pyanaconda/kickstart.py b/pyanaconda/kickstart.py
+index 793fb21f5..b75d9be3f 100644
+--- a/pyanaconda/kickstart.py
++++ b/pyanaconda/kickstart.py
+@@ -109,6 +109,7 @@ timezone_log = log.getChild("kickstart.timezone")
+ realm_log = log.getChild("kickstart.realm")
+ escrow_log = log.getChild("kickstart.escrow")
+ upgrade_log = log.getChild("kickstart.upgrade")
++firewall_log = log.getChild("kickstart.firewall")
+ 
+ @contextmanager
+ def check_kickstart_error():
+@@ -706,9 +707,9 @@ class Fcoe(commands.fcoe.F13_Fcoe):
+ 
+         return fc
+ 
+-class Firewall(commands.firewall.F20_Firewall):
++class Firewall(commands.firewall.F28_Firewall):
+     def __init__(self, *args, **kwargs):
+-        commands.firewall.F20_Firewall.__init__(self, *args, **kwargs)
++        commands.firewall.F28_Firewall.__init__(self, *args, **kwargs)
+         self.packages = []
+ 
+     def setup(self):
+@@ -717,6 +718,15 @@ class Firewall(commands.firewall.F20_Firewall):
+ 
+     def execute(self, storage, ksdata, instClass):
+         args = []
++
++        # If --use-system-defaults was passed then the user wants
++        # whatever was provided by the rpms or ostree to be the
++        # default, do nothing.
++        if self.use_system_defaults:
++            firewall_log.info("ks file instructs to use system defaults for "
++                              "firewall, skipping configuration.")
++            return
++
+         # enabled is None if neither --enable or --disable is passed
+         # default to enabled if nothing has been set.
+         if self.enabled == False:
+-- 
+2.14.3
+

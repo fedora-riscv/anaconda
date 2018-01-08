@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 27.20.4
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -32,6 +32,12 @@ Patch5: 0005-Add-modular-server-repo-to-the-base-repositories-150.patch
 # Second attempt to fix Mac EFI
 Patch6: 0006-Fix-MAC-EFI-try-2.patch
 
+# Use correct Pykickstart version
+Patch7: 0007-Set-correct-pykickstart-version.patch
+
+# Add support for the --use-system-defaults option for the firewall kickstart command
+Patch8: 0008-kickstart-support-firewall-use-system-defaults-15264.patch
+
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
 
@@ -54,7 +60,7 @@ Patch6: 0006-Fix-MAC-EFI-try-2.patch
 %define mehver 0.23-1
 %define nmver 1.0
 %define partedver 1.8.1
-%define pykickstartver 2.40-1
+%define pykickstartver 2.41-2
 %define pypartedver 2.5-2
 %define rpmver 4.10.0
 %define simplelinever 0.6-1
@@ -262,6 +268,8 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
+%patch8 -p1
 
 %build
 %configure
@@ -355,6 +363,10 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Jan 08 2018 Martin Kolman <mkolman@redhat.com> - 27.20.4-5
+- kickstart: support firewall --use-system-defaults (#1526450) (dusty)
+- Set correct pykickstart version (jkonecny)
+
 * Thu Nov 02 2017 Martin Kolman <mkolman@redhat.com> - 27.20.4-4
 - Really install all the right packages on Mac UEFI installs (adamw)
 
