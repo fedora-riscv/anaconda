@@ -1,0 +1,34 @@
+From d3116edb3e86e4fda295c8d9a09791498d32668e Mon Sep 17 00:00:00 2001
+From: Dusty Mabe <dusty@dustymabe.com>
+Date: Wed, 10 Jan 2018 10:59:26 -0500
+Subject: [PATCH] kickstart: use F27_Firewall, not F28_Firewall
+
+clumens made it F27 when he backported the patch
+from the pykickstart pykickstart2 PR [1] to the f27
+package [2].
+
+[1] https://github.com/rhinstaller/pykickstart/pull/204
+[2] https://src.fedoraproject.org/rpms/pykickstart/c/efdb64965ec11dc8c16c38006c2db81bda6430a5?branch=f27
+---
+ pyanaconda/kickstart.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/pyanaconda/kickstart.py b/pyanaconda/kickstart.py
+index b75d9be3f..100e25702 100644
+--- a/pyanaconda/kickstart.py
++++ b/pyanaconda/kickstart.py
+@@ -707,9 +707,9 @@ class Fcoe(commands.fcoe.F13_Fcoe):
+ 
+         return fc
+ 
+-class Firewall(commands.firewall.F28_Firewall):
++class Firewall(commands.firewall.F27_Firewall):
+     def __init__(self, *args, **kwargs):
+-        commands.firewall.F28_Firewall.__init__(self, *args, **kwargs)
++        commands.firewall.F27_Firewall.__init__(self, *args, **kwargs)
+         self.packages = []
+ 
+     def setup(self):
+-- 
+2.14.3
+

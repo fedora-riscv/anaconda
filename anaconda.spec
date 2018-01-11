@@ -3,7 +3,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 27.20.4
-Release: 5%{?dist}
+Release: 6%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -37,6 +37,10 @@ Patch7: 0007-Set-correct-pykickstart-version.patch
 
 # Add support for the --use-system-defaults option for the firewall kickstart command
 Patch8: 0008-kickstart-support-firewall-use-system-defaults-15264.patch
+
+# the new firewall command functionality was backported to the F27 command in Pykickstart,
+# so use that
+Patch9: 0009-kickstart-use-F27_Firewall-not-F28_Firewall.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -270,6 +274,7 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %build
 %configure
@@ -363,6 +368,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Jan 11 2018 Martin Kolman <mkolman@redhat.com> - 27.20.4-6
+- kickstart: use F27_Firewall, not F28_Firewall (dusty)
+
 * Mon Jan 08 2018 Martin Kolman <mkolman@redhat.com> - 27.20.4-5
 - kickstart: support firewall --use-system-defaults (#1526450) (dusty)
 - Set correct pykickstart version (jkonecny)
