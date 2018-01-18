@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.17
+Version: 28.18
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -110,6 +110,7 @@ Requires: python3-dbus
 Requires: python3-pwquality
 Requires: python3-systemd
 Requires: python3-pydbus
+Requires: system-logos
 
 # pwquality only "recommends" the dictionaries it needs to do anything useful,
 # which is apparently great for containers but unhelpful for the rest of us
@@ -173,7 +174,6 @@ Requires: anaconda-core = %{version}-%{release}
 Requires: anaconda-widgets = %{version}-%{release}
 Requires: python3-meh-gui >= %{mehver}
 Requires: adwaita-icon-theme
-Requires: system-logos
 Requires: tigervnc-server-minimal
 Requires: libxklavier >= %{libxklavierver}
 Requires: libgnomekbd
@@ -335,6 +335,39 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Jan 18 2018 Martin Kolman <mkolman@redhat.com> - 28.18-1
+- Move how to use setup-mock-test-env script to help (jkonecny)
+- Add --init as new parameter to setup-mock-test-env (jkonecny)
+- Initialize the thread manager at the first import. (vponcova)
+- Added tests for the timezone module and other. (vponcova)
+- Remove 'i' from iutil module (jkonecny)
+- Remove 'i' from isignal module (jkonecny)
+- Move isignal module to core/isignal (jkonecny)
+- Extract process watch functions to a static class (jkonecny)
+- Move regexes module to core/regexes (jkonecny)
+- Move i18n module to core/i18n (jkonecny)
+- Move constants module to core/constants (jkonecny)
+- Move iutil module to core/iutil (jkonecny)
+- Move async_utils to core/async_utils (jkonecny)
+- Replace gobject GLib by our core/glib (jkonecny)
+- Rename run_in_main_thread to run_in_loop (jkonecny)
+- Add Timer and PidWatcher abstraction above GLib (jkonecny)
+- Create abstraction above GLib event loop (jkonecny)
+- Add core/glib module for GLib access (jkonecny)
+- Ignore errors for KickstartSpecificationHandler. (vponcova)
+- Try to use the PropertiesChanged signal. (vponcova)
+- Add timezone module. (vponcova)
+- Collect properties changes before emit. (vponcova)
+- Use Ping method from the standard interface. (vponcova)
+- Recognize members of standard interfaces. (vponcova)
+- Add an object observer with cached properties (vponcova)
+- Rename modules with Fedora install classes. (vponcova)
+- Add support for Variant in .buildstamp (vponcova)
+- Fix the Bar module. (vponcova)
+- Add pykickstart version to branching policy doc (jkonecny)
+- Remove `unstable` branch from documentation (jkonecny)
+- Move system-logos to anaconda-core (#1529239) (bcl)
+
 * Fri Jan 05 2018 Martin Kolman <mkolman@redhat.com> - 28.17-1
 - Modules should use the proxy pattern. (vponcova)
 - Variants need to be instances of the Variant class (vponcova)
