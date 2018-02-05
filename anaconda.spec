@@ -2,7 +2,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.18
+Version: 28.19
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -37,7 +37,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define mehver 0.23-1
 %define nmver 1.0
 %define partedver 1.8.1
-%define pykickstartver 2.44-1
+%define pykickstartver 3.10-1
 %define pypartedver 2.5-2
 %define rpmver 4.10.0
 %define simplelinever 0.8-1
@@ -335,6 +335,19 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Feb 05 2018 Martin Kolman <mkolman@redhat.com> - 28.19-1
+- Change pykickstart version. (vponcova)
+- Do not deepcopy the kickstart data in the storage (vponcova)
+- Replace deepcopy of the method command (vponcova)
+- Use pykickstart 3 (vponcova)
+- Provide comprehensive log messages about the display mode (vponcova)
+- Fix missing logging in some cases of update of ONBOOT value. (rvykydal)
+- Fix tests for the timezone module. (vponcova)
+- Add the Kickstarted property to the kickstart modules. (vponcova)
+- Connect to the observed service and other stuff. (vponcova)
+- Prevent 99-copy-lgs.ks from exiting with a 1 (bcl)
+- Rename SetUTC to SetIsUTC in the timezone module. (vponcova)
+
 * Thu Jan 18 2018 Martin Kolman <mkolman@redhat.com> - 28.18-1
 - Move how to use setup-mock-test-env script to help (jkonecny)
 - Add --init as new parameter to setup-mock-test-env (jkonecny)
