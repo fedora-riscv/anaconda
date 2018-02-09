@@ -2,8 +2,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.19
-Release: 2%{?dist}
+Version: 28.20
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -335,8 +335,15 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 28.19-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+* Fri Feb 09 2018 Martin Kolman <mkolman@redhat.com> - 28.20-1
+- Check the proxy attribute before accessing it (vponcova)
+- Check the noverifyssl attribute before accessing it (vponcova)
+- Don't access the url attribute (#1530428) (vponcova)
+- Use Fedora Server default partitioning in Atomic (jkonecny)
+- Clean code of Atomic install class (jkonecny)
+- Migrate Atomic install class (#1491287) (jkonecny)
+- Move Atomic install class to Anaconda (#1491287) (#1536853) (jkonecny)
+- Make sure that fetch_url is defined. (vponcova)
 
 * Mon Feb 05 2018 Martin Kolman <mkolman@redhat.com> - 28.19-1
 - Change pykickstart version. (vponcova)
