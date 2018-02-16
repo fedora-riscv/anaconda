@@ -1,9 +1,13 @@
 %define livearches %{ix86} x86_64 ppc ppc64 ppc64le
 
+# Avoid anaconda-core requiring gjs-console due to the GNOME welcome
+# screen that's shipped in it
+%global __requires_exclude_from ^%{_datadir}/anaconda/gnome/fedora-welcome.*$
+
 Summary: Graphical system installer
 Name:    anaconda
 Version: 28.20
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -335,6 +339,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Feb 15 2018 Adam Williamson <awilliam@redhat.com> - 28.20-2
+- Prevent anaconda-core requiring gjs-console (awilliam)
+
 * Fri Feb 09 2018 Martin Kolman <mkolman@redhat.com> - 28.20-1
 - Check the proxy attribute before accessing it (vponcova)
 - Check the noverifyssl attribute before accessing it (vponcova)
