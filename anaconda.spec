@@ -6,8 +6,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.20
-Release: 2%{?dist}
+Version: 28.22
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -339,6 +339,22 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Feb 19 2018 Martin Kolman <mkolman@redhat.com> - 28.22-1
+- Prevent anaconda-core requiring gjs-console (awilliam)
+- Temporarily don't test versions of specified kickstart objects (vponcova)
+
+* Mon Feb 19 2018 Martin Kolman <mkolman@redhat.com> - 28.21-1
+- Explain when run dependency_solver without options (jkonecny)
+- Clean dd_test code (jkonecny)
+- We can't set file permission mode for .so in dd test (jkonecny)
+- Rename installclass_atomic to Fedora Atomic Host (jkonecny)
+- Support running only nosetests or only some nosetests (jkonecny)
+- Do not run tests as root (jkonecny)
+- Save start and end time for pylint run (jkonecny)
+- Separate grab-logs from ci target in Makefile (jkonecny)
+- Remove false positive but disable Pylint in makeupdates script (jkonecny)
+- Add copyright to scripts in ./scripts/testing (jkonecny)
+
 * Thu Feb 15 2018 Adam Williamson <awilliam@redhat.com> - 28.20-2
 - Prevent anaconda-core requiring gjs-console (awilliam)
 
