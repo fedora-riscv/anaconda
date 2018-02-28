@@ -7,7 +7,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 29.1
-Release: 2%{?dist}
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -88,7 +88,6 @@ The anaconda package is a metapackage for the Anaconda installer.
 
 %package core
 Summary: Core of the Anaconda installer
-Requires: authselect-compat
 Requires: python3-libs
 Requires: python3-dnf >= %{dnfver}
 Requires: python3-blivet >= 1:3.0.0-0.1.b1
@@ -337,9 +336,6 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Wed Feb 28 2018 Patrick Uiterwijk <puiterwijk@redhat.com> - 29.1-2
-- Add dependency on authselect-compat
-
 * Wed Feb 28 2018 Martin Kolman <mkolman@redhat.com> - 29.1-1
 - Use observers to access the hostname service (vponcova)
 - Make safe to observe services on buses that don't have to run (vponcova)
