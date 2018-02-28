@@ -6,7 +6,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.22
+Version: 29.1
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -27,7 +27,6 @@ Source0: %{name}-%{version}.tar.bz2
 %define dnfver 2.2.0
 %define dracutver 034-7
 %define fcoeutilsver 1.0.12-3.20100323git
-%define firewalldver 0.3.5-1
 %define gettextver 0.19.8
 %define gtk3ver 3.22.17
 %define helpver 22.1-1
@@ -41,7 +40,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define mehver 0.23-1
 %define nmver 1.0
 %define partedver 1.8.1
-%define pykickstartver 3.10-1
+%define pykickstartver 3.12-1
 %define pypartedver 2.5-2
 %define rpmver 4.10.0
 %define simplelinever 0.8-1
@@ -106,15 +105,12 @@ Requires: python3-requests-ftp
 Requires: python3-kickstart >= %{pykickstartver}
 Requires: langtable-data >= %{langtablever}
 Requires: langtable-python3 >= %{langtablever}
-Requires: authconfig
-Requires: firewalld >= %{firewalldver}
 Requires: util-linux >= %{utillinuxver}
 Requires: python3-gobject-base
 Requires: python3-dbus
 Requires: python3-pwquality
 Requires: python3-systemd
 Requires: python3-pydbus
-Requires: system-logos
 
 # pwquality only "recommends" the dictionaries it needs to do anything useful,
 # which is apparently great for containers but unhelpful for the rest of us
@@ -193,6 +189,7 @@ Requires: NetworkManager-wifi
 Requires: anaconda-user-help >= %{helpver}
 Requires: yelp
 Requires: blivet-gui-runtime >= %{blivetguiver}
+Requires: system-logos
 
 # Needed to compile the gsettings files
 BuildRequires: gsettings-desktop-schemas
@@ -288,7 +285,7 @@ update-desktop-database &> /dev/null || :
 %license COPYING
 %{_unitdir}/*
 %{_prefix}/lib/systemd/system-generators/*
-%{_datadir}/dbus-1/system-services/*
+%{_datadir}/dbus-1/services/*
 %{_sysconfdir}/dbus-1/system.d/*
 %{_bindir}/instperf
 %{_bindir}/anaconda-disable-nm-ibft-plugin
@@ -339,6 +336,48 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Feb 28 2018 Martin Kolman <mkolman@redhat.com> - 29.1-1
+- Use observers to access the hostname service (vponcova)
+- Make safe to observe services on buses that don't have to run (vponcova)
+- DBus logs are now saved to /tmp/dbus.log (jkonecny)
+- Add tests for toplevel installclass attribs (riehecky)
+- Wait for DBus modules for longer time (vponcova)
+- Drop dependency on authselect and firewalld (vponcova)
+- Fix kickstart version test (vponcova)
+- Authconfig is replaced with authselect (#1542968) (vponcova)
+- Add support for different message buses (vponcova)
+- Fix makeupdates script (vponcova)
+- Set up basic logging for DBus modules (vponcova)
+- Remove get_dbus_module_logger (vponcova)
+- Fix logging of the DBus modules (vponcova)
+- Fix the reimport error (vponcova)
+- Fix the network module specification (vponcova)
+- network module: update_network_data test (rvykydal)
+- network module: use Module.Kickstarted instead of ksdata.seen (rvykydal)
+- network module: use for hostname in tui (rvykydal)
+- network module: handle current hostname (rvykydal)
+- network module: handle ksdata.network.hostname (rvykydal)
+- network module: add module skeleton (rvykydal)
+- Log changes in the kickstart modules. (vponcova)
+- Use the Timezone module in UI. (vponcova)
+- Start Boss from Anaconda (jkonecny)
+- Do not use System DBus (jkonecny)
+- Remove anaconda-boss.service (jkonecny)
+- Move Anaconda dbus services and confs to session dbus (jkonecny)
+- Run DBus session if not present (jkonecny)
+- Change pykickstart version (vponcova)
+- Move system-logos dependency from anaconda-core to anaconda-gui (mkolman)
+- makebumpver: fix parsing of -m option (rvykydal)
+- makebumpver: fix -i option (rvykydal)
+- Fix tests of the Timezone module (vponcova)
+- installclass: add comments to server install class (dusty)
+- Don't use deprecated formatErrorMsg (vponcova)
+- Use the KickstartError attributes (vponcova)
+- kickstart: "clearpart --list" does not work (#1410335) (marcel)
+- Use handler in the Timezone module (vponcova)
+- Fix the specification of the Bar module (vponcova)
+- Use the KickstartHandler class (vponcova)
+
 * Mon Feb 19 2018 Martin Kolman <mkolman@redhat.com> - 28.22-1
 - Prevent anaconda-core requiring gjs-console (awilliam)
 - Temporarily don't test versions of specified kickstart objects (vponcova)
