@@ -7,7 +7,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 28.22.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -18,6 +18,14 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
+
+# Fedora 28 Beta freeze patches
+
+# Bug 1553488 - 'KickstartSpecificationHandler' object has no attribute 'UserData'
+Patch0: 0000-User-module-should-parse-only-rootpw-for-now-1553488.patch
+
+# Bug 1524700 - AttributeError: 'NoneType' object has no attribute 'name'
+Patch1: 0001-Mark-partition-live-device-s-disk-protected.-1524700.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -240,6 +248,8 @@ runtime on NFS/HTTP/FTP servers or local disks.
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -334,6 +344,10 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Mar 12 2018 Martin Kolman <mkolman@redhat.com> - 28.22.2-2
+- User module should parse only rootpw for now (#1553488) (vponcova)
+- Mark partition live device's disk protected. (#1524700) (dlehman)
+
 * Mon Mar 05 2018 Martin Kolman <mkolman@redhat.com> - 28.22.2-1
 - Use the user DBUS module in the UI (mkolman)
 - Use the user DBUS module for the rootpw command in kickstart.py (mkolman)
