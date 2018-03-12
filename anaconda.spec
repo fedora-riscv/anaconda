@@ -7,7 +7,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 28.22.2
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -344,6 +344,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Mar 12 2018 Martin Kolman <mkolman@redhat.com> - 28.22.2-3
+- add missing patches (mkolman)
+
 * Mon Mar 12 2018 Martin Kolman <mkolman@redhat.com> - 28.22.2-2
 - User module should parse only rootpw for now (#1553488) (vponcova)
 - Mark partition live device's disk protected. (#1524700) (dlehman)
