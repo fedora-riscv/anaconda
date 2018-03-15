@@ -7,7 +7,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 28.22.2
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -26,6 +26,9 @@ Patch0: 0000-User-module-should-parse-only-rootpw-for-now-1553488.patch
 
 # Bug 1524700 - AttributeError: 'NoneType' object has no attribute 'name'
 Patch1: 0001-Mark-partition-live-device-s-disk-protected.-1524700.patch
+
+# Bug 1553935 - Installer auto-quits after Workstation live install (as no spokes are on the install hub)
+Patch2: 0002-Don-t-autoquit-by-default-if-the-last-hub-is-empty-1.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -250,6 +253,7 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -344,6 +348,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Mar 15 2018 Martin Kolman <mkolman@redhat.com> - 28.22.2-4
+- Don't autoquit by default if the last hub is empty (#1553935) (mkolman)
+
 * Mon Mar 12 2018 Martin Kolman <mkolman@redhat.com> - 28.22.2-3
 - add missing patches (mkolman)
 
