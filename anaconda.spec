@@ -351,6 +351,7 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/lib/dracut/modules.d/80%{name}/*
 %{_prefix}/libexec/anaconda/dd_*
 
+%changelog
 * Mon Mar 19 2018 Martin Kolman <mkolman@redhat.com> - 28.22.2-5
 - Write rootpw command to kickstart (#1557529) (mkolman)
 
