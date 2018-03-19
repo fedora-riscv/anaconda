@@ -7,7 +7,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 28.22.2
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -29,6 +29,9 @@ Patch1: 0001-Mark-partition-live-device-s-disk-protected.-1524700.patch
 
 # Bug 1553935 - Installer auto-quits after Workstation live install (as no spokes are on the install hub)
 Patch2: 0002-Don-t-autoquit-by-default-if-the-last-hub-is-empty-1.patch
+
+# Bug 1557529 - Setting root password on live images fails since anaconda-28.22.2-3.fc28
+Patch3: 0003-Write-rootpw-command-to-kickstart-1557529.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -254,6 +257,7 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -347,7 +351,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/lib/dracut/modules.d/80%{name}/*
 %{_prefix}/libexec/anaconda/dd_*
 
-%changelog
+* Mon Mar 19 2018 Martin Kolman <mkolman@redhat.com> - 28.22.2-5
+- Write rootpw command to kickstart (#1557529) (mkolman)
+
 * Thu Mar 15 2018 Martin Kolman <mkolman@redhat.com> - 28.22.2-4
 - Don't autoquit by default if the last hub is empty (#1553935) (mkolman)
 
