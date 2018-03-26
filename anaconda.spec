@@ -7,7 +7,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 28.22.2
-Release: 6%{?dist}
+Release: 7%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -35,6 +35,9 @@ Patch3: 0003-Write-rootpw-command-to-kickstart-1557529.patch
 
 # Bug 1558906 - AttributeError: 'DiskDevice' object has no attribute 'isDisk'
 Patch4: 0004-Fix-isDisk-property-name-1558906.patch
+
+# Bug 1559680 - Realm join via kickstart during install fails with 'This computer's host name is not set correctly', but it is
+Patch5: 0005-Fix-hostname-configuration-1559680.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -262,6 +265,7 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -356,6 +360,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Mar 26 2018 Martin Kolman <mkolman@redhat.com> - 28.22.2-7
+- Fix accessing org.freedesktop.hostname1 for current hostname (rvykydal)
+
 * Thu Mar 22 2018 Martin Kolman <mkolman@redhat.com> - 28.22.2-6
 - Fix 'isDisk' property name (#1558906) (vtrefny)
 
