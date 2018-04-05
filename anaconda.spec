@@ -6,8 +6,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.22.2
-Release: 7%{?dist}
+Version: 28.22.3
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -18,26 +18,6 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
-
-# Fedora 28 Beta freeze patches
-
-# Bug 1553488 - 'KickstartSpecificationHandler' object has no attribute 'UserData'
-Patch0: 0000-User-module-should-parse-only-rootpw-for-now-1553488.patch
-
-# Bug 1524700 - AttributeError: 'NoneType' object has no attribute 'name'
-Patch1: 0001-Mark-partition-live-device-s-disk-protected.-1524700.patch
-
-# Bug 1553935 - Installer auto-quits after Workstation live install (as no spokes are on the install hub)
-Patch2: 0002-Don-t-autoquit-by-default-if-the-last-hub-is-empty-1.patch
-
-# Bug 1557529 - Setting root password on live images fails since anaconda-28.22.2-3.fc28
-Patch3: 0003-Write-rootpw-command-to-kickstart-1557529.patch
-
-# Bug 1558906 - AttributeError: 'DiskDevice' object has no attribute 'isDisk'
-Patch4: 0004-Fix-isDisk-property-name-1558906.patch
-
-# Bug 1559680 - Realm join via kickstart during install fails with 'This computer's host name is not set correctly', but it is
-Patch5: 0005-Fix-hostname-configuration-1559680.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -260,12 +240,6 @@ runtime on NFS/HTTP/FTP servers or local disks.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -360,24 +334,60 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Mon Mar 26 2018 Martin Kolman <mkolman@redhat.com> - 28.22.2-7
-- Fix accessing org.freedesktop.hostname1 for current hostname (rvykydal)
-
-* Thu Mar 22 2018 Martin Kolman <mkolman@redhat.com> - 28.22.2-6
+* Thu Apr 05 2018 Martin Kolman <mkolman@redhat.com> - 28.22.3-1
+- Fix forgotten usage of the selinux kickstart command (vponcova)
+- Fix tests for the storage module (vponcova)
+- Use the disk selection and initialization modules in UI (vponcova)
+- Enable to use object identifiers instead of object paths (vponcova)
+- Add Makefiles for disk initialization and selection modules (vponcova)
+- Remove the invalid self argument (vponcova)
+- Run all unit tests (vponcova)
+- Create the disk initialization and disk selection modules (vponcova)
+- Use watch_property to watch changes of DBus properties (vponcova)
+- Better organize the base classes for modules (vponcova)
+- Fixed KS forcing zerombr onto RO disk (japokorn)
+- Add tests for the kickstart specifications (vponcova)
+- Standardize calls to parent via super() (riehecky)
 - Fix 'isDisk' property name (#1558906) (vtrefny)
-
-* Mon Mar 19 2018 Martin Kolman <mkolman@redhat.com> - 28.22.2-5
+- Make the class for removed kickstart commands more strict (vponcova)
+- Fix the progress bar steps (vponcova)
+- Use enum for the first boot action (vponcova)
+- Use enum for the SELinux modes (vponcova)
 - Write rootpw command to kickstart (#1557529) (mkolman)
-
-* Thu Mar 15 2018 Martin Kolman <mkolman@redhat.com> - 28.22.2-4
+- Don't make safe to observe services on buses that don't run (vponcova)
+- Add the LanguageKickstarted property (vponcova)
 - Don't autoquit by default if the last hub is empty (#1553935) (mkolman)
-
-* Mon Mar 12 2018 Martin Kolman <mkolman@redhat.com> - 28.22.2-3
-- add missing patches (mkolman)
-
-* Mon Mar 12 2018 Martin Kolman <mkolman@redhat.com> - 28.22.2-2
+- Use the Services module in UI (vponcova)
+- Create the Services module (vponcova)
+- Enable hibernation only on x86 (#1554345) (vponcova)
+- Add the Storage module with no API (vponcova)
+- Add the Payload module with no API (vponcova)
+- Remove DBus modules Foo and Bar (vponcova)
+- network module: fix accessing org.freedesktop.hostname1 for current hostname
+  (rvykydal)
+- network module: add basic test (rvykydal)
+- Add prepare command to setup-mock-test-env script (jkonecny)
+- Remove useless constants from pyanaconda.dbus.constants (vponcova)
+- Use identifiers to get observers and proxies (vponcova)
+- Remove the publish method from DBus interfaces (vponcova)
+- Replace constants in publish and register methods (vponcova)
+- Replace constants in DBus interface names (vponcova)
+- Define DBus errors with the dbus_error decorator (vponcova)
+- Use namespaces and identifiers to describe Anaconda DBus objects (vponcova)
+- Add support for identification of DBus objects and services (vponcova)
 - User module should parse only rootpw for now (#1553488) (vponcova)
 - Mark partition live device's disk protected. (#1524700) (dlehman)
+- localization module: plug localization module into keyboard GUI spoke
+  (rvykydal)
+- localization module: add KeyboardKickstarted property (rvykydal)
+- localization module: add KS support for keyboard command (rvykydal)
+- localization module: don't use Kickstarted so another command can be added
+  (rvykydal)
+- datetime spoke: still pass ksdata to NTPconfigDialog (UIObject) (rvykydal)
+- Fix release docs (mkolman)
+- network: set TYPE value in ifcfg from kickstart in initrmfs (rvykydal)
+- Enable payload configuration for Install classes (jkonecny)
+- Make formatting consistent in AnacondaWidgets.xml (riehecky)
 
 * Mon Mar 05 2018 Martin Kolman <mkolman@redhat.com> - 28.22.2-1
 - Use the user DBUS module in the UI (mkolman)
