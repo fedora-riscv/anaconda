@@ -6,7 +6,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.22.4
+Version: 28.22.5
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -41,7 +41,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define pykickstartver 3.12-1
 %define pypartedver 2.5-2
 %define rpmver 4.10.0
-%define simplelinever 0.8-1
+%define simplelinever 1.1-1
 %define utillinuxver 2.15.1
 
 BuildRequires: audit-libs-devel
@@ -346,6 +346,13 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Apr 10 2018 Martin Kolman <mkolman@redhat.com> - 28.22.5-1
+- Bump simpleline version (mkolman)
+- Do not redraw screen after text YesNo dialog (#1557951) (jkonecny)
+- Adapt to a new simpleline changes (#1557472) (jkonecny)
+- authselect: enable silent last log (pbrezina)
+- authselect: fix typo to enable fingerprint authentication (pbrezina)
+
 * Mon Apr 09 2018 Martin Kolman <mkolman@redhat.com> - 28.22.4-1
 - Move install time dependencies to a metapackage (mkolman)
 
