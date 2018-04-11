@@ -6,7 +6,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.22.5
+Version: 28.22.6
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -288,7 +288,10 @@ update-desktop-database &> /dev/null || :
 update-desktop-database &> /dev/null || :
 %endif
 
+# main package and install-env-deps are metapackages
 %files
+
+%files install-env-deps
 
 # Allow the lang file to be empty
 %define _empty_manifest_terminate_build 0
@@ -346,6 +349,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Apr 11 2018 Martin Kolman <mkolman@redhat.com> - 28.22.6-1
+- Add %%files for install-env-deps so it actually exists (awilliam)
+
 * Tue Apr 10 2018 Martin Kolman <mkolman@redhat.com> - 28.22.5-1
 - Bump simpleline version (mkolman)
 - Do not redraw screen after text YesNo dialog (#1557951) (jkonecny)
