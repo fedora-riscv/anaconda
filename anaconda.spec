@@ -6,7 +6,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.22.6
+Version: 28.22.7
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -80,6 +80,7 @@ BuildRequires: libxml2
 Requires: anaconda-core = %{version}-%{release}
 Requires: anaconda-gui = %{version}-%{release}
 Requires: anaconda-tui = %{version}-%{release}
+Requires: anaconda-install-env-deps = %{version}-%{release}
 
 %description
 The anaconda package is a metapackage for the Anaconda installer.
@@ -349,6 +350,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Apr 12 2018 Martin Kolman <mkolman@redhat.com> - 28.22.7-1
+- Add anaconda-install-env-deps as dependency of the anaconda package (mkolman)
+
 * Wed Apr 11 2018 Martin Kolman <mkolman@redhat.com> - 28.22.6-1
 - Add %%files for install-env-deps so it actually exists (awilliam)
 
