@@ -6,7 +6,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 29.12
+Version: 29.13
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -56,9 +56,6 @@ BuildRequires: libgnomekbd-devel
 BuildRequires: libxklavier-devel >= %{libxklavierver}
 BuildRequires: pango-devel
 BuildRequires: python3-kickstart >= %{pykickstartver}
-%if ! 0%{?rhel}
-BuildRequires: python3-bugzilla
-%endif
 BuildRequires: python3-devel
 BuildRequires: python3-nose
 BuildRequires: systemd
@@ -350,6 +347,19 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Apr 24 2018 Martin Kolman <mkolman@redhat.com> - 29.13-1
+- Show correct root account locked status in reconfig mode (#1507940) (mkolman)
+- Add missing lines and modularization only log to test coverage (jkonecny)
+- Remove makebumpver dependency from spec file (jkonecny)
+- network module: use connectivity checking in anaconda (rvykydal)
+- network module: add connectivity checking (rvykydal)
+- Permit adding disabled external repos to installation. (riehecky)
+- Handle empty active attribute for consoles (#1569045) (mkolman)
+- Support temporary kickstart generating (vponcova)
+- Create the dynamic module User (vponcova)
+- Select Workstation install class for Workstation live (#1569083) (awilliam)
+- Rename the main module User to Users (vponcova)
+
 * Thu Apr 19 2018 Martin Kolman <mkolman@redhat.com> - 29.12-1
 - Save logs to result folder after rpm-tests (jkonecny)
 - Add Installed pyanaconda tests (jkonecny)
