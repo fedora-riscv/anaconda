@@ -6,7 +6,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 29.14
+Version: 29.15
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -38,7 +38,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define libxklavierver 5.4
 %define mehver 0.23-1
 %define nmver 1.0
-%define pykickstartver 3.12-1
+%define pykickstartver 3.14-1
 %define pypartedver 2.5-2
 %define rpmver 4.10.0
 %define simplelinever 1.1-1
@@ -86,7 +86,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 Summary: Core of the Anaconda installer
 Requires: python3-libs
 Requires: python3-dnf >= %{dnfver}
-Requires: python3-blivet >= 1:3.0.0-0.1.b1
+Requires: python3-blivet >= 1:3.1.0-0.1.b1
 Requires: python3-blockdev >= %{libblockdevver}
 Requires: python3-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
@@ -347,6 +347,32 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed May 16 2018 Martin Kolman <mkolman@redhat.com> - 29.15-1
+- nvdimm: make debug messages more clear (rvykydal)
+- nvdimm: use libblockdev enum to check namespace mode (rvykydal)
+- Add data loss warning to nvdimm reconfigure dialog. (rvykydal)
+- Add UI feedback for disk repopulating after nvdimm reconfiguration.
+  (rvykydal)
+- Fix ignoring of nvdimm devices (rvykydal)
+- Don't allow booting from nvdimm devices (rvykydal)
+- Improve UI feedback for invalid boot on non-iBFT iSCSI devices. (rvykydal)
+- Add inst.nonibftiscsiboot boot option. (rvykydal)
+- Use only devices specified by nvdimm command for installation. (rvykydal)
+- Add option to reconfigure nvdimm devices into sector mode. (rvykydal)
+- Allow only devices in sector mode to be selected. (rvykydal)
+- Add nvdimm devices to Advanced Storage spoke. (rvykydal)
+- Add kickstart support for nvdimm reconfiguration to sector mode. (rvykydal)
+- Ignore nvdimm disks which are not in sector mode. (rvykydal)
+- Do not ignore nvdimm (pmemX) devices (rvykydal)
+- Update the pykickstart commands (vponcova)
+- Fix firewall DBUS module API usage (#1577405) (mkolman)
+- Fix formatting in the TUI storage spoke (jkonecny)
+- Fix TUI crash in mountpoint assignment (#1564067) (jkonecny)
+- Fix KS logvol metadata and chunksize parameters (#1572511) (jkonecny)
+- Show correct bootloader error on the MacEFI platform (vponcova)
+- Revert "Fix broken kickstart command test" (rvykydal)
+- Support fcoe --autovlan option (#1564096) (rvykydal)
+
 * Fri May 04 2018 Martin Kolman <mkolman@redhat.com> - 29.14-1
 - Increase module startup timeout to 600 seconds (mkolman)
 - Fix name of the Zanata Python client package (mkolman)
