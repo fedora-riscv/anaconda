@@ -6,7 +6,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 28.22.10
+Version: 28.22.11
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -350,6 +350,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed May 23 2018 Martin Kolman <mkolman@redhat.com> - 28.22.11-1
+- Only check space during a tui kickstart if ksprompt is enabled (bcl)
+
 * Tue Apr 24 2018 Martin Kolman <mkolman@redhat.com> - 28.22.10-1
 - Show correct root account locked status in reconfig mode (#1507940) (mkolman)
 - Handle empty active attribute for consoles (#1569045) (mkolman)
