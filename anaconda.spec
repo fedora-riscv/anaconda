@@ -7,7 +7,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 29.17
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -347,6 +347,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Jun 18 2018 Miro Hrončok <mhroncok@redhat.com> - 29.17-2
+- Rebuilt for Python 3.7
+
 * Tue Jun 12 2018 Martin Kolman <mkolman@redhat.com> - 29.17-1
 - Wait for kickstart modules to quit (vponcova)
 - Ask for a default passphrase if required (vponcova)
