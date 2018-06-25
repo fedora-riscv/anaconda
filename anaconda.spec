@@ -6,8 +6,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 29.17
-Release: 2%{?dist}
+Version: 29.18
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -347,8 +347,17 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Mon Jun 18 2018 Miro Hrončok <mhroncok@redhat.com> - 29.17-2
-- Rebuilt for Python 3.7
+* Mon Jun 25 2018 Martin Kolman <mkolman@redhat.com> - 29.18-1
+- Add tests for the DASD module (vponcova)
+- Run the DASD formatting task in UI (vponcova)
+- Extend the sync_run_task method with a callback (vponcova)
+- Create a task for formatting DASDs (vponcova)
+- Run the DASD discovery task from UI (vponcova)
+- Create a task for discovering DASDs (vponcova)
+- Create the DASD module (vponcova)
+- Add tests for the language installation task (vponcova)
+- Run an installation task to install a language (vponcova)
+- nvdimm: fix crash on non-block devices (rvykydal)
 
 * Tue Jun 12 2018 Martin Kolman <mkolman@redhat.com> - 29.17-1
 - Wait for kickstart modules to quit (vponcova)
