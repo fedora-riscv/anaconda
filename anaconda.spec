@@ -6,8 +6,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 29.18
-Release: 1%{?dist}.1
+Version: 29.19
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -18,13 +18,6 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
-
-# Initial DNF 3 compat fixes, submitted upstream:
-# https://github.com/rhinstaller/anaconda/pull/1515
-# These (or improved versions) should be in 29.19
-Patch0: 0001-DNF-3-config-substitutions-moved-from-dnf-to-libdnf.patch
-Patch1: 0002-DNF-3-Update-size-calculations-for-transaction-item-.patch
-Patch2: 0003-DNF-3-progress-callback-constants-moved-to-dnf.trans.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -256,7 +249,7 @@ options. This includes driver disks, kickstarts, and finding the anaconda
 runtime on NFS/HTTP/FTP servers or local disks.
 
 %prep
-%autosetup -p1
+%setup -q
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -354,8 +347,10 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Tue Jun 26 2018 Adam Williamson <awilliam@redhat.com> - 29.18-1.fc29.1
-- Initial DNF 3 compatibility via downstream patches
+* Wed Jun 27 2018 Martin Kolman <mkolman@redhat.com> - 29.19-1
+- DNF 3: progress callback constants moved to dnf.transaction (awilliam)
+- DNF 3: Update size calculations for transaction item changes (awilliam)
+- DNF 3: config substitutions moved from dnf to libdnf (awilliam)
 
 * Mon Jun 25 2018 Martin Kolman <mkolman@redhat.com> - 29.18-1
 - Add tests for the DASD module (vponcova)
