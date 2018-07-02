@@ -7,7 +7,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 29.19
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -347,6 +347,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Jul 02 2018 Miro Hrončok <mhroncok@redhat.com> - 29.19-2
+- Rebuilt for Python 3.7
+
 * Wed Jun 27 2018 Martin Kolman <mkolman@redhat.com> - 29.19-1
 - DNF 3: progress callback constants moved to dnf.transaction (awilliam)
 - DNF 3: Update size calculations for transaction item changes (awilliam)
