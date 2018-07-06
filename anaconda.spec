@@ -7,7 +7,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 29.19
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -18,6 +18,10 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
+
+# Fix for RHBZ#1598574, a compose-breaking crash with Python 3.7
+# https://github.com/rhinstaller/anaconda/pull/1526
+Patch0: 0001-Make-pyanaconda.dbus.typing-work-with-Python-3.7-159.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -250,6 +254,7 @@ runtime on NFS/HTTP/FTP servers or local disks.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -347,6 +352,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Jul 06 2018 Adam Williamson <awilliam@redhat.com> - 29.19-3
+- Fix a compose-breaking crash with Python 3.7 (#1598574)
+
 * Mon Jul 02 2018 Miro Hrončok <mhroncok@redhat.com> - 29.19-2
 - Rebuilt for Python 3.7
 
