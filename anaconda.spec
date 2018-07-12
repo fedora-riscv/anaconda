@@ -7,7 +7,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 29.19
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -352,6 +352,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Jul 12 2018 Fedora Release Engineering <releng@fedoraproject.org> - 29.19-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
 * Fri Jul 06 2018 Adam Williamson <awilliam@redhat.com> - 29.19-3
 - Fix a compose-breaking crash with Python 3.7 (#1598574)
 
