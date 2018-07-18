@@ -6,8 +6,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 29.19
-Release: 4%{?dist}
+Version: 29.20
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -18,10 +18,6 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
-
-# Fix for RHBZ#1598574, a compose-breaking crash with Python 3.7
-# https://github.com/rhinstaller/anaconda/pull/1526
-Patch0: 0001-Make-pyanaconda.dbus.typing-work-with-Python-3.7-159.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -254,7 +250,6 @@ runtime on NFS/HTTP/FTP servers or local disks.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -352,14 +347,20 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Thu Jul 12 2018 Fedora Release Engineering <releng@fedoraproject.org> - 29.19-4
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
-
-* Fri Jul 06 2018 Adam Williamson <awilliam@redhat.com> - 29.19-3
-- Fix a compose-breaking crash with Python 3.7 (#1598574)
-
-* Mon Jul 02 2018 Miro Hrončok <mhroncok@redhat.com> - 29.19-2
-- Rebuilt for Python 3.7
+* Wed Jul 18 2018 Martin Kolman <mkolman@redhat.com> - 29.20-1
+- Make pyanaconda.dbus.typing work with Python 3.7 (#1598574) (awilliam)
+- Protected devices might be hidden (#1561766) (vponcova)
+- fstab: include a note about systemctl daemon-reload (zbyszek)
+- Access the ZFCP module only on s390x (vponcova)
+- Tell libreport if it is a final release or not (#1596392) (vpodzime)
+- bootloader: GRUB2: Set menu_auto_hide when enabled by the instClass
+  (hdegoede)
+- installclass: Add bootloader_menu_autohide property (hdegoede)
+- Add tests for the zFCP module (vponcova)
+- Handle the zfcp command in the zFCP module (vponcova)
+- Use the zFCP discovery task in UI (vponcova)
+- Create the zFCP discovery task (vponcova)
+- Create the zFCP module (vponcova)
 
 * Wed Jun 27 2018 Martin Kolman <mkolman@redhat.com> - 29.19-1
 - DNF 3: progress callback constants moved to dnf.transaction (awilliam)
