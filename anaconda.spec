@@ -6,7 +6,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 29.21
+Version: 29.22
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -24,7 +24,7 @@ Source0: %{name}-%{version}.tar.bz2
 
 %define blivetguiver 2.1.7-2
 %define dbusver 1.2.3
-%define dnfver 2.2.0
+%define dnfver 3.1.0
 %define dracutver 034-7
 %define fcoeutilsver 1.0.12-3.20100323git
 %define gettextver 0.19.8
@@ -105,6 +105,7 @@ Requires: python3-dbus
 Requires: python3-pwquality
 Requires: python3-systemd
 Requires: python3-pydbus
+Requires: python3-productmd
 
 # pwquality only "recommends" the dictionaries it needs to do anything useful,
 # which is apparently great for containers but unhelpful for the rest of us
@@ -346,6 +347,16 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Jul 27 2018 Martin Kolman <mkolman@redhat.com> - 29.22-1
+- Handle new module specific error states (mkolman)
+- Handle missing package errors reported by the install_specs() function
+  (mkolman)
+- Initial module enablement and installation support (mkolman)
+- Use productmd library to parse .treeinfo (#1411673) (jkonecny)
+- Import kickstart classes as version-less in the dracut script (vponcova)
+- Use only version-less kickstart classes (vponcova)
+- Define version-less variants of kickstart classes (vponcova)
+
 * Wed Jul 25 2018 Martin Kolman <mkolman@redhat.com> - 29.21-1
 - Pylint should skip the file livepayload.py (vponcova)
 - Fix pylint errors (vponcova)
