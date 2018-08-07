@@ -7,7 +7,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 29.23
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -264,7 +264,7 @@ find %{buildroot} -type f -name "*.la" | xargs %{__rm}
 mkdir %{buildroot}%{_datadir}/anaconda/addons
 
 %ifarch %livearches
-desktop-file-install ---dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/liveinst.desktop
+desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/liveinst.desktop
 %endif
 # NOTE: If you see "error: Installed (but unpackaged) file(s) found" that include liveinst files,
 #       check the IS_LIVEINST_ARCH in configure.ac to make sure your architecture is properly defined
@@ -347,6 +347,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Aug 07 2018 Martin Kolman <mkolman@redhat.com> - 29.23-2
+- Fix a typo
+
 * Tue Aug 07 2018 Martin Kolman <mkolman@redhat.com> - 29.23-1
 - Bump required DNF version (mkolman)
 - Fix some small issues with the platform id patch (mkolman)
