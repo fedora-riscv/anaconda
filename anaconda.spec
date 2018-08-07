@@ -6,7 +6,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 29.22
+Version: 29.23
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -24,7 +24,7 @@ Source0: %{name}-%{version}.tar.bz2
 
 %define blivetguiver 2.1.7-2
 %define dbusver 1.2.3
-%define dnfver 3.1.0
+%define dnfver 3.2.0
 %define dracutver 034-7
 %define fcoeutilsver 1.0.12-3.20100323git
 %define gettextver 0.19.8
@@ -347,6 +347,29 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Aug 07 2018 Martin Kolman <mkolman@redhat.com> - 29.23-1
+- Bump required DNF version (mkolman)
+- Fix some small issues with the platform id patch (mkolman)
+- Set platform id for DNF (mkolman)
+- Fix crash when software environment is False (jkonecny)
+- Allow to delete all file systems used by Unknown (#1597199) (vponcova)
+- DD: Use text mode when calling tools with subprocess (rvykydal)
+- Update RHEL placeholder names (mkolman)
+- Typo fixup (rvykydal)
+- Define if blivet-gui is supported via installclasses (rvykydal)
+- Offer Blivet-GUI partitioning only if supported (rvykydal)
+- Only show the "closest mirror" source option where appropriate (mkolman)
+- Starting from 3.0 DNF expects strings in comps queries (mkolman)
+- Use the manual partitioning module in TUI (vponcova)
+- Use the manual partitioning module in UI (vponcova)
+- Add tests for the manual partitioning module (vponcova)
+- Create the manual partitioning module (vponcova)
+- Reserve enough static space for 2 lines in spoke status on hub (#1584160)
+  (rvykydal)
+- Fix disable additional repositories (jkonecny)
+- Show better messages for NoSuchPackage and NoSuchGroup (#1599190) (vponcova)
+- Bootloader stage2 can't be on btrfs on rhel (#1533904) (rvykydal)
+
 * Fri Jul 27 2018 Martin Kolman <mkolman@redhat.com> - 29.22-1
 - Handle new module specific error states (mkolman)
 - Handle missing package errors reported by the install_specs() function
