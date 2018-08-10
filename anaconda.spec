@@ -7,7 +7,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 29.23
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -18,6 +18,11 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
+# Reverts to running dnf in a subprocess (not a thread). Requires
+# libdnf-0.17.0-2.fc29 or higher. Fixes
+# https://bugzilla.redhat.com/show_bug.cgi?id=1614511
+# https://github.com/rhinstaller/anaconda/pull/1571
+Patch0: 1571.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -250,6 +255,7 @@ runtime on NFS/HTTP/FTP servers or local disks.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -347,6 +353,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Aug 10 2018 Adam Williamson <awilliam@redhat.com> - 29.23-3
+- Switch back to running dnf in a subprocess (#1614511)
+
 * Tue Aug 07 2018 Martin Kolman <mkolman@redhat.com> - 29.23-2
 - Fix a typo
 
