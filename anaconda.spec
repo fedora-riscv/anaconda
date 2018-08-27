@@ -6,8 +6,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 29.23
-Release: 3%{?dist}
+Version: 29.24.1
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -18,11 +18,6 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
-# Reverts to running dnf in a subprocess (not a thread). Requires
-# libdnf-0.17.0-2.fc29 or higher. Fixes
-# https://bugzilla.redhat.com/show_bug.cgi?id=1614511
-# https://github.com/rhinstaller/anaconda/pull/1571
-Patch0: 1571.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -43,13 +38,14 @@ Patch0: 1571.patch
 %define libxklavierver 5.4
 %define mehver 0.23-1
 %define nmver 1.0
-%define pykickstartver 3.14-1
+%define pykickstartver 3.16-1
 %define pypartedver 2.5-2
 %define rpmver 4.10.0
 %define simplelinever 1.1-1
 %define utillinuxver 2.15.1
 
 BuildRequires: audit-libs-devel
+BuildRequires: libtool
 BuildRequires: gettext-devel >= %{gettextver}
 BuildRequires: gtk3-devel >= %{gtk3ver}
 BuildRequires: gtk-doc
@@ -91,7 +87,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 Summary: Core of the Anaconda installer
 Requires: python3-libs
 Requires: python3-dnf >= %{dnfver}
-Requires: python3-blivet >= 1:3.1.0-0.1.b1
+Requires: python3-blivet >= 1:3.1.0-1
 Requires: python3-blockdev >= %{libblockdevver}
 Requires: python3-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
@@ -255,7 +251,6 @@ runtime on NFS/HTTP/FTP servers or local disks.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -353,11 +348,60 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Fri Aug 10 2018 Adam Williamson <awilliam@redhat.com> - 29.23-3
-- Switch back to running dnf in a subprocess (#1614511)
+* Mon Aug 27 2018 Martin Kolman <mkolman@redhat.com> - 29.24.1-1
+- Fix the processing of the live CD source (#1622248) (vponcova)
 
-* Tue Aug 07 2018 Martin Kolman <mkolman@redhat.com> - 29.23-2
-- Fix a typo
+* Wed Aug 22 2018 Martin Kolman <mkolman@redhat.com> - 29.24-1
+- Fix crash in tui when default partitioning scheme is not supported.
+  (rvykydal)
+- Fix pylint errors (vponcova)
+- Add libtool build dependency (jkonecny)
+- Remove shebang from DUD test (jkonecny)
+- Add inst.addrepo documentation for HD variant (jkonecny)
+- Warn when repo names are not unique (jkonecny)
+- HD addon repos have mount directories permanent (jkonecny)
+- Unmount hard drive additional repositories (jkonecny)
+- Move RepoData copy creation to the RepoData class (jkonecny)
+- Show empty file protocol on HD addon repo fail (jkonecny)
+- Mount and use HDD additional repositories (jkonecny)
+- Separate _find_and_mount_iso from _setup_media (jkonecny)
+- Load hard drive repo type from inst.addrepo (jkonecny)
+- Do not fail if .discinfo file can't be read (jkonecny)
+- Use productmd to parse .discinfo file (jkonecny)
+- Add payload sources tests (jkonecny)
+- Cleanup payload tests source file (jkonecny)
+- Add documentation for inst.addrepo boot option (jkonecny)
+- Add additional repositories to KS data (jkonecny)
+- Use new source solution (jkonecny)
+- Add payload sources implementation (jkonecny)
+- Don't resize a device if the size is same as the old size (#1572828)
+  (vponcova)
+- Mark disks with additional repos as protected (jkonecny)
+- Support boot args parsing to list (jkonecny)
+- Add inst.addrepo new options (jkonecny)
+- Make parenthesis consistent (jkonecny)
+- Remove unused parameter from live_startup method (jkonecny)
+- Disable treeinfo based repos only once (jkonecny)
+- Disable treeinfo repos when base repo change (jkonecny)
+- Treeinfo repos can't be changed nor removed (jkonecny)
+- Add all repositories from the treeinfo file (jkonecny)
+- Load base repository location from treeinfo (jkonecny)
+- Add limited file:// protocol to GUI Source spoke (jkonecny)
+- Add BaseOS between default base repositories (jkonecny)
+- Split _setupInstallDevice method in payload (jkonecny)
+- Check the LUKS2 memory requirements (vponcova)
+- Add an option for choosing version of LUKS in GUI (vponcova)
+- Add tests for LUKS2 in the auto partitioning module (vponcova)
+- Apply the LUKS2 options from the auto partitioning module (vponcova)
+- Support LUKS2 options in the auto partitioning module (vponcova)
+- Support LUKS2 options in logvol, part and raid commands (vponcova)
+- Enable to set a default version of LUKS (vponcova)
+- Update dependencies and kickstart commands to support LUKS2 (#1547908)
+  (vponcova)
+- Revert back to running DNF in a subprocess (mkolman)
+- Use SimpleConfigFile to get PLATFORM_ID from /etc/os-release (mkolman)
+- Fix a 5 year old typo in the spec file (mkolman)
+- Use wwn attr instead of removed wwid. (#1565693) (dlehman)
 
 * Tue Aug 07 2018 Martin Kolman <mkolman@redhat.com> - 29.23-1
 - Bump required DNF version (mkolman)
