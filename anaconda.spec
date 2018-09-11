@@ -6,7 +6,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 30.2
+Version: 30.3
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -24,7 +24,7 @@ Source0: %{name}-%{version}.tar.bz2
 
 %define blivetguiver 2.1.7-2
 %define dbusver 1.2.3
-%define dnfver 3.2.0
+%define dnfver 3.5.0
 %define dracutver 034-7
 %define fcoeutilsver 1.0.12-3.20100323git
 %define gettextver 0.19.8
@@ -348,6 +348,13 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Sep 11 2018 Martin Kolman <mkolman@redhat.com> - 30.3-1
+- Save lsblk output to the Anaconda traceback file (vtrefny)
+- Remove librepo imports from Anaconda (#1626609) (jkonecny)
+- DNF 3.5 compatibility (mkolman)
+- Use the default LUKS version for auto partitioning (#1624680) (vponcova)
+- Remove the testing flag (vponcova)
+
 * Thu Aug 30 2018 Martin Kolman <mkolman@redhat.com> - 30.2-1
 - Add initial 32-bit ARMv7 EFI support (pbrobinson)
 - Drop legacy get_arm_machine pieces (pbrobinson)
