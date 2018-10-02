@@ -1,0 +1,52 @@
+From 18883ab79be8186363e48418feb34c7890e1c30d Mon Sep 17 00:00:00 2001
+From: Adam Williamson <awilliam@redhat.com>
+Date: Wed, 26 Sep 2018 18:45:41 -0700
+Subject: [PATCH] Drop attempt to add 'nocrypto' to tsflags
+
+This has not actually *worked* since DNF 3.0, due to
+https://bugzilla.redhat.com/show_bug.cgi?id=1595917 . You can
+check this for yourself quite easily, with DNF 3.0 to 3.5.1:
+
+>>> import dnf.base
+>>> base = dnf.base.Base()
+>>> base.conf.tsflags
+[]
+>>> base.conf.tsflags.append('nocrypto')
+>>> base.conf.tsflags
+[]
+>>>
+
+If you try this on DNF 3.6, you will notice that it errors out,
+because in DNF 3.6, these types of config options are presented
+as tuples rather than lists, as a way to try and spot now-broken
+usages like this.
+
+I suggest we just drop this entirely, because if it was actually
+*necessary* any more, we would've been running into the problem
+this was supposed to work around - #1006280 - ever since DNF 3.0
+landed and it became a no-op. As we have *not* been (AFAIK)
+running into any such problems, let's just drop it.
+
+Signed-off-by: Adam Williamson <awilliam@redhat.com>
+---
+ pyanaconda/payload/dnfpayload.py | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/pyanaconda/payload/dnfpayload.py b/pyanaconda/payload/dnfpayload.py
+index 15f4ca997..82abd388f 100644
+--- a/pyanaconda/payload/dnfpayload.py
++++ b/pyanaconda/payload/dnfpayload.py
+@@ -670,10 +670,6 @@ class DNFPayload(payload.PackagePayload):
+ 
+         self._base.conf.substitutions.update_from_etc(conf.installroot)
+ 
+-        # NSS won't survive the forking we do to shield out chroot during
+-        # transaction, disable it in RPM:
+-        conf.tsflags.append('nocrypto')
+-
+         if self.data.packages.multiLib:
+             conf.multilib_policy = "all"
+ 
+-- 
+2.19.0
+
