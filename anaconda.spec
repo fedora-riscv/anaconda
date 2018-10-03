@@ -6,8 +6,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 30.3
-Release: 2%{?dist}
+Version: 30.4
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -18,10 +18,6 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
-# Fix DNF 3.6 compat
-# https://github.com/rhinstaller/anaconda/pull/1627
-# https://bugzilla.redhat.com/show_bug.cgi?id=1595917
-Patch0: 0001-Drop-attempt-to-add-nocrypto-to-tsflags.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -255,7 +251,6 @@ runtime on NFS/HTTP/FTP servers or local disks.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -353,8 +348,34 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Wed Sep 26 2018 Adam Williamson <awilliam@redhat.com> - 30.3-2
-- Backport #1627 to fix DNF 3.6 compat (#1595917)
+* Wed Oct 03 2018 Martin Kolman <mkolman@redhat.com> - 30.4-1
+- Fix strings not marked for translation (jkonecny)
+- Drop attempt to add 'nocrypto' to tsflags (awilliam)
+- Fix librepo logging with new DNF (jkonecny)
+- Revert "Remove librepo imports from Anaconda (#1626609)" (jkonecny)
+- Set the VNC password directly (#1592686) (vponcova)
+- Update the spoke for unsupported hardware in TUI (#1601545) (vponcova)
+- Update the dialog for unsupported hardware in GUI (#1601545) (vponcova)
+- Support detection of kernel taints (vponcova)
+- Fix the rescue mode (#1631749) (vponcova)
+- Fix the sanity check verify_gpt_biosboot (#1593446) (vponcova)
+- Flags shouldn't process the kernel options (vponcova)
+- Fully support the inst.gpt option (vponcova)
+- Don't set Anaconda-specific flags in Blivet (vponcova)
+- Remove the class for kernel arguments from pyanaconda.flags (vponcova)
+- Remove unused false positives (vponcova)
+- Don't connect to signals of the Network Manager DBus objects (#1582233)
+  (vponcova)
+- Fix documentation for setting Pykickstart command version (mkolman)
+- Don't try to get hostnamed proxy in non-installer-image environments
+  (#1616214) (rvykydal)
+- Use realm data in UI (vponcova)
+- Use realm data in the DBus module (vponcova)
+- Create a DBus structure for realm data (vponcova)
+- Add support for DBus structures (vponcova)
+- docs/commit-log.rst: Don't wrap example firstlines (ferdnyc)
+- Detect that there is not enough space on a device (#1613232) (vponcova)
+- Add Silverblue InstallClass (jkonecny)
 
 * Tue Sep 11 2018 Martin Kolman <mkolman@redhat.com> - 30.3-1
 - Save lsblk output to the Anaconda traceback file (vtrefny)
