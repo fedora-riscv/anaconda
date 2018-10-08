@@ -6,7 +6,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 30.4
+Version: 30.5
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -24,7 +24,7 @@ Source0: %{name}-%{version}.tar.bz2
 
 %define blivetguiver 2.1.7-2
 %define dbusver 1.2.3
-%define dnfver 3.5.0
+%define dnfver 3.6.0
 %define dracutver 034-7
 %define fcoeutilsver 1.0.12-3.20100323git
 %define gettextver 0.19.8
@@ -338,6 +338,7 @@ update-desktop-database &> /dev/null || :
 
 %files widgets-devel
 %{_libdir}/libAnacondaWidgets.so
+%{_libdir}/glade/modules/libAnacondaWidgets.so
 %{_includedir}/*
 %{_datadir}/glade/catalogs/AnacondaWidgets.xml
 %{_datadir}/gtk-doc
@@ -348,6 +349,12 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Oct 08 2018 Martin Kolman <mkolman@redhat.com> - 30.5-1
+- Adjust to some DNF 3.6 changes (#1637021) (mkolman)
+- Ignore errors when trying to activate unsupported swaps (#1635252) (vtrefny)
+- Add option to set kernel.hung_task_timeout_secs option (rvykydal)
+- Move the glade adaptor to a separate plugin (dshea)
+
 * Wed Oct 03 2018 Martin Kolman <mkolman@redhat.com> - 30.4-1
 - Fix strings not marked for translation (jkonecny)
 - Drop attempt to add 'nocrypto' to tsflags (awilliam)
