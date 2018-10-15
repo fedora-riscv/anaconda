@@ -6,7 +6,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 29.24.4
+Version: 29.24.5
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -348,6 +348,11 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Oct 15 2018 Martin Kolman <mkolman@redhat.com> - 29.24.5-1
+- nvdimm: update ks data for actions in UI (rvykydal)
+- nvdimm: use pykickstart constant for setting reconfigure mode (rvykydal)
+- Revert "Don't allow booting from nvdimm devices" (rvykydal)
+
 * Mon Oct 08 2018 Martin Kolman <mkolman@redhat.com> - 29.24.4-1
 - Adjust to some DNF 3.6 changes (#1637021) (mkolman)
 - Ignore errors when trying to activate unsupported swaps (#1635252) (vtrefny)
