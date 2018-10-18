@@ -6,7 +6,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 30.6
+Version: 30.7
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -349,6 +349,11 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Oct 18 2018 Martin Kolman <mkolman@redhat.com> - 30.7-1
+- installclass: fix variant string for Atomic Host (#1640409) (dusty)
+- Remove EXPERIMENTAL label for mountpoint assignment in TUI (#1636940)
+  (mkolman)
+
 * Mon Oct 15 2018 Martin Kolman <mkolman@redhat.com> - 30.6-1
 - nvdimm: update ks data for actions in UI (rvykydal)
 - nvdimm: use pykickstart constant for setting reconfigure mode (rvykydal)
