@@ -6,7 +6,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 30.7
+Version: 30.8
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -313,6 +313,8 @@ update-desktop-database &> /dev/null || :
 %exclude %{python3_sitearch}/pyanaconda/ui/tui/*
 %{_bindir}/analog
 %{_bindir}/anaconda-cleanup
+%dir %{_sysconfdir}/%{name}
+%config %{_sysconfdir}/%{name}/*
 %ifarch %livearches
 %{_bindir}/liveinst
 %{_sbindir}/liveinst
@@ -349,6 +351,18 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Nov 01 2018 Jiri Konecny <jkonecny@redhat.com> - 30.8-1
+- Remove flags from anaconda_logging (vponcova)
+- Remove blivet-specific flags from pyanaconda.flags (vponcova)
+- The armplatform option is deprecated (vponcova)
+- Create a class for the Anaconda bus connection (vponcova)
+- Fix local repo files aren't enabled (#1636739) (jkonecny)
+- Write RPM tests for the Anaconda configuration file (vponcova)
+- Write tests for the configuration support (vponcova)
+- Create a class for handling the Anaconda configuration (vponcova)
+- Provide a better support for handling the configuration files (vponcova)
+- Create the Anaconda configuration file (vponcova)
+
 * Thu Oct 18 2018 Martin Kolman <mkolman@redhat.com> - 30.7-1
 - installclass: fix variant string for Atomic Host (#1640409) (dusty)
 - Remove EXPERIMENTAL label for mountpoint assignment in TUI (#1636940)
