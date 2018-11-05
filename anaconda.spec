@@ -6,7 +6,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 30.8
+Version: 30.9
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -315,6 +315,8 @@ update-desktop-database &> /dev/null || :
 %{_bindir}/anaconda-cleanup
 %dir %{_sysconfdir}/%{name}
 %config %{_sysconfdir}/%{name}/*
+%dir %{_sysconfdir}/%{name}/conf.d
+%config %{_sysconfdir}/%{name}/conf.d/*
 %ifarch %livearches
 %{_bindir}/liveinst
 %{_sbindir}/liveinst
@@ -351,6 +353,12 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Nov 05 2018 Martin Kolman <mkolman@redhat.com> - 30.9-1
+- Load configuration files from /etc/anaconda/conf.d (vponcova)
+- Let the DBus launcher to set up the modules (vponcova)
+- Start modules that are enabled in the configuration file (vponcova)
+- Enable the DBus modules and addons via the configuration file (vponcova)
+
 * Thu Nov 01 2018 Jiri Konecny <jkonecny@redhat.com> - 30.8-1
 - Remove flags from anaconda_logging (vponcova)
 - Remove blivet-specific flags from pyanaconda.flags (vponcova)
