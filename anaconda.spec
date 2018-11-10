@@ -7,7 +7,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 30.10
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -18,6 +18,9 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
+
+# Fix Rawhide live image boot fail bug #1648472
+Patch0: 0001-Re-generate-BLS-loader-file-snippets-on-live-install.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -251,6 +254,7 @@ runtime on NFS/HTTP/FTP servers or local disks.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -353,6 +357,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Nov 09 2018 Adam Williamson <awilliam@redhat.com> - 30.10-2
+- Backport PR #1688 to fix Rawhide bug #1648472
+
 * Tue Nov 06 2018 Martin Kolman <mkolman@redhat.com> - 30.10-1
 - Make the pyanaconda/image.py more pep8 (jkonecny)
 - Test image repodata folder based on treeinfo file (jkonecny)
