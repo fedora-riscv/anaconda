@@ -6,8 +6,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 30.10
-Release: 2%{?dist}
+Version: 30.11
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -18,9 +18,6 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
-
-# Fix Rawhide live image boot fail bug #1648472
-Patch0: 0001-Re-generate-BLS-loader-file-snippets-on-live-install.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -254,7 +251,6 @@ runtime on NFS/HTTP/FTP servers or local disks.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -357,8 +353,27 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Fri Nov 09 2018 Adam Williamson <awilliam@redhat.com> - 30.10-2
-- Backport PR #1688 to fix Rawhide bug #1648472
+* Mon Nov 19 2018 Martin Kolman <mkolman@redhat.com> - 30.11-1
+- Install grubby-deprecated when using the extlinux bootloader (javierm)
+- Remove configurePayload (vponcova)
+- Resolve the name conflicts with conf (vponcova)
+- Write tests for the target support (vponcova)
+- Simplify the code (vponcova)
+- Replace the dirInstall flag (vponcova)
+- Replace the imageInstall flag (vponcova)
+- Configure the installation target (vponcova)
+- Write tests for the default partitioning (vponcova)
+- Define the default partitioning statically (vponcova)
+- Remove l10n_domain from the install classes (vponcova)
+- Re-generate BLS loader file snippets on live installs (#1648472) (awilliam)
+- Remove the attribute bootloaderTimeoutDefault (vponcova)
+- Remove the attribute bootloaderExtraArgs (vponcova)
+- Remove the method setPackageSelection (vponcova)
+- Remove the setStorageChecker method (vponcova)
+- Remove the getBackend method (vponcova)
+- Add doc to make a release in a mock environment (jkonecny)
+- Support in our scripts creating release in a mock (jkonecny)
+- Add dependencies to make a new release to dependency_solver (jkonecny)
 
 * Tue Nov 06 2018 Martin Kolman <mkolman@redhat.com> - 30.10-1
 - Make the pyanaconda/image.py more pep8 (jkonecny)
