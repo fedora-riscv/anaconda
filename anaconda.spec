@@ -6,8 +6,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 30.12
-Release: 2%{?dist}
+Version: 30.13
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -321,6 +321,8 @@ update-desktop-database &> /dev/null || :
 %config %{_sysconfdir}/%{name}/*
 %dir %{_sysconfdir}/%{name}/conf.d
 %config %{_sysconfdir}/%{name}/conf.d/*
+%dir %{_sysconfdir}/%{name}/product.d
+%config %{_sysconfdir}/%{name}/product.d/*
 %ifarch %livearches
 %{_bindir}/liveinst
 %{_sbindir}/liveinst
@@ -357,8 +359,28 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Fri Nov 23 2018 Adam Williamson <awilliam@redhat.com> - 30.12-2
-- anaconda-core requires dbus-daemon
+* Tue Dec 04 2018 Martin Kolman <mkolman@redhat.com> - 30.13-1
+- Extend tests for the configuration support (vponcova)
+- Split the Anaconda configuration handler to more files (vponcova)
+- Add tests for the product configurations (vponcova)
+- Read only *.conf files from /etc/anaconda/conf.d (vponcova)
+- Create the product configuration loader (vponcova)
+- Disable BLS config if new-kernel-pkg script is installed (javierm)
+- Drop xorg-x11-server-Xorg check from graphical target detection (#1583958)
+  (mkolman)
+- Create a basic structure of the product configuration files (vponcova)
+- Fix pylint errors (vponcova)
+- dracut/parse-kickstart: don't abort on --device=link (lkundrak)
+- Add provides_network_config system property (rvykydal)
+- Get rid of network system capability which does not make sense. (rvykydal)
+- Prohibit network configuration on Live OS. (rvykydal)
+- Use check_supported_locales to filter unsupported locales (vponcova)
+- Replace filterSupportedLangs and filterSupportedLocales (vponcova)
+- Remove help-related constants from install classes (vponcova)
+- Remove setup_on_boot from the install classes (vponcova)
+- Convert a keymap into a list of layouts (vponcova)
+- RPM: anaconda-core requires dbus-daemon (awilliam)
+- Remove use_geolocation_with_kickstart from install classes (vponcova)
 
 * Thu Nov 22 2018 Martin Kolman <mkolman@redhat.com> - 30.12-1
 - Simplify the task Activate filesystems (vponcova)
