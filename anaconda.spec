@@ -7,7 +7,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 28.22.11
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -18,6 +18,10 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
+
+# increase timeout to allow armv7 containers to start up. 
+# https://bugzilla.redhat.com/show_bug.cgi?id=1660607
+Patch0: anaconda-28.22.11-modules-timeout.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -253,6 +257,7 @@ runtime on NFS/HTTP/FTP servers or local disks.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -350,6 +355,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Dec 18 2018 Kevin Fenzi <kevin@scrye.com> - 28.22.11-2
+- Add downstream patch to increase dbus timeout for armv7 container builds. (#1660607)
+
 * Wed May 23 2018 Martin Kolman <mkolman@redhat.com> - 28.22.11-1
 - Only check space during a tui kickstart if ksprompt is enabled (bcl)
 

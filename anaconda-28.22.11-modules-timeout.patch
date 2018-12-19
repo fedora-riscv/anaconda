@@ -1,0 +1,12 @@
+diff -Nur anaconda-28.22.11.orig/pyanaconda/startup_utils.py anaconda-28.22.11/pyanaconda/startup_utils.py
+--- anaconda-28.22.11.orig/pyanaconda/startup_utils.py	2018-05-23 06:58:53.000000000 -0700
++++ anaconda-28.22.11/pyanaconda/startup_utils.py	2018-12-18 15:26:43.132789350 -0800
+@@ -442,7 +442,7 @@
+         log.error("Unknown method: %s", anaconda.methodstr)
+ 
+ 
+-def wait_for_modules(timeout=60):
++def wait_for_modules(timeout=600):
+     """Wait for the DBus modules.
+ 
+     :param timeout: seconds to the timeout
