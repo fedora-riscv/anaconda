@@ -4,7 +4,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 30.16
+Version: 30.17
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
@@ -127,11 +127,6 @@ Requires: python3-coverage >= 4.0-0.12.b3
 
 # required because of the rescue mode and VNC question
 Requires: anaconda-tui = %{version}-%{release}
-# required during the transition period until
-# anaconda-live is added to the kickstarts used to
-# create live images
-Requires: anaconda-live = %{version}-%{release}
-
 
 # Make sure we get the en locale one way or another
 Requires: glibc-langpack-en
@@ -211,6 +206,11 @@ Requires: anaconda-user-help >= %{helpver}
 Requires: yelp
 Requires: blivet-gui-runtime >= %{blivetguiver}
 Requires: system-logos
+
+# required during the transition period until
+# anaconda-live is added to the kickstarts used to
+# create live images
+Requires: anaconda-live = %{version}-%{release}
 
 # Needed to compile the gsettings files
 BuildRequires: gsettings-desktop-schemas
@@ -369,6 +369,18 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Jan 09 2019 Martin Kolman <mkolman@redhat.com> - 30.17-1
+- Fix anaconda-live package temporary Requires: (mkolman)
+- Add a new configuration option allow_imperfect_devices (vponcova)
+- Remove the selinux flag (vponcova)
+- Rename the Services section (vponcova)
+- Fix Arm EFI package selection and 32 bit status (pbrobinson)
+- Remove support for the undocumented option force_efi_dir (vponcova)
+- Remove the flag extlinux (vponcova)
+- Remove the flag nombr (vponcova)
+- Remove the flag leavebootorder (vponcova)
+- Remove the flag nonibftiscsiboot (vponcova)
+
 * Tue Jan 08 2019 Martin Kolman <mkolman@redhat.com> - 30.16-1
 - Use the file system type provided by Blivet by default (#1663585) (vponcova)
 - Move remaining GUI related files to anaconda-gui (mkolman)
