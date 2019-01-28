@@ -7,7 +7,6 @@ Name:    anaconda
 Version: 30.23
 Release: 1%{?dist}
 License: GPLv2+ and MIT
-Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
 
 # To generate Source0 do:
