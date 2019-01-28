@@ -7,7 +7,6 @@ Name:    anaconda
 Version: 30.19
 Release: 1%{?dist}
 License: GPLv2+ and MIT
-Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
 
 # To generate Source0 do:
@@ -229,7 +228,6 @@ This package contains textual user interface for the Anaconda installer.
 
 %package widgets
 Summary: A set of custom GTK+ widgets for use with anaconda
-Group: System Environment/Libraries
 Requires: python3
 
 %description widgets
@@ -237,7 +235,6 @@ This package contains a set of custom GTK+ widgets used by the anaconda installe
 
 %package widgets-devel
 Summary: Development files for anaconda-widgets
-Group: Development/Libraries
 Requires: glade
 Requires: %{name}-widgets%{?_isa} = %{version}-%{release}
 
