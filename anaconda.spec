@@ -277,12 +277,6 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 # If no langs found, keep going
 %find_lang %{name} || :
 
-%post live
-update-desktop-database &> /dev/null || :
-
-%postun live
-update-desktop-database &> /dev/null || :
-
 %ldconfig_scriptlets widgets
 
 
