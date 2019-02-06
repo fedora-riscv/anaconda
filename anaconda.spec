@@ -4,9 +4,10 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 30.19
-Release: 2%{?dist}
+Version: 30.20
+Release: 1%{?dist}
 License: GPLv2+ and MIT
+Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
 
 # To generate Source0 do:
@@ -35,7 +36,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define libxklavierver 5.4
 %define mehver 0.23-1
 %define nmver 1.0
-%define pykickstartver 3.16-1
+%define pykickstartver 3.19-1
 %define pypartedver 2.5-2
 %define rpmver 4.10.0
 %define simplelinever 1.1-1
@@ -359,8 +360,30 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org> - 30.19-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+* Wed Feb 06 2019 Martin Kolman <mkolman@redhat.com> - 30.20-1
+- Remove obsolete Group tag & obsolete scriptlets (mkolman)
+- Move the write method of the InstallerStorage class (vponcova)
+- Clean up the reset method of the InstallerStorage class (vponcova)
+- Allow non-ASCII characters in passphrases again (#1619813) (vponcova)
+- Remove the argument protected from initialize_storage (vponcova)
+- Remove multiboot support for tboot (javierm)
+- Move the code for ignoring disks labeled OEMDRV (vponcova)
+- Set default entry to the BLS id instead of the entry index (javierm)
+- Remove the ksdata argument from the initialize_storage function (vponcova)
+- Remove the ksdata attribute from the InstallerStorage class (vponcova)
+- Move the code for ignoring nvdimm devices to pyanaconda.storage.utils
+  (vponcova)
+- Use new ssl certificate kickstart options (lars)
+- Remove the data argument from the do_autopart function (vponcova)
+- Call refreshAutoSwapSize from the do_autopart function (vponcova)
+- Move getAvailableDiskSpace to pyanaconda.storage.utils (vponcova)
+- Move lookupAlias to pyanaconda.storage.utils (vponcova)
+- Move getEscrowCertificate to pyanaconda.storage.utils (vponcova)
+- Move get_ignored_nvdimm_blockdevs to pyanaconda.storage.utils (vponcova)
+- Remove update_ksdata from the InstallerStorage class (vponcova)
+- Remove obsolete ldconfig scriptlets (mkolman)
+- Do not try to use disks without partition slots for autopart (vtrefny)
+- dracut: Add deps for fetch-kickstart-disk (walters)
 
 * Mon Jan 28 2019 Martin Kolman <mkolman@redhat.com> - 30.19-1
 - Move code for the storage creation (vponcova)
