@@ -5,7 +5,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 30.25
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -354,6 +354,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Feb 19 2019 Kalev Lember <klember@redhat.com> - 30.25-2
+- Rebuilt against fixed atk (#1626575)
+
 * Tue Feb 19 2019 Martin Kolman <mkolman@redhat.com> - 30.25-1
 - Remove one more obsolete group tag (mkolman)
 
