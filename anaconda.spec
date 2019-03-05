@@ -4,7 +4,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 30.25.2
+Version: 30.25.3
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -354,6 +354,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Mar 05 2019 Martin Kolman <mkolman@redhat.com> - 30.25.3-1
+- Fix live payload error introduced by clean-up (#1685258) (jkonecny)
+
 * Mon Mar 04 2019 Martin Kolman <mkolman@redhat.com> - 30.25.2-1
 - Get the summary about selected disks from a function (vponcova)
 - Replace warnings about disks with constants (vponcova)
