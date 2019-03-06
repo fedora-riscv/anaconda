@@ -5,7 +5,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 30.25.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -15,6 +15,10 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
+
+# fix a Blivet GUI import related crash (#1685645)
+Patch1: 0001-Handle-missing-support-for-Blivet-GUI-in-the-Storage.patch
+Patch2: 0002-Add-tests-for-UnsupportedPartitioningError.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -253,6 +257,8 @@ runtime on NFS/HTTP/FTP servers or local disks.
 
 %prep
 %setup -q
+%patch1 -p1
+%patch2 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -354,6 +360,10 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Mar 06 2019 Martin Kolman <mkolman@redhat.com> - 30.25.3-2
+- Handle missing support for Blivet-GUI in the Storage module (#1685645) (vponcova)
+- Add tests for UnsupportedPartitioningError (vponcova)
+
 * Tue Mar 05 2019 Martin Kolman <mkolman@redhat.com> - 30.25.3-1
 - Fix live payload error introduced by clean-up (#1685258) (jkonecny)
 
