@@ -4,7 +4,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 31.3
+Version: 31.4
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -81,7 +81,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 Summary: Core of the Anaconda installer
 Requires: python3-libs
 Requires: python3-dnf >= %{dnfver}
-Requires: python3-blivet >= 1:3.1.0-1
+Requires: python3-blivet >= 1:3.1.3-1
 Requires: python3-blockdev >= %{libblockdevver}
 Requires: python3-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
@@ -354,6 +354,12 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Mar 06 2019 Martin Kolman <mkolman@redhat.com> - 31.4-1
+- Add tests for UnsupportedPartitioningError (vponcova)
+- Handle missing support for Blivet-GUI in the Storage module (#1685645)
+  (vponcova)
+- Create the default partitioning requests on demand (vponcova)
+
 * Tue Mar 05 2019 Martin Kolman <mkolman@redhat.com> - 31.3-1
 - Fix live payload error introduced by clean-up (#1685258) (jkonecny)
 
