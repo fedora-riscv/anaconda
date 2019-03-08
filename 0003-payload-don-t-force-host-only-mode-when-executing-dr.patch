@@ -1,0 +1,40 @@
+From 39371c289a3fd3e313322861b9d020fdc1ae9f82 Mon Sep 17 00:00:00 2001
+From: Javier Martinez Canillas <javierm@redhat.com>
+Date: Thu, 7 Mar 2019 00:02:39 +0100
+Subject: [PATCH] payload: don't force host-only mode when executing dracut
+
+When the initramfs are generated on kernel installs, dracuts default for
+enabling or disabling host-only mode is used. But when recreating them
+at the end of the installation, dracut is executed with host-only mode.
+
+This means that host-only mode can't be disabled (i.e: by installing the
+dracut-config-generic package) which is needed to create aarch64 images.
+
+Also don't force the persistent policy to be by-uuid and use whatever is
+the default, which is also the case when initrds are generated on kernel
+package installs.
+
+Resolves: rhbz#1686326
+
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+ pyanaconda/payload/__init__.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/pyanaconda/payload/__init__.py b/pyanaconda/payload/__init__.py
+index 892b5d852..225a23e4e 100644
+--- a/pyanaconda/payload/__init__.py
++++ b/pyanaconda/payload/__init__.py
+@@ -587,8 +587,7 @@ class Payload(metaclass=ABCMeta):
+                 if use_dracut:
+                     util.execInSysroot("depmod", ["-a", kernel])
+                     util.execInSysroot("dracut",
+-                                       ["-H", "--persistent-policy", "by-uuid",
+-                                        "-f",
++                                       ["-f",
+                                         "/boot/initramfs-%s.img" % kernel,
+                                         kernel])
+                 else:
+-- 
+2.20.1
+
