@@ -5,7 +5,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 30.25.3
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -22,6 +22,11 @@ Patch2: 0002-Add-tests-for-UnsupportedPartitioningError.patch
 
 # fix aarch64 image generation (#1686326)
 Patch3: 0003-payload-don-t-force-host-only-mode-when-executing-dr.patch
+
+# fix missing network spoke in Initial Setup in reconfig mode (#1685992)
+# - the IS reconfig mode basically acts as the "installer" for Fedora ARM
+#   image deployments
+Patch4: 0004-Add-a-new-type-of-the-installation-system-for-the-in.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -263,6 +268,7 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -364,6 +370,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Mar 12 2019 Martin Kolman <mkolman@redhat.com> - 30.25.3-4
+- Add a new type of the installation system for the initial setup (#1685992) (vponcova)
+
 * Fri Mar 08 2019 Martin Kolman <mkolman@redhat.com> - 30.25.3-3
 - payload: don't force host-only mode when executing dracut (#1686326) (javierm)
 
