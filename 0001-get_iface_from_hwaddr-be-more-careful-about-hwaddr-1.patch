@@ -1,0 +1,46 @@
+From b3b4ff616fa7f6f9190a99e21537e82596e1805c Mon Sep 17 00:00:00 2001
+From: Adam Williamson <awilliam@redhat.com>
+Date: Thu, 25 Apr 2019 11:42:28 -0700
+Subject: [PATCH] get_iface_from_hwaddr: be more careful about hwaddr
+ (#1703152)
+
+From https://bugzilla.redhat.com/show_bug.cgi?id=1703152 it
+seems clear that in at least some case, we can get `None` from
+`device.get_hw_address` or `device.get_permanent_hw_address`.
+This falls back from permanent to non-permanent if the return
+from permanent is None (or other false-y value), and protects
+against the value still being None even with that fallback by
+checking address's truthiness before trying to call `upper` on
+it. That should make it impossible for this to blow up in the
+same way.
+
+Signed-off-by: Adam Williamson <awilliam@redhat.com>
+---
+ pyanaconda/modules/network/nm_client.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/pyanaconda/modules/network/nm_client.py b/pyanaconda/modules/network/nm_client.py
+index ec6336c30..17b98d105 100644
+--- a/pyanaconda/modules/network/nm_client.py
++++ b/pyanaconda/modules/network/nm_client.py
+@@ -58,12 +58,16 @@ def get_iface_from_hwaddr(nm_client, hwaddr):
+                                         NM.DeviceType.WIFI):
+             try:
+                 address = device.get_permanent_hw_address()
++                if not address:
++                    address = device.get_hw_address()
+             except AttributeError as e:
+                 log.warning("Device %s: %s", device.get_iface(), e)
+                 address = device.get_hw_address()
+         else:
+             address = device.get_hw_address()
+-        if address.upper() == hwaddr.upper():
++        # per #1703152, at least in *some* case, we wind up with
++        # address as None here, so we need to guard against that
++        if address and address.upper() == hwaddr.upper():
+             return device.get_iface()
+     return None
+ 
+-- 
+2.21.0
+

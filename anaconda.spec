@@ -5,7 +5,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 30.25.6
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -15,6 +15,12 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
+
+# https://github.com/rhinstaller/anaconda/pull/1955 fixes
+# https://bugzilla.redhat.com/show_bug.cgi?id=1703152 (i-s and possibly
+# anaconda crash for some odd case where NM gives us None as a device's
+# hwaddr)
+Patch0: 0001-get_iface_from_hwaddr-be-more-careful-about-hwaddr-1.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -253,6 +259,7 @@ runtime on NFS/HTTP/FTP servers or local disks.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -354,6 +361,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Apr 25 2019 Adam Williamson <awilliam@redhat.com> - 30.25.6-2
+- Backport PR #1955 to fix RHBZ #1703152
+
 * Thu Apr 11 2019 Martin Kolman <mkolman@redhat.com> - 30.25.6-1
 - Extend the function generate_string_from_data (vponcova)
 - Blivet-GUI should wait for the storage threads to finish (#1696478)
