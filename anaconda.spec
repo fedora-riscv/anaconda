@@ -5,7 +5,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 30.25.6
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -21,6 +21,10 @@ Source0: %{name}-%{version}.tar.bz2
 # anaconda crash for some odd case where NM gives us None as a device's
 # hwaddr)
 Patch0: 0001-get_iface_from_hwaddr-be-more-careful-about-hwaddr-1.patch
+
+# Parse df output correctly
+# https://bugzilla.redhat.com/show_bug.cgi?id=1708701
+Patch1: 0002-Parse-the-output-of-df-correctly-1708701.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -260,6 +264,7 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -361,6 +366,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon May 27 2019 Martin Kolman <mkolman@redhat.com> - 30.25.6-3
+- Backport df output parsing fix (#1708701) (vponcova)
+
 * Thu Apr 25 2019 Adam Williamson <awilliam@redhat.com> - 30.25.6-2
 - Backport PR #1955 to fix RHBZ #1703152
 
