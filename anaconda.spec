@@ -7,7 +7,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 29.24.7
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+ and MIT
 Group:   Applications/System
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -22,6 +22,10 @@ Source0: %{name}-%{version}.tar.bz2
 # Fix compatibility with latest Python 3.7
 # https://bugzilla.redhat.com/show_bug.cgi?id=1644936
 Patch0: 0001-Don-t-acquire-the-imp-s-lock-1644936.patch
+
+# Parse df output correctly
+# https://bugzilla.redhat.com/show_bug.cgi?id=1708701
+Patch1: 0002-Parse-the-output-of-df-correctly-1708701.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -256,6 +260,7 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -353,6 +358,9 @@ update-desktop-database &> /dev/null || :
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon May 27 2019 Martin Kolman <mkolman@redhat.com> - 29.24.7-3
+- Backport df output parsing fix (#1708701) (vponcova)
+
 * Wed Jan 16 2019 Martin Kolman <mkolman@redhat.com> - 29.24.7-2
 - Backport compatibility fix for latest Python 3.7 (#1644936) (vponcova)
 
