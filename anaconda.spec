@@ -4,7 +4,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 31.13
+Version: 31.14
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -28,7 +28,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define gtk3ver 3.22.17
 %define helpver 22.1-1
 %define isomd5sum 1.0.10
-%define langtablever 0.0.34
+%define langtablever 0.0.44
 %define libarchivever 3.0.4
 %define libblockdevver 2.1
 %define libtimezonemapver 0.4.1-2
@@ -92,8 +92,7 @@ Requires: python3-requests
 Requires: python3-requests-file
 Requires: python3-requests-ftp
 Requires: python3-kickstart >= %{pykickstartver}
-Requires: langtable-data >= %{langtablever}
-Requires: langtable-python3 >= %{langtablever}
+Requires: python3-langtable >= %{langtablever}
 Requires: util-linux >= %{utillinuxver}
 Requires: python3-gobject-base
 Requires: python3-dbus
@@ -354,6 +353,21 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri May 31 2019 Martin Kolman <mkolman@redhat.com> - 31.14-1
+- Require langtable-0.0.44, drop langtable-data requirement (mfabian)
+- Extend the format data with the mountable property (vponcova)
+- Add DBus support for supported file system types (vponcova)
+- Add DBus support for getting format type data (vponcova)
+- Add DBus support for gathering mount point requests (vponcova)
+- Move tests for partitioning modules to new files (vponcova)
+- Add DBus support for populating a device tree (vponcova)
+- Don't define the __eq__ method of DBusData (vponcova)
+- Add DBus support for mounting the existing system (vponcova)
+- Extend the function mount_existing_system (vponcova)
+- Add DBus support for finding existing operating system (vponcova)
+- Simplify generate_string_from_data (vponcova)
+- Define the __eq__ method of DBusData (vponcova)
+
 * Mon May 27 2019 Martin Kolman <mkolman@redhat.com> - 31.13-1
 - Parse the output of df correctly (#1708701) (vponcova)
 - Skip scaling if there is no primary monitor (#1592014) (vponcova)
