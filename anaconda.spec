@@ -5,7 +5,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 31.14
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -353,6 +353,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Jun 10 22:13:17 CET 2019 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 31.14-3
+- Rebuild for RPM 4.15
+
 * Mon Jun 10 15:42:00 CET 2019 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 31.14-2
 - Rebuild for RPM 4.15
 
