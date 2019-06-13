@@ -4,8 +4,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 31.14
-Release: 3%{?dist}
+Version: 31.15
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -81,7 +81,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 Summary: Core of the Anaconda installer
 Requires: python3-libs
 Requires: python3-dnf >= %{dnfver}
-Requires: python3-blivet >= 1:3.1.3-1
+Requires: python3-blivet >= 1:3.1.4-1
 Requires: python3-blockdev >= %{libblockdevver}
 Requires: python3-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
@@ -353,11 +353,47 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Mon Jun 10 22:13:17 CET 2019 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 31.14-3
-- Rebuild for RPM 4.15
-
-* Mon Jun 10 15:42:00 CET 2019 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 31.14-2
-- Rebuild for RPM 4.15
+* Thu Jun 13 2019 Martin Kolman <mkolman@redhat.com> - 31.15-1
+- iscsi: require relevant blivet version for iscsi module (rvykydal)
+- iscsi: add unit tests for iscsi module (rvykydal)
+- iscsi: fix name of some method arguments (target -> portal) (rvykydal)
+- iscsi: use proper iscsi interface mode constants in ui (rvykydal)
+- iscsi: update the CanSetInitiator docstring to reflect the reality (rvykydal)
+- iscsi: move conversion to IscsiInterfacesMode from implementation to
+  interface (rvykydal)
+- iscsi: use better name for a NodeIsFromIbft method (rvykydal)
+- iscsi: move kickstart iscsi processing into the iSCSI module (rvykydal)
+- iscsi: attach iBFT targets in early kickstart by the iSCSI module (rvykydal)
+- iscsi gui: show target in Target column (not initiator) (rvykydal)
+- iscsi: rename iSCSI node info attribute holding name of iscsi interface
+  (rvykydal)
+- iscsi: move dracut argument generating into the iSCSI module (rvykydal)
+- iscsi: get info about target being added from iBFT from the iSCSI module
+  (rvykydal)
+- iscsi: use attributes added blivet iscsi device replacing iscsi node object
+  (rvykydal)
+- iscsi: rename Target to Portal where appropriate (rvykydal)
+- iscsi: move kickstart data update to the iSCSI module (rvykydal)
+- iscsi: write configuration by the iSCSI module (rvykydal)
+- iscsi: use the iSCSI module by kickstart iscsi command (rvykydal)
+- iscsi: use the iSCSI module in GUI (rvykydal)
+- Adapt iSCSI structures to dbus structure updates (rvykydal)
+- Use the ISCSI module in the ISCSIDialog (vponcova)
+- Create DBus tasks for discovering iSCSI nodes (vponcova)
+- Create the basic structure for the iSCSI module (vponcova)
+- Hide spokes in Silverblue and Workstation (vponcova)
+- Remove the screen access management (vponcova)
+- Hide spokes with the Anaconda configuration file (vponcova)
+- Run the DBus task for configuration of post-installation tools (vponcova)
+- Replace the lang execute() method (mkolman)
+- Collect requirements of the Storage module (vponcova)
+- Add DBus support for module requirements (vponcova)
+- Replace the Services execute() method by a DBus Task (mkolman)
+- Replace the SELinux execute() method by a DBus Task (mkolman)
+- Replace the Firewall execute() method by a DBus Task (mkolman)
+- Add FirewallConfigurationTask DBus Task (mkolman)
+- Add root parameter to execInSysroot utility function (mkolman)
+- Improve post install tools configuration (mkolman)
 
 * Fri May 31 2019 Martin Kolman <mkolman@redhat.com> - 31.14-1
 - Require langtable-0.0.44, drop langtable-data requirement (mfabian)
