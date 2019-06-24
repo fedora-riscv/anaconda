@@ -4,7 +4,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 31.16
+Version: 31.17
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -353,6 +353,12 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Jun 24 2019 Martin Kolman <mkolman@redhat.com> - 31.17-1
+- Move graphical login detection to a DBus Task (#1722950) (mkolman)
+- Add DBus support for device trees of partitioning modules (vponcova)
+- Create the interactive partitioning module (vponcova)
+- Fix misleading comment (riehecky)
+
 * Thu Jun 20 2019 Martin Kolman <mkolman@redhat.com> - 31.16-1
 - Replace the XConfig execute() method by DBus Tasks (mkolman)
 - Fix list-screens script reference (gpchelkin)
