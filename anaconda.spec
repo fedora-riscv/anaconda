@@ -5,7 +5,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 30.25.6
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -25,6 +25,12 @@ Patch0: 0001-get_iface_from_hwaddr-be-more-careful-about-hwaddr-1.patch
 # Parse df output correctly
 # https://bugzilla.redhat.com/show_bug.cgi?id=1708701
 Patch1: 0002-Parse-the-output-of-df-correctly-1708701.patch
+
+# Liveimg kickstart fixes
+Patch2: 0003-Add-common-function-for-creating-rescue-images.patch
+Patch3: 0004-Cache-the-liveimg-tar-kernel-list.patch
+Patch4: 0005-Recreate-the-BLS-entries-when-using-liveimg.patch
+Patch5: 0006-Adjust-the-exclude-arguments-for-livepayloads.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -265,6 +271,10 @@ runtime on NFS/HTTP/FTP servers or local disks.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -366,6 +376,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Jul 1 2019 Martin Kolman <mkolman@redhat.com> - 30.25.6-4
+- Liveimg kickstart fixes (bcl)
+
 * Mon May 27 2019 Martin Kolman <mkolman@redhat.com> - 30.25.6-3
 - Backport df output parsing fix (#1708701) (vponcova)
 

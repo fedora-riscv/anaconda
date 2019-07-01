@@ -1,0 +1,43 @@
+From adcd9900d29e67d39a7baa8bf96c9ebad698301c Mon Sep 17 00:00:00 2001
+From: "Brian C. Lane" <bcl@redhat.com>
+Date: Mon, 4 Mar 2019 14:42:43 -0800
+Subject: [PATCH 3/6] Add common function for creating rescue images
+
+livepayload had 2 places calling new-kernel-pkg, and only one was fixed
+to handle the new version of grubby that doesn't install it. This moves
+the code to a function and calls it from both places.
+---
+ pyanaconda/payload/livepayload.py | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/pyanaconda/payload/livepayload.py b/pyanaconda/payload/livepayload.py
+index aaafa207e..69b28cb02 100644
+--- a/pyanaconda/payload/livepayload.py
++++ b/pyanaconda/payload/livepayload.py
+@@ -165,6 +165,11 @@ class LiveImagePayload(Payload):
+             self.pct = 100
+         threadMgr.wait(THREAD_LIVE_PROGRESS)
+ 
++        # Live needs to create the rescue image before bootloader is written
++        self._create_rescue_image()
++
++    def _create_rescue_image(self):
++        """Create the rescue initrd images for each installed kernel. """
+         # Live needs to create the rescue image before bootloader is written
+         if os.path.exists(util.getSysroot() + "/usr/sbin/new-kernel-pkg"):
+             use_nkp = True
+@@ -523,10 +528,7 @@ class LiveImageKSPayload(LiveImagePayload):
+         threadMgr.wait(THREAD_LIVE_PROGRESS)
+ 
+         # Live needs to create the rescue image before bootloader is written
+-        for kernel in self.kernel_version_list:
+-            log.info("Generating rescue image for %s", kernel)
+-            util.execInSysroot("new-kernel-pkg",
+-                               ["--rpmposttrans", kernel])
++        self._create_rescue_image()
+ 
+     def post_install(self):
+         """ Unmount and remove image
+-- 
+2.21.0
+

@@ -1,0 +1,41 @@
+From 02e03a3ad1fecae1f671c8be2d4944208ec61669 Mon Sep 17 00:00:00 2001
+From: "Brian C. Lane" <bcl@redhat.com>
+Date: Mon, 4 Mar 2019 15:16:15 -0800
+Subject: [PATCH 4/6] Cache the liveimg tar kernel list
+
+The tar payload may be cleaned up between the time this is first called
+from install() and when it is called from recreate_initrds() so cache the
+results.
+---
+ pyanaconda/payload/livepayload.py | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/pyanaconda/payload/livepayload.py b/pyanaconda/payload/livepayload.py
+index 69b28cb02..f8f473c61 100644
+--- a/pyanaconda/payload/livepayload.py
++++ b/pyanaconda/payload/livepayload.py
+@@ -561,10 +561,19 @@ class LiveImageKSPayload(LiveImagePayload):
+         if not self.is_tarfile:
+             return super().kernel_version_list
+ 
++        if self._kernel_version_list:
++            return self._kernel_version_list
++
++        # Cache a list of the kernels (the tar payload may be cleaned up on subsequent calls)
++        if not os.path.exists(self.image_path):
++            raise PayloadInstallError("kernel_version_list: missing tar payload")
++
+         import tarfile
+         with tarfile.open(self.image_path) as archive:
+             names = archive.getnames()
+ 
+             # Strip out vmlinuz- from the names
+-            return sorted((n.split("/")[-1][8:] for n in names if "boot/vmlinuz-" in n),
+-                          key=functools.cmp_to_key(payload_utils.version_cmp))
++            self._kernel_version_list = sorted((n.split("/")[-1][8:] for n in names
++                                               if "boot/vmlinuz-" in n),
++                                               key=functools.cmp_to_key(payload_utils.version_cmp))
++        return self._kernel_version_list
+-- 
+2.21.0
+

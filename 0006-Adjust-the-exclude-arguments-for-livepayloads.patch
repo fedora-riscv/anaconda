@@ -1,0 +1,38 @@
+From 805618eea7e37fafcd349743c64fbeb9ee43bf70 Mon Sep 17 00:00:00 2001
+From: "Brian C. Lane" <bcl@redhat.com>
+Date: Wed, 6 Mar 2019 10:14:06 -0800
+Subject: [PATCH 6/6] Adjust the exclude arguments for livepayloads
+
+The tar ones just weren't working at all, they are different than rsync.
+Also add an exclude of /tmp/ contents to both.
+---
+ pyanaconda/payload/livepayload.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/pyanaconda/payload/livepayload.py b/pyanaconda/payload/livepayload.py
+index 993cae4b1..5f98d0552 100644
+--- a/pyanaconda/payload/livepayload.py
++++ b/pyanaconda/payload/livepayload.py
+@@ -140,7 +140,7 @@ class LiveImagePayload(Payload):
+         #           symlinks, hardlinks
+         # go recursively, include devices and special files, don't cross
+         # file system boundaries
+-        args = ["-pogAXtlHrDx", "--exclude", "/dev/", "--exclude", "/proc/",
++        args = ["-pogAXtlHrDx", "--exclude", "/dev/", "--exclude", "/proc/", "--exclude", "/tmp/*",
+                 "--exclude", "/sys/", "--exclude", "/run/", "--exclude", "/boot/*rescue*",
+                 "--exclude", "/boot/loader/", "--exclude", "/boot/efi/loader/",
+                 "--exclude", "/etc/machine-id", INSTALL_TREE + "/", util.getSysroot()]
+@@ -513,8 +513,8 @@ class LiveImageKSPayload(LiveImagePayload):
+         cmd = "tar"
+         # preserve: ACL's, xattrs, and SELinux context
+         args = ["--selinux", "--acls", "--xattrs", "--xattrs-include", "*",
+-                "--exclude", "/dev/", "--exclude", "/proc/",
+-                "--exclude", "/sys/", "--exclude", "/run/", "--exclude", "boot/*rescue*",
++                "--exclude", "dev/*", "--exclude", "proc/*", "--exclude", "tmp/*",
++                "--exclude", "sys/*", "--exclude", "run/*", "--exclude", "boot/*rescue*",
+                 "--exclude", "boot/loader", "--exclude", "boot/efi/loader",
+                 "--exclude", "etc/machine-id", "-xaf", self.image_path, "-C", util.getSysroot()]
+         try:
+-- 
+2.21.0
+
