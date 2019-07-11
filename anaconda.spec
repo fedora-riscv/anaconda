@@ -4,7 +4,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 31.18
+Version: 31.19
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -81,7 +81,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 Summary: Core of the Anaconda installer
 Requires: python3-libs
 Requires: python3-dnf >= %{dnfver}
-Requires: python3-blivet >= 1:3.1.4-1
+Requires: python3-blivet >= 1:3.1.4-2
 Requires: python3-blockdev >= %{libblockdevver}
 Requires: python3-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
@@ -251,7 +251,7 @@ options. This includes driver disks, kickstarts, and finding the anaconda
 runtime on NFS/HTTP/FTP servers or local disks.
 
 %prep
-%setup -q
+%autosetup -p 1
 
 %build
 # use actual build-time release number, not tarball creation time release number
@@ -353,6 +353,37 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Jul 11 2019 Jiri Konecny <jkonecny@redhat.com> - 31.19-1
+- Call teardown_all explicitly (vponcova)
+- Don't publish the module in the loop (vponcova)
+- Start swap on ZRAM service (cmurf)
+- Use %%autosetup instead of %%setup (mkolman)
+- Adjust the exclude arguments for livepayloads (bcl)
+- Recreate the BLS entries when using liveimg (bcl)
+- Cache the liveimg tar kernel list (bcl)
+- Add common function for creating rescue images (bcl)
+- move comment into docstring for PowerNVGRUB2 install method (dan)
+- add PowerNV into BootloaderClassTestCase (dan)
+- LiveImage payload: clean up directory used for image mounting (rvykydal)
+- LiveImage payload: mount live image privately (rvykydal)
+- introduce PowerNV variant for grub2 class (dan)
+- initial PowerNV class support (dan)
+- Add the option decorated_window to the Anaconda configuration (vponcova)
+- Add test for Live OS detect live os image feature (jkonecny)
+- Add Live OS base image detection code (jkonecny)
+- Add tests for the new Live OS tasks (jkonecny)
+- Add Live OS handler tests for ImagePath property (jkonecny)
+- Implement teardown to Live OS payload handler (jkonecny)
+- Add support to create Live OS handler manually (jkonecny)
+- Implement SetupInstallationSource Live OS task (jkonecny)
+- Add ImagePath property to the Live OS handler (jkonecny)
+- Add an empty LiveOS payload handler (jkonecny)
+- Don't use the auto partitioning module in the custom spoke (vponcova)
+- Add support for decomposing DBus values (vponcova)
+- Use the default file system type for /boot (vponcova)
+- Move updates reponames to constants (riehecky)
+- Fix setting and reporting ready state in Source Spoke. (rvykydal)
+
 * Tue Jun 25 2019 Jiri Konecny <jkonecny@redhat.com> - 31.18-1
 - Add comprehensive unit tests for ConfigureFirewallTask (mkolman)
 - Fix a typo (mkolman)
