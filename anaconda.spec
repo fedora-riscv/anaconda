@@ -4,7 +4,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 31.21
+Version: 31.22
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -353,6 +353,26 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Jul 31 2019 Martin Kolman <mkolman@redhat.com> - 31.22-1
+- Fix pylint warning (vponcova)
+- Keep getSysroot for kdump-anaconda-addon (vponcova)
+- Specify sizes of nonexistent devices in tests (vponcova)
+- network tui: fix a typo concerning inifiniband device configuration
+  (rvykydal)
+- Remove the object observers from UI (vponcova)
+- Remove the method changed (vponcova)
+- Move the preserved arguments to the Anaconda configuration file (vponcova)
+- Remove system root from DBus methods (vponcova)
+- Rename setSysroot (vponcova)
+- Replace getSysroot (vponcova)
+- Replace getTargetPhysicalRoot (vponcova)
+- Replace publisher patches with the new solution (jkonecny)
+- Handle disk selection errors in get_candidate_disks (vponcova)
+- Don't verify mounted partitions of protected disks (vponcova)
+- Always protect the live backing device (#1706335) (vponcova)
+- Don't change the storage if the reset fails (vponcova)
+- Remove support for teardown before storage reset (vponcova)
+
 * Thu Jul 25 2019 Jiri Konecny <jkonecny@redhat.com> - 31.21-1
 - Always schedule the installation task for joining realm (#1732620) (vponcova)
 - Fix issue raised by giving publisher as last parameter (jkonecny)
@@ -394,9 +414,6 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 - Add payload handler base class (jkonecny)
 - Change main payload handlers to property (jkonecny)
 - Add root password SSH login override checkbox (#1716282) (mkolman)
-
-* Wed Jul 24 2019 Fedora Release Engineering <releng@fedoraproject.org> - 31.20-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
 * Mon Jul 22 2019 Jiri Konecny <jkonecny@redhat.com> - 31.20-1
 - Move code to exctract kernel version from tar to utils (jkonecny)
