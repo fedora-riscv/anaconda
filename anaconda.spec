@@ -4,7 +4,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 31.22
+Version: 32.1
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -35,7 +35,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define libxklavierver 5.4
 %define mehver 0.23-1
 %define nmver 1.0
-%define pykickstartver 3.19-1
+%define pykickstartver 3.21-1
 %define pypartedver 2.5-2
 %define rpmver 4.10.0
 %define simplelinever 1.1-1
@@ -120,8 +120,6 @@ Requires: python3-ntplib
 Requires: systemd
 Requires: python3-pid
 Requires: python3-ordered-set >= 2.0.0
-
-Requires: python3-coverage >= 4.0-0.12.b3
 
 # required because of the rescue mode and VNC question
 Requires: anaconda-tui = %{version}-%{release}
@@ -353,6 +351,32 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Aug 14 2019 Martin Kolman <mkolman@redhat.com> - 32.1-1
+- Use append_dbus_tasks() for DBus Task scheduling (mkolman)
+- Add append_dbus_task method to TaskQueue (mkolman)
+- Replace Firewall and Network command setup() method (mkolman)
+- Add support for localization of modules (rvykydal)
+- Don't measure code coverage during the installation (vponcova)
+- Use the new discovery & join DBUS tasks (mkolman)
+- Increase network timeout constant (jkonecny)
+- Add DBUS Tasks for realm discovery & joining a realm (mkolman)
+- Add the add_requirements() method for PayloadRequirements (mkolman)
+- Extend RealmData (mkolman)
+- Set timeout for all session.get calls (jkonecny)
+- Add support for disabling modules via module --disable (mkolman)
+- Don't check the format status in UI (vponcova)
+- Fix updating of ifcfg files for ifname= bound devices (#1727904) (rvykydal)
+- network module: be more strict when adding physical device configuration
+  (#1727904) (rvykydal)
+- Adapt to changes caused by NM in initramfs (#1727904) (rvykydal)
+- Change the documentation of the 'reason' attribute (vponcova)
+- Fix traceback in network module installation task. (rvykydal)
+- Remove the connect method of DBusObserver (vponcova)
+- Remember which modules are addons (vponcova)
+- Simplify the initialization of the module observer (vponcova)
+- Remove the support for the object observer (vponcova)
+- Move the module manager to a new subpackage (vponcova)
+
 * Wed Jul 31 2019 Martin Kolman <mkolman@redhat.com> - 31.22-1
 - Fix pylint warning (vponcova)
 - Keep getSysroot for kdump-anaconda-addon (vponcova)
