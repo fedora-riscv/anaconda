@@ -5,7 +5,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 32.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -351,6 +351,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Sun Aug 18 2019 Miro Hrončok <mhroncok@redhat.com> - 32.1-2
+- Rebuilt for Python 3.8
+
 * Wed Aug 14 2019 Martin Kolman <mkolman@redhat.com> - 32.1-1
 - Use append_dbus_tasks() for DBus Task scheduling (mkolman)
 - Add append_dbus_task method to TaskQueue (mkolman)
