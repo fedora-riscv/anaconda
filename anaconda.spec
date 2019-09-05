@@ -5,7 +5,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 31.22.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -15,6 +15,9 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
+
+# Fix a F31 Beta blocker - https://bugzilla.redhat.com/show_bug.cgi?id=1745933
+Patch1: 0001-dont-set-warning-label-to-none-1745933.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -352,6 +355,10 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Sep 05 2019 Martin Kolman <mkolman@redhat.com> - 31.22.3-2
+- Don't set up a warning label to None (#1745933) (vponcova)
+  Resolves: rhbz#1745933
+
 * Mon Aug 26 2019 Martin Kolman <mkolman@redhat.com> - 31.22.3-1
 - Use the task container to publish tasks (vponcova)
 - Remove publish_task (vponcova)
