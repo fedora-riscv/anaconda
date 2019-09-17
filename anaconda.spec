@@ -4,8 +4,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 31.22.3
-Release: 2%{?dist}
+Version: 31.22.4
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -15,9 +15,6 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
-
-# Fix a F31 Beta blocker - https://bugzilla.redhat.com/show_bug.cgi?id=1745933
-Patch1: 0001-dont-set-warning-label-to-none-1745933.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -117,7 +114,6 @@ Requires: openssh
 Requires: NetworkManager >= %{nmver}
 Requires: NetworkManager-libnm >= %{nmver}
 Requires: NetworkManager-team
-Requires: dhclient
 Requires: kbd
 Requires: chrony
 Requires: python3-ntplib
@@ -355,9 +351,52 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Thu Sep 05 2019 Martin Kolman <mkolman@redhat.com> - 31.22.3-2
+* Tue Sep 17 2019 Martin Kolman <mkolman@redhat.com> - 31.22.4-1
+- payload module: update live image tar payload options with --numeric-owner
+  (rvykydal)
+- payload module: add tests for live image payload interface (rvykydal)
+- network gui: wrap multiple IP addresses in network spoke (#1593561)
+  (rvykydal)
+- Verify existing unlocked LUKS devices without keys (#1624617) (vponcova)
+- network tui: fix addr_str referenced before assignment (#1731415) (rvykydal)
+- Fix the second screen of Welcome to Fedora (#1748203) (vponcova)
+- Add a space after the comma in the description (junjieyuanxiling)
+- Fix tests after using flatpak format_ref method (jkonecny)
+- Use flatpak API to create ref string (jkonecny)
+- network: make sure configuration from boot options has ONBOOT=yes (#1727904)
+  (rvykydal)
+- network: fix dumping of generic "Wired connection" created in initramfs
+  (#1727904) (rvykydal)
+- Remove __main__ functions for testing (vponcova)
+- Drop dhclient requirement (pbrobinson)
+- Compare normalized XML strings (vponcova)
+- Add temporal pylint false positive (jkonecny)
+- Use numbers for user/group names when unpacking tar live image (356889)
+- Fix pylint test by loading C extensions (jkonecny)
+- Fall back to a boot drive with a valid stage1 device (#1168118) (vponcova)
+- Use test dependencies from Fedora instead of pip (jkonecny)
+- Do not crash test env setup in case of empty list (jkonecny)
+- Fix parsing of hostname from cmdline for ipv6. (rvykydal)
+- dnfpayload: repo in _fetch_md is a dnf repo not ksrepo (awilliam)
 - Don't set up a warning label to None (#1745933) (vponcova)
-  Resolves: rhbz#1745933
+- network module: guard onboot configuration task by environment (rvykydal)
+- network: modify autoactivate via NM API with a separate task (rvykydal)
+- network: get ONBOOT values from NM connections (rvykydal)
+- network: activate connections during initramfs consolidation synchronously
+  (rvykydal)
+- network: block autoactivation also when updating iniramfs connection
+  (rvykydal)
+- network: find initramfs connections even without ifcfg files (#1727904)
+  (rvykydal)
+- network: block autoactivation when adding connection from kickstart
+  (rvykydal)
+- network: split the function for adding a connection from kickstart (rvykydal)
+- network: implement NM connection change commit using Update2() (rvykydal)
+- network: fix setting real ONBOOT for inactive vlan devices (rvykydal)
+- network: modify ONBOOT via libnm during network initialization (rvykydal)
+- network: set autoconnect/ONBOOT to yes for default connection in tui
+  (rvykydal)
+- network: get rid of ONBOOT workaround in tui (rvykydal)
 
 * Mon Aug 26 2019 Martin Kolman <mkolman@redhat.com> - 31.22.3-1
 - Use the task container to publish tasks (vponcova)
