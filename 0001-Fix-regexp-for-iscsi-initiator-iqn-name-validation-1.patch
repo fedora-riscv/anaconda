@@ -1,0 +1,50 @@
+From 81dd9aaa9efc75c3d30b2320529364570e8a50b3 Mon Sep 17 00:00:00 2001
+From: Radek Vykydal <rvykydal@redhat.com>
+Date: Thu, 10 Oct 2019 13:10:35 +0200
+Subject: [PATCH] Fix regexp for iscsi initiator iqn name validation (#1750865)
+
+---
+ pyanaconda/core/regexes.py                     | 2 +-
+ tests/nosetests/regex_tests/iscsi_name_test.py | 5 +++--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/pyanaconda/core/regexes.py b/pyanaconda/core/regexes.py
+index d06a7c128..63ab668c9 100644
+--- a/pyanaconda/core/regexes.py
++++ b/pyanaconda/core/regexes.py
+@@ -160,7 +160,7 @@ VERSION_DIGITS = r'([\d.]+)'
+ #       organization's choosing, which must make each assigned iSCSI name
+ #       unique. With the exception of the colon prefix, the owner of the domain
+ #       name can assign everything after the reversed domain name as desired.
+-ISCSI_IQN_NAME_REGEX = re.compile(r'^iqn\.\d{4}-\d{2}((?<!-)\.(?!-)[a-zA-Z0-9\-]+){1,63}(?<!-)(?<!\.)(:[^:]+)?$')
++ISCSI_IQN_NAME_REGEX = re.compile(r'^iqn\.\d{4}-\d{2}((?<!-)\.(?!-)[a-zA-Z0-9\-]+){1,63}(?<!-)(?<!\.)(:[\S]+)?$')
+ 
+ #2. For eui format:
+ #    a. The format is "eui." followed by an EUI-64 identifier (16 ASCII-encoded hexadecimal digits).
+diff --git a/tests/nosetests/regex_tests/iscsi_name_test.py b/tests/nosetests/regex_tests/iscsi_name_test.py
+index 6c3793839..66e6efa93 100644
+--- a/tests/nosetests/regex_tests/iscsi_name_test.py
++++ b/tests/nosetests/regex_tests/iscsi_name_test.py
+@@ -27,7 +27,8 @@ class iSCSIiqnnameRegexTestCase(unittest.TestCase):
+                 'iqn.2014-15.c-om.example:iscsi',
+                 'iqn.2014-15.c.om.example:iscsi',
+                 'iqn.2014-15.com.example:...',
+-                'iqn.2014-15.com.example:iscsi_@nything_except_colon_after_colon!'
++                'iqn.2014-15.com.example:iscsi_@nything_after_colon_including:!',
++                'iqn.2001-04.com.example:storage:diskarrays-sn-a8675309',
+                 ]
+ 
+         bad_tests = [
+@@ -46,8 +47,8 @@ class iSCSIiqnnameRegexTestCase(unittest.TestCase):
+                 'abciqn.2014-15.com.example:iscsi',
+                 'iqn.2014-15.-.example:iscsi',
+                 'iqn.2014-15.com&com.example:iscsi',
+-                'iqn.2014-15.com.example:iscsi:doublecolon',
+                 'iqn.2014-15..om.example:iscsi',
++                'iqn.2014-15.com.example:iscsi no space allowed',
+                 ]
+ 
+         if not regex_match(ISCSI_IQN_NAME_REGEX, good_tests, bad_tests):
+-- 
+2.21.0
+
