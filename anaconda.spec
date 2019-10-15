@@ -4,7 +4,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 32.8
+Version: 32.9
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -348,6 +348,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Oct 15 2019 Martin Kolman <mkolman@redhat.com> - 32.9-1
+- Don't mark the network command as removed (vponcova)
+
 * Mon Oct 14 2019 Martin Kolman <mkolman@redhat.com> - 32.8-1
 - Do not use module_debsolv_errors DNF method (jkonecny)
 - Update pyanaconda/rescue.py (slavik.vladimir)
