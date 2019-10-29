@@ -4,7 +4,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 32.11
+Version: 32.12
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -347,6 +347,10 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Oct 29 2019 Martin Kolman <mkolman@redhat.com> - 32.12-1
+- Add a temporary hack to fix installations on ppc64le and aarch64 (#1764666)
+  (mkolman)
+
 * Thu Oct 24 2019 Martin Kolman <mkolman@redhat.com> - 32.11-1
 - Fix the timeout of DBus calls (vponcova)
 - Remove pydbus from the spec file (vponcova)
