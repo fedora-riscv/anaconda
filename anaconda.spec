@@ -4,7 +4,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 32.17
+Version: 32.18
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -130,6 +130,10 @@ Requires: glibc-langpack-en
 # anaconda literally runs its own dbus-daemon, so it needs this,
 # even though the distro default is dbus-broker in F30+
 Requires: dbus-daemon
+
+# Ensure it's not possible for a version of grubby to be installed
+# that doesn't work with btrfs subvolumes correctly...
+Conflicts: grubby < 8.40-10
 
 Obsoletes: anaconda-images <= 10
 Provides: anaconda-images = %{version}-%{release}
@@ -348,6 +352,31 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Jan 07 2020 Martin Kolman <mkolman@redhat.com> - 32.18-1
+- Fix cppcheck problem with undefined macros (jkonecny)
+- Fix C variable use before check for NULL (jkonecny)
+- Calculate ip address for kickstart URL ending in / (imsedgar)
+- Enable /boot on btrfs subvolume with GRUB2 (ngompa13)
+- Remove the workaround in the Resize dialog (vponcova)
+- Move the support for resizing devices (vponcova)
+- Add KernelArguments.is_enabled() as a replacement for getbool() (vslavik)
+- Fix tests broken by renamed modules (vslavik)
+- keyboard: pass shared module instance of localed wrapper to tasks (rvykydal)
+- keyboard: replace safe_dbus with dasbus in LocaledWrapper (rvykydal)
+- Add tests for the KernelArguments class (vslavik)
+- Stop KernelArguments inheriting from a dictionary (vslavik)
+- Change tests to use kernel.cmdline instead of flags.cmdline (vslavik)
+- Change all uses of flags.cmdline to kernel.kernel_arguments (vslavik)
+- Rename variables to prevent conflict with importing "kernel_arguments"
+  (vslavik)
+- Change flags.cmdline to use kernel.kernel_arguments (vslavik)
+- Add kernel.kernel_arguments providing same functionality as flags.cmdline
+  (vslavik)
+- Only attempt to open the ibm,max-boot-devices sysfs entry if it exists
+  (javierm)
+- Don't add more devices in boot-device NVRAM than the maximum allowed
+  (javierm)
+
 * Thu Dec 12 2019 Martin Kolman <mkolman@redhat.com> - 32.17-1
 - Calculate the space on uninitialized disks (#1782449) (vponcova)
 - Define a method required by _schedule_actions (#1782463) (vponcova)
