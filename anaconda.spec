@@ -4,7 +4,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 32.18
+Version: 32.19
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -28,18 +28,19 @@ Source0: %{name}-%{version}.tar.bz2
 %define gtk3ver 3.22.17
 %define helpver 22.1-1
 %define isomd5sum 1.0.10
-%define langtablever 0.0.44
+%define langtablever 0.0.49
 %define libarchivever 3.0.4
 %define libblockdevver 2.1
 %define libtimezonemapver 0.4.1-2
 %define libxklavierver 5.4
 %define mehver 0.23-1
 %define nmver 1.0
-%define pykickstartver 3.21-1
+%define pykickstartver 3.22-1
 %define pypartedver 2.5-2
 %define rpmver 4.10.0
 %define simplelinever 1.1-1
 %define utillinuxver 2.15.1
+%define dasbusver 0.2
 
 BuildRequires: audit-libs-devel
 BuildRequires: libtool
@@ -99,7 +100,7 @@ Requires: python3-dbus
 Requires: python3-pwquality
 Requires: python3-systemd
 Requires: python3-productmd
-Requires: python3-dasbus
+Requires: python3-dasbus >= %{dasbusver}
 Requires: flatpak-libs
 
 # pwquality only "recommends" the dictionaries it needs to do anything useful,
@@ -352,6 +353,37 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Jan 13 2020 Martin Kolman <mkolman@redhat.com> - 32.19-1
+- Revert "Fix Timezone pykickstart command version" (vponcova)
+- Improve payload packages test for languages (jkonecny)
+- Update payload Packages properties tests (jkonecny)
+- Update payload LiveImage properties tests (jkonecny)
+- Fix Timezone pykickstart command version (jkonecny)
+- Fix failed tests introduced by merging multiple PRs (jkonecny)
+- Clean up for PEP257, PEP8, etc. in localization and its tests (vslavik)
+- Add tests for the rewritten localization module (vslavik)
+- Fix wrong code in localization found while writing tests (vslavik)
+- Remove parse_langcode(), LANGCODE_RE, and associated tests (vslavik)
+- Fix dosctrings by removing mentions of LANGCODE_RE (vslavik)
+- Replace remaining uses of parse_langcode by langtable's parsing (vslavik)
+- Add and use a convenience function to get language id (vslavik)
+- Add and use a mechanism for aborting early with invalid locale (vslavik)
+- Add failure tests for %%packages --ignorebroken (jkonecny)
+- Raise error on --ignorebroken when is disabled (jkonecny)
+- Fail to set packages IgnoreBroken when disabled (jkonecny)
+- Add enable_ignore_broken_packages configuration (jkonecny)
+- Add test for the new Packages API (jkonecny)
+- Support --ignorebroken by packages module (#1642013) (jkonecny)
+- Support possibility to skip broken packages (#1642013) (jkonecny)
+- Do not crash on disk.wwn value being None (#1711571) (rvykydal)
+- Fix a callback of the PropertiesChanged signal (vponcova)
+- Test unwrapped DBus values (vponcova)
+- Replace the default DBus error (vponcova)
+- Extend check_task_creation_list (vponcova)
+- Simplify langtable method calls (vslavik)
+- Require langtable 0.0.49 for its new parsing method (vslavik)
+- Fix import, add license statement in dracut driver updates test (vslavik)
+
 * Tue Jan 07 2020 Martin Kolman <mkolman@redhat.com> - 32.18-1
 - Fix cppcheck problem with undefined macros (jkonecny)
 - Fix C variable use before check for NULL (jkonecny)
