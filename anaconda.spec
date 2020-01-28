@@ -5,7 +5,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 32.20
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -353,6 +353,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 32.20-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
 * Mon Jan 20 2020 Martin Kolman <mkolman@redhat.com> - 32.20-1
 - Add the DBus method ChangeDevice (vponcova)
 - Add the task ChangeDeviceTask (vponcova)
