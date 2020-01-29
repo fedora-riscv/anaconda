@@ -4,8 +4,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 32.20
-Release: 2%{?dist}
+Version: 32.21
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -19,7 +19,7 @@ Source0: %{name}-%{version}.tar.bz2
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
 
-%define blivetguiver 2.1.7-2
+%define blivetguiver 2.1.12-1
 %define dbusver 1.2.3
 %define dnfver 3.6.0
 %define dracutver 034-7
@@ -82,7 +82,7 @@ The anaconda package is a metapackage for the Anaconda installer.
 Summary: Core of the Anaconda installer
 Requires: python3-libs
 Requires: python3-dnf >= %{dnfver}
-Requires: python3-blivet >= 1:3.1.5-1
+Requires: python3-blivet >= 1:3.2.0-1
 Requires: python3-blockdev >= %{libblockdevver}
 Requires: python3-meh >= %{mehver}
 Requires: libreport-anaconda >= 2.0.21-1
@@ -353,8 +353,18 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 32.20-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+* Wed Jan 29 2020 Martin Kolman <mkolman@redhat.com> - 32.21-1
+- Add the path-id attribute to the DBus structure for device data (vponcova)
+- Use id_path as a long identifier of a disk (vponcova)
+- Migrate authselect to dbus tasks (mkolman)
+- Remove pyanaconda.flags.cmdline and KernelArguments.getbool() (vslavik)
+- Remove duplicated definition of PayloadContainer (vslavik)
+- Fix typos in docstrings (vslavik)
+- Fix setup-mock-test-env with multiple test commands (jkonecny)
+- Add support to run pylint only check (jkonecny)
+- Fix most of pep8 issues in pyanaconda/modules subfolder (rvykydal)
+- Convert VG reserved_space to Size (vtrefny)
+- Do not set default fstype for blivet-gui (vtrefny)
 
 * Mon Jan 20 2020 Martin Kolman <mkolman@redhat.com> - 32.20-1
 - Add the DBus method ChangeDevice (vponcova)
