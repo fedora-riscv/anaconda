@@ -5,7 +5,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 32.24.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -15,6 +15,10 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
+
+# first batch of F32 Beta freeze exceptions
+Patch1: 0001-Check-free-space-in-the-correct-device-tree-1807339.patch
+Patch2: 0002-Handle-invalid-optical-install-media-1806520.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -353,6 +357,10 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Mar 04 2020 Martin Kolman <mkolman@redhat.com> - 32.24.2-2
+- Check free space in the correct device tree (#1807339) (vponcova)
+- Handle invalid optical install media (#1806520) (vponcova)
+
 * Mon Feb 24 2020 Martin Kolman <mkolman@redhat.com> - 32.24.2-1
 - Fix the multiselection in the custom spoke (vponcova)
 - Handle installation errors from DBus tasks (vponcova)

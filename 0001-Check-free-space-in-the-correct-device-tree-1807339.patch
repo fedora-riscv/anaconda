@@ -1,0 +1,53 @@
+From d01530d367d92870483c1dc9d77d625fb23ad513 Mon Sep 17 00:00:00 2001
+From: Vendula Poncova <vponcova@redhat.com>
+Date: Sun, 1 Mar 2020 10:13:49 +0100
+Subject: [PATCH] Check free space in the correct device tree (#1807339)
+
+In the storage spoke, we should check the free space in the device tree of
+the partitioning module. The device tree of the storage module is not relevant
+at that moment.
+
+Resolves: rhbz#1807339
+---
+ pyanaconda/ui/gui/spokes/storage.py | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/pyanaconda/ui/gui/spokes/storage.py b/pyanaconda/ui/gui/spokes/storage.py
+index e838ece5a..c4c587252 100644
+--- a/pyanaconda/ui/gui/spokes/storage.py
++++ b/pyanaconda/ui/gui/spokes/storage.py
+@@ -745,15 +745,18 @@ class StorageSpoke(NormalSpoke, StorageCheckHandler):
+ 
+         return rc
+ 
+-    def _check_space_and_run_dialog(self, disks):
++    def _check_space_and_run_dialog(self, partitioning, disks):
+         # User wants to reclaim the space.
+         if self._reclaim_checkbox.get_active():
+             return RESPONSE_RECLAIM
+ 
++        # Get the device tree of the partitioning module.
++        device_tree = STORAGE.get_proxy(partitioning.GetDeviceTree())
++
+         # Calculate the required and free space.
+-        disk_free = Size(self._device_tree.GetDiskFreeSpace(disks))
+-        fs_free = Size(self._device_tree.GetDiskReclaimableSpace(disks))
+-        disks_size = Size(self._device_tree.GetDiskTotalSpace(disks))
++        disk_free = Size(device_tree.GetDiskFreeSpace(disks))
++        fs_free = Size(device_tree.GetDiskReclaimableSpace(disks))
++        disks_size = Size(device_tree.GetDiskTotalSpace(disks))
+         sw_space = Size(self.payload.space_required)
+         auto_swap = suggest_swap_size()
+ 
+@@ -934,7 +937,7 @@ class StorageSpoke(NormalSpoke, StorageCheckHandler):
+ 
+         # Reclaim space.
+         disks = filter_disks_by_names(self._available_disks, self._selected_disks)
+-        rc = self._check_space_and_run_dialog(disks)
++        rc = self._check_space_and_run_dialog(self._partitioning, disks)
+ 
+         if rc == RESPONSE_RECLAIM:
+             dialog = ResizeDialog(self.data, self.payload, self._partitioning, disks)
+-- 
+2.24.1
+
