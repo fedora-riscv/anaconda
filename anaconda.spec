@@ -4,8 +4,8 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 32.24.2
-Release: 3%{?dist}
+Version: 32.24.3
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -15,13 +15,6 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
-
-# first batch of F32 Beta freeze exceptions
-Patch1: 0001-Check-free-space-in-the-correct-device-tree-1807339.patch
-Patch2: 0002-Handle-invalid-optical-install-media-1806520.patch
-
-# second batch of F32 Beta freeze exceptions
-Patch3: 0003-Use-the-latest-kernel-version-list-1807252.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -360,12 +353,60 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Mon Mar 09 2020 Martin Kolman <mkolman@redhat.com> - 32.24.2-3
+* Tue Mar 17 2020 Martin Kolman <mkolman@redhat.com> - 32.24.3-1
+- Remove the configuration of the Blivet's logger (vponcova)
+- Support logging of Anaconda DBus modules to files (#1812380) (vponcova)
+- Fix a typo in s390 znet options configuration (rvykydal)
+- Show the help again (#1812896) (vponcova)
+- gui: make description column of disk list resizable (#1530410) (rvykydal)
+- gui: add tooltip to descriptions in disk list (#1530410) (rvykydal)
+- gui: ellipsize description in disk list (#1530410) (rvykydal)
+- Avoid downloading payload image in set up phase (jkonecny)
+- Test the LVM storage check. (vslavik)
+- Verify that LVM destruction is orderly (vslavik)
+- network: fix crash during connections consolidation (#1811649) (rvykydal)
+- Execute a kickstarted partitioning (#1811242) (vponcova)
+- Don't add None values to a combo box (#1810679) (vponcova)
+- Fix the unit tests for BTRFS (vponcova)
+- Adjust documentation for new localization solution (jkonecny)
+- Check pykickstart imports are correct in branching (jkonecny)
+- Be able to disable correct branch in check-branching (jkonecny)
+- Add check for branch setting (jkonecny)
+- Add localization branch testing (jkonecny)
+- Update action buttons only for the selected row (vponcova)
+- Fix action buttons in the resize dialog (#1809950) (vponcova)
+- Add branch specific configuration to a separate file (jkonecny)
+- Remove the temporary workaround for StorageError (vponcova)
+- Remove the error handler from the storage-related code (vponcova)
+- Handle storage installation errors (vponcova)
+- Remove the handler for FSTabTypeMismatchError (vponcova)
+- Handle ZIPL errors as a bootloader installation error (vponcova)
+- Remove the handler for NoDisksError (vponcova)
+- Remove the handler for PartitioningError (vponcova)
+- Handle the unusable storage module in UI (#1808650) (vponcova)
+- Don't mention new-kernel-pkg anymore in /etc/sysconfig/kernel (rvykydal)
+- Don't print warnings for new-kernel-pkg not being present (javierm)
+- Handle the unusable storage module in the DBus Storage module (vponcova)
+- network: add network module tests for installation tasks (rvykydal)
+- Adapt Makefile for f32 specific configuration (jkonecny)
+- prefixdevname: add to unit tests (rvykydal)
+- prefixdevname: pass persistent configuration to installed system (rvykydal)
+- Fix incorrect docstrings (vslavik)
 - Use the latest kernel version list (#1807252) (vponcova)
-
-* Wed Mar 04 2020 Martin Kolman <mkolman@redhat.com> - 32.24.2-2
 - Check free space in the correct device tree (#1807339) (vponcova)
+- Add L10N dir constant to makefile (jkonecny)
+- Remove auto-discover of git branch (jkonecny)
+- Adapt Makefile to new L10N repository structure (jkonecny)
+- Adapt Weblate badge to Fedora 32 (jkonecny)
+- Add translation badge (vslavik)
+- prefixdevname: pass net.ifnames.prefix option to installed system (rvykydal)
+- prefixdevname: install package to target system if needed (rvykydal)
+- prefixdevname: import state from initramfs to stage 2 (rvykydal)
 - Handle invalid optical install media (#1806520) (vponcova)
+- Start live CD with explicit GUI (#1765650) (vslavik)
+- Remove -devel and -release for L10N repository (jkonecny)
+- Use git url instead of http for pot files creation (jkonecny)
+- Fix documentation changes in release.rst (jkonecny)
 
 * Mon Feb 24 2020 Martin Kolman <mkolman@redhat.com> - 32.24.2-1
 - Fix the multiselection in the custom spoke (vponcova)
