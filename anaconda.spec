@@ -4,7 +4,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 33.5
+Version: 33.6
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -40,7 +40,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define rpmver 4.10.0
 %define simplelinever 1.1-1
 %define utillinuxver 2.15.1
-%define dasbusver 0.2
+%define dasbusver 0.3
 
 BuildRequires: audit-libs-devel
 BuildRequires: libtool
@@ -353,6 +353,14 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Apr 02 2020 Martin Kolman <mkolman@redhat.com> - 33.6-1
+- Fix the test for complex data with secrets (vponcova)
+- Update generate_request_description (vponcova)
+- Add support for secrets in DBus structures (vponcova)
+- Rename _test_dbus_property to _check_dbus_property (jkonecny)
+- Fix text color on info bars (mkolman)
+- Add NFS source (vslavik)
+
 * Tue Mar 31 2020 Martin Kolman <mkolman@redhat.com> - 33.5-1
 - Don't call the DBus method IsNodeFromIbft from the Storage module (#1817529)
   (vponcova)
