@@ -4,7 +4,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 32.24.5
+Version: 32.24.6
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -353,6 +353,10 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Apr 14 2020 Martin Kolman <mkolman@redhat.com> - 32.24.6-1
+- network tui: fix getting of network device configurations (#1823011)
+  (rvykydal)
+
 * Fri Apr 03 2020 Martin Kolman <mkolman@redhat.com> - 32.24.5-1
 - Don't clear errors by expanding pages in the custom spoke (vponcova)
 - Fix the permission for changing a mount point (#1818500) (vponcova)
