@@ -4,7 +4,7 @@
 
 Summary: Graphical system installer
 Name:    anaconda
-Version: 32.24.6
+Version: 32.24.7
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -353,6 +353,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Apr 21 2020 Martin Kolman <mkolman@redhat.com> - 32.24.7-1
+- Reset the partitioning of Blivet-GUI (#1826286) (vponcova)
+
 * Tue Apr 14 2020 Martin Kolman <mkolman@redhat.com> - 32.24.6-1
 - network tui: fix getting of network device configurations (#1823011)
   (rvykydal)
