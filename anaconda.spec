@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 33.15
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -349,6 +349,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri May 22 2020 Kalev Lember <klember@redhat.com> - 33.15-2
+- Rebuilt for libgladeui soname bump
+
 * Tue May 19 2020 Martin Kolman <mkolman@redhat.com> - 33.15-1
 - Update the bootloader configuration after live installation (javierm)
 - subscription: Registration button sensitivity handling (mkolman)
