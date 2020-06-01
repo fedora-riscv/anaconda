@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 33.15
-Release: 3%{?dist}
+Version: 33.17
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -15,7 +15,9 @@ Source0: %{name}-%{version}.tar.bz2
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
 
+%if ! 0%{?rhel}
 %define blivetguiver 2.1.12-1
+%endif
 %define dbusver 1.2.3
 %define dnfver 3.6.0
 %define dracutver 034-7
@@ -98,6 +100,10 @@ Requires: python3-systemd
 Requires: python3-productmd
 Requires: python3-dasbus >= %{dasbusver}
 Requires: flatpak-libs
+%if 0%{?rhel}
+Requires: python3-syspurpose
+Requires: subscription-manager >= 1.26
+%endif
 
 # pwquality only "recommends" the dictionaries it needs to do anything useful,
 # which is apparently great for containers but unhelpful for the rest of us
@@ -201,7 +207,9 @@ Requires: NetworkManager-wifi
 %endif
 Requires: anaconda-user-help >= %{helpver}
 Requires: yelp
+%if ! 0%{?rhel}
 Requires: blivet-gui-runtime >= %{blivetguiver}
+%endif
 Requires: system-logos
 
 # Needed to compile the gsettings files
@@ -221,7 +229,7 @@ This package contains textual user interface for the Anaconda installer.
 
 %package widgets
 Summary: A set of custom GTK+ widgets for use with anaconda
-Requires: python3
+Requires: %{__python3}
 
 %description widgets
 This package contains a set of custom GTK+ widgets used by the anaconda installer.
@@ -323,6 +331,11 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{python3_sitearch}/pyanaconda/ui/gui/*
 %{_datadir}/anaconda/pixmaps
 %{_datadir}/anaconda/ui
+%if 0%{?rhel}
+# Remove blivet-gui
+%exclude %{_datadir}/anaconda/ui/spokes/blivet_gui.*
+%exclude %{python3_sitearch}/pyanaconda/ui/gui/spokes/blivet_gui.*
+%endif
 %{_datadir}/anaconda/window-manager
 %{_datadir}/anaconda/anaconda-gtk.css
 
@@ -349,11 +362,92 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Sun May 24 2020 Miro Hrončok <mhroncok@redhat.com> - 33.15-3
-- Rebuilt for Python 3.9
+* Mon Jun 01 2020 Martin Kolman <mkolman@redhat.com> - 33.17-1
+- Update required ack in makebumpver script for rhel > 7 (rvykydal)
+- Close responses from session.get (vponcova)
+- Improve the documentation of the SetUpMountTask class (vponcova)
+- Raise an exception if the source's mount point is not unmounted (vponcova)
+- Change the default source to CDROM (vponcova)
+- Don't set up sources in the refresh method of the Source spoke (vponcova)
+- Make cppcheck ignore the G_DEFINE_TYPE macros (vslavik)
+- Fix issue that unified ISO from URL is not loaded (jkonecny)
+- Add split_protocol payload helper function (jkonecny)
+- Fix string based on translator comments (vslavik)
 
-* Fri May 22 2020 Kalev Lember <klember@redhat.com> - 33.15-2
-- Rebuilt for libgladeui soname bump
+* Mon May 25 2020 Martin Kolman <mkolman@redhat.com> - 33.16-1
+- subscription: Only require Insights package if subscribed (mkolman)
+- subscription: Do not pass payload to unregister() helper function (mkolman)
+- subscription: Fix typos related to ParseAttachedSubscriptions task (mkolman)
+- subscription: Make sure /etc/yum.repos.d exists (mkolman)
+- subscription: Fix disconnect() for RHSM observer (mkolman)
+- subscription: Fix SystemPurposeData equality checking (mkolman)
+- subscription: Set RHSM configuration before registration attempt (mkolman)
+- subscription: Initial CDN source switching (mkolman)
+- subscription: Fix Insights configuration in GUI (mkolman)
+- subscription: Fix setting username to SubscriptionRequest in GUI (mkolman)
+- Change connection flags for the RHSM private bus (vponcova)
+- Create a proxy of the RHSM Config object for a specific interface (vponcova)
+- Skip the btrfs command if deprecated (vponcova)
+- Use a specific kickstart version in handle-sshpw (vponcova)
+- Avoid concatenation of iso name twice (jkonecny)
+- Do not mount harddrive sources as RO (jkonecny)
+- Fix the access to a DBus proxy of the Subscription module (vponcova)
+- Set up LANG for tests (vponcova)
+- Resolve traceback when HDD ISO is not found (jkonecny)
+- Don't set up the HMC source again (vponcova)
+- Remove the changed property of the Source spoke in GUI (vponcova)
+- Specify the default source type for the DNF payload (vponcova)
+- Support all source types based on repo files (vponcova)
+- Use the closest mirror source in UI (vponcova)
+- Add a new source for the closest mirror (vponcova)
+- Change the description of the repo files source (vponcova)
+- Fix adding to the protected devices list (jkonecny)
+- Remove not used API of dnf payload (jkonecny)
+- Rename GetISOPath to GetIsoPath which is correct API name (jkonecny)
+- Fix python3 requires in spec file (rvykydal)
+- Use the source proxy to get the device name (vponcova)
+- Collect package requirements of the Subscription module (vponcova)
+- Add ignored field to rpm_tests (rvykydal)
+- Require subscription manager on rhel (rvykydal)
+- Remove the property is_iso_mounted (vponcova)
+- Run the set-up tasks of sources with signals enabled (vponcova)
+- Set default url type combobox value (jkonecny)
+- Fix lang_locale_handler have payload property from parents (jkonecny)
+- Remove kickstart sources from GUI (vponcova)
+- Remove kickstart sources from TUI (vponcova)
+- Log the result of the HDD set-up task (vponcova)
+- Always try to unmount the HDD ISO (vponcova)
+- Fix typo resulting to use mirrorlist instead of metalink (jkonecny)
+- Handle DBus errors of the task returned by SetUpSourcesWithTask (vponcova)
+- Remove useless attributes from the class Anaconda (vponcova)
+- Remove kickstart sources from anaconda.py (vponcova)
+- Remove kickstart sources from the class DNFPayload (vponcova)
+- Call nose python module instead of nosetests binary (jkonecny)
+- root spoke: set value of root ssh login checkbox from module (rvykydal)
+- users module: fix check of existence of admin user (rvykydal)
+- Always clear kickstarted status for GUI time&date spoke (vslavik)
+- Always protect CD-ROM devices (vponcova)
+- Fix the DBus task that sets up the SE/HMC source (vponcova)
+- Move lxml test dependency from pip to RPM (jkonecny)
+- subscription: Show data about attached subscriptions (mkolman)
+- Setup RHEL rebuilds to exclude
+  org.fedoraproject.Anaconda.Modules.Subscription (riehecky)
+- Tear down sources before setting new one in SourceSwitchHandler (jkonecny)
+- Remove unused properties from SourceSwitchHandler (jkonecny)
+- Migrate set Closest mirror of SourceSwitchHandler (jkonecny)
+- Migrate set HMC of SourceSwitchHandler to source modules (jkonecny)
+- Migrate set CDROM of SourceSwitchHandler to source modules (jkonecny)
+- Migrate set NFS of SourceSwitchHandler to source modules (jkonecny)
+- Migrate set URL of SourceSwitchhandler to source modules (jkonecny)
+- Implement the DBus methods SetUpSourcesWithTask and TearDownSourcesWithTask
+  (vponcova)
+- Move removal of blivet-gui in rhel upstream (rvykydal)
+- Migrate set HDD of SourceSwitchHandler to source modules (jkonecny)
+- Migrate SourceSwitchHandler to use module for cleanups (jkonecny)
+- Add payload property to SourceSwitchHandler (jkonecny)
+- Avoid imports from blivet.devicefactory (vponcova)
+- Mark kickstart commands of RPM sources as useless (vponcova)
+- Generate kickstart from the Payloads module (vponcova)
 
 * Tue May 19 2020 Martin Kolman <mkolman@redhat.com> - 33.15-1
 - Update the bootloader configuration after live installation (javierm)
