@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 33.22
+Version: 33.23
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -363,6 +363,11 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Jul 16 2020 Martin Kolman <mkolman@redhat.com> - 33.23-1
+- Mangle Fedora IoT Edition product identifier to "Fedora-IoT" (ngompa13)
+- Fix creating cached LVs on encrypted PVs (vtrefny)
+- Add Fedora IoT product override (ngompa13)
+
 * Tue Jul 14 2020 Martin Kolman <mkolman@redhat.com> - 33.22-1
 - Add support for the timesource kickstart command (vponcova)
 - Use the structure for time sources in GUI (vponcova)
