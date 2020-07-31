@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 33.23
-Release: 2%{?dist}
+Version: 33.24
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -363,8 +363,24 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 33.23-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+* Fri Jul 31 2020 Martin Kolman <mkolman@redhat.com> - 33.24-1
+- Run actions of the Resize dialog in the reversed order (#1856496) (vponcova)
+- Reset repositories from the main thread (vponcova)
+- Initialize the closest mirror from the main thread (vponcova)
+- Remove the mirrors_available property (vponcova)
+- Rename ActivateFilesystemsTask (vponcova)
+- Document the Anaconda configuration files (vponcova)
+- Remove the encrypted attribute (vponcova)
+- subscription: Fix rhsm --proxy kickstart command usage with no username
+  specified (mkolman)
+- subscription: Fix RHSM HTTP proxy configuration crash in the GUI (mkolman)
+- Log the information about the original exception (vponcova)
+- Update the documentation of the Anaconda sysconfig file (vponcova)
+- Make spoke tiles stack more tightly (vslavik)
+- Add NTS support to time sources in GUI (mlichvar)
+- Add connection test for NTS (mlichvar)
+- Parse NTP server options from config file (mlichvar)
+- Run bash instead of sh in rescue mode (vslavik)
 
 * Thu Jul 16 2020 Martin Kolman <mkolman@redhat.com> - 33.23-1
 - Mangle Fedora IoT Edition product identifier to "Fedora-IoT" (ngompa13)
