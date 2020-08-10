@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 33.24
+Version: 33.25
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -119,7 +119,6 @@ Requires: NetworkManager-libnm >= %{nmver}
 Requires: NetworkManager-team
 Requires: kbd
 Requires: chrony
-Requires: python3-ntplib
 Requires: systemd
 Requires: python3-pid
 Requires: python3-ordered-set >= 2.0.0
@@ -363,6 +362,27 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Aug 10 2020 Martin Kolman <mkolman@redhat.com> - 33.25-1
+- Fix our tests with a newer rpmfluff library (jkonecny)
+- network: pass also keyfile NM configuration to target system (#1858439)
+  (rvykydal)
+- Unify the indentation in the Anaconda configuration files (vponcova)
+- Remove the DBus method ConfigureNTPServiceEnablementWithTask (vponcova)
+- Create ssh user using only existing fields (#1860058) (vslavik)
+- Fix the position of the info bar in standalone spokes (vponcova)
+- Add the function is_service_installed (vponcova)
+- Drop the dependency on python3-ntplib (vponcova)
+- Remove Blivet's tests (vponcova)
+- Remove gui tests (vponcova)
+- Generate the coverage report for tests (vponcova)
+- Fix the util tests (vponcova)
+- Simplify the regex tests (vponcova)
+- Fix the module tests (vponcova)
+- Clean up the driver tests (vponcova)
+- Fix the kickstart dispatcher tests (vponcova)
+- Fix the localization tests (vponcova)
+- drop workarounds for the TLS exhaustion issue on aarch64 and ppc64le (dan)
+
 * Fri Jul 31 2020 Martin Kolman <mkolman@redhat.com> - 33.24-1
 - Run actions of the Resize dialog in the reversed order (#1856496) (vponcova)
 - Reset repositories from the main thread (vponcova)
