@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 33.25.1
+Version: 33.25.2
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -131,7 +131,7 @@ Requires: /usr/bin/update-crypto-policies
 Requires: anaconda-tui = %{version}-%{release}
 
 # Make sure we get the en locale one way or another
-Requires: glibc-langpack-en
+Requires: (glibc-langpack-en or glibc-all-langpacks)
 
 # anaconda literally runs its own dbus-daemon, so it needs this,
 # even though the distro default is dbus-broker in F30+
@@ -366,6 +366,11 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Aug 21 2020 Martin Kolman <mkolman@redhat.com> - 33.25.2-1
+- Fix dependency_solver failure with spec file boolean logic syntax (jkonecny)
+- Avoid unnecessarily pulling in glibc-langpack-en (sgallagh)
+- Set up the ignored_device_names variable (vponcova)
+
 * Thu Aug 20 2020 Martin Kolman <mkolman@redhat.com> - 33.25.1-1
 - Adjust configuration options for Fedora 33 (mkolman)
 - network: do not try to activate connection that has not been found (rvykydal)
