@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 34.2
+Version: 34.3
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -18,6 +18,7 @@ Source0: %{name}-%{version}.tar.bz2
 %if ! 0%{?rhel}
 %define blivetguiver 2.1.12-1
 %endif
+%define dasbusver 1.3
 %define dbusver 1.2.3
 %define dnfver 3.6.0
 %define dracutver 034-7
@@ -25,20 +26,22 @@ Source0: %{name}-%{version}.tar.bz2
 %define gettextver 0.19.8
 %define gtk3ver 3.22.17
 %define helpver 22.1-1
-%define isomd5sum 1.0.10
+%define isomd5sumver 1.0.10
 %define langtablever 0.0.49
 %define libarchivever 3.0.4
 %define libblockdevver 2.1
+%define libreportanacondaver 2.0.21-1
 %define libtimezonemapver 0.4.1-2
 %define libxklavierver 5.4
 %define mehver 0.23-1
 %define nmver 1.0
 %define pykickstartver 3.27-1
 %define pypartedver 2.5-2
+%define pythonblivetver 1:3.2.2-1
 %define rpmver 4.10.0
 %define simplelinever 1.1-1
+%define subscriptionmanagerver 1.26
 %define utillinuxver 2.15.1
-%define dasbusver 1.3
 
 BuildRequires: audit-libs-devel
 BuildRequires: libtool
@@ -80,10 +83,10 @@ The anaconda package is a metapackage for the Anaconda installer.
 Summary: Core of the Anaconda installer
 Requires: python3-libs
 Requires: python3-dnf >= %{dnfver}
-Requires: python3-blivet >= 1:3.2.2-1
+Requires: python3-blivet >= %{pythonblivetver}
 Requires: python3-blockdev >= %{libblockdevver}
 Requires: python3-meh >= %{mehver}
-Requires: libreport-anaconda >= 2.0.21-1
+Requires: libreport-anaconda >= %{libreportanacondaver}
 Requires: libselinux-python3
 Requires: rpm-python3 >= %{rpmver}
 Requires: python3-pyparted >= %{pypartedver}
@@ -102,7 +105,7 @@ Requires: python3-dasbus >= %{dasbusver}
 Requires: flatpak-libs
 %if 0%{?rhel}
 Requires: python3-syspurpose
-Requires: subscription-manager >= 1.26
+Requires: subscription-manager >= %{subscriptionmanagerver}
 %endif
 
 # pwquality only "recommends" the dictionaries it needs to do anything useful,
@@ -121,7 +124,6 @@ Requires: kbd
 Requires: chrony
 Requires: systemd
 Requires: python3-pid
-Requires: python3-ordered-set >= 2.0.0
 
 # Required by the systemd service anaconda-fips.
 Requires: crypto-policies
@@ -169,7 +171,7 @@ Requires: udisks2-iscsi
 Requires: libblockdev-plugins-all >= %{libblockdevver}
 # active directory/freeipa join support
 Requires: realmd
-Requires: isomd5sum >= %{isomd5sum}
+Requires: isomd5sum >= %{isomd5sumver}
 %ifarch %{ix86} x86_64
 Recommends: fcoe-utils >= %{fcoeutilsver}
 %endif
@@ -366,6 +368,48 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Sep 01 2020 Martin Kolman <mkolman@redhat.com> - 34.3-1
+- Move slower part of Subscription spoke initialization to a thread (mkolman)
+- Add test to detect every RW mount command in Dracut (jkonecny)
+- subscription: Convert the RHSM default config values to expected format
+  (mkolman)
+- Implement get_source_proxy() in payload base class (mkolman)
+- Use spec file macros for all requires version specifications (jkonecny)
+- Fix spec macro for version name (jkonecny)
+- Correctly work with package boolean logic in our setup scripts (jkonecny)
+- Wait for payload initialization to finish in Subscription spoke (mkolman)
+- Unify usage of BootLoaderArguments add() & update() (vslavik)
+- Rename Arguments to BootLoaderArguments (vslavik)
+- Remove usage of OrderedSet (vslavik)
+- Add tests for the boot loader Arguments class (vslavik)
+- Do not mount as RW in Dracut (jkonecny)
+- network: do not crash when updating a connection without wired settings
+  (rvykydal)
+- Fix traceback when removing additional repository (jkonecny)
+- subscription: Handle cases where CDN should not be the default (mkolman)
+- subscription: Set DNF payload source via config file option (mkolman)
+- subscription: Manual CDN selection support (mkolman)
+- subscription: Handle source switching at registration/unregistration
+  (mkolman)
+- subscription: Introduce the default_source configuration option (mkolman)
+- Use "raise from" to link exceptions (vslavik)
+- Fix branching documentation (mkolman)
+- Change keyboard ordering to US layout first, 'native' second. Resolves:
+  rhbz#1039185 (suanand)
+- Remove docs where we tell users that inst. prefix is not required (jkonecny)
+- Print warning for boot options without inst. prefix (jkonecny)
+- Add missing dracut commands as missing inst. prefix warning (jkonecny)
+- Enable warning when inst. prefix is not used (jkonecny)
+- Reset the state of the custom partitioning spoke (vponcova)
+- Reset the RAID level of the device request (#1828092) (vponcova)
+- Protect all devices with the iso9660 file system (vponcova)
+- Don't ignore NVDIMM devices with the iso9660 file system (vponcova)
+- Add tests for the DBus method FindOpticalMedia (vponcova)
+- Fix everything in payload should be mounted as read only (jkonecny)
+- Add support for mount options to device_tree.MountDevice (jkonecny)
+- Adapt tests for CDRom for the new inst.stage2 discovery (jkonecny)
+- CDRom source should prioritize stage2 device during discover (jkonecny)
+
 * Fri Aug 21 2020 Martin Kolman <mkolman@redhat.com> - 34.2-1
 - Fix dependency_solver failure with spec file boolean logic syntax (jkonecny)
 - Avoid unnecessarily pulling in glibc-langpack-en (sgallagh)
