@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 34.3
+Version: 34.4
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -35,7 +35,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define libxklavierver 5.4
 %define mehver 0.23-1
 %define nmver 1.0
-%define pykickstartver 3.27-1
+%define pykickstartver 3.28-1
 %define pypartedver 2.5-2
 %define pythonblivetver 1:3.2.2-1
 %define rpmver 4.10.0
@@ -368,6 +368,45 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Sep 07 2020 Martin Kolman <mkolman@redhat.com> - 34.4-1
+- Apply onboot policy even when network was configured in UI. (rvykydal)
+- network: fix kickstart network --dhcpclass option (rvykydal)
+- network: use constants instead of enum to hold stirng values of connection
+  type (rvykydal)
+- network: fix using of values of NMConnectionType enum (rvykydal)
+- Always clear treeinfo metadata (#1872056) (jkonecny)
+- Do not check ro mount in Dracut for overlay (jkonecny)
+- Propagate a lazy proxy of the storage model (vponcova)
+- Add TODO to check if biospart support is required for DUD (jkonecny)
+- Remove failure messages about not supported biospart (jkonecny)
+- Switch to a new HardDrive command version with removed biospart (jkonecny)
+- Make custom storage summary dialog resizeable (1626555) (mkolman)
+- network: add constants for NM connection types (rvykydal)
+- Recognize systemd.unit=anaconda.target in anaconda-generator (m.novosyolov)
+- The underline character should not be displayed (honza.stodola)
+- network: create default connection also for slave devices (rvykydal)
+- network: remove ONBOOT hack for slave connections (rvykydal)
+- network: replace ifcfg module with config_file module (rvykydal)
+- network: remove unused functions from ifcfg module (rvykydal)
+- network: generate kickstart via NM API (connections) (rvykydal)
+- network: get master slaves via NM API (rvykydal)
+- network: use NM API to look for config files for DeviceConfigurations
+  (rvykydal)
+- network: use NM API to look for config files when setting final ONBOOT
+  (rvykydal)
+- network: use NM API to look for config files when setting real ONBOOT
+  (rvykydal)
+- network: use NM API to look for config files when applying kickstart
+  (rvykydal)
+- network: use NM API to look for config files when consolidating connections
+  (rvykydal)
+- network: check for missing device config via NM api (rvykydal)
+- network: use underscore in the names of slave devices created from kickstart
+  (rvykydal)
+- network: log also content of keyfiles (rvykydal)
+- We won't support inst.ks=bd: (jkonecny)
+- network: do not enforce network standalone spoke on default source (rvykydal)
+
 * Tue Sep 01 2020 Martin Kolman <mkolman@redhat.com> - 34.3-1
 - Move slower part of Subscription spoke initialization to a thread (mkolman)
 - Add test to detect every RW mount command in Dracut (jkonecny)
