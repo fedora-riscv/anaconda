@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 33.25.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -11,6 +11,9 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
+
+# F33 Beta blocker
+Patch1: 0001-Always-clear-treeinfo-metadata-1872056.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -366,6 +369,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Sep 07 2020 Martin Kolman <mkolman@redhat.com> - 33.25.2-2
+- Always clear treeinfo metadata (#1872056) (jkonecny)
+
 * Fri Aug 21 2020 Martin Kolman <mkolman@redhat.com> - 33.25.2-1
 - Fix dependency_solver failure with spec file boolean logic syntax (jkonecny)
 - Avoid unnecessarily pulling in glibc-langpack-en (sgallagh)
