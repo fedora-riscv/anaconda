@@ -1,0 +1,40 @@
+From 2585d3380ebbd516757a2420486e68e2809961db Mon Sep 17 00:00:00 2001
+From: Vendula Poncova <vponcova@redhat.com>
+Date: Tue, 15 Sep 2020 17:25:28 +0200
+Subject: [PATCH] Fix the combo box for an URL type of additional repositories
+ (#1879127)
+
+In the commit ff9a7e1, we introduced new constants for the URL source types with
+values 'BASEURL', 'MIRRORLIST' and 'METALINK'. In the commit cc2c3d3, we started
+to use these constants in the Installation Source spoke and removed the old ones
+with values 'url', 'mirrorlist' and 'metalink'. We updated the combo box for the
+base repository, but forgot to update the combo box for additional repositories.
+
+The combo box items have to have ids that match the values of the constants,
+otherwise the URL type of additional repositories will be always 'BASEURL'.
+
+Resolves: rhbz#1879127
+---
+ pyanaconda/ui/gui/spokes/installation_source.glade | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/pyanaconda/ui/gui/spokes/installation_source.glade b/pyanaconda/ui/gui/spokes/installation_source.glade
+index e53fa230c..bc07a4a7b 100644
+--- a/pyanaconda/ui/gui/spokes/installation_source.glade
++++ b/pyanaconda/ui/gui/spokes/installation_source.glade
+@@ -1296,9 +1296,9 @@
+                                         <property name="can_focus">False</property>
+                                         <property name="halign">start</property>
+                                         <items>
+-                                          <item id="url" translatable="yes">repository URL</item>
+-                                          <item id="mirrorlist" translatable="yes">mirrorlist</item>
+-                                          <item id="metalink" translatable="yes">metalink</item>
++                                          <item id="BASEURL" translatable="yes">repository URL</item>
++                                          <item id="MIRRORLIST" translatable="yes">mirrorlist</item>
++                                          <item id="METALINK" translatable="yes">metalink</item>
+                                         </items>
+                                         <signal name="changed" handler="on_repo_url_type_changed" swapped="no"/>
+                                       </object>
+-- 
+2.26.2
+

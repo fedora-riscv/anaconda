@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 33.25.2
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -17,6 +17,9 @@ Patch1: 0001-Always-clear-treeinfo-metadata-1872056.patch
 
 # F33 Beta freeze exception
 Patch2: 0002-Add-the-DBus-method-IsDeviceShrinkable-1875677.patch
+
+# F33 Beta freeze exception
+Patch3: 0003-Fix-the-combo-box-for-an-URL-type-of-additional-repo.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -372,6 +375,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Sep 17 2020 Martin Kolman <mkolman@redhat.com> - 33.25.2-4
+- Fix the combo box for an URL type of additional repositories (#1879127) (vponcova)
+
 * Wed Sep 09 2020 Martin Kolman <mkolman@redhat.com> - 33.25.2-3
 - Add the DBus method IsDeviceShrinkable (#1875677) (vponcova)
 
