@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 34.5
+Version: 34.6
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -27,7 +27,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define gtk3ver 3.22.17
 %define helpver 22.1-1
 %define isomd5sumver 1.0.10
-%define langtablever 0.0.49
+%define langtablever 0.0.53
 %define libarchivever 3.0.4
 %define libblockdevver 2.1
 %define libreportanacondaver 2.0.21-1
@@ -368,6 +368,21 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Sep 25 2020 Martin Kolman <mkolman@redhat.com> - 34.6-1
+- network: split add_and_activate_connection_sync function (rvykydal)
+- network: add support for bridged bond to stage 2 kickstart (%%pre) (rvykydal)
+- Never mount partitions on a disk with the iso9660 filesystem (vponcova)
+- packit: use tar-pax instead of tar-ustar (ttomecek)
+- Change default Packit jobs (#1697339) (jkonecny)
+- Enable Packit for Anaconda (#1697339) (jkonecny)
+- Change text on the Reset All button in custom part. (vslavik)
+- Add a rule for translated strings to code conventions (#1619530) (vponcova)
+- Never convert translated strings to uppercase (vponcova)
+- Never change first letters of translated strings to uppercase (vponcova)
+- network: update docstring of clone_connection_async (rvykydal)
+- network: add support for vlan over bond to stage 2 kickstart (pre) (rvykydal)
+- Move the execute method of the logging command (vponcova)
+
 * Thu Sep 17 2020 Martin Kolman <mkolman@redhat.com> - 34.5-1
 - Fix the combo box for an URL type of additional repositories (#1879127)
   (vponcova)
