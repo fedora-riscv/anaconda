@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 33.25.2
-Release: 4%{?dist}
+Version: 33.25.3
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -12,21 +12,13 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # make dist
 Source0: %{name}-%{version}.tar.bz2
 
-# F33 Beta blocker
-Patch1: 0001-Always-clear-treeinfo-metadata-1872056.patch
-
-# F33 Beta freeze exception
-Patch2: 0002-Add-the-DBus-method-IsDeviceShrinkable-1875677.patch
-
-# F33 Beta freeze exception
-Patch3: 0003-Fix-the-combo-box-for-an-URL-type-of-additional-repo.patch
-
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
 
 %if ! 0%{?rhel}
 %define blivetguiver 2.1.12-1
 %endif
+%define dasbusver 1.3
 %define dbusver 1.2.3
 %define dnfver 3.6.0
 %define dracutver 034-7
@@ -34,20 +26,22 @@ Patch3: 0003-Fix-the-combo-box-for-an-URL-type-of-additional-repo.patch
 %define gettextver 0.19.8
 %define gtk3ver 3.22.17
 %define helpver 22.1-1
-%define isomd5sum 1.0.10
-%define langtablever 0.0.49
+%define isomd5sumver 1.0.10
+%define langtablever 0.0.53
 %define libarchivever 3.0.4
 %define libblockdevver 2.1
+%define libreportanacondaver 2.0.21-1
 %define libtimezonemapver 0.4.1-2
 %define libxklavierver 5.4
 %define mehver 0.23-1
 %define nmver 1.0
-%define pykickstartver 3.27-1
+%define pykickstartver 3.28-1
 %define pypartedver 2.5-2
+%define pythonblivetver 1:3.2.2-1
 %define rpmver 4.10.0
 %define simplelinever 1.1-1
+%define subscriptionmanagerver 1.26
 %define utillinuxver 2.15.1
-%define dasbusver 1.3
 
 BuildRequires: audit-libs-devel
 BuildRequires: libtool
@@ -89,10 +83,10 @@ The anaconda package is a metapackage for the Anaconda installer.
 Summary: Core of the Anaconda installer
 Requires: python3-libs
 Requires: python3-dnf >= %{dnfver}
-Requires: python3-blivet >= 1:3.2.2-1
+Requires: python3-blivet >= %{pythonblivetver}
 Requires: python3-blockdev >= %{libblockdevver}
 Requires: python3-meh >= %{mehver}
-Requires: libreport-anaconda >= 2.0.21-1
+Requires: libreport-anaconda >= %{libreportanacondaver}
 Requires: libselinux-python3
 Requires: rpm-python3 >= %{rpmver}
 Requires: python3-pyparted >= %{pypartedver}
@@ -111,7 +105,7 @@ Requires: python3-dasbus >= %{dasbusver}
 Requires: flatpak-libs
 %if 0%{?rhel}
 Requires: python3-syspurpose
-Requires: subscription-manager >= 1.26
+Requires: subscription-manager >= %{subscriptionmanagerver}
 %endif
 
 # pwquality only "recommends" the dictionaries it needs to do anything useful,
@@ -130,7 +124,6 @@ Requires: kbd
 Requires: chrony
 Requires: systemd
 Requires: python3-pid
-Requires: python3-ordered-set >= 2.0.0
 
 # Required by the systemd service anaconda-fips.
 Requires: crypto-policies
@@ -178,7 +171,7 @@ Requires: udisks2-iscsi
 Requires: libblockdev-plugins-all >= %{libblockdevver}
 # active directory/freeipa join support
 Requires: realmd
-Requires: isomd5sum >= %{isomd5sum}
+Requires: isomd5sum >= %{isomd5sumver}
 %ifarch %{ix86} x86_64
 Recommends: fcoe-utils >= %{fcoeutilsver}
 %endif
@@ -375,14 +368,122 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Thu Sep 17 2020 Martin Kolman <mkolman@redhat.com> - 33.25.2-4
-- Fix the combo box for an URL type of additional repositories (#1879127) (vponcova)
-
-* Wed Sep 09 2020 Martin Kolman <mkolman@redhat.com> - 33.25.2-3
+* Tue Sep 29 2020 Martin Kolman <mkolman@redhat.com> - 33.25.3-1
+- network: commit changes synchronously when dumping autoconnections (rvykydal)
+- network: do not bind virtual devices to mac (rvykydal)
+- network: split add_and_activate_connection_sync function (rvykydal)
+- network: add support for bridged bond to stage 2 kickstart (%%pre) (rvykydal)
+- Never mount partitions on a disk with the iso9660 filesystem (vponcova)
+- Add a rule for translated strings to code conventions (#1619530) (vponcova)
+- Never convert translated strings to uppercase (vponcova)
+- Never change first letters of translated strings to uppercase (vponcova)
+- network: update docstring of clone_connection_async (rvykydal)
+- network: add support for vlan over bond to stage 2 kickstart (pre) (rvykydal)
+- Fix the combo box for an URL type of additional repositories (#1879127)
+  (vponcova)
+- network: clone connections from intramfs to persistent config (rvykydal)
+- network: set addr-gen-mode of Anaconda default connections to eui64
+  (rvykydal)
+- network: default to addr-gen-mode eui64 (rvykydal)
+- network: do not reset ipv6.addr-gen-mode in tui network configuration
+  (rvykydal)
+- network: get hwadddr when binding to mac more robustly (rvykydal)
+- Improve the error dialog for storage reset (vponcova)
+- Fix CDN button visibility (mkolman)
+- subscription: Assure payload restart on DVD install after registration
+  (mkolman)
+- subscription: Only restart payload when needed (mkolman)
+- Document the restart_payload argument of subscription helper functions
+  (mkolman)
+- network: fix missing log message argument (rvykydal)
+- Propagate verify_ssl to RHSM (mkolman)
+- Check if original partitions are mounted, too (vslavik)
+- network: do not add superfluous quotes to inst.dhcpclass identifier
+  (rvykydal)
 - Add the DBus method IsDeviceShrinkable (#1875677) (vponcova)
-
-* Mon Sep 07 2020 Martin Kolman <mkolman@redhat.com> - 33.25.2-2
+- Extend unit tests for generate_device_factory_request (vponcova)
+- Differentiate between RAID levels of a device and its container (vponcova)
+- Don't generate container data for non-container device types (vponcova)
+- network: fix parsing of hostname from ip= if mac is defined in dhcp
+  (rvykydal)
+- Apply onboot policy even when network was configured in UI. (rvykydal)
+- network: fix kickstart network --dhcpclass option (rvykydal)
+- network: fix inst.dhcpclass boot option (rvykydal)
+- Do not push pot files just tell user that he should update (jkonecny)
+- network: use constants instead of enum to hold stirng values of connection
+  type (rvykydal)
+- Add support for booting installation media with plain SquashFS (bkhomuts)
+- Do not check ro mount in Dracut for overlay (jkonecny)
+- network: fix using of values of NMConnectionType enum (rvykydal)
 - Always clear treeinfo metadata (#1872056) (jkonecny)
+- network: apply kickstart network --nodefroute also from stage2 (rvykydal)
+- Propagate a lazy proxy of the storage model (vponcova)
+- Add TODO to check if biospart support is required for DUD (jkonecny)
+- Remove failure messages about not supported biospart (jkonecny)
+- Switch to a new HardDrive command version with removed biospart (jkonecny)
+- Make custom storage summary dialog resizeable (1626555) (mkolman)
+- network: add constants for NM connection types (rvykydal)
+- The underline character should not be displayed (honza.stodola)
+- network: create default connection also for slave devices (rvykydal)
+- network: remove ONBOOT hack for slave connections (rvykydal)
+- network: replace ifcfg module with config_file module (rvykydal)
+- network: remove unused functions from ifcfg module (rvykydal)
+- network: generate kickstart via NM API (connections) (rvykydal)
+- network: get master slaves via NM API (rvykydal)
+- network: use NM API to look for config files for DeviceConfigurations
+  (rvykydal)
+- Move slower part of Subscription spoke initialization to a thread (mkolman)
+- network: use NM API to look for config files when setting final ONBOOT
+  (rvykydal)
+- network: use NM API to look for config files when setting real ONBOOT
+  (rvykydal)
+- network: use NM API to look for config files when applying kickstart
+  (rvykydal)
+- network: use NM API to look for config files when consolidating connections
+  (rvykydal)
+- network: check for missing device config via NM api (rvykydal)
+- network: use underscore in the names of slave devices created from kickstart
+  (rvykydal)
+- network: log also content of keyfiles (rvykydal)
+- We won't support inst.ks=bd: (jkonecny)
+- Add test to detect every RW mount command in Dracut (jkonecny)
+- subscription: Convert the RHSM default config values to expected format
+  (mkolman)
+- Implement get_source_proxy() in payload base class (mkolman)
+- Use spec file macros for all requires version specifications (jkonecny)
+- Fix spec macro for version name (jkonecny)
+- Correctly work with package boolean logic in our setup scripts (jkonecny)
+- Wait for payload initialization to finish in Subscription spoke (mkolman)
+- Unify usage of BootLoaderArguments add() & update() (vslavik)
+- Rename Arguments to BootLoaderArguments (vslavik)
+- Remove usage of OrderedSet (vslavik)
+- Add tests for the boot loader Arguments class (vslavik)
+- Do not mount as RW in Dracut (jkonecny)
+- network: do not crash when updating a connection without wired settings
+  (rvykydal)
+- Fix traceback when removing additional repository (jkonecny)
+- subscription: Handle cases where CDN should not be the default (mkolman)
+- subscription: Set DNF payload source via config file option (mkolman)
+- subscription: Manual CDN selection support (mkolman)
+- subscription: Handle source switching at registration/unregistration
+  (mkolman)
+- subscription: Introduce the default_source configuration option (mkolman)
+- Use "raise from" to link exceptions (vslavik)
+- Fix branching documentation (mkolman)
+- Remove docs where we tell users that inst. prefix is not required (jkonecny)
+- Print warning for boot options without inst. prefix (jkonecny)
+- Add missing dracut commands as missing inst. prefix warning (jkonecny)
+- Enable warning when inst. prefix is not used (jkonecny)
+- Reset the state of the custom partitioning spoke (vponcova)
+- Reset the RAID level of the device request (#1828092) (vponcova)
+- Protect all devices with the iso9660 file system (vponcova)
+- Don't ignore NVDIMM devices with the iso9660 file system (vponcova)
+- Add tests for the DBus method FindOpticalMedia (vponcova)
+- Fix everything in payload should be mounted as read only (jkonecny)
+- Add support for mount options to device_tree.MountDevice (jkonecny)
+- Adapt tests for CDRom for the new inst.stage2 discovery (jkonecny)
+- CDRom source should prioritize stage2 device during discover (jkonecny)
+- network: do not enforce network standalone spoke on default source (rvykydal)
 
 * Fri Aug 21 2020 Martin Kolman <mkolman@redhat.com> - 33.25.2-1
 - Fix dependency_solver failure with spec file boolean logic syntax (jkonecny)
