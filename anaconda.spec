@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 34.10
+Version: 34.12
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -369,6 +369,82 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Nov 12 2020 Martin Kolman <mkolman@redhat.com> - 34.12-1
+- Use podman for pushing the nightly container update (mpitt)
+- Robustify container-autoupdate workflow (mpitt)
+- Disable seccomp profile when running containers on Ubuntu host (mpitt)
+- Use podman in GitHub workflows (mpitt)
+- Remove deviceprobe and install commands (vslavik)
+- Change handling of UID and GID values (vslavik)
+- Send UID and GID over D-Bus as UInt32 (vslavik)
+- Correct limits for UIDs and GIDs in GUI (vslavik)
+- Rename Subscription module tests (vslavik)
+- Rename common module tests (vslavik)
+- Rename Boss module tests (vslavik)
+- Remove autostep functionality (vslavik)
+- Don't include unknown files in the updates image (vponcova)
+- Clean up the code for the platform-specific partitioning requirements
+  (vponcova)
+- Use a property for the platform-specific stage1 constraints (vponcova)
+- Use a property for the stage1 device descriptions (vponcova)
+- Use a property to provide a suggestion for the stage1 device (vponcova)
+- Use a property to define non-linux format types (vponcova)
+- Use a property to define platform-specific packages (vponcova)
+- Do not fail user check job in rhel-8 validate workflow (jkonecny)
+- Move the code that sets up the default disklabel type from platform.py
+  (vponcova)
+- Add unit tests for platform.py (vponcova)
+- Revert "Standardize calls to parent via super()" in platform.py (#1858649)
+  (vponcova)
+
+* Thu Nov 05 2020 Martin Kolman <mkolman@redhat.com> - 34.11-1
+- Fix user permission checking for rhel-8 validate task (jkonecny)
+- Adjust rhel-8 log retrieval for changed container volume handling (mpitt)
+- Don't clobber host checkout on `make container-ci` (mpitt)
+- Drop anaconda-ci container entrypoint (mpitt)
+- workflows: Add manual triggering of tests (mpitt)
+- Fix and robustify validate workflow (mpitt)
+- Mock os.stat in the unit tests (vponcova)
+- Fix traceback when starting installation with inst.console (no args)
+  (jkonecny)
+- Add container image build badge (jkonecny)
+- Rename our GH action for container build to a better name (jkonecny)
+- Improve the documentation of inst.variant (vponcova)
+- Add selinux=0 boot parameter when SELinux is set to disabled (#1882464)
+  (omosnace)
+- Clean up the Payload class (vponcova)
+- Update the NVDIMM actions before we generate the output kickstart (vponcova)
+- Make the storage available to the NVDIMM module (vponcova)
+- Remove the execWithCaptureBinary function (vponcova)
+- Remove unused getters from the Subscription spoke (vponcova)
+- Remove an unused getter from the NetworkControlBox class (vponcova)
+- Remove the URLType enum (vponcova)
+- Remove the method_type property from the source classes (vponcova)
+- Remove the subscription-related unused code (vponcova)
+- Remove the DBus method GetPartitioned (vponcova)
+- Remove the active attribute from the FSSet class (vponcova)
+- Remove the short_label attribute from the BootLoaderImage class (vponcova)
+- Remove the can_dual_boot attribute from the Bootloader class (vponcova)
+- Remove the langcode_matches_locale function (vponcova)
+- Remove unused properties from the GeocodingResult class (vponcova)
+- Remove payload-related unused code (vponcova)
+- Remove unused code (vponcova)
+- kickstart.py: fix typo (kai.kang)
+- Remove the debug flag (vponcova)
+- Add workaround to fix support for installtree without repo (jkonecny)
+- Build container image only if the container files changed (jkonecny)
+- Names of signal handlers should have the on_ prefix (vponcova)
+- Move UI test to a directory (vslavik)
+- Move Storage module tests to directories (vslavik)
+- Move Localization module tests to directory (vslavik)
+- Change documentation - it's not required to build the container (jkonecny)
+- Push also latest tag just for master container (jkonecny)
+- Push new image only if unit tests went well (jkonecny)
+- Add GH workflow to build and push master container to registry (jkonecny)
+- Add anaconda-ci-push to Makefile to push container (jkonecny)
+- Use our container registry to tag anaconda-ci container (jkonecny)
+- Rename ci-tasks container to anaconda-ci (jkonecny)
+
 * Fri Oct 23 2020 Martin Kolman <mkolman@redhat.com> - 34.10-1
 - Move the code for the kernel package selection to new functions (vponcova)
 - Remove the support for PAE (vponcova)
