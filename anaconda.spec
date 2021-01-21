@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 34.18
+Version: 34.19
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -35,7 +35,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define libxklavierver 5.4
 %define mehver 0.23-1
 %define nmver 1.0
-%define pykickstartver 3.31-1
+%define pykickstartver 3.32-1
 %define pypartedver 2.5-2
 %define pythonblivetver 1:3.2.2-1
 %define rpmver 4.10.0
@@ -56,9 +56,7 @@ BuildRequires: libgnomekbd-devel
 BuildRequires: libxklavier-devel >= %{libxklavierver}
 BuildRequires: make
 BuildRequires: pango-devel
-BuildRequires: python3-kickstart >= %{pykickstartver}
 BuildRequires: python3-devel
-BuildRequires: python3-nose
 BuildRequires: systemd
 # rpm and libarchive are needed for driver disk handling
 BuildRequires: rpm-devel >= %{rpmver}
@@ -369,6 +367,26 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Jan 21 2021 Martin Kolman <mkolman@redhat.com> - 34.19-1
+- Fix nose tests execution command when installed from pip (jkonecny)
+- Add missing nose test dependency back from pip (jkonecny)
+- Use RHEL help content for RHV/Ovirt (mkolman)
+- Remove build-time dependencies for nose tests (vslavik)
+- Allow to disable the Localization module (vponcova)
+- Rename kickstart status reporting to kickstart-test (jkonecny)
+- Skip storage-related spokes in the initial setup (#1918048) (vponcova)
+- Support should_run for standalone GUI spokes (vponcova)
+- GH workflow: do not fail all matrix jobs on failure of one (jkonecny)
+- Update versions of the kickstart commands (vponcova)
+- network: handle wireless configure button sensitiveness (rvykydal)
+- Allow to disable the network installation (vponcova)
+- Allow to disable the Users module (vponcova)
+- Allow to disable the Timezone module (vponcova)
+- Select disks for implicit partitions (vponcova)
+- Extend the PartSpec class (vponcova)
+- for non-ascii keyboard layouts, set 'native' to the virtual console
+  explicitly Resolves: rhbz#1912609 (suanand)
+
 * Mon Jan 18 2021 Martin Kolman <mkolman@redhat.com> - 34.18-1
 - Skip payload-related spokes in the initial setup (#1915541) (vponcova)
 - Always show pykickstart parse warnings (vslavik)
