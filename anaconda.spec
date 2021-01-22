@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 34.19
+Version: 34.20
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -367,6 +367,12 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Jan 22 2021 Martin Kolman <mkolman@redhat.com> - 34.20-1
+- Add master unit-tests to contributors (gated) workflow (jkonecny)
+- Add master test execution for owners for this repository (jkonecny)
+- Rename validate-rhel-8 workflow to tests-contributors (jkonecny)
+- Specify version 3 of GTK+ and GDK for fedora-welcome (awilliam)
+
 * Thu Jan 21 2021 Martin Kolman <mkolman@redhat.com> - 34.19-1
 - Fix nose tests execution command when installed from pip (jkonecny)
 - Add missing nose test dependency back from pip (jkonecny)
