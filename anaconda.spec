@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 34.20
-Release: 2%{?dist}
+Version: 34.21
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -367,8 +367,18 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 34.20-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+* Thu Jan 28 2021 Martin Kolman <mkolman@redhat.com> - 34.21-1
+- Allow to disable the Security module (vponcova)
+- Add important files for container build to rebuild check (jkonecny)
+- Avoid using DockerHub because of limits (jkonecny)
+- anaconda should add only s390utils-core (dan)
+- Fix root password and LUKS passphrase visibility toggle (#1911360) (mkolman)
+- Fix the should_run methods of the network spoke (vponcova)
+- Prevent shell injection from a /kickstart-test comment (jkonecny)
+- network: validate bond options on our side after change in NM (#1918744)
+  (rvykydal)
+- network: fix bond confiuration for empty bond options (#1918744) (rvykydal)
+- Allow to disable the Services module (vponcova)
 
 * Fri Jan 22 2021 Martin Kolman <mkolman@redhat.com> - 34.20-1
 - Add master unit-tests to contributors (gated) workflow (jkonecny)
