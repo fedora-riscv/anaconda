@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 34.22
+Version: 34.23
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -182,11 +182,13 @@ Requires: hfsplus-tools
 %endif
 # kexec support
 Requires: kexec-tools
+# needed for proper driver disk support - if RPMs must be installed, a repo is needed
 Requires: createrepo_c
 # run's on TTY1 in install env
 Requires: tmux
 # install time crash handling
 Requires: gdb
+# support for installation from image and live & live image installations
 Requires: rsync
 Recommends: zram-generator-defaults
 
@@ -194,6 +196,41 @@ Recommends: zram-generator-defaults
 The anaconda-install-env-deps metapackage lists all installation environment dependencies.
 This makes it possible for packages (such as Initial Setup) to depend on the main Anaconda package without
 pulling in all the install time dependencies as well.
+
+%package install-img-deps
+Summary: Installation image specific dependencies
+# This package must have no weak dependencies.
+Requires: udisks2-iscsi
+Requires: libblockdev-plugins-all >= %{libblockdevver}
+# active directory/freeipa join support
+Requires: realmd
+Requires: isomd5sum >= %{isomd5sumver}
+%ifarch %{ix86} x86_64
+Requires: fcoe-utils >= %{fcoeutilsver}
+%endif
+# likely HFS+ resize support
+%ifarch %{ix86} x86_64
+%if ! 0%{?rhel}
+Requires: hfsplus-tools
+%endif
+%endif
+# kexec support
+Requires: kexec-tools
+# needed for proper driver disk support - if RPMs must be installed, a repo is needed
+Requires: createrepo_c
+# run's on TTY1 in install env
+Requires: tmux
+# install time crash handling
+Requires: gdb
+# support for installation from image and live & live image installations
+Requires: rsync
+# only WeakRequires elsewhere and not guaranteed to be present
+Requires: device-mapper-multipath
+Requires: zram-generator-defaults
+
+%description install-img-deps
+The anaconda-install-img-deps metapackage lists all boot.iso installation image dependencies.
+Add this package to an image build (eg. with lorax) to ensure all Anaconda capabilities are supported in the resulting image.
 
 %package gui
 Summary: Graphical user interface for the Anaconda installer
@@ -292,6 +329,11 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 # Allow the lang file to be empty
 %define _empty_manifest_terminate_build 0
 
+%files install-img-deps
+
+# Allow the lang file to be empty here too
+%define _empty_manifest_terminate_build 0
+
 %files core -f %{name}.lang
 %license COPYING
 %{_unitdir}/*
@@ -367,6 +409,11 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Feb 05 2021 Martin Kolman <mkolman@redhat.com> - 34.23-1
+- Add a metapackage for image (boot.iso) dependencies (vslavik)
+- Take dnf substitutions from installer environment configuration (rvykydal)
+- Fix getting kernel version list for liveimg (rvykydal)
+
 * Wed Feb 03 2021 Martin Kolman <mkolman@redhat.com> - 34.22-1
 - Don't initialize the software selection if the payload is not set up
   (#1916114) (vponcova)
