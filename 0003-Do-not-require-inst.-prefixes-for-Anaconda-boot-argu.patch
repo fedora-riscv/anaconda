@@ -1,0 +1,45 @@
+From cf93029a69a5b7d21d9478fad0c5c619ea2008d1 Mon Sep 17 00:00:00 2001
+From: Jiri Konecny <jkonecny@redhat.com>
+Date: Mon, 8 Feb 2021 11:32:03 +0100
+Subject: [PATCH 3/3] Do not require inst. prefixes for Anaconda boot arguments
+ (#1907566)
+
+Beaker needs more time for adaptation. Create this change to not break beaker
+for RHEL-9.
+
+Related: rhbz#1907566
+---
+ anaconda.py                    | 3 ---
+ pyanaconda/argument_parsing.py | 2 +-
+ 2 files changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/anaconda.py b/anaconda.py
+index edd518046a..3dc424188f 100755
+--- a/anaconda.py
++++ b/anaconda.py
+@@ -308,9 +308,6 @@ if __name__ == "__main__":
+         stdout_log.warning("Kernel boot argument '%s' detected. "
+                            "Did you want to use 'inst.%s' for the installer instead?",
+                            arg, arg)
+-    if removed_no_inst_args:
+-        stdout_log.warning("All Anaconda kernel boot arguments are now required to use "
+-                           "'inst.' prefix!")
+ 
+     from pyanaconda import isys
+ 
+diff --git a/pyanaconda/argument_parsing.py b/pyanaconda/argument_parsing.py
+index 330a71ed64..096b1eba9e 100644
+--- a/pyanaconda/argument_parsing.py
++++ b/pyanaconda/argument_parsing.py
+@@ -388,7 +388,7 @@ def getArgumentParser(version_string, boot_cmdline=None):
+     # If require_prefix is False, it also accepts the option without the
+     # bootarg_prefix ('repo').
+     # See anaconda_optparse.py and KernelArguments (in flags.py) for details.
+-    ap = AnacondaArgumentParser(bootarg_prefix="inst.", require_prefix=True)
++    ap = AnacondaArgumentParser(bootarg_prefix="inst.", require_prefix=False)
+     help_parser = HelpTextParser(os.path.join(datadir, "anaconda_options.txt"))
+ 
+     # NOTE: store_false options will *not* get negated when the user does
+-- 
+2.29.2
+
