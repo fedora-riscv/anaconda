@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 35.1
+Version: 35.2
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -420,6 +420,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Feb 12 2021 Martin Kolman <mkolman@redhat.com> - 35.2-1
+- Rename pyanaconda.modules.common.typing (vponcova)
+
 * Thu Feb 11 2021 Martin Kolman <mkolman@redhat.com> - 35.1-1
 - Add dependabot support for GitHub actions (jkonecny)
 - Set volume id for iso built for kickstart test (rvykydal)
