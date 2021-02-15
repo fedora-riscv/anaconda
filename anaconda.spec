@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 35.2
+Version: 35.3
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -237,7 +237,10 @@ Requires: gdb
 Requires: rsync
 # only WeakRequires elsewhere and not guaranteed to be present
 Requires: device-mapper-multipath
+# FIXME: do not require on RHEL until the package is ready
+%if ! 0%{?rhel} == 9
 Requires: zram-generator-defaults
+%endif
 
 %description install-img-deps
 The anaconda-install-img-deps metapackage lists all boot.iso installation image dependencies.
@@ -420,6 +423,16 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Feb 15 2021 Martin Kolman <mkolman@redhat.com> - 35.3-1
+- Do not hard-require zram-generator-default on RHEL just yet (mkolman)
+- Switch back Packit testing to rawhide after merge from f34-devel (jkonecny)
+- Improve Packit configuration to use fedora-development (jkonecny)
+- Add a kickstart specification for the main process (vponcova)
+- Adapt Packit configuration to a newly branched Fedora (jkonecny)
+- Create swap by default in RHEL-based installations (#1915297) (vponcova)
+- Add missing space to a message (vslavik)
+- Use Linux HOST_NAME_MAX hostname length limit (xiaqirong1)
+
 * Fri Feb 12 2021 Martin Kolman <mkolman@redhat.com> - 35.2-1
 - Rename pyanaconda.modules.common.typing (vponcova)
 
