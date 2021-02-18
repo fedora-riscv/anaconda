@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 35.3
+Version: 35.4
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -48,7 +48,7 @@ Patch2: 0003-Do-not-require-inst.-prefixes-for-Anaconda-boot-argu.patch
 %define nmver 1.0
 %define pykickstartver 3.32-1
 %define pypartedver 2.5-2
-%define pythonblivetver 1:3.2.2-1
+%define pythonblivetver 1:3.3.3-1
 %define rpmver 4.10.0
 %define simplelinever 1.1-1
 %define subscriptionmanagerver 1.26
@@ -423,6 +423,27 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Feb 18 2021 Martin Kolman <mkolman@redhat.com> - 35.4-1
+- Do not try to push latest from ELN tag (jkonecny)
+- Adapt Packit configuration for master (jkonecny)
+- Add support for f34 and eln branches to container refresh workflow (jkonecny)
+- [Storage] add btrfs_compression option (#1928857) (michel)
+- Adjust branch config ater merge (vslavik)
+- Enable Makefiles and Dockerfiles for branched Fedora (vslavik)
+- packit: make tests ⊂ builds for the chroot set (ttomecek)
+- packit: run all actions in a single action (ttomecek)
+- configure.ac: make the Copyright up to date (ttomecek)
+- ovirt: rebase on CentOS Stream (sbonazzo)
+- Use a custom stylesheet to define RHEL-specific stylesheet data (vponcova)
+- Remove unused variables from Makefile (vslavik)
+- Drop astroid hotfix patch (jkonecny)
+- Add table of git branches (jkonecny)
+- Drop astroid hotfix patch (jkonecny)
+- Don't block the start of the Network module by the hostname service
+  (vponcova)
+- Remove unused variables related to mock (vslavik)
+- Save lorax-packages.log to installed system (rvykydal)
+
 * Mon Feb 15 2021 Martin Kolman <mkolman@redhat.com> - 35.3-1
 - Do not hard-require zram-generator-default on RHEL just yet (mkolman)
 - Switch back Packit testing to rawhide after merge from f34-devel (jkonecny)
