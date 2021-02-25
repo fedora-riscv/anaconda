@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 34.24.5
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -22,6 +22,9 @@ Patch0: 0001-Revert-Remove-support-for-boot-arguments-without-ins.patch
 Patch1: 0002-Revert-Do-not-support-no-inst.-Anaconda-boot-args-in.patch
 Patch2: 0003-Do-not-require-inst.-prefixes-for-Anaconda-boot-argu.patch
 %endif
+
+Patch3: 0004-Determine-GRUB-directory-relative-path-to-use-in-con.patch
+Patch4: 0005-The-network-spoke-should-be-visible-in-live-spins-19.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -423,6 +426,10 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Feb 25 2021 Martin Kolman <mkolman@redhat.com> - 34.24.5-2
+- Determine GRUB directory relative path to use in config file (#1928588) (javierm)
+- The network spoke should be visible in live spins (#1932961) (vponcova)
+
 * Mon Feb 22 2021 Martin Kolman <mkolman@redhat.com> - 34.24.5-1
 - Add the "Encrypt my data" checkbox to the custom partitioning spoke
   (vponcova)
