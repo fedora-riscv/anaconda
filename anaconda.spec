@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 35.6
+Version: 35.7
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -423,6 +423,14 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Mar 02 2021 Martin Kolman <mkolman@redhat.com> - 35.7-1
+- Wrap text in spoke title labels, if needed (vslavik)
+- Wrap welcome spoke title if needed (vslavik)
+- Choose the best locale more carefully (#1933384) (vponcova)
+- Make the user interface context safe for the initial setup (vponcova)
+- Add support for tear-down of the payload modules (vponcova)
+- Add the GetKernelVersionList method (vponcova)
+
 * Thu Feb 25 2021 Martin Kolman <mkolman@redhat.com> - 35.6-1
 - The network spoke should be visible in live spins (#1932961) (vponcova)
 - Ignore Pylint errors on DNF API (vslavik)
