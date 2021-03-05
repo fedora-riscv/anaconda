@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 35.7
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -114,7 +114,6 @@ Requires: python3-productmd
 Requires: python3-dasbus >= %{dasbusver}
 Requires: flatpak-libs
 %if 0%{?rhel}
-Requires: python3-syspurpose
 Requires: subscription-manager >= %{subscriptionmanagerver}
 %endif
 
@@ -423,6 +422,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Mar 05 2021 Martin Kolman <mkolman@redhat.com> - 35.7-2
+- Hotfix: Drop python3-syspurpose dependency
+
 * Tue Mar 02 2021 Martin Kolman <mkolman@redhat.com> - 35.7-1
 - Wrap text in spoke title labels, if needed (vslavik)
 - Wrap welcome spoke title if needed (vslavik)
