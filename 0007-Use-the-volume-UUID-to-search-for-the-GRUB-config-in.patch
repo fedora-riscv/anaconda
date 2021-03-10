@@ -1,0 +1,46 @@
+From 2efdec8ba54caff05548d8711db6a3f9523b157d Mon Sep 17 00:00:00 2001
+From: Javier Martinez Canillas <javierm@redhat.com>
+Date: Mon, 8 Mar 2021 17:42:15 +0100
+Subject: [PATCH] Use the volume UUID to search for the GRUB config in btrfs
+ partitions
+
+For UEFI installs, a minimal GRUB config file is created in the EFI System
+Partition that is used to load the main config file that is located in the
+/boot/grub2 directory. The partition that contains the latter, is found by
+the minimal config searching a device with a given filesystem UUID.
+
+But for this to work the stage2 device must have a filesystem UUID set and
+blivet doesn't set this for partitions formatted with a btrfs filesystem.
+
+Because each btrfs volume will have its own UUID, the UUID of the volume
+that's mounted according to /etc/fstab must be used to search the device.
+
+Resolves: rhbz#1930567
+
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+ pyanaconda/modules/storage/bootloader/efi.py | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/pyanaconda/modules/storage/bootloader/efi.py b/pyanaconda/modules/storage/bootloader/efi.py
+index 425cb31954..82f60e4c40 100644
+--- a/pyanaconda/modules/storage/bootloader/efi.py
++++ b/pyanaconda/modules/storage/bootloader/efi.py
+@@ -172,7 +172,13 @@ class EFIGRUB(EFIBase, GRUB2):
+ 
+         with open(config_path, "w") as fd:
+             grub_dir = self.config_dir
+-            fs_uuid = self.stage2_device.format.uuid
++            if self.stage2_device.format.type != "btrfs":
++                fs_uuid = self.stage2_device.format.uuid
++            else:
++                fs_uuid = self.stage2_device.format.vol_uuid
++
++            if fs_uuid is None:
++                raise BootLoaderError("Could not get stage2 filesystem UUID")
+ 
+             grub_dir = util.execWithCapture("grub2-mkrelpath", [grub_dir],
+                                             root=conf.target.system_root)
+-- 
+2.26.2
+

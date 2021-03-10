@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 34.24.5
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -30,6 +30,10 @@ Patch5: 0006-Choose-the-best-locale-more-carefully-1933384.patch
 # Proposed fix for https://bugzilla.redhat.com/show_bug.cgi?id=1933454
 # https://github.com/rhinstaller/anaconda/pull/3230
 Patch6: 3230.patch
+
+# FE fix for a BTRFS GRUB issue
+# https://bugzilla.redhat.com/show_bug.cgi?id=1930567
+Patch7: 0007-Use-the-volume-UUID-to-search-for-the-GRUB-config-in.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -431,6 +435,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Mar 10 2021 Martin Kolman <mkolman@redhat.com> - 34.24.5-5
+- Use the volume UUID to search for the GRUB config in btrfs partitions (#1930567) (vponcova)
+
 * Tue Mar 09 2021 Adam Williamson <awilliam@redhat.com> - 34.24.5-4
 - Backport #3230 to try and fix #1933454
 
