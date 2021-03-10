@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 34.24.5
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -26,6 +26,10 @@ Patch2: 0003-Do-not-require-inst.-prefixes-for-Anaconda-boot-argu.patch
 Patch3: 0004-Determine-GRUB-directory-relative-path-to-use-in-con.patch
 Patch4: 0005-The-network-spoke-should-be-visible-in-live-spins-19.patch
 Patch5: 0006-Choose-the-best-locale-more-carefully-1933384.patch
+
+# Proposed fix for https://bugzilla.redhat.com/show_bug.cgi?id=1933454
+# https://github.com/rhinstaller/anaconda/pull/3230
+Patch6: 3230.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -427,6 +431,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Mar 09 2021 Adam Williamson <awilliam@redhat.com> - 34.24.5-4
+- Backport #3230 to try and fix #1933454
+
 * Tue Mar 02 2021 Martin Kolman <mkolman@redhat.com> - 34.24.5-3
 - Choose the best locale more carefully (#1933384) (vponcova)
 
