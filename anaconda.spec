@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 35.7
-Release: 2%{?dist}
+Version: 35.8
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -422,8 +422,45 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Fri Mar 05 2021 Martin Kolman <mkolman@redhat.com> - 35.7-2
-- Hotfix: Drop python3-syspurpose dependency
+* Wed Mar 10 2021 Martin Kolman <mkolman@redhat.com> - 35.8-1
+- Make kickstart tests run on branched fedora branches (vslavik)
+- Do not follow symlinks when copying /etc/resolv.conf (#1933454) (rvykydal)
+- Make contributor tests work on braneched Fedora (vslavik)
+- Remove container refresh workaround for ELN (jkonecny)
+- Use the volume UUID to search for the GRUB config in btrfs partitions
+  (javierm)
+- network: remove unneeded line wrap (rffontenelle)
+- Drop python3-syspurpose dependency (mkolman)
+- Remove crun build folder after crun build (jkonecny)
+- Remove crun version abort for container refresh workflow (jkonecny)
+- Split the packages configuration data (vponcova)
+- Hide members of the DNF payload (vponcova)
+- Replace the FlatpakInstallError exception (vponcova)
+- Replace the PayloadInstallError exception in the Payloads module (vponcova)
+- Replace the InstallError exception (vponcova)
+- Build new crun version for ELN container refresh (jkonecny)
+- Adjust github owner tests for this (master) branch (vslavik)
+- Create a task for tearing down OSTree mount targets (vponcova)
+- Include some of the payload installation tasks by default (vponcova)
+- Extend the DBus API of the Payloads service (vponcova)
+- Add the service_proxy property (vponcova)
+- Fix copypaste typo in github owner tests (vslavik)
+- conscious lang: rename /etc/modprobe.d/anaconda-blacklist.conf (rvykydal)
+- Fix running tests for the f34-devel branch (vslavik)
+- change the grub2 user.cfg permission from 0600 to 0700 (854182924)
+- Add the installation source for flatpaks (vponcova)
+- Handle exceptions inside the CopyBootloaderDataTask class (vponcova)
+- conscious lang: replace 'master store' with 'primary store' in a doc text
+  (rvykydal)
+- conscious lang: replace 'slave' in network related code (rvykydal)
+- conscious lang: replace 'master' in network related code (rvykydal)
+- conscious lang: replace slaves with ports in network GUI (rvykydal)
+- conscious lang: remove blacklist from pylint configuration file (rvykydal)
+- conscious lang: rename payload function for adding a module do a denylist
+  (rvykydal)
+- conscious lang: remove warning for removed blacklist and nofirewire commands
+  (rvykydal)
+- conscious lang: replace blacklisting in boot options documentation (rvykydal)
 
 * Tue Mar 02 2021 Martin Kolman <mkolman@redhat.com> - 35.7-1
 - Wrap text in spoke title labels, if needed (vslavik)
