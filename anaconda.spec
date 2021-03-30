@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 34.24.6
+Version: 34.24.7
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -81,10 +81,8 @@ BuildRequires: libtimezonemap-devel >= %{libtimezonemapver}
 BuildRequires: gdk-pixbuf2-devel
 BuildRequires: libxml2
 
-Requires: anaconda-core = %{version}-%{release}
 Requires: anaconda-gui = %{version}-%{release}
 Requires: anaconda-tui = %{version}-%{release}
-Requires: anaconda-install-env-deps = %{version}-%{release}
 
 %description
 The anaconda package is a metapackage for the Anaconda installer.
@@ -200,7 +198,6 @@ Requires: tmux
 Requires: gdb
 # support for installation from image and live & live image installations
 Requires: rsync
-Recommends: zram-generator-defaults
 
 %description install-env-deps
 The anaconda-install-env-deps metapackage lists all installation environment dependencies.
@@ -422,6 +419,16 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Mar 30 2021 Martin Kolman <mkolman@redhat.com> - 34.24.7-1
+- network: match also connections named by MAC created by NM in initramfs
+  (rvykydal)
+- Create /tmp with the right permissions (#1937626) (vponcova)
+- Don't recommend zram-generator-defaults (#1938132) (vponcova)
+- Don't automatically execute the default partitioning (vponcova)
+- Fix the warning about working NTP servers (#1889180) (vponcova)
+- Remove implicit dependencies (vponcova)
+- Don't install anaconda-install-env-deps by default (vponcova)
+
 * Mon Mar 22 2021 Martin Kolman <mkolman@redhat.com> - 34.24.6-1
 - Check if the mount point exists before calling statvfs (#1824357) (vponcova)
 - Do not follow symlinks when copying /etc/resolv.conf (#1933454) (rvykydal)
