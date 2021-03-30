@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 35.9
+Version: 35.10
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -81,10 +81,8 @@ BuildRequires: libtimezonemap-devel >= %{libtimezonemapver}
 BuildRequires: gdk-pixbuf2-devel
 BuildRequires: libxml2
 
-Requires: anaconda-core = %{version}-%{release}
 Requires: anaconda-gui = %{version}-%{release}
 Requires: anaconda-tui = %{version}-%{release}
-Requires: anaconda-install-env-deps = %{version}-%{release}
 
 %description
 The anaconda package is a metapackage for the Anaconda installer.
@@ -200,7 +198,6 @@ Requires: tmux
 Requires: gdb
 # support for installation from image and live & live image installations
 Requires: rsync
-Recommends: zram-generator-defaults
 
 %description install-env-deps
 The anaconda-install-env-deps metapackage lists all installation environment dependencies.
@@ -422,6 +419,21 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Mar 30 2021 Martin Kolman <mkolman@redhat.com> - 35.10-1
+- Update unit test for GetDracutArguments for FCoE (rvykydal)
+- Make failure in generating of dracut arguments for iSCSI device non-fatal.
+  (rvykydal)
+- network: match also connections named by MAC created by NM in initramfs
+  (rvykydal)
+- Create /tmp with the right permissions (#1937626) (vponcova)
+- Don't recommend zram-generator-defaults (#1938132) (vponcova)
+- Don't automatically execute the default partitioning (vponcova)
+- Fix the warning about working NTP servers (#1889180) (vponcova)
+- Remove implicit dependencies (vponcova)
+- Don't install anaconda-install-env-deps by default (vponcova)
+- Document SSH root password login issues & possible workaround (mkolman)
+- Add groups to kickstart tests lorax output (vslavik)
+
 * Mon Mar 22 2021 Martin Kolman <mkolman@redhat.com> - 35.9-1
 - Improve logging of the download and install sizes (vponcova)
 - Clean up the code for finding sufficient mount points (vponcova)
