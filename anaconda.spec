@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 35.10
+Version: 35.11
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -419,6 +419,10 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Mar 31 2021 Martin Kolman <mkolman@redhat.com> - 35.11-1
+- Turn off wrapping of the scale values (vponcova)
+- Make the scale visible by default (#1943370) (vponcova)
+
 * Tue Mar 30 2021 Martin Kolman <mkolman@redhat.com> - 35.10-1
 - Update unit test for GetDracutArguments for FCoE (rvykydal)
 - Make failure in generating of dracut arguments for iSCSI device non-fatal.
