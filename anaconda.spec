@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 34.24.8
+Version: 34.24.9
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -419,6 +419,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Apr 12 2021 Martin Kolman <mkolman@redhat.com> - 34.24.9-1
+- Allow to exclude the kernel-lpae package (vponcova)
+
 * Wed Mar 31 2021 Martin Kolman <mkolman@redhat.com> - 34.24.8-1
 - ostree: ignore exit code 65 for systemd-tmpfiles (vponcova)
 - Turn off wrapping of the scale values (vponcova)
