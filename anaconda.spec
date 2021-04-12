@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 35.11
+Version: 35.12
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -11,17 +11,6 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
-
-# TODO: Remove this as soon as rhbz#1907566 will be solved!
-# These patches will disable requirement of inst. prefix for RHEL-9.
-# We need these to avoid beaker breakage see rhbz#1907566 for more info.
-# Patches are generated from last three commits on:
-# https://github.com/jkonecny12/anaconda/tree/master-add-patches-to-allow-no-inst-prefix
-%if 0%{?rhel} == 9
-Patch0: 0001-Revert-Remove-support-for-boot-arguments-without-ins.patch
-Patch1: 0002-Revert-Do-not-support-no-inst.-Anaconda-boot-args-in.patch
-Patch2: 0003-Do-not-require-inst.-prefixes-for-Anaconda-boot-argu.patch
-%endif
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -419,6 +408,25 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Apr 12 2021 Martin Kolman <mkolman@redhat.com> - 35.12-1
+- Remove patches to avoid forcing inst. prefix on RHEL 9 (jkonecny)
+- Allow to exclude the kernel-lpae package (vponcova)
+- Remove the pwpolicy kickstart command (vponcova)
+- Do not generate dracut arguments multiple times for some storage devices
+  (rvykydal)
+- Run RHEL8 contributor tests on kstest runners (vslavik)
+- Add support for comps to the DNF manager (vponcova)
+- Add DBus structures for comps data (vponcova)
+- Add the is_cdn_registration_required function (vponcova)
+- Use the default_environment property in UI (vponcova)
+- Add the default_environment property to the DNF manager (vponcova)
+- Create the substitute method (vponcova)
+- Rename tests-owners to just tests (jkonecny)
+- Use GitHub environment gating for kstests workflow (jkonecny)
+- Replace our Fedora owners check by GH environments for our workflows
+  (jkonecny)
+- Fix a small typo in common bugs (jkonecny)
+
 * Wed Mar 31 2021 Martin Kolman <mkolman@redhat.com> - 35.11-1
 - Turn off wrapping of the scale values (vponcova)
 - Make the scale visible by default (#1943370) (vponcova)
