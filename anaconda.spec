@@ -15,6 +15,9 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # make dist
 Source0: https://github.com/rhinstaller/%{name}/releases/download/%{name}-%{version}-1/%{name}-%{version}.tar.bz2
 
+# FIX: https://bugzilla.redhat.com/show_bug.cgi?id=1885825
+Patch0: 5d81a7faa67bc065a6e309561865d1682abbcee4.patch
+
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
 
