@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 35.16
-Release: 2%{?dist}
+Version: 35.17
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -404,8 +404,23 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Fri Jun 04 2021 Python Maint <python-maint@redhat.com> - 35.16-2
-- Rebuilt for Python 3.10
+* Tue Jun 15 2021 Martin Kolman <mkolman@redhat.com> - 35.17-1
+- Fix import of Iterable from collections (rvykydal)
+- Move the support for the treeinfo metadata into a DBus module (vponcova)
+- Add support for configuration of the DNF substitution variables (vponcova)
+- Remove the _install_tree_metadata attribute (vponcova)
+- Add unit test for biosdevname package requirement (rvykydal)
+- Require biosdevname package if biosdevname=1 boot option is set (rvykydal)
+- Make clear that team and vlan from ks in initramfs is not supported
+  (rvykydal)
+- Fixed some more PEP8 issues in installation.py (lveyde)
+- Don't allow reformat if the requested file system is unsupported (vponcova)
+- Always exclude unsupported file systems (vponcova)
+- Remove btrfs from the list of unsupported file systems (vponcova)
+- Clean up the get_supported_filesystems function (vponcova)
+- Clarify the implementation of GetFormatTypeData (vponcova)
+- Run tests on every push to a base branch (vponcova)
+- Introduce the docs/release-notes directory (vponcova)
 
 * Wed May 26 2021 Martin Kolman <mkolman@redhat.com> - 35.16-1
 - Add kickstart tests support for RHEL-9 branch (#infra) (jkonecny)
