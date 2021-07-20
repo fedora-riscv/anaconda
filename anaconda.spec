@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 35.19
+Version: 35.20
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -37,7 +37,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define nmver 1.0
 %define pykickstartver 3.32-1
 %define pypartedver 2.5-2
-%define pythonblivetver 1:3.3.3-1
+%define pythonblivetver 1:3.4.0-1
 %define rpmver 4.10.0
 %define simplelinever 1.1-1
 %define subscriptionmanagerver 1.26
@@ -404,6 +404,29 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Jul 20 2021 Martin Kolman <mkolman@redhat.com> - 35.20-1
+- Improve logging from the DownloadProgress class (vponcova)
+- Monitor the image installation progress with a new class (vponcova)
+- Clean up the InstallFromImageTask class (vponcova)
+- Clean up the InstallFromTarTask class (vponcova)
+- Move the InstallFromImageTask class (vponcova)
+- Disable installation tasks of the Live OS payload module (vponcova)
+- Improve installation logs in the Security module (vponcova)
+- Raise kickstart errors only during kickstart parsing (vponcova)
+- Reuse the apply_partitioning function (vponcova)
+- Verify the image checksum in an installation task (vponcova)
+- Move the progress callback to the base payload class (vponcova)
+- Revert "Disable failing test" (jkonecny)
+- Check the support for the Subscription module on startup (vponcova)
+- Activate DBus modules based on the new configuration options (vponcova)
+- Add new configuration options for the DBus module activation (vponcova)
+- Fix typing errors in the Security module (vponcova)
+- remove authconfig support (pbrezina)
+- Use C.UTF-8 if the requested locale is unsupported (vponcova)
+- Don't match a non-POSIX locale with a POSIX langcode (vponcova)
+- Show suggestions for an error caused by inconsistent sector sizes (vponcova)
+- new window in tmux to tail packaging.log (jarrod)
+
 * Mon Jul 12 2021 Martin Kolman <mkolman@redhat.com> - 35.19-1
 - Don't return None from is_supported_filesystem (#1979854) (vponcova)
 - Configure the multilib policy of the target system (vponcova)
