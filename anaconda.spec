@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 35.20
-Release: 2%{?dist}
+Version: 35.21
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -100,7 +100,7 @@ Requires: python3-systemd
 Requires: python3-productmd
 Requires: python3-dasbus >= %{dasbusver}
 Requires: flatpak-libs
-%if 0%{?rhel}
+%if %{defined rhel} && %{undefined centos}
 Requires: subscription-manager >= %{subscriptionmanagerver}
 %endif
 
@@ -209,9 +209,10 @@ Requires: hfsplus-tools
 %endif
 # only WeakRequires elsewhere and not guaranteed to be present
 Requires: device-mapper-multipath
-# FIXME: do not require on RHEL until the package is ready
-%if 0%{?rhel} != 9
+%if ! 0%{?rhel}
 Requires: zram-generator-defaults
+%else
+Requires: rust-zram-generator
 %endif
 # Display stuff moved from lorax templates
 Requires: xorg-x11-drivers
@@ -404,8 +405,20 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Wed Jul 21 2021 Fedora Release Engineering <releng@fedoraproject.org> - 35.20-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+* Thu Jul 29 2021 Martin Kolman <mkolman@redhat.com> - 35.21-1
+- Add release notes for packaging log in tmux (jkonecny)
+- Small fixes in the subscription structures (vponcova)
+- Make critical warnings from Dracut more visible (#1983098) (jkonecny)
+- Print Dracut errors encountered during boot after Anaconda starts (#1983098)
+  (jkonecny)
+- Add function to print critical warnings more visible during boot (#1983098)
+  (jkonecny)
+- dracut: read filename dhcp option from dhcpopts file (rvykydal)
+- Disable anaconda-core's requirement on subscription-manager on CentOS (carl)
+- Add new error reporting hook when Dracut timeout (#1983098) (jkonecny)
+- Update boot-options.rst (31507393+Ultimate-etamitlU)
+- Handle handle get_layout() method returning None (#1976526) (mkolman)
+- Enable the zram-generator service on RHEL (vponcova)
 
 * Tue Jul 20 2021 Martin Kolman <mkolman@redhat.com> - 35.20-1
 - Improve logging from the DownloadProgress class (vponcova)
