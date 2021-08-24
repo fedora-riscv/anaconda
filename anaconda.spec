@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 35.21
+Version: 35.22.1
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -212,7 +212,7 @@ Requires: device-mapper-multipath
 %if ! 0%{?rhel}
 Requires: zram-generator-defaults
 %else
-Requires: rust-zram-generator
+Requires: zram-generator
 %endif
 # Display stuff moved from lorax templates
 Requires: xorg-x11-drivers
@@ -224,6 +224,7 @@ Requires: gsettings-desktop-schemas
 Requires: nm-connection-editor
 Requires: librsvg2
 Requires: gnome-kiosk
+Requires: brltty
 
 %description install-img-deps
 The anaconda-install-img-deps metapackage lists all boot.iso installation image dependencies.
@@ -405,6 +406,25 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Aug 24 2021 Martin Kolman <mkolman@redhat.com> - 35.22.1-1
+- Adjust configuration options for Fedora 35 (mkolman)
+- fsset: Ignore all swap activation errors in turn_on_swap (vtrefny)
+- Don't try to use line buffering in binary mode (vponcova)
+- Add release notes for NTP dialog change (vslavik)
+- Change the NTP server dialog design (vslavik)
+- Rename spoke to Root Account (vslavik)
+- Don't set default of gpt option at cmdline parsing (cheeselee)
+- Change the root password spoke GUI design (vslavik)
+- Add release notes for visible warnings from initrd (jkonecny)
+- Split NTP dialog to its own glade file (vslavik)
+
+* Tue Aug 10 2021 Martin Kolman <mkolman@redhat.com> - 35.22-1
+- Fix dependency on zram-generator in RHEL (sgallagh)
+- tests: Fix failing ClearPartTestCase with latest blivet (vtrefny)
+- Add brltty to boot.iso with default configuration (vslavik)
+- Fix admin user password condition handling in TUI (854182924)
+- Fix typo in docstring (vslavik)
+
 * Thu Jul 29 2021 Martin Kolman <mkolman@redhat.com> - 35.21-1
 - Add release notes for packaging log in tmux (jkonecny)
 - Small fixes in the subscription structures (vponcova)
