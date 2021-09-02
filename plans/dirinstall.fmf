@@ -1,0 +1,18 @@
+summary: Integration test - dirinstall on regular system
+provision:
+    standard-inventory-qcow2:
+        qemu:
+            m: 2G
+prepare:
+    how: install
+    package:
+      - anaconda
+      # gnome-kiosk is required for "vnc" mode
+      - gnome-kiosk
+execute:
+    script:
+      - ANACONDA_UI_MODE=text plans/dirinstall.sh
+      - plans/show_logs.sh
+      - ANACONDA_UI_MODE=vnc plans/dirinstall.sh
+      - plans/show_logs.sh
+      - journalctl -a
