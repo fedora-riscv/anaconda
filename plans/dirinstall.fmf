@@ -8,11 +8,11 @@ prepare:
     package:
       - anaconda
       # gnome-kiosk is required for "vnc" mode
-      - gnome-kiosk
+#      - gnome-kiosk
 execute:
     script:
       - ANACONDA_UI_MODE=text plans/dirinstall.sh
       - plans/show_logs.sh
-      - ANACONDA_UI_MODE=vnc plans/dirinstall.sh
-      - plans/show_logs.sh
+#      - ANACONDA_UI_MODE=vnc plans/dirinstall.sh
+#      - plans/show_logs.sh
       - journalctl -a
