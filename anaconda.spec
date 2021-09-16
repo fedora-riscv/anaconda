@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 36.2
+Version: 36.3
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -99,6 +99,7 @@ Requires: python3-pwquality
 Requires: python3-systemd
 Requires: python3-productmd
 Requires: python3-dasbus >= %{dasbusver}
+Requires: python3-packaging
 Requires: flatpak-libs
 %if %{defined rhel} && %{undefined centos}
 Requires: subscription-manager >= %{subscriptionmanagerver}
@@ -406,6 +407,16 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Sep 16 2021 Martin Kolman <mkolman@redhat.com> - 36.3-1
+- Fix boolean comparisons in asserts (vslavik)
+- Stop using distutils to compare kernel versions (vslavik)
+- Clarify scope of ignored locations (amahdal)
+- Clarify reference to other *multiple* `inst.ks` arguments (amahdal)
+- Clarify default behavior before `inst.ks.all` (amahdal)
+- Clarify `inst.ks.all` description by using imperative mode (amahdal)
+- Add missing markup for option names and "value types" (amahdal)
+- Copy logs in a task instead of a %%post script (vslavik)
+
 * Thu Sep 09 2021 Martin Kolman <mkolman@redhat.com> - 36.2-1
 - Add missing apostrophe to suggestion (rffontenelle)
 - Add test for new "nosave" config members (vslavik)
