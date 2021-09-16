@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 35.22.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -11,6 +11,10 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
+
+# FE fix for NTP server dialog
+# https://bugzilla.redhat.com/show_bug.cgi?id=2001591
+Patch1: 0001-The-NTP-server-dialog-without-entries-shouldn-t-cras.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -406,6 +410,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Sep 16 2021 Martin Kolman <mkolman@redhat.com> - 35.22.1-2
+- The NTP server dialog without entries shouldn't crash (#2001591) (vponcova)
+
 * Tue Aug 24 2021 Martin Kolman <mkolman@redhat.com> - 35.22.1-1
 - Adjust configuration options for Fedora 35 (mkolman)
 - fsset: Ignore all swap activation errors in turn_on_swap (vtrefny)
