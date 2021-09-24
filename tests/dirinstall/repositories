@@ -1,0 +1,4 @@
+# Names of local repositories whose urls will be used for installation
+# Repositories for "Fedora X" release:
+BASE_REPO="fedora"
+REPOS="fedora-modular"
