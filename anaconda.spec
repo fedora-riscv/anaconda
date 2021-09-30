@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 35.22.1
-Release: 2%{?dist}
+Version: 35.22.2
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -11,10 +11,6 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
-
-# FE fix for NTP server dialog
-# https://bugzilla.redhat.com/show_bug.cgi?id=2001591
-Patch1: 0001-The-NTP-server-dialog-without-entries-shouldn-t-cras.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -410,8 +406,17 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
-* Thu Sep 16 2021 Martin Kolman <mkolman@redhat.com> - 35.22.1-2
+* Thu Sep 30 2021 Martin Kolman <mkolman@redhat.com> - 35.22.2-1
+- In installer environment set static, not transient hostname (rvykydal)
+- Payload should wait for all storage related threads to finish (mkolman)
+- Set an upper bound to entered sizes (#1992585) (vponcova)
+- Handle new time zones in GUI after earlier switch to zoneinfo (vslavik)
+- Do not stretch NTP toggle in GUI (vslavik)
 - The NTP server dialog without entries shouldn't crash (#2001591) (vponcova)
+- Set hostname also from ip= static configuration without device (#1988521)
+  (rvykydal)
+- Fix Removed options inst.[product|variant] were subsections (jkonecny)
+- Cleanup unneeded NFS repo with rd.live.ram parameter (mmatsuya)
 
 * Tue Aug 24 2021 Martin Kolman <mkolman@redhat.com> - 35.22.1-1
 - Adjust configuration options for Fedora 35 (mkolman)
