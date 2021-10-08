@@ -1,0 +1,30 @@
+From e07d14aef9fa315d5aea6967aa1517b534400731 Mon Sep 17 00:00:00 2001
+From: Vendula Poncova <vponcova@redhat.com>
+Date: Mon, 20 Sep 2021 12:10:42 +0200
+Subject: [PATCH] Revert "Install kbd-legacy if keyboard layout is "fi"
+ (#1955793)"
+
+This reverts commit b9c33400831024394e351753d7e413643f6a4757.
+
+Resolves: rhbz#2003937
+---
+ pyanaconda/modules/localization/localization.py       |  6 ++----
+ 1 files changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/pyanaconda/modules/localization/localization.py b/pyanaconda/modules/localization/localization.py
+index 52015335f69..6a2c8be3ac0 100644
+--- a/pyanaconda/modules/localization/localization.py
++++ b/pyanaconda/modules/localization/localization.py
+@@ -196,10 +196,8 @@ def collect_requirements(self):
+         """
+         requirements = []
+ 
+-        # Install support for non-ascii keyboard layouts (#1919483)
+-        # and special case "fi" layout (#1955793)
+-        if self.vc_keymap and (self.vc_keymap == "fi" or
+-                               not langtable.supports_ascii(self.vc_keymap)):
++        # Install support for non-ascii keyboard layouts (#1919483).
++        if self.vc_keymap and not langtable.supports_ascii(self.vc_keymap):
+             requirements.append(Requirement.for_package(
+                 package_name="kbd-legacy",
+                 reason="Required to support the '{}' keymap.".format(self.vc_keymap)

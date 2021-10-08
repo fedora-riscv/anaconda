@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 35.22.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -11,6 +11,10 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: %{name}-%{version}.tar.bz2
+
+# F35 final freeze exception - Use default Finnish xkb-converted layout
+# https://bugzilla.redhat.com/show_bug.cgi?id=2001787
+Patch1: 0001-revert-kbd-legacy-install-for-fi.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -406,6 +410,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Oct 08 2021 Martin Kolman <mkolman@redhat.com> - 35.22.2-2
+- Revert "Install kbd-legacy if keyboard layout is "fi" (#1955793) (vponcova)
+
 * Thu Sep 30 2021 Martin Kolman <mkolman@redhat.com> - 35.22.2-1
 - In installer environment set static, not transient hostname (rvykydal)
 - Payload should wait for all storage related threads to finish (mkolman)
