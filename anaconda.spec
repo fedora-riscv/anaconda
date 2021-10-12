@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 36.6
+Version: 36.7
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -25,7 +25,7 @@ Source0: %{name}-%{version}.tar.bz2
 %define fcoeutilsver 1.0.12-3.20100323git
 %define gettextver 0.19.8
 %define gtk3ver 3.22.17
-%define helpver 22.1-1
+%define helpver 26.2-1
 %define isomd5sumver 1.0.10
 %define langtablever 0.0.54
 %define libarchivever 3.0.4
@@ -407,6 +407,15 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Oct 12 2021 Martin Kolman <mkolman@redhat.com> - 36.7-1
+- Cache the parsed content of the help mapping files (vponcova)
+- Use specific help directories (vponcova)
+- Remove the default_help_pages configuration option (vponcova)
+- Remove the helpFile attribute (vponcova)
+- Implement the unified help support (vponcova)
+- Mention manual journal dumps for mising logs (vslavik)
+- Revert "Install kbd-legacy if keyboard layout is "fi" (#1955793)" (vponcova)
+
 * Mon Oct 11 2021 Martin Kolman <mkolman@redhat.com> - 36.6-1
 - Don't assume Python modules are in sysconfig.get_path('purelib') (miro)
 - Watch the org.freedesktop.hostname1 name (vponcova)
