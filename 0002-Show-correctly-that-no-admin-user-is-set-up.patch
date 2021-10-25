@@ -1,0 +1,87 @@
+From 1e1ee086c980fa8d53320b31e85ec10c81bd5f57 Mon Sep 17 00:00:00 2001
+From: Vladimir Slavik <vslavik@redhat.com>
+Date: Mon, 25 Oct 2021 13:29:34 +0200
+Subject: [PATCH] Show correctly that no admin user is set up
+
+Previously, it was possible to satisfy the conditions just by setting root
+password, even if root was locked.
+
+The recent redesign of root spoke made the error more prominent, but the
+situation could be recreated even before.
+
+This changes both root and user spoke to signal the incomplete user.
+
+Resolves: rhbz#2015508
+---
+ pyanaconda/ui/gui/spokes/root_password.py | 14 ++++++++++++--
+ pyanaconda/ui/gui/spokes/user.py          | 15 +++++++++++++--
+ 2 files changed, 25 insertions(+), 4 deletions(-)
+
+diff --git a/pyanaconda/ui/gui/spokes/root_password.py b/pyanaconda/ui/gui/spokes/root_password.py
+index 8271101316..fa50e30623 100644
+--- a/pyanaconda/ui/gui/spokes/root_password.py
++++ b/pyanaconda/ui/gui/spokes/root_password.py
+@@ -186,7 +186,10 @@ class PasswordSpoke(FirstbootSpokeMixIn, NormalSpoke, GUISpokeInputCheckHandler)
+ 
+     @property
+     def mandatory(self):
+-        """Only mandatory if no admin user has been requested."""
++        """Only mandatory if no admin user has been requested.
++
++        See also doc for the property completed().
++        """
+         return not self._users_module.CheckAdminUserExists()
+ 
+     def apply(self):
+@@ -216,7 +219,14 @@ class PasswordSpoke(FirstbootSpokeMixIn, NormalSpoke, GUISpokeInputCheckHandler)
+ 
+     @property
+     def completed(self):
+-        return self._users_module.IsRootPasswordSet
++        """Is the spoke completed?
++
++        For root and user, the mandatory+completed pair is a complicated hack. Having an usable
++        admin user is mandatory, but it is not clear if it should be an unlocked root, or a sudoer.
++        Thus, mandatory on both spokes checks admin user, and complete then checks again: Both the
++        spoke-specific completion condition, as well as existence of an admin.
++        """
++        return self._users_module.IsRootPasswordSet and self._users_module.CheckAdminUserExists()
+ 
+     @property
+     def sensitive(self):
+diff --git a/pyanaconda/ui/gui/spokes/user.py b/pyanaconda/ui/gui/spokes/user.py
+index dacc71cff3..b389d72758 100644
+--- a/pyanaconda/ui/gui/spokes/user.py
++++ b/pyanaconda/ui/gui/spokes/user.py
+@@ -459,7 +459,10 @@ class UserSpoke(FirstbootSpokeMixIn, NormalSpoke, GUISpokeInputCheckHandler):
+ 
+     @property
+     def mandatory(self):
+-        """Only mandatory if no admin user has been requested."""
++        """Only mandatory if no admin user has been requested.
++
++        See also doc for the property completed().
++        """
+         return not self._users_module.CheckAdminUserExists()
+ 
+     def apply(self):
+@@ -503,7 +506,15 @@ class UserSpoke(FirstbootSpokeMixIn, NormalSpoke, GUISpokeInputCheckHandler):
+ 
+     @property
+     def completed(self):
+-        return bool(get_user_list(self._users_module))
++        """Is the spoke completed?
++
++        For root and user, the mandatory+completed pair is a complicated hack. Having an usable
++        admin user is mandatory, but it is not clear if it should be an unlocked root, or a sudoer.
++        Thus, mandatory on both spokes checks admin user, and complete then checks again: Both the
++        spoke-specific completion condition, as well as existence of an admin.
++        """
++        return bool(get_user_list(self._users_module)) \
++               and self._users_module.CheckAdminUserExists()
+ 
+     def on_password_required_toggled(self, togglebutton=None, data=None):
+         """Called by Gtk callback when the "Use password" check
+-- 
+2.31.1
+

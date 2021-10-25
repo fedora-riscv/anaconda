@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 35.22.2
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -15,6 +15,10 @@ Source0: %{name}-%{version}.tar.bz2
 # F35 final freeze exception - Use default Finnish xkb-converted layout
 # https://bugzilla.redhat.com/show_bug.cgi?id=2001787
 Patch1: 0001-revert-kbd-legacy-install-for-fi.patch
+
+# F35 final fix admin user handling
+# https://bugzilla.redhat.com/show_bug.cgi?id=2015508
+Patch2: 0002-Show-correctly-that-no-admin-user-is-set-up.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -410,6 +414,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Oct 25 2021 Martin Kolman <mkolman@redhat.com> - 35.22.2-3
+- Show correctly that no admin user is set up (#2015508) (vslavik)
+
 * Fri Oct 08 2021 Martin Kolman <mkolman@redhat.com> - 35.22.2-2
 - Revert "Install kbd-legacy if keyboard layout is "fi" (#1955793) (vponcova)
 
