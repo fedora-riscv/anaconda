@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 36.7
+Version: 36.8
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -38,8 +38,8 @@ Source0: %{name}-%{version}.tar.bz2
 %define pykickstartver 3.32-1
 %define pypartedver 2.5-2
 %define pythonblivetver 1:3.4.0-1
-%define rpmver 4.10.0
-%define simplelinever 1.1-1
+%define rpmver 4.15.0
+%define simplelinever 1.9.0-1
 %define subscriptionmanagerver 1.26
 %define utillinuxver 2.15.1
 
@@ -312,6 +312,9 @@ find %{buildroot} -type f -name "*.la" | xargs %{__rm}
 # Create an empty directory for addons
 mkdir %{buildroot}%{_datadir}/anaconda/addons
 
+# Create an empty directory for post-scripts
+mkdir %{buildroot}%{_datadir}/anaconda/post-scripts
+
 # required for live installations
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/liveinst.desktop
 
@@ -347,6 +350,7 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %exclude %{_datadir}/anaconda/ui
 %exclude %{_datadir}/anaconda/window-manager
 %exclude %{_datadir}/anaconda/anaconda-gtk.css
+%dir %{_datadir}/anaconda/post-scripts
 %exclude %{_prefix}/libexec/anaconda/dd_*
 %{python3_sitearch}/pyanaconda
 %exclude %{python3_sitearch}/pyanaconda/rescue.py*
@@ -407,6 +411,30 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Nov 02 2021 Martin Kolman <mkolman@redhat.com> - 36.8-1
+- Make network spoke GUI more robust in cases of missing NM Client. (rvykydal)
+- Do not crash on missing NM Client on --vnc installations (#1998754)
+  (rvykydal)
+- Add configuration files for Read the Docs (vponcova)
+- Use the set-up and tear-down tasks of the Live OS image source (vponcova)
+- make US keyboard layout easier to find in Anaconda (suanand)
+- Show correctly that no admin user is set up (vslavik)
+- Move the Live OS image detection into a task (vponcova)
+- No wildcards in Automake (praiskup)
+- Create a new base class for migrated payloads (vponcova)
+- Disable the concurrency check in the error dialog in TUI (vponcova)
+- Unify GUI & TUI root spoke completeness conditions (vslavik)
+- Log statistics about the image installation (vponcova)
+- Document the drop-in %%post scripts (vslavik)
+- Monitor the progress of the image installation in tasks (vponcova)
+- Bump required rpm version (vslavik)
+- CONTRIBUTING: Note to base changes on a clone of the target branch. (fgrose)
+- anaconda-cleanup: Don't unmount '/run/rootfsbase'. (fgrose)
+- Change creation of post-script directory (vslavik)
+- Restore file contexts in task instead of %%post script (vslavik)
+- CopyLogsWithTask is now FinishInstallationWithTasks (vslavik)
+- Use the recommended autoreconf command (praiskup)
+
 * Tue Oct 12 2021 Martin Kolman <mkolman@redhat.com> - 36.7-1
 - Cache the parsed content of the help mapping files (vponcova)
 - Use specific help directories (vponcova)
