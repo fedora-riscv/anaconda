@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 36.10
+Version: 36.11
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -10,7 +10,7 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # git checkout -b archive-branch anaconda-%%{version}-%%{release}
 # ./autogen.sh
 # make dist
-Source0: %{name}-%{version}.tar.bz2
+Source0: https://github.com/rhinstaller/%{name}/releases/download/%{name}-%{version}-1/%{name}-%{version}.tar.bz2
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -411,6 +411,29 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Dec 02 2021 Packit Service <user-cont-team+packit-service@redhat.com> - 36.11-1
+- New version - 36.11 (Martin Kolman)
+- Handle potential failure of `cd` (Vladimir Slavik)
+- Printf variables correctly (Vladimir Slavik)
+- Simplify debug printing (Vladimir Slavik)
+- Ignore use of local variables (Vladimir Slavik)
+- Fix wrong comparison operator (Vladimir Slavik)
+- Remove unused variables (Vladimir Slavik)
+- Ignore variables used across our dracut hooks (Vladimir Slavik)
+- Fix arithmetic operation on a variable (Vladimir Slavik)
+- Fix `read` calls in dracut code (Vladimir Slavik)
+- Check correctly if glob finds anything (Vladimir Slavik)
+- Check for substring in POSIX compatible way (Vladimir Slavik)
+- Remove useless echo calls (Vladimir Slavik)
+- Split combined local variable creation and assignment (Vladimir Slavik)
+- Fix "empty" redirections in dracut scripts (Vladimir Slavik)
+- Fix hashbangs in dracut scripts (Vladimir Slavik)
+- Split binary logic in dracut shell files (Vladimir Slavik)
+- Add a ShellCheck config for dracut scripts (Vladimir Slavik)
+- Add changelog to GH releases (#infra) (Vladimir Slavik)
+- Enable the pytest assert introspection in the helper functions (Vendula Poncova)
+- Fix Source0 in spec to point to upstream source URL (Jiri Konecny)
+
 * Mon Nov 29 2021 Martin Kolman <mkolman@redhat.com> - 36.10-1
 - Add tasks for cleaning up after the live image installation (vponcova)
 - Create a task for mounting a live image (vponcova)
