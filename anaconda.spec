@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 36.11
+Version: 36.12
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -411,6 +411,35 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Dec 14 2021 Packit Service <user-cont-team+packit-service@redhat.com> - 36.12-1
+- New version - 36.12 (Martin Kolman)
+- Retire execInSysroot (Vladimir Slavik)
+- Retire all uses of execInSysroot in bootloader (Vladimir Slavik)
+- Stop using execInSysroot in FixZIPLBootloaderTask (Vladimir Slavik)
+- Remove the root= kwarg of execInSysroot (Vladimir Slavik)
+- Replace the only execInSysroot call using root= (Vladimir Slavik)
+- Fix ShellCheck issues in translation_canary (Vladimir Slavik)
+- network: always use rd.iscsi.ibft when the need to access an iBFT device (Lubomir Rintel)
+- Remove the dracut_args attribute (Vendula Poncova)
+- Remove upd-kernel (Vladimir Slavik)
+- Quote things for ShellCheck (Vladimir Slavik)
+- Eliminate boolean test operator (Vladimir Slavik)
+- Remove LIVE_INSTALL (Vladimir Slavik)
+- Improve grepping and testing results in liveinst (Vladimir Slavik)
+- Fix quoting in liveinst scripts (Vladimir Slavik)
+- Split variable declaration and assignment (Vladimir Slavik)
+- Do not try to load the floppy kernel module (Jan Stodola)
+- Fix reset of DBus containers in the unit tests (Vendula Poncova)
+- Introduce a download path to simplify the image payload code (Vendula Poncova)
+- Add a page with overview of CI actions (Vladimir Slavik)
+- Fix generation of commit range for rel.notes (#infra) (Vladimir Slavik)
+- Fix mailing list in our Dockerfiles (Jiri Konecny)
+- Change mail from anaconda-devel-list@redhat.com to Fedora variant (Jiri Konecny)
+- Remove the container build badge from README (Vladimir Slavik)
+- Clean up the task for the checksum verification (Vendula Poncova)
+- Remove the %anaconda section (Vendula Poncova)
+- Deprecate the ANA_INSTALL_PATH environment variable (Vendula Poncova)
+
 * Thu Dec 02 2021 Packit Service <user-cont-team+packit-service@redhat.com> - 36.11-1
 - New version - 36.11 (Martin Kolman)
 - Handle potential failure of `cd` (Vladimir Slavik)
