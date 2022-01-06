@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 36.12
+Version: 36.13
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -411,6 +411,46 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Jan 06 2022 Packit Service <user-cont-team+packit-service@redhat.com> - 36.13-1
+- New version - 36.13 (Martin Kolman)
+- Fix names of tests for the OPAL compatibility verification (Vendula Poncova)
+- Always use LegacyVersion for parsing versions (Vendula Poncova)
+- Remove the GenerateTemporaryKickstart DBus method (Vendula Poncova)
+- Use the DBus API for the image and tar installation (Vendula Poncova)
+- Run the installation tasks in the live image payload module (Vendula Poncova)
+- Create complete installation tasks for live and tar installations (Vendula Poncova)
+- Create the tarball source module (Vendula Poncova)
+- Merge helper functions into users._reown_homedir() (Vladimir Slavik)
+- Remove _get_parent_directory (Vladimir Slavik)
+- Merge _dir_tree_map into _chown_dir_tree (Vladimir Slavik)
+- Move touch from core.util to core.path (Vladimir Slavik)
+- Move join_paths from core.util to core.path (Vladimir Slavik)
+- Move open_with_perm from core.util to core.path (Vladimir Slavik)
+- Move get_mount_paths from core.util to core.path (Vladimir Slavik)
+- Move parent_dir to users._get_parent_directory (Vladimir Slavik)
+- Move dir_tree_map and chown_dir_tree to users (Vladimir Slavik)
+- Remove last use of dir_tree_map outside core.util (Vladimir Slavik)
+- Move util.mkdirChain to path.make_directories (Vladimir Slavik)
+- Add missing commas to the test_get_kernel_version_list test (Vendula Poncova)
+- Fix syntax errors in a workflow (#infra) (Vendula Poncova)
+- Show all logs of failed unit tests (Vendula Poncova)
+- Move set_system_root from core.util to core.path (Vladimir Slavik)
+- Add a new module for path-related helpers (Vladimir Slavik)
+- Fix shellcheck warnings (Vladimir Slavik)
+- Update ShellCheck config files (Vladimir Slavik)
+- Add ShellCheck to unit tests (Vladimir Slavik)
+- Improve headline comment of our containers (#infra) (Jiri Konecny)
+- Use local anaconda.spec.in file during container build (#infra) (Jiri Konecny)
+- Fix typo in debug print in network part (Jiri Konecny)
+- Replace local function with service helper (Vladimir Slavik)
+- Change service helper default root to "/" (Vladimir Slavik)
+- Fix too shallow clone in release action (#infra) (Vladimír Slávik)
+- Test the service helpers (Vladimir Slavik)
+- Move service util functions to new module (Vladimir Slavik)
+- Remove the base_repo property (Vendula Poncova)
+- Remove the support for image installations from the liveinst script (Vendula Poncova)
+- Close stale pull requests (#infra) (Vendula Poncova)
+
 * Tue Dec 14 2021 Packit Service <user-cont-team+packit-service@redhat.com> - 36.12-1
 - New version - 36.12 (Martin Kolman)
 - Retire execInSysroot (Vladimir Slavik)
