@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 36.13
+Version: 36.14
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -411,6 +411,11 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Jan 10 2022 Packit Service <user-cont-team+packit-service@redhat.com> - 36.14-1
+- Move the code for adding repositories to the DNF base (vponcova)
+- Allow to convert kickstart repositories into DBus data (vponcova)
+- Skip /etc/machine-info during live installs (#2036199) (awilliam)
+
 * Thu Jan 06 2022 Packit Service <user-cont-team+packit-service@redhat.com> - 36.13-1
 - New version - 36.13 (Martin Kolman)
 - Fix names of tests for the OPAL compatibility verification (Vendula Poncova)
