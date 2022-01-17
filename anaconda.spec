@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 36.14
+Version: 36.15
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -411,6 +411,12 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Jan 17 2022 Packit Service <user-cont-team+packit-service@redhat.com> - 36.15-1
+- Correct liveinst SELinux status check (awilliam)
+- The OPAL compatibility with XFS features is mandatory (vponcova)
+- Improve wording on the admin checkbox (vslavik)
+- User is admin by default (vslavik)
+
 * Mon Jan 10 2022 Packit Service <user-cont-team+packit-service@redhat.com> - 36.14-1
 - Move the code for adding repositories to the DNF base (vponcova)
 - Allow to convert kickstart repositories into DBus data (vponcova)
