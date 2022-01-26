@@ -1,9 +1,12 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 36.15
-Release: 2%{?dist}
+Version: 36.16
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
+
+# This should should only be set for development purposes for the time
+%global use_cockpit 0
 
 # To generate Source0 do:
 # git clone https://github.com/rhinstaller/anaconda
@@ -70,6 +73,9 @@ BuildRequires: libtimezonemap-devel >= %{libtimezonemapver}
 BuildRequires: gdk-pixbuf2-devel
 BuildRequires: libxml2
 
+%if %{use_cockpit}
+Requires: anaconda-webui = %{version}-%{release}
+%endif
 Requires: anaconda-gui = %{version}-%{release}
 Requires: anaconda-tui = %{version}-%{release}
 
@@ -119,6 +125,7 @@ Requires: NetworkManager-team
 Requires: kbd
 Requires: chrony
 Requires: systemd
+Requires: systemd-resolved
 Requires: python3-pid
 
 # Required by the systemd service anaconda-fips.
@@ -153,6 +160,9 @@ system.
 Summary: Live installation specific files and dependencies
 BuildRequires: desktop-file-utils
 # live installation currently implies a graphical installation
+%if %{use_cockpit}
+Requires: anaconda-webui = %{version}-%{release}
+%endif
 Requires: anaconda-gui = %{version}-%{release}
 Requires: usermode
 Requires: zenity
@@ -230,6 +240,17 @@ Requires: brltty
 %description install-img-deps
 The anaconda-install-img-deps metapackage lists all boot.iso installation image dependencies.
 Add this package to an image build (eg. with lorax) to ensure all Anaconda capabilities are supported in the resulting image.
+
+%if %use_cockpit
+%package webui
+Summary: Cockpit based user interface for the Anaconda installer
+Requires: cockpit-bridge
+Requires: cockpit-ws
+
+%description webui
+This package contains Cockpit based user interface for the Anaconda installer.
+
+%endif
 
 %package gui
 Summary: Graphical user interface for the Anaconda installer
@@ -321,6 +342,11 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 # If no langs found, keep going
 %find_lang %{name} || :
 
+%if ! %use_cockpit
+    rm -rf %{buildroot}/%{_datadir}/cockpit/anaconda-webui
+    rm -f %{buildroot}/%{_datadir}/metainfo/org.cockpit-project.anaconda-webui.metainfo.xml
+%endif
+
 
 # main package and install-env-deps are metapackages
 %files
@@ -376,6 +402,18 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_datadir}/anaconda/gnome
 %{_sysconfdir}/xdg/autostart/*.desktop
 
+%if %use_cockpit
+%files webui
+%dir %{_datadir}/cockpit/anaconda-webui
+%{_datadir}/cockpit/anaconda-webui/index.js.LICENSE.txt.gz
+%{_datadir}/cockpit/anaconda-webui/index.html.gz
+%{_datadir}/cockpit/anaconda-webui/index.js.gz
+%{_datadir}/cockpit/anaconda-webui/index.css.gz
+%{_datadir}/cockpit/anaconda-webui/manifest.json
+%{_datadir}/metainfo/org.cockpit-project.anaconda-webui.metainfo.xml
+
+%endif
+
 %files gui
 %{python3_sitearch}/pyanaconda/ui/gui/*
 %{_datadir}/anaconda/pixmaps
@@ -411,6 +449,41 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Jan 26 2022 Packit Service <user-cont-team+packit-service@redhat.com> - 36.16-1
+- packit: release: unset use_cockpit by sedding the specfile in packit script (kkoukiou)
+- webui: parameterize ports for ssh, cockpit connection and http server (kkoukiou)
+- Use systemd-resolved in installer environment. (rvykydal)
+- webui: tests: add info on how to run these in a toolbox (#docs) (kkoukiou)
+- npm: Lock mini-css-extract-plugin at version 2.4.5 (kkoukiou)
+- pyanaconda: fix webui directory in Makefile (kkoukiou)
+- webui: Fix test/README tip (kkoukiou)
+- webui: makeupdates: file expected path (kkoukiou)
+- webui: Fix some pylint errors in the tests code (kkoukiou)
+- webui: Reorganize new webui code into different directories (kkoukiou)
+- webui: add usage of the timedatectl ServerTime wrapper (kkoukiou)
+- webui: introduce new watch and rsync makefile targets (kkoukiou)
+- webui: setup subdirectories for the different components (kkoukiou)
+- webui: show device selection list for partitioning (kkoukiou)
+- webui: sync Makefile with starter kit makefile regarding updating package.json (kkoukiou)
+- webui: Introduce template react components for all configuration subpages (kkoukiou)
+- test: Bring new cockpit based WebUI tests to the CI (kkoukiou)
+- webui: change format of the README files for consistency (kkoukiou)
+- webui: Introduce base functionality for automated testing (kkoukiou)
+- webui: Add target for fetching cockpit's testing library in anaconda-webui Makefile (kkoukiou)
+- Ignore webui specific parts in the rpm-test (jkonecny)
+- Ignore npm packages files for translation (jkonecny)
+- Add npm and git dependencies to the ci and rpm containers (kkoukiou)
+- Build and install webui also through autotools (kkoukiou)
+- webui: strip down eslintrc ignore rules to only the rules that really don't make sense (kkoukiou)
+- webui: enforce the consistent use of either double or single quotes (kkoukiou)
+- webui: add simple example of using the dbus API for reading and writing properties (kkoukiou)
+- Make the makeupdates script Web UI aware (kkoukiou)
+- Build and include the cockpit tar into the anaconda spec file (kkoukiou)
+- Introduce webui plugin base code (kkoukiou)
+- Initial Web UI support (mkolman)
+- Run chown instead of os.walk-ing to re-own home dir (vslavik)
+- Add the set_repository_enabled function (vponcova)
+
 * Wed Jan 19 2022 Fedora Release Engineering <releng@fedoraproject.org> - 36.15-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
