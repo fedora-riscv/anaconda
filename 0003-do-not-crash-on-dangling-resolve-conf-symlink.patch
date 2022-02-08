@@ -1,0 +1,22 @@
+From 614aec9fb4bf1c21c5e9769deee4bafb94cd10b1 Mon Sep 17 00:00:00 2001
+From: Radek Vykydal <rvykydal@redhat.com>
+Date: Fri, 12 Nov 2021 15:09:13 +0100
+Subject: [PATCH] Do not crash on dangling symlink /etc/resolv.conf (#2019579)
+
+---
+ pyanaconda/modules/network/installation.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/pyanaconda/modules/network/installation.py b/pyanaconda/modules/network/installation.py
+index fe850cb638..6de7ea05c8 100644
+--- a/pyanaconda/modules/network/installation.py
++++ b/pyanaconda/modules/network/installation.py
+@@ -240,7 +240,7 @@ def _copy_file_to_root(self, root, config_file, overwrite=False, follow_symlinks
+         if not os.path.isfile(config_file):
+             return
+         fpath = os.path.normpath(root + config_file)
+-        if os.path.isfile(fpath) and not overwrite:
++        if (os.path.isfile(fpath) or os.path.islink(fpath)) and not overwrite:
+             return
+         if not os.path.isdir(os.path.dirname(fpath)):
+             util.mkdirChain(os.path.dirname(fpath))

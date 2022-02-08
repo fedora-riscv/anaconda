@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 35.22.2
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -19,6 +19,9 @@ Patch1: 0001-revert-kbd-legacy-install-for-fi.patch
 # F35 final fix admin user handling
 # https://bugzilla.redhat.com/show_bug.cgi?id=2015508
 Patch2: 0002-Show-correctly-that-no-admin-user-is-set-up.patch
+
+# F35 post-release fix for Fedora IoT respins
+Patch3: 0003-do-not-crash-on-dangling-resolve-conf-symlink.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -414,6 +417,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Feb 08 2022 Martin Kolman <mkolman@redhat.com> - 35.22.2-4
+- Do not crash on dangling symlink /etc/resolv.conf (#2019579) (rvykydal)
+
 * Mon Oct 25 2021 Martin Kolman <mkolman@redhat.com> - 35.22.2-3
 - Show correctly that no admin user is set up (#2015508) (vslavik)
 
