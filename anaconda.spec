@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 36.16
+Version: 36.16.1
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -176,6 +176,9 @@ for live installations.
 Summary: Installation environment specific dependencies
 Requires: udisks2-iscsi
 Requires: libblockdev-plugins-all >= %{libblockdevver}
+%if ! 0%{?rhel}
+Requires: libblockdev-lvm-dbus
+%endif
 # active directory/freeipa join support
 Requires: realmd
 Requires: isomd5sum >= %{isomd5sumver}
@@ -411,6 +414,7 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_datadir}/cockpit/anaconda-webui/index.css.gz
 %{_datadir}/cockpit/anaconda-webui/manifest.json
 %{_datadir}/metainfo/org.cockpit-project.anaconda-webui.metainfo.xml
+%{_datadir}/cockpit/anaconda-webui/po.*.js.gz
 
 %endif
 
@@ -449,6 +453,22 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Feb 16 2022 Packit Service <user-cont-team+packit-service@redhat.com> - 36.16.1-1
+- Remove webui kernel boot argument support (jkonecny)
+- Remove web UI from spec file on Fedora 36 (jkonecny)
+- Remove npm dependencies from the containers (jkonecny)
+- Remove webui code from the Fedora 36 (jkonecny)
+- Restore contexts also in /usr/lib (vslavik)
+- Reset the password if the root account is disabled (vponcova)
+- Fix the status of the root configuration screen (vponcova)
+- Fix the condition for entering the root configuration (vponcova)
+- Move tests for pyanaconda.ui.lib.users to a new file (vponcova)
+- Revert "Show correctly that no admin user is set up" (vponcova)
+- Do not fail on nonexistent fs nodes in pstore (vslavik)
+- Support Btrfs-only mount points in the default partitioning (vponcova)
+- Adjust configuration options for Fedora 36 (mkolman)
+- Adjust configuration options for Fedora 36 (mkolman)
+
 * Wed Jan 26 2022 Packit Service <user-cont-team+packit-service@redhat.com> - 36.16-1
 - packit: release: unset use_cockpit by sedding the specfile in packit script (kkoukiou)
 - webui: parameterize ports for ssh, cockpit connection and http server (kkoukiou)
