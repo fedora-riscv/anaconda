@@ -1,0 +1,57 @@
+From 10e197fb5e7db7160b0837eda63b420b523755da Mon Sep 17 00:00:00 2001
+From: Radek Vykydal <rvykydal@redhat.com>
+Date: Thu, 3 Feb 2022 12:13:51 +0100
+Subject: [PATCH 1/2] Do not copy resolv.conf to target system at the end of
+ installation
+
+An /etc/resolv.conf symlink is created on target system by
+systemd-resolved in postin rpm script.  And if it is not (bug #2018913)
+it would be crated during boot of installed system (by systemd-resolved).
+
+The only case where anaconda copying the resolv.conf could have actually
+effect would be overwriting /etc/resolv.conf on target system in non-rpm
+payload installations (image installations). But even in this case
+Anaconda should not interfere into management of /etc/resolv.conf on the
+target system. It is a business of either the image creator or a service
+on starting installed system (systemd-resolved or NM).
+---
+ pyanaconda/modules/network/installation.py    | 12 ------
+ .../modules/network/test_module_network.py    | 37 -------------------
+ 2 files changed, 49 deletions(-)
+
+diff --git a/pyanaconda/modules/network/installation.py b/pyanaconda/modules/network/installation.py
+index defd91327c..f46574e6f6 100644
+--- a/pyanaconda/modules/network/installation.py
++++ b/pyanaconda/modules/network/installation.py
+@@ -98,7 +98,6 @@ class NetworkInstallationTask(Task):
+ 
+     SYSCONF_NETWORK_FILE_PATH = "/etc/sysconfig/network"
+     ANACONDA_SYSCTL_FILE_PATH = "/etc/sysctl.d/anaconda.conf"
+-    RESOLV_CONF_FILE_PATH = "/etc/resolv.conf"
+     NETWORK_SCRIPTS_DIR_PATH = IFCFG_DIR
+     PREFIXDEVNAME_CONFIG_FILE_PREFIX = "71-net-ifnames-prefix-"
+     NETWORK_SCRIPTS_CONFIG_FILE_PREFIXES = ("ifcfg-", "keys-", "route-")
+@@ -154,7 +153,6 @@ Name={}
+             self._disable_ipv6_on_system(self._sysroot)
+         self._copy_device_config_files(self._sysroot)
+         self._copy_dhclient_config_files(self._sysroot, self._network_ifaces)
+-        self._copy_resolv_conf(self._sysroot, self._overwrite)
+         if self._configure_persistent_device_names:
+             self._copy_prefixdevname_files(self._sysroot)
+ 
+@@ -217,16 +215,6 @@ Name={}
+             msg = "Cannot disable ipv6 on the system: {}".format(e.strerror)
+             raise NetworkInstallationError(msg) from e
+ 
+-    def _copy_resolv_conf(self, root, overwrite):
+-        """Copy resolf.conf file to target system.
+-
+-        :param root: path to the root of the target system
+-        :type root: str
+-        :param overwrite: overwrite existing configuration file
+-        :type overwrite: bool
+-        """
+-        self._copy_file_to_root(root, self.RESOLV_CONF_FILE_PATH, follow_symlinks=False)
+-
+     def _copy_file_to_root(self, root, config_file, overwrite=False, follow_symlinks=True):
+         """Copy the file to target system.

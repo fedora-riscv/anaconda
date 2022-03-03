@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 36.16.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -14,6 +14,11 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: https://github.com/rhinstaller/%{name}/releases/download/%{name}-%{version}-1/%{name}-%{version}.tar.bz2
+
+# F36 beta blocker bug fix - reolve.conf handling
+# https://bugzilla.redhat.com/show_bug.cgi?id=2032085
+Patch1: 0001-Do-not-copy-resolv.conf-to-target-system-at-the-end-.patch
+Patch2: 0002-Do-not-copy-etc-resolv.conf-to-chroot-before-install.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -453,6 +458,10 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Feb 21 2022 Martin Kolman <mkolman@redhat.com> - 36.16.2-2
+- Do not copy resolv.conf to target system at the end of installation (rvykydal)
+- Do not copy /etc/resolv.conf to chroot before installation (rvykydal)
+
 * Mon Feb 21 2022 Packit Service <user-cont-team+packit-service@redhat.com> - 36.16.2-1
 - Do not modify boot order on UEFI if asked (vslavik)
 - Remove RPM database cleanup (vslavik)
