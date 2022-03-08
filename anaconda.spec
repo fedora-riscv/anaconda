@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 37.1
+Version: 37.2
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -38,7 +38,7 @@ Source0: https://github.com/rhinstaller/%{name}/releases/download/%{name}-%{vers
 %define libxklavierver 5.4
 %define mehver 0.23-1
 %define nmver 1.0
-%define pykickstartver 3.32-1
+%define pykickstartver 3.37-1
 %define pypartedver 2.5-2
 %define pythonblivetver 1:3.4.0-1
 %define rpmver 4.15.0
@@ -342,8 +342,8 @@ mkdir %{buildroot}%{_datadir}/anaconda/post-scripts
 # required for live installations
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/liveinst.desktop
 
-# If no langs found, keep going
-%find_lang %{name} || :
+# Add localization files
+%find_lang %{name}
 
 %if ! %use_cockpit
     rm -rf %{buildroot}/%{_datadir}/cockpit/anaconda-webui
@@ -386,7 +386,6 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %exclude %{python3_sitearch}/pyanaconda/__pycache__/rescue.*
 %exclude %{python3_sitearch}/pyanaconda/ui/gui/*
 %exclude %{python3_sitearch}/pyanaconda/ui/tui/*
-%{_bindir}/analog
 %{_bindir}/anaconda-cleanup
 %dir %{_sysconfdir}/%{name}
 %config %{_sysconfdir}/%{name}/*
@@ -453,6 +452,52 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Mar 08 2022 Packit Service <user-cont-team+packit-service@redhat.com> - 37.2-1
+- Fix Makefile targets using L10N Makefile variables (jkonecny)
+- Remove the blivet_gui_supported configuration option (vponcova)
+- webui: tests: move journal parsing for waiting for webui initialization to the VM creation script (kkoukiou)
+- webui: tests: move cockpit-ws spawning to the machine_install script instead of the ks file (kkoukiou)
+- webui: tests: workaround cockpit's expectation for test/images directory (kkoukiou)
+- webui: first pass on the installation progress component (kkoukiou)
+- webui: tests: add payload workaround for the webui tests (kkoukiou)
+- webui: add notification component at top level (kkoukiou)
+- Set up basic error handling for the Web UI (vponcova)
+- Provide defaults for the Web UI installation (vponcova)
+- webui: tests: wait for the webui initialiation to have finishes before running the tests (kkoukiou)
+- Always request localization files during build (jkonecny)
+- Collect PO files names dynamically (jkonecny)
+- Move the po files download to the `make` call (jkonecny)
+- webui: tests: actually boot into the webui mode (kkoukiou)
+- webui: tests: ignore output when running commands in the ks file (kkoukiou)
+- Remove the enable_ignore_broken_packages configuration option (vponcova)
+- build(deps): bump @patternfly/patternfly in /ui/webui (49699333+dependabot[bot])
+- tests: webui: Increate timeout for accessible webui to 5 minutes (kkoukiou)
+- Replace one more icon after removal from adwaita (#2055883) (jkonecny)
+- Allow to run an incomplete installation via DBus (vponcova)
+- Remove ksdata from migrated payload classes (vponcova)
+- Remove progressQ (vponcova)
+- Don't use progressQ in GUI (vponcova)
+- Don't use progressQ in TUI (vponcova)
+- Don't use progressQ in the installation queue (vponcova)
+- Update accordion.py (76429226+layne-yang)
+- Replace legacy adwaita icons removed in adwaita-icon-theme 42 (awilliam)
+- Update the .coveragerc file (vponcova)
+- webui: Pin eslint-plugin-react to the last non broken release (kkoukiou)
+- build(deps): bump @patternfly/react-core in /ui/webui (49699333+dependabot[bot])
+- ovirt: move /var/tmp to its own partition (sbonazzo)
+- webui: Don't save SSH key in command from VM script (vslavik)
+- docs: add intructions to the on-duty team member for handling failing image refreshes for webui tests (kkoukiou)
+- Add a release note for removed undocumented and unused scripts (vponcova)
+- Remove the /usr/bin/analog script (vponcova)
+- Remove the /usr/bin/restart-anaconda script (vponcova)
+- Improve the documentation of the run-anaconda script (vponcova)
+- Don't report the name of the DBus task by default (vponcova)
+- webui: Use grouped typeahead for the language selector (kkoukiou)
+- webui: consume real data in the language selection dialog from the API (kkoukiou)
+- Introduce GetLanguages, GetLanguageData, GetLocales, GetLocaleData methods on the Localization interface (kkoukiou)
+- Add note to branching guide to look on pykickstart issues (#docs) (jkonecny)
+- Fixed the translation not taking effect (yangxiaoxuan)
+
 * Mon Feb 21 2022 Packit Service <user-cont-team+packit-service@redhat.com> - 37.1-1
 - webui: checkout last release instead of main for cockpit's test library (kkoukiou)
 - Do not modify boot order on UEFI if asked (vslavik)
