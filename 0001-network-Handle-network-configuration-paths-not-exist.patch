@@ -1,0 +1,48 @@
+From 216c1aa6684cbed2a7869d48f97bea95cb503ab6 Mon Sep 17 00:00:00 2001
+From: Adam Williamson <awilliam@redhat.com>
+Date: Tue, 8 Mar 2022 16:10:30 -0800
+Subject: [PATCH] network: Handle network configuration paths not existing
+
+When installing network configuration files, we shouldn't assume
+that the relevant paths (network-scripts and system-connections)
+actually exist, they don't have to. NetworkManager has split
+/etc/sysconfig/network-scripts off into a subpackage that is
+no longer installed by default. We guarded against this in
+`get_config_files_paths` already, but not in
+`_copy_device_config_files`.
+---
+ pyanaconda/modules/network/installation.py | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/pyanaconda/modules/network/installation.py b/pyanaconda/modules/network/installation.py
+index f46574e6f6..3ac65e0df0 100644
+--- a/pyanaconda/modules/network/installation.py
++++ b/pyanaconda/modules/network/installation.py
+@@ -240,15 +240,17 @@ Name={}
+         :param root: path to the root of the target system
+         :type root: str
+         """
+-        for config_file in os.listdir(self.NETWORK_SCRIPTS_DIR_PATH):
+-            if config_file.startswith(self.NETWORK_SCRIPTS_CONFIG_FILE_PREFIXES):
+-                config_file_path = os.path.join(self.NETWORK_SCRIPTS_DIR_PATH,
++        if os.path.exists(self.NETWORK_SCRIPTS_DIR_PATH):
++            for config_file in os.listdir(self.NETWORK_SCRIPTS_DIR_PATH):
++                if config_file.startswith(self.NETWORK_SCRIPTS_CONFIG_FILE_PREFIXES):
++                    config_file_path = os.path.join(self.NETWORK_SCRIPTS_DIR_PATH,
++                                                    config_file)
++                    self._copy_file_to_root(root, config_file_path)
++        if os.path.exists(self.NM_SYSTEM_CONNECTIONS_DIR_PATH):
++            for config_file in os.listdir(self.NM_SYSTEM_CONNECTIONS_DIR_PATH):
++                config_file_path = os.path.join(self.NM_SYSTEM_CONNECTIONS_DIR_PATH,
+                                                 config_file)
+                 self._copy_file_to_root(root, config_file_path)
+-        for config_file in os.listdir(self.NM_SYSTEM_CONNECTIONS_DIR_PATH):
+-            config_file_path = os.path.join(self.NM_SYSTEM_CONNECTIONS_DIR_PATH,
+-                                            config_file)
+-            self._copy_file_to_root(root, config_file_path)
+ 
+     def _copy_dhclient_config_files(self, root, network_ifaces):
+         """Copy dhclient configuration files to target system.
+-- 
+2.35.1
+

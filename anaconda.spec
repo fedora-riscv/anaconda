@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 37.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -14,6 +14,10 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: https://github.com/rhinstaller/%{name}/releases/download/%{name}-%{version}-1/%{name}-%{version}.tar.bz2
+
+# https://github.com/rhinstaller/anaconda/pull/3935
+# Fix live install with NetworkManager-1.36.2-1+
+Patch0: 0001-network-Handle-network-configuration-paths-not-exist.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -452,6 +456,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Mar 08 2022 Adam Williamson <awilliam@redhat.com> - 37.2-2
+- Backport PR#3935 to fix live installs
+
 * Tue Mar 08 2022 Packit Service <user-cont-team+packit-service@redhat.com> - 37.2-1
 - Fix Makefile targets using L10N Makefile variables (jkonecny)
 - Remove the blivet_gui_supported configuration option (vponcova)
