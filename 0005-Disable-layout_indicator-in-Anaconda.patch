@@ -1,0 +1,86 @@
+From e786f58127bed4fc980a6f9cf2796947942066c2 Mon Sep 17 00:00:00 2001
+From: Jiri Konecny <jkonecny@redhat.com>
+Date: Thu, 17 Feb 2022 21:12:14 +0100
+Subject: [PATCH 5/6] Disable layout_indicator in Anaconda
+
+Let's remove the layout indicator in if we can't change the keyboard. It's only
+confusing because the value may not be correct.
+
+Resolves: rhbz#2016613
+(cherry picked from commit 3c0849c2ed92cf6885e4de2315573120a8e1c555)
+---
+ pyanaconda/ui/gui/__init__.py | 12 +++++++++++-
+ widgets/src/BaseWindow.c      | 14 ++++++++++++++
+ widgets/src/BaseWindow.h      |  1 +
+ 3 files changed, 26 insertions(+), 1 deletion(-)
+
+diff --git a/pyanaconda/ui/gui/__init__.py b/pyanaconda/ui/gui/__init__.py
+index 5b95ee99ac..bcd70335ad 100644
+--- a/pyanaconda/ui/gui/__init__.py
++++ b/pyanaconda/ui/gui/__init__.py
+@@ -43,7 +43,7 @@ from pyanaconda import threading as anaconda_threading
+ from pyanaconda.core.glib import Bytes, GError
+ from pyanaconda.keyboard import can_configure_keyboard
+ from pyanaconda.ui import UserInterface, common
+-from pyanaconda.ui.gui.utils import unbusyCursor
++from pyanaconda.ui.gui.utils import unbusyCursor, really_hide
+ from pyanaconda.core.async_utils import async_action_wait
+ from pyanaconda.ui.gui.utils import watch_children, unwatch_children
+ from pyanaconda.ui.gui.helpers import autoinstall_stopped
+@@ -160,6 +160,16 @@ class GUIObject(common.UIObject):
+ 
+         self.builder.connect_signals(self)
+ 
++        # Hide keyboard indicator if we can't configure the keyboard
++        # It doesn't really give you any benefit of seeing something which could
++        # give you wrong values.
++        # This has to be applied to every spoke and hub - we have to ignore dialog and other
++        # non full screen parts.
++        if not can_configure_keyboard() and isinstance(self.window, AnacondaWidgets.BaseWindow):
++            layout_indicator = self.window.get_layout_indicator_box()
++            really_hide(layout_indicator)
++            layout_indicator.set_sensitive(False)
++
+     def _findUIFile(self):
+         path = os.environ.get("UIPATH", "./:/usr/share/anaconda/ui/")
+         dirs = path.split(":")
+diff --git a/widgets/src/BaseWindow.c b/widgets/src/BaseWindow.c
+index 629bcfc1d0..669c046530 100644
+--- a/widgets/src/BaseWindow.c
++++ b/widgets/src/BaseWindow.c
+@@ -557,6 +557,20 @@ GtkWidget *anaconda_base_window_get_help_button(AnacondaBaseWindow *win) {
+     return win->priv->help_button;
+ }
+ 
++/**
++ * anaconda_base_window_get_layout_indicator_box:
++ * @win: a #AnacondaBaseWindow
++ *
++ * Returns the AnacondaLayoutIndicator.
++ *
++ * Returns: (transfer none): the layout indicator box
++ *
++ * Since: 3.4
++ */
++GtkWidget *anaconda_base_window_get_layout_indicator_box(AnacondaBaseWindow *win) {
++    return win->priv->layout_indicator;
++}
++
+ /**
+  * anaconda_base_window_get_nav_area_background_window:
+  * @win: a #AnacondaBaseWindow
+diff --git a/widgets/src/BaseWindow.h b/widgets/src/BaseWindow.h
+index f9db2537ee..43eef0811d 100644
+--- a/widgets/src/BaseWindow.h
++++ b/widgets/src/BaseWindow.h
+@@ -83,6 +83,7 @@ GtkWidget  *anaconda_base_window_get_main_box      (AnacondaBaseWindow *win);
+ GtkWidget  *anaconda_base_window_get_nav_area      (AnacondaBaseWindow *win);
+ GtkWidget  *anaconda_base_window_get_nav_area_background_window (AnacondaBaseWindow *win);
+ GtkWidget  *anaconda_base_window_get_help_button (AnacondaBaseWindow *win);
++GtkWidget  *anaconda_base_window_get_layout_indicator_box (AnacondaBaseWindow *win);
+ 
+ G_END_DECLS
+ 
+-- 
+2.35.1
+

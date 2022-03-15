@@ -1,0 +1,282 @@
+From 572606437f9eebe9640acc3396a0e8eaf74869c7 Mon Sep 17 00:00:00 2001
+From: Jiri Konecny <jkonecny@redhat.com>
+Date: Mon, 14 Mar 2022 13:31:55 +0100
+Subject: [PATCH 4/6] Don't configure the keyboard in Live environments with
+ XWayland
+
+Call the can_configure_keyboard function to check if we can configure the
+keyboard. The function doesn't allow the configuration in Live environments
+that run Anaconda on XWayland. Use the xisxwayland tool for detection.
+
+Related: rhbz#2016613
+(cherry picked from commit e24a1ba6d97481ac81fbfa492f58d9d7e74355b9)
+---
+ anaconda.spec.in                              |  1 +
+ pyanaconda/core/configuration/system.py       |  5 ++
+ pyanaconda/keyboard.py                        | 48 +++++++++++++++-
+ pyanaconda/ui/gui/__init__.py                 |  1 +
+ pyanaconda/ui/gui/spokes/keyboard.py          | 13 ++---
+ .../pyanaconda_tests/test_keyboard.py         | 56 ++++++++++++++++++-
+ 6 files changed, 114 insertions(+), 10 deletions(-)
+
+diff --git a/anaconda.spec.in b/anaconda.spec.in
+index 57f216f14c..fadc83d858 100644
+--- a/anaconda.spec.in
++++ b/anaconda.spec.in
+@@ -157,6 +157,7 @@ BuildRequires: desktop-file-utils
+ Requires: anaconda-gui = %{version}-%{release}
+ Requires: usermode
+ Requires: zenity
++Requires: xisxwayland
+ Recommends: xhost
+ 
+ %description live
+diff --git a/pyanaconda/core/configuration/system.py b/pyanaconda/core/configuration/system.py
+index 9ff8b77ba4..37fd50ce91 100644
+--- a/pyanaconda/core/configuration/system.py
++++ b/pyanaconda/core/configuration/system.py
+@@ -127,6 +127,11 @@ class SystemSection(Section):
+         """Can we configure the keyboard?"""
+         return self._is_boot_iso or self._is_live_os or self._is_booted_os
+ 
++    @property
++    def can_run_on_xwayland(self):
++        """Could we run on XWayland?"""
++        return self._is_live_os
++
+     @property
+     def can_modify_syslog(self):
+         """Can we modify syslog?"""
+diff --git a/pyanaconda/keyboard.py b/pyanaconda/keyboard.py
+index 3ab47bc420..10b7e56920 100644
+--- a/pyanaconda/keyboard.py
++++ b/pyanaconda/keyboard.py
+@@ -26,6 +26,7 @@ import langtable
+ from pyanaconda.core.configuration.anaconda import conf
+ from pyanaconda import localization
+ from pyanaconda.core.constants import DEFAULT_KEYBOARD
++from pyanaconda.core.util import execWithRedirect
+ from pyanaconda.modules.common.task import sync_run_task
+ from pyanaconda.modules.common.constants.services import LOCALIZATION
+ 
+@@ -55,6 +56,49 @@ class InvalidLayoutVariantSpec(Exception):
+     pass
+ 
+ 
++def _is_xwayland():
++    """Is Anaconda running in XWayland environment?
++
++    This can't be easily detected from the Anaconda because Anaconda
++    is running as XWayland app. Use xisxwayland tool for the detection.
++    """
++    try:
++        rc = execWithRedirect('xisxwayland', [])
++
++        if rc == 0:
++            return True
++
++        log.debug(
++            "Anaconda doesn't run on XWayland. "
++            "See xisxwayland --help for more info."
++        )
++    except FileNotFoundError:
++        log.warning(
++            "The xisxwayland tool is not available! "
++            "Taking the environment as not Wayland."
++        )
++
++    return False
++
++
++def can_configure_keyboard():
++    """Can we configure the keyboard?
++
++    FIXME: This is a temporary solution.
++
++    The is_wayland logic is not part of the configuration so we would
++    have to add it to the configuration otherwise it won't be accessible
++    in the Anaconda modules.
++    """
++    if not conf.system.can_configure_keyboard:
++        return False
++
++    if conf.system.can_run_on_xwayland and _is_xwayland():
++        return False
++
++    return True
++
++
+ def parse_layout_variant(layout_variant_str):
+     """
+     Parse layout and variant from the string that may look like 'layout' or
+@@ -180,7 +224,7 @@ def set_x_keyboard_defaults(localization_proxy, xkl_wrapper):
+         new_layouts = [DEFAULT_KEYBOARD]
+ 
+     localization_proxy.SetXLayouts(new_layouts)
+-    if conf.system.can_configure_keyboard:
++    if can_configure_keyboard():
+         xkl_wrapper.replace_layouts(new_layouts)
+ 
+     # the console layout configured should be "native" by default,
+@@ -193,7 +237,7 @@ def set_x_keyboard_defaults(localization_proxy, xkl_wrapper):
+         # initialize layout switching if needed
+         localization_proxy.SetLayoutSwitchOptions(["grp:alt_shift_toggle"])
+ 
+-        if conf.system.can_configure_keyboard:
++        if can_configure_keyboard():
+             xkl_wrapper.set_switching_options(["grp:alt_shift_toggle"])
+             # activate the language-default layout instead of the additional
+             # one
+diff --git a/pyanaconda/ui/gui/__init__.py b/pyanaconda/ui/gui/__init__.py
+index fc95721f97..5b95ee99ac 100644
+--- a/pyanaconda/ui/gui/__init__.py
++++ b/pyanaconda/ui/gui/__init__.py
+@@ -41,6 +41,7 @@ from pyanaconda.core.path import make_directories
+ from pyanaconda import threading as anaconda_threading
+ 
+ from pyanaconda.core.glib import Bytes, GError
++from pyanaconda.keyboard import can_configure_keyboard
+ from pyanaconda.ui import UserInterface, common
+ from pyanaconda.ui.gui.utils import unbusyCursor
+ from pyanaconda.core.async_utils import async_action_wait
+diff --git a/pyanaconda/ui/gui/spokes/keyboard.py b/pyanaconda/ui/gui/spokes/keyboard.py
+index fe7c225719..a32dab0696 100644
+--- a/pyanaconda/ui/gui/spokes/keyboard.py
++++ b/pyanaconda/ui/gui/spokes/keyboard.py
+@@ -33,7 +33,6 @@ from pyanaconda.ui.gui.xkl_wrapper import XklWrapper, XklWrapperError
+ from pyanaconda import keyboard
+ from pyanaconda import flags
+ from pyanaconda.core.i18n import _, N_, CN_
+-from pyanaconda.core.configuration.anaconda import conf
+ from pyanaconda.core.constants import DEFAULT_KEYBOARD, THREAD_KEYBOARD_INIT, THREAD_ADD_LAYOUTS_INIT
+ from pyanaconda.ui.communication import hubQ
+ from pyanaconda.core.string import strip_accents, have_word_match
+@@ -381,7 +380,7 @@ class KeyboardSpoke(NormalSpoke):
+         self._add_dialog = AddLayoutDialog(self.data)
+         self._add_dialog.initialize()
+ 
+-        if conf.system.can_configure_keyboard:
++        if keyboard.can_configure_keyboard():
+             self.builder.get_object("warningBox").hide()
+ 
+         # We want to store layouts' names but show layouts as
+@@ -401,7 +400,7 @@ class KeyboardSpoke(NormalSpoke):
+ 
+         self._layoutSwitchLabel = self.builder.get_object("layoutSwitchLabel")
+ 
+-        if not conf.system.can_configure_keyboard:
++        if not keyboard.can_configure_keyboard():
+             # Disable area for testing layouts as we cannot make
+             # it work without modifying runtime system
+ 
+@@ -453,7 +452,7 @@ class KeyboardSpoke(NormalSpoke):
+ 
+     def _addLayout(self, store, name):
+         # first try to add the layout
+-        if conf.system.can_configure_keyboard:
++        if keyboard.can_configure_keyboard():
+             self._xkl_wrapper.add_layout(name)
+ 
+         # valid layout, append it to the store
+@@ -466,7 +465,7 @@ class KeyboardSpoke(NormalSpoke):
+ 
+         """
+ 
+-        if conf.system.can_configure_keyboard:
++        if keyboard.can_configure_keyboard():
+             self._xkl_wrapper.remove_layout(store[itr][0])
+         store.remove(itr)
+ 
+@@ -558,7 +557,7 @@ class KeyboardSpoke(NormalSpoke):
+             return
+ 
+         store.swap(cur, prev)
+-        if conf.system.can_configure_keyboard:
++        if keyboard.can_configure_keyboard():
+             self._flush_layouts_to_X()
+ 
+         if not store.iter_previous(cur):
+@@ -581,7 +580,7 @@ class KeyboardSpoke(NormalSpoke):
+             return
+ 
+         store.swap(cur, nxt)
+-        if conf.system.can_configure_keyboard:
++        if keyboard.can_configure_keyboard():
+             self._flush_layouts_to_X()
+ 
+         if activate_default:
+diff --git a/tests/unit_tests/pyanaconda_tests/test_keyboard.py b/tests/unit_tests/pyanaconda_tests/test_keyboard.py
+index 5f632ceb5c..b97aef0664 100644
+--- a/tests/unit_tests/pyanaconda_tests/test_keyboard.py
++++ b/tests/unit_tests/pyanaconda_tests/test_keyboard.py
+@@ -15,12 +15,66 @@
+ # License and may only be used or replicated with the express permission of
+ # Red Hat, Inc.
+ #
+-
+ from pyanaconda import keyboard
+ import unittest
+ import pytest
+ 
++from unittest.mock import patch
++
++
++class KeyboardUtilsTestCase(unittest.TestCase):
++    """Test the keyboard utils."""
++
++    @patch("pyanaconda.keyboard.conf")
++    @patch("pyanaconda.keyboard.execWithRedirect")
++    def test_can_configure_keyboard(self, exec_mock, conf_mock):
++        """Check if the keyboard configuration is enabled or disabled."""
++        # It's a dir installation.
++        conf_mock.system.can_configure_keyboard = False
++        conf_mock.system.can_run_on_xwayland = False
++        assert keyboard.can_configure_keyboard() is False
++        exec_mock.assert_not_called()
++
++        # It's a boot.iso.
++        conf_mock.system.can_configure_keyboard = True
++        conf_mock.system.can_run_on_xwayland = False
++        assert keyboard.can_configure_keyboard() is True
++        exec_mock.assert_not_called()
++
++        # It's a Live installation on Wayland.
++        conf_mock.system.can_configure_keyboard = True
++        conf_mock.system.can_run_on_xwayland = True
++        exec_mock.return_value = 0
++        assert keyboard.can_configure_keyboard() is False
++        exec_mock.assert_called_once_with('xisxwayland', [])
++        exec_mock.reset_mock()
++
++        # It's a Live installation and not on Wayland.
++        conf_mock.system.can_configure_keyboard = True
++        conf_mock.system.can_run_on_xwayland = True
++        exec_mock.return_value = 1  # xisxwayland returns 1 if it is not XWayland
++        assert keyboard.can_configure_keyboard() is True
++        exec_mock.assert_called_once_with('xisxwayland', [])
++        exec_mock.reset_mock()
++
++        # It's a Live installation and probably not on Wayland,
++        # because the xisxwayland tooling is not present.
++        conf_mock.system.can_configure_keyboard = True
++        conf_mock.system.can_run_on_xwayland = True
++        exec_mock.side_effect = FileNotFoundError()
++
++        with self.assertLogs(level="WARNING") as cm:
++            keyboard.can_configure_keyboard()
++
++        msg = "The xisxwayland tool is not available!"
++        assert any(map(lambda x: msg in x, cm.output))
++
++        exec_mock.assert_called_once_with('xisxwayland', [])
++        exec_mock.reset_mock()
++
++
+ class ParsingAndJoiningTests(unittest.TestCase):
++
+     def test_layout_variant_parsing(self):
+         """Should correctly parse keyboard layout and variant string specs."""
+ 
+-- 
+2.35.1
+

@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 36.16.2
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -19,6 +19,13 @@ Source0: https://github.com/rhinstaller/%{name}/releases/download/%{name}-%{vers
 # https://bugzilla.redhat.com/show_bug.cgi?id=2032085
 Patch1: 0001-Do-not-copy-resolv.conf-to-target-system-at-the-end-.patch
 Patch2: 0002-Do-not-copy-etc-resolv.conf-to-chroot-before-install.patch
+
+# more F36 beta blocker fixes
+Patch3: 0003-network-Handle-network-configuration-paths-not-exist.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=2016613
+Patch4: 0004-Don-t-configure-the-keyboard-in-Live-environments-wi.patch
+Patch5: 0005-Disable-layout_indicator-in-Anaconda.patch
+Patch6: 0006-Increase-version-of-the-anaconda-widgets.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -458,6 +465,12 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Mar 15 2022 Martin Kolman <mkolman@redhat.com> - 36.16.2-3
+- network: Handle network configuration paths not existing (adamw)
+- Don't configure the keyboard in Live environments with XWayland (jkonecny)
+- Disable layout_indicator in Anaconda (jkonecny)
+- Increase version of the anaconda-widgets (jkonecny)
+
 * Mon Feb 21 2022 Martin Kolman <mkolman@redhat.com> - 36.16.2-2
 - Do not copy resolv.conf to target system at the end of installation (rvykydal)
 - Do not copy /etc/resolv.conf to chroot before installation (rvykydal)

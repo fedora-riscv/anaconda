@@ -1,0 +1,131 @@
+From 6b614bb89b5517daeed25904efc2558ab1f8c973 Mon Sep 17 00:00:00 2001
+From: Jiri Konecny <jkonecny@redhat.com>
+Date: Tue, 15 Feb 2022 21:48:47 +0100
+Subject: [PATCH 6/6] Increase version of the anaconda-widgets
+
+We changed the layout indicator related code so we need to increase version here.
+
+Related: rhbz#2016613
+(cherry picked from commit 488dffbe90a5a984a088b2e0c02ddc0f5972e8cf)
+---
+ pyanaconda/ui/gui/__init__.py             |  2 +-
+ pyanaconda/ui/gui/hubs/__init__.py        |  2 +-
+ pyanaconda/ui/gui/spokes/lib/accordion.py |  2 +-
+ pyanaconda/ui/gui/spokes/storage.py       |  2 +-
+ widgets/configure.ac                      |  2 +-
+ widgets/glade/AnacondaWidgets.xml         |  4 ++--
+ widgets/src/Makefile.am                   | 14 +++++++-------
+ 7 files changed, 14 insertions(+), 14 deletions(-)
+
+diff --git a/pyanaconda/ui/gui/__init__.py b/pyanaconda/ui/gui/__init__.py
+index bcd70335ad..d458b66f14 100644
+--- a/pyanaconda/ui/gui/__init__.py
++++ b/pyanaconda/ui/gui/__init__.py
+@@ -24,7 +24,7 @@ from contextlib import contextmanager
+ import gi
+ gi.require_version("Gdk", "3.0")
+ gi.require_version("Gtk", "3.0")
+-gi.require_version("AnacondaWidgets", "3.3")
++gi.require_version("AnacondaWidgets", "3.4")
+ gi.require_version("Keybinder", "3.0")
+ gi.require_version("GdkPixbuf", "2.0")
+ gi.require_version("GObject", "2.0")
+diff --git a/pyanaconda/ui/gui/hubs/__init__.py b/pyanaconda/ui/gui/hubs/__init__.py
+index f6f592f5d5..068d7c717d 100644
+--- a/pyanaconda/ui/gui/hubs/__init__.py
++++ b/pyanaconda/ui/gui/hubs/__init__.py
+@@ -115,7 +115,7 @@ class Hub(GUIObject, common.Hub):
+         import gi
+ 
+         gi.require_version("Gtk", "3.0")
+-        gi.require_version("AnacondaWidgets", "3.3")
++        gi.require_version("AnacondaWidgets", "3.4")
+ 
+         from gi.repository import Gtk, AnacondaWidgets
+ 
+diff --git a/pyanaconda/ui/gui/spokes/lib/accordion.py b/pyanaconda/ui/gui/spokes/lib/accordion.py
+index 5bd1ec3eba..3a75565225 100644
+--- a/pyanaconda/ui/gui/spokes/lib/accordion.py
++++ b/pyanaconda/ui/gui/spokes/lib/accordion.py
+@@ -24,7 +24,7 @@ from pyanaconda.core.storage import get_supported_autopart_choices
+ from pyanaconda.ui.gui.utils import escape_markup, really_hide, really_show
+ 
+ import gi
+-gi.require_version("AnacondaWidgets", "3.3")
++gi.require_version("AnacondaWidgets", "3.4")
+ gi.require_version("Gtk", "3.0")
+ from gi.repository import Gtk, AnacondaWidgets
+ 
+diff --git a/pyanaconda/ui/gui/spokes/storage.py b/pyanaconda/ui/gui/spokes/storage.py
+index fa8224c86a..f861dcba78 100644
+--- a/pyanaconda/ui/gui/spokes/storage.py
++++ b/pyanaconda/ui/gui/spokes/storage.py
+@@ -58,7 +58,7 @@ from pyanaconda.ui.gui.spokes.lib.storage_dialogs import NeedSpaceDialog, NoSpac
+ import gi
+ gi.require_version("Gtk", "3.0")
+ gi.require_version("Gdk", "3.0")
+-gi.require_version("AnacondaWidgets", "3.3")
++gi.require_version("AnacondaWidgets", "3.4")
+ from gi.repository import Gdk, AnacondaWidgets, Gtk
+ 
+ log = get_module_logger(__name__)
+diff --git a/widgets/configure.ac b/widgets/configure.ac
+index 56e712b189..ba666008a7 100644
+--- a/widgets/configure.ac
++++ b/widgets/configure.ac
+@@ -20,7 +20,7 @@
+ m4_define(python_required_version, 3.4)
+ 
+ AC_PREREQ([2.63])
+-AC_INIT([AnacondaWidgets], [3.3], [clumens@redhat.com])
++AC_INIT([AnacondaWidgets], [3.4], [clumens@redhat.com])
+ 
+ # Disable building static libraries.
+ # This needs to be set before initializing automake
+diff --git a/widgets/glade/AnacondaWidgets.xml b/widgets/glade/AnacondaWidgets.xml
+index c797bb049b..f166052625 100644
+--- a/widgets/glade/AnacondaWidgets.xml
++++ b/widgets/glade/AnacondaWidgets.xml
+@@ -1,7 +1,7 @@
+ <glade-catalog
+   name="AnacondaWidgets"
+-  version="3.3"
+-  targetable="3.2,3.1,3.0,2.0,1.0"
++  version="3.4"
++  targetable="3.3,3.2,3.1,3.0,2.0,1.0"
+   library="AnacondaWidgets"
+   domain="glade-3"
+   depends="gtk+">
+diff --git a/widgets/src/Makefile.am b/widgets/src/Makefile.am
+index 75c37155c1..d5af7f7448 100644
+--- a/widgets/src/Makefile.am
++++ b/widgets/src/Makefile.am
+@@ -110,18 +110,18 @@ CLEANFILES = resources.c resources.h $(RESOURCE_XML)
+ MAINTAINERCLEANFILES = gettext.h
+ 
+ if HAVE_INTROSPECTION
+-AnacondaWidgets-3.3.gir: libAnacondaWidgets.la
++AnacondaWidgets-3.4.gir: libAnacondaWidgets.la
+ 
+-AnacondaWidgets_3_3_gir_FILES = $(GISOURCES) $(GIHDRS)
+-AnacondaWidgets_3_3_gir_LIBS = libAnacondaWidgets.la
+-AnacondaWidgets_3_3_gir_SCANNERFLAGS = --warn-all --identifier-prefix=Anaconda --symbol-prefix=anaconda
+-AnacondaWidgets_3_3_gir_INCLUDES = Gtk-3.0 Xkl-1.0
++AnacondaWidgets_3_4_gir_FILES = $(GISOURCES) $(GIHDRS)
++AnacondaWidgets_3_4_gir_LIBS = libAnacondaWidgets.la
++AnacondaWidgets_3_4_gir_SCANNERFLAGS = --warn-all --identifier-prefix=Anaconda --symbol-prefix=anaconda
++AnacondaWidgets_3_4_gir_INCLUDES = Gtk-3.0 Xkl-1.0
+ 
+-INTROSPECTION_GIRS = AnacondaWidgets-3.3.gir
++INTROSPECTION_GIRS = AnacondaWidgets-3.4.gir
+ 
+ typelibdir = $(libdir)/girepository-1.0
+ typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
+ 
+-CLEANFILES += AnacondaWidgets-3.3.gir $(typelib_DATA)
++CLEANFILES += AnacondaWidgets-3.4.gir $(typelib_DATA)
+ MAINTAINERCLEANFILES += Makefile.in
+ endif
+-- 
+2.35.1
+
