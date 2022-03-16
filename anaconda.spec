@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 36.16.2
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -178,6 +178,7 @@ Requires: anaconda-webui = %{version}-%{release}
 Requires: anaconda-gui = %{version}-%{release}
 Requires: usermode
 Requires: zenity
+Requires: xisxwayland
 Recommends: xhost
 
 %description live
@@ -465,6 +466,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Mar 16 2022 Adam Williamson <awilliam@redhat.com> - 36.16.2-4
+- Add xisxwayland dependency required for keyboard changes
+
 * Tue Mar 15 2022 Martin Kolman <mkolman@redhat.com> - 36.16.2-3
 - network: Handle network configuration paths not existing (adamw)
 - Don't configure the keyboard in Live environments with XWayland (jkonecny)
