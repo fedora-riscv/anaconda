@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 36.16.2
-Release: 4%{?dist}
+Version: 36.16.3
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -14,18 +14,6 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: https://github.com/rhinstaller/%{name}/releases/download/%{name}-%{version}-1/%{name}-%{version}.tar.bz2
-
-# F36 beta blocker bug fix - reolve.conf handling
-# https://bugzilla.redhat.com/show_bug.cgi?id=2032085
-Patch1: 0001-Do-not-copy-resolv.conf-to-target-system-at-the-end-.patch
-Patch2: 0002-Do-not-copy-etc-resolv.conf-to-chroot-before-install.patch
-
-# more F36 beta blocker fixes
-Patch3: 0003-network-Handle-network-configuration-paths-not-exist.patch
-# https://bugzilla.redhat.com/show_bug.cgi?id=2016613
-Patch4: 0004-Don-t-configure-the-keyboard-in-Live-environments-wi.patch
-Patch5: 0005-Disable-layout_indicator-in-Anaconda.patch
-Patch6: 0006-Increase-version-of-the-anaconda-widgets.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -466,6 +454,23 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Mar 29 2022 Packit <hello@packit.dev> - 36.16.3-1
+- Fix failing pylint check. (rvykydal)
+- gui: update network spoke for symbolic icons (#2055883) (rvykydal)
+- gui: update beta-nag dialog for symbolic icons (#2055883) (rvykydal)
+- gui: update Quit dialog for symbolic icons (#2055883) (rvykydal)
+- Increase version of the anaconda-widgets (jkonecny)
+- Disable layout_indicator in Anaconda (jkonecny)
+- Don't configure the keyboard in Live environments with XWayland (jkonecny)
+- network: Handle network configuration paths not existing (awilliam)
+- Change pylint ignore from number to name (vslavik)
+- Remove RpmDb-related setup in OSTree payloads (vslavik)
+- packit: build SRPM in Copr (ttomecek)
+- Replace one more icon after removal from adwaita (#2055883) (jkonecny)
+- Replace legacy adwaita icons removed in adwaita-icon-theme 42 (awilliam)
+- Do not copy resolv.conf to target system at the end of installation (rvykydal)
+- Do not copy /etc/resolv.conf to chroot before installation (rvykydal)
+
 * Wed Mar 16 2022 Adam Williamson <awilliam@redhat.com> - 36.16.2-4
 - Add xisxwayland dependency required for keyboard changes
 
