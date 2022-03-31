@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 36.16.3
+Version: 36.16.4
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -454,6 +454,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Mar 31 2022 Packit <hello@packit.dev> - 36.16.4-1
+- Enable fingerprint authentication using enable-feature (#2069899) (vponcova)
+
 * Tue Mar 29 2022 Packit <hello@packit.dev> - 36.16.3-1
 - Fix failing pylint check. (rvykydal)
 - gui: update network spoke for symbolic icons (#2055883) (rvykydal)
