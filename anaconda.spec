@@ -5,6 +5,9 @@ Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
+# This should should only be set for development purposes for the time
+%global use_cockpit 0
+
 # To generate Source0 do:
 # git clone https://github.com/rhinstaller/anaconda
 # git checkout -b archive-branch anaconda-%%{version}-%%{release}
@@ -70,6 +73,9 @@ BuildRequires: libtimezonemap-devel >= %{libtimezonemapver}
 BuildRequires: gdk-pixbuf2-devel
 BuildRequires: libxml2
 
+%if %{use_cockpit}
+Requires: anaconda-webui = %{version}-%{release}
+%endif
 Requires: anaconda-gui = %{version}-%{release}
 Requires: anaconda-tui = %{version}-%{release}
 
@@ -154,6 +160,9 @@ system.
 Summary: Live installation specific files and dependencies
 BuildRequires: desktop-file-utils
 # live installation currently implies a graphical installation
+%if %{use_cockpit}
+Requires: anaconda-webui = %{version}-%{release}
+%endif
 Requires: anaconda-gui = %{version}-%{release}
 Requires: usermode
 Requires: zenity
@@ -168,6 +177,9 @@ for live installations.
 Summary: Installation environment specific dependencies
 Requires: udisks2-iscsi
 Requires: libblockdev-plugins-all >= %{libblockdevver}
+%if ! 0%{?rhel}
+Requires: libblockdev-lvm-dbus
+%endif
 # active directory/freeipa join support
 Requires: realmd
 Requires: isomd5sum >= %{isomd5sumver}
@@ -232,6 +244,17 @@ Requires: brltty
 %description install-img-deps
 The anaconda-install-img-deps metapackage lists all boot.iso installation image dependencies.
 Add this package to an image build (eg. with lorax) to ensure all Anaconda capabilities are supported in the resulting image.
+
+%if %use_cockpit
+%package webui
+Summary: Cockpit based user interface for the Anaconda installer
+Requires: cockpit-bridge
+Requires: cockpit-ws
+
+%description webui
+This package contains Cockpit based user interface for the Anaconda installer.
+
+%endif
 
 %package gui
 Summary: Graphical user interface for the Anaconda installer
@@ -323,6 +346,12 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 # If no langs found, keep going
 %find_lang %{name} || :
 
+%if ! %use_cockpit
+    rm -rf %{buildroot}/%{_datadir}/cockpit/anaconda-webui
+    rm -f %{buildroot}/%{_datadir}/metainfo/org.cockpit-project.anaconda-webui.metainfo.xml
+%endif
+
+
 # main package and install-env-deps are metapackages
 %files
 
@@ -376,6 +405,19 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_datadir}/applications/*.desktop
 %{_datadir}/anaconda/gnome
 %{_sysconfdir}/xdg/autostart/*.desktop
+
+%if %use_cockpit
+%files webui
+%dir %{_datadir}/cockpit/anaconda-webui
+%{_datadir}/cockpit/anaconda-webui/index.js.LICENSE.txt.gz
+%{_datadir}/cockpit/anaconda-webui/index.html.gz
+%{_datadir}/cockpit/anaconda-webui/index.js.gz
+%{_datadir}/cockpit/anaconda-webui/index.css.gz
+%{_datadir}/cockpit/anaconda-webui/manifest.json
+%{_datadir}/metainfo/org.cockpit-project.anaconda-webui.metainfo.xml
+%{_datadir}/cockpit/anaconda-webui/po.*.js.gz
+
+%endif
 
 %files gui
 %{python3_sitearch}/pyanaconda/ui/gui/*
