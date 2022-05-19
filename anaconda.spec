@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 36.16.5
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -14,6 +14,10 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: https://github.com/rhinstaller/%{name}/releases/download/%{name}-%{version}-1/%{name}-%{version}.tar.bz2
+
+# https://github.com/rhinstaller/anaconda/pull/4125
+# Specify the GTK icon theme to use to make sure we get the right ones
+Patch0: 0001-Specify-that-we-want-the-Adwaita-icon-theme.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -454,6 +458,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu May 19 2022 Adam Williamson <awilliam@redhat.com> - 36.16.5-2
+- Backport PR #4125 to fix icon theme problems on KDE
+
 * Tue Apr 12 2022 Packit <hello@packit.dev> - 36.16.5-1
 - Fix keyboard spoke issue if Live system changed keyboard layouts (#2072941) (jkonecny)
 - Fix translations in DBus modules (#2071098) (vponcova)
