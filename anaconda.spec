@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 35.22.2
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -22,6 +22,10 @@ Patch2: 0002-Show-correctly-that-no-admin-user-is-set-up.patch
 
 # F35 post-release fix for Fedora IoT respins
 Patch3: 0003-do-not-crash-on-dangling-resolve-conf-symlink.patch
+
+# https://github.com/rhinstaller/anaconda/pull/4125
+# Specify the GTK icon theme to use to make sure we get the right ones
+Patch4: 0001-Specify-that-we-want-the-Adwaita-icon-theme.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -417,6 +421,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu May 19 2022 Adam Williamson <awilliam@redhat.com> - 35.22.2-5
+- Backport PR #4125 to fix icon theme problems on KDE
+
 * Tue Feb 08 2022 Martin Kolman <mkolman@redhat.com> - 35.22.2-4
 - Do not crash on dangling symlink /etc/resolv.conf (#2019579) (rvykydal)
 

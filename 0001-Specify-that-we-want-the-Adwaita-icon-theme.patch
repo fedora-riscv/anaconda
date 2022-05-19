@@ -1,0 +1,46 @@
+From 427f98963643e7f823f650dab015c80d854aa2d1 Mon Sep 17 00:00:00 2001
+From: Adam Williamson <awilliam@redhat.com>
+Date: Thu, 19 May 2022 09:50:17 -0700
+Subject: [PATCH] Specify that we want the Adwaita icon theme
+
+Back in 38556e7e in 2016 when anaconda switched from 'gnome'
+icon theme, intending to use 'Adwaita' instead, we dropped the
+line that specifically declares what theme anaconda wants to
+use. Presumably we expected GTK would always pick Adwaita for
+us. However, with GTK 3.24.34, this seems to not reliably happen
+on KDE. On KDE images, the breeze icon theme is installed, and
+it also provides many of the icons anaconda uses. When running
+anaconda on a KDE live image with GTK 3.24.34, we're often seeing
+the icons from the breeze theme used instead of the icons from
+the Adwaita theme. This happened in 4 out of 4 tests on openQA
+prod, 3 out of 4 tests on openQA stg, and 5 out of 5 tests I
+ran in a VM myself. I then applied this change directly to the
+file in the VM and re-tested another 5 times; all 5 times the
+right icons were shown.
+
+I'm not sure why this is suddenly a problem with GTK 3.24.34
+when it never was before even though both icon themes have been
+in KDE for years, but this seems correct anyway. We definitely
+want anaconda to use the Adwaita icons, not ones from any other
+theme.
+
+Signed-off-by: Adam Williamson <awilliam@redhat.com>
+---
+ pyanaconda/ui/gui/__init__.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/pyanaconda/ui/gui/__init__.py b/pyanaconda/ui/gui/__init__.py
+index d458b66f14..428f30e744 100644
+--- a/pyanaconda/ui/gui/__init__.py
++++ b/pyanaconda/ui/gui/__init__.py
+@@ -754,6 +754,7 @@ class GraphicalUserInterface(UserInterface):
+             # Set some program-wide settings.
+             settings = Gtk.Settings.get_default()
+             settings.set_property("gtk-font-name", "Cantarell")
++            settings.set_property("gtk-icon-theme-name", "Adwaita")
+ 
+             # Get the path to the application data
+             data_path = os.environ.get("ANACONDA_DATA", "/usr/share/anaconda")
+-- 
+2.36.1
+
