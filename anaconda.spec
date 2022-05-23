@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 37.7
-Release: 2%{?dist}
+Version: 37.8
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -14,10 +14,6 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: https://github.com/rhinstaller/%{name}/releases/download/%{name}-%{version}-1/%{name}-%{version}.tar.bz2
-
-# https://github.com/rhinstaller/anaconda/pull/4125
-# Specify the GTK icon theme to use to make sure we get the right ones
-Patch0: 0001-Specify-that-we-want-the-Adwaita-icon-theme.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -460,6 +456,32 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon May 23 2022 Packit <hello@packit.dev> - 37.8-1
+- Web UI: Add the Language label on the Welcome page (vponcova)
+- Specify that we want the Adwaita icon theme (awilliam)
+- Web UI: Fix the style of paragraphs (vponcova)
+- Web UI: Fix header styles in the Review screen (vponcova)
+- Web UI: Inform users about the required space and the partitioning method (vponcova)
+- Round the required device size up (vponcova)
+- tests: Use MD instead of LVM to test available RAID levels (vtrefny)
+- webui: Show installation status text on progress screen (mkolman)
+- build(deps): bump @patternfly/patternfly in /ui/webui (49699333+dependabot[bot])
+- webui: Wait longer for installation to fail (mkolman)
+- webui: Add a Quit confirmation dialog (mkolman)
+- build(deps): bump @patternfly/react-core in /ui/webui (49699333+dependabot[bot])
+- Don't use Cockpit style overrides (vponcova)
+- Web UI: Reset the bootloader drive before we schedule partitions (vponcova)
+- webui: tests: Streamline working with dbus language setting (zveleba)
+- Make check for geolocation start a standalone helper (vslavik)
+- Split Timezone module tests for tasks to new file (vslavik)
+- Move the default source type on DBus (vponcova)
+- Temporarily keep setter methods for Initial Setup (vponcova)
+- Temporarily keep setter methods for the OSCAP add-on (vponcova)
+- Temporarily keep setter methods for the Kdump add-on (vponcova)
+- Use DBus read-write properties (vponcova)
+- Simplify the implementation for the DBus interface for Users module (vponcova)
+- Install rdma-core if infiniband network device is found (rvykydal)
+
 * Thu May 19 2022 Adam Williamson <awilliam@redhat.com> - 37.7-2
 - Backport PR #4125 to fix icon theme problems on KDE
 
