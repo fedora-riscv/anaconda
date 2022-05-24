@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 37.8
+Version: 37.9
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -456,6 +456,10 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue May 24 2022 Packit <hello@packit.dev> - 37.9-1
+- Use the IsRootAccountLocked property (vponcova)
+- Web UI: Fix strings (vponcova)
+
 * Mon May 23 2022 Packit <hello@packit.dev> - 37.8-1
 - Web UI: Add the Language label on the Welcome page (vponcova)
 - Specify that we want the Adwaita icon theme (awilliam)
