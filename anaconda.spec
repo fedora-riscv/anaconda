@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 37.10
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -456,6 +456,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Jun 13 2022 Python Maint <python-maint@redhat.com> - 37.10-2
+- Rebuilt for Python 3.11
+
 * Mon Jun 06 2022 Packit <hello@packit.dev> - 37.10-1
 - Web UI: Don't use a top-level text content (vponcova)
 - Update common bugs for F35 resolv.conf issue (rvykydal)
