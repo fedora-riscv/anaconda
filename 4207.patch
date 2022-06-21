@@ -1,0 +1,54 @@
+From 67d146999a2356dd445cc4c6532e052596cae4db Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Miro=20Hron=C4=8Dok?= <miro@hroncok.cz>
+Date: Tue, 21 Jun 2022 18:50:35 +0200
+Subject: [PATCH 1/2] Don't attempt to add frozen python modules to initramfs
+
+---
+ dracut/python-deps | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/dracut/python-deps b/dracut/python-deps
+index cc6138a5e44..587b44a46f9 100755
+--- a/dracut/python-deps
++++ b/dracut/python-deps
+@@ -70,6 +70,10 @@ except AttributeError:
+ while scripts:
+     script = scripts.pop()
+ 
++    if script == 'frozen':
++        # https://docs.python.org/3.11/whatsnew/3.11.html#frozen-imports-static-code-objects
++        continue
++
+     finder = ModuleFinder()
+     finder.run_script(script) # parse the script
+     for mod in finder.modules.values():
+
+From da2f2499a6bfd2a0c1996c91457065d02040737f Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Miro=20Hron=C4=8Dok?= <miro@hroncok.cz>
+Date: Tue, 21 Jun 2022 19:01:21 +0200
+Subject: [PATCH 2/2] Don't ignore errors from python-deps
+
+---
+ dracut/module-setup.sh | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/dracut/module-setup.sh b/dracut/module-setup.sh
+index f54d7539621..019f0a1ef24 100755
+--- a/dracut/module-setup.sh
++++ b/dracut/module-setup.sh
+@@ -72,13 +72,14 @@ install() {
+     # timeout script for errors reporting
+     inst_hook initqueue/timeout 50 "$moddir/anaconda-error-reporting.sh"
+     # python deps for parse-kickstart. DOUBLE WOOOO
++    set -o pipefail
+     PYTHONHASHSEED=42 "$moddir/python-deps" "$moddir/parse-kickstart" "$moddir/driver_updates.py" | while read -r dep; do
+         case "$dep" in
+             *.so) inst_library "$dep" ;;
+             *.py) inst_simple "$dep" ;;
+             *) inst "$dep" ;;
+         esac
+-    done
++    done || exit 1
+ 
+     # support for specific architectures
+     case "$(uname -m)" in

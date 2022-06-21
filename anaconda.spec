@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 37.10
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -14,6 +14,11 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: https://github.com/rhinstaller/%{name}/releases/download/%{name}-%{version}-1/%{name}-%{version}.tar.bz2
+
+# Fix dracut/python-deps for Python 3.11, required for Rawhide compose
+# to work with Python 3.11
+# https://github.com/rhinstaller/anaconda/pull/4207
+Patch0: 4207.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -456,6 +461,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Jun 21 2022 Adam Williamson <awilliam@redhat.com> - 37.10-3
+- Backport PR #4207 to fix initramfs generation for Python 3.11
+
 * Mon Jun 13 2022 Python Maint <python-maint@redhat.com> - 37.10-2
 - Rebuilt for Python 3.11
 
