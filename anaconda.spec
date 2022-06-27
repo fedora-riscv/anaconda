@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 37.10
-Release: 3%{?dist}
+Version: 37.11
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -14,11 +14,6 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: https://github.com/rhinstaller/%{name}/releases/download/%{name}-%{version}-1/%{name}-%{version}.tar.bz2
-
-# Fix dracut/python-deps for Python 3.11, required for Rawhide compose
-# to work with Python 3.11
-# https://github.com/rhinstaller/anaconda/pull/4207
-Patch0: 4207.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -43,7 +38,7 @@ Patch0: 4207.patch
 %define libxklavierver 5.4
 %define mehver 0.23-1
 %define nmver 1.0
-%define pykickstartver 3.37-1
+%define pykickstartver 3.41-1
 %define pypartedver 2.5-2
 %define pythonblivetver 1:3.4.0-1
 %define rpmver 4.15.0
@@ -461,6 +456,41 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Jun 27 2022 Packit <hello@packit.dev> - 37.11-1
+- anaconda-modprobe: don't try and load cramfs (awilliam)
+- module-setup.sh: Don't ignore errors, unbound variable and pipe fails (miro)
+- Don't attempt to add frozen python modules to initramfs (miro)
+- Fix kickstart command order in new version (vslavik)
+- Ignore also ZFCPData temporarily (vslavik)
+- Temporarily ignore the new version of the zfcp command (vponcova)
+- Web UI: Fix betanag popover position (mkolman)
+- Web UI: Make it possible to close the disks alert (mkolman)
+- tests: update the order of commands (rootpw) in generated kickstart (rvykydal)
+- webui: Disable "Next" button if no disks are selected (mkolman)
+- dnf: apply the /etc/dnf/dnf.conf configuration file in the installer (rvykydal)
+- kstests on pr: run in separate anaconda directory (rvykydal)
+- Web UI: Show the "Checking disks" spinner for at least two seconds (vponcova)
+- Web UI: Show the "Checking disks" spinner (vponcova)
+- kstest on pr: use Permian GitHub ReportSender to show results (rvykydal)
+- Web UI: Vertically grow the wizard page (vponcova)
+- Web UI: Hide the footer if the wizard page is in progress (vponcova)
+- Web UI: Add the sleep function (vponcova)
+- Web UI: Remove the getSteps function (vponcova)
+- Web UI: Remove the wrapWithContext function (vponcova)
+- Add Circle Linux profile to Anaconda (bella)
+- Web UI: Don't try to replicate installation flags (vponcova)
+- Web UI: Remove an unused context from the wizard (vponcova)
+- Update pixel test reference image. (mkolman)
+- fix type (48353898+copperii)
+- Display keyboard accelerator properly (jstodola)
+- Revert "Temporarily keep setter methods for the OSCAP add-on" (vponcova)
+- Remove missing kickstart command for root ssh password login from common issues (rvykydal)
+- GUI: Show the dialog for a missing passphrase in an enlight box (vponcova)
+- GUI: Ask for a missing passphrase during automated installations (vponcova)
+- Create functions for a missing passphrase in pyanaconda.ui.lib (vponcova)
+- Add support for rootpw --allow-ssh (rvykydal)
+- Enable bootloader hiding on RHEL (rharwood)
+
 * Tue Jun 21 2022 Adam Williamson <awilliam@redhat.com> - 37.10-3
 - Backport PR #4207 to fix initramfs generation for Python 3.11
 
