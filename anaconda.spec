@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 37.11
-Release: 2%{?dist}
+Version: 37.12
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -192,8 +192,10 @@ Recommends: fcoe-utils >= %{fcoeutilsver}
 Requires: hfsplus-tools
 %endif
 %endif
-# kexec support
+# kexec support except riscv64
+%ifnarch riscv64
 Requires: kexec-tools
+%endif
 # needed for proper driver disk support - if RPMs must be installed, a repo is needed
 Requires: createrepo_c
 # run's on TTY1 in install env
@@ -456,6 +458,34 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Aug 02 2022 Packit <hello@packit.dev> - 37.12-1
+- Web UI: Replace a newly translated string in tests (vponcova)
+- Communicate media verification result clearly (vslavik)
+- Fix: check that the password contains the username (songmingliang)
+- Fixed required space check always including swap (ozobal)
+- Hide the keyboard layout indicator in the passphrase dialog (#2070823) (vponcova)
+- Call the check_duplicate_repo_names function (vponcova)
+- Call the validate_repo_name function (vponcova)
+- Call the get_unique_repo_name function (vponcova)
+- Simplify the condition for the `disk_space` parameter in `suggest_swap_size` (vponcova)
+- Remove the `quiet` parameter of the `suggest_swap_size` function (vponcova)
+- Test the `suggest_swap_size` function (vponcova)
+- Web UI: Don't wait for animations in the pixel tests (vponcova)
+- Web UI: Show a context help about storage options (vponcova)
+- Silence pylint warnings about crypt module (vslavik)
+- Ignore no-member pylint detections on gi.repository (vslavik)
+- Revert "Disable Pylint" (vslavik)
+- bootloader/base.py: enable resume on arm64 (mihai.carabas)
+- Disable kexec on RISC-V (imbearchild)
+- simplify TestValues enum creation and usage (ethan)
+- Disable Pylint (vslavik)
+- Fix unit tests for python 3.11 (vslavik)
+- Change the Python version to 3.11 in the makeupdates script (rvykydal)
+- bootloader: do not consider non-ibft iscsi disk as usable for bootloader (rvykydal)
+- Revert "Temporarily keep setter methods for Initial Setup" (vponcova)
+- Revert "Temporarily keep setter methods for the Kdump add-on" (vponcova)
+- Change default swap size for large-memory systems (pablomh)
+
 * Wed Jul 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 37.11-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
 
