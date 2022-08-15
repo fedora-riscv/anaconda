@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 37.12
+Version: 38.1
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -40,7 +40,7 @@ Source0: https://github.com/rhinstaller/%{name}/releases/download/%{name}-%{vers
 %define nmver 1.0
 %define pykickstartver 3.41-1
 %define pypartedver 2.5-2
-%define pythonblivetver 1:3.4.0-1
+%define pythonblivetver 1:3.4.4-3
 %define rpmver 4.15.0
 %define simplelinever 1.9.0-1
 %define subscriptionmanagerver 1.26
@@ -156,6 +156,9 @@ Obsoletes: booty <= 0.107-1
 The anaconda-core package contains the program which was used to install your
 system.
 
+%if ! 0%{?rhel}
+# do not provide the live subpackage on RHEL
+
 %package live
 Summary: Live installation specific files and dependencies
 BuildRequires: desktop-file-utils
@@ -172,6 +175,8 @@ Recommends: xhost
 %description live
 The anaconda-live package contains scripts, data and dependencies required
 for live installations.
+
+%endif
 
 %package install-env-deps
 Summary: Installation environment specific dependencies
@@ -399,6 +404,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %dir %{_sysconfdir}/%{name}/profile.d
 %config %{_sysconfdir}/%{name}/profile.d/*
 
+%if ! 0%{?rhel}
+# do not provide the live subpackage on RHEL
+
 %files live
 %{_bindir}/liveinst
 %{_sbindir}/liveinst
@@ -408,6 +416,8 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_datadir}/applications/*.desktop
 %{_datadir}/anaconda/gnome
 %{_sysconfdir}/xdg/autostart/*.desktop
+
+%endif
 
 %if %use_cockpit
 %files webui
@@ -458,6 +468,35 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Aug 15 2022 Packit <hello@packit.dev> - 38.1-1
+- Remove release builds from CI status page (#docs) (vslavik)
+- Update the tests for the SELinux configuration (vponcova)
+- Add release notes for RPMOSTree /sysroot mount as 'ro' (jkonecny)
+- Documented required space always including swap (ozobal)
+- Remove the DeprecatedSection class (vponcova)
+- Remove the sensitive info logger (vponcova)
+- Remove the _repos_lock property of the DNF payload class (vponcova)
+- Remove the function get_locale_timezones (vponcova)
+- Remove the THREAD_GEOLOCATION_REFRESH constant (vponcova)
+- Add release notes for f37 vslavik PRs (#docs) (vslavik)
+- Do not provide the anaconda-live subpackage on RHEL (vslavik)
+- Add release note for no more copying /etc/resolv.conf (rvykydal)
+- Add release note for rootpw --allow-ssh option (rvykydal)
+- Fix growing installation size requirement (ozobal)
+- Add a release note for the `inst.disklabel` boot option (vponcova)
+- Add unit tests for the initialization of the default disk label type (vponcova)
+- Prefer GPT instead of legacy MBR (vponcova)
+- Support the `inst.disklabel` boot option (vponcova)
+- Skip Kickstart version tests on RHEL (ozobal)
+- Add unit tests for errors raised by the `ZFCPDiscoverTask` task (vponcova)
+- rpm-ostree: Setup readonly sysroot for ostree & rw karg (#2086489) (tim)
+- Document the Dependabot status (vponcova)
+- Initialize empty disks on the Manual Partitioning screen (vponcova)
+- Revert "Temporarily ignore the new version of the zfcp command" (jstodola)
+- Revert "Ignore also ZFCPData temporarily" (jstodola)
+- Allow to omit WWPN and LUN for NPIV-enabled zFCP devices (jstodola)
+- Reduce the width of the zFCP dialog (jstodola)
+
 * Tue Aug 02 2022 Packit <hello@packit.dev> - 37.12-1
 - Web UI: Replace a newly translated string in tests (vponcova)
 - Communicate media verification result clearly (vslavik)
