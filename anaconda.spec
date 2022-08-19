@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 38.1
+Version: 38.2
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -19,7 +19,10 @@ Source0: https://github.com/rhinstaller/%{name}/releases/download/%{name}-%{vers
 # match the requires versions of things).
 
 %if ! 0%{?rhel}
+%bcond_without live
 %define blivetguiver 2.1.12-1
+%else
+%bcond_with live
 %endif
 %define dasbusver 1.3
 %define dbusver 1.2.3
@@ -156,7 +159,7 @@ Obsoletes: booty <= 0.107-1
 The anaconda-core package contains the program which was used to install your
 system.
 
-%if ! 0%{?rhel}
+%if %{with live}
 # do not provide the live subpackage on RHEL
 
 %package live
@@ -347,8 +350,23 @@ mkdir %{buildroot}%{_datadir}/anaconda/addons
 # Create an empty directory for post-scripts
 mkdir %{buildroot}%{_datadir}/anaconda/post-scripts
 
+%if %{with live}
 # required for live installations
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/liveinst.desktop
+%else
+# Remove all live-installer files from the buildroot
+rm -rf \
+  %{buildroot}/%{_sysconfdir}/pam.d/liveinst \
+  %{buildroot}/%{_sysconfdir}/security/console.apps/liveinst \
+  %{buildroot}/%{_sysconfdir}/xdg/autostart/liveinst-setup.desktop \
+  %{buildroot}/%{_bindir}/liveinst \
+  %{buildroot}/%{_libexecdir}/liveinst-setup.sh \
+  %{buildroot}/%{_sbindir}/liveinst \
+  %{buildroot}/%{_datadir}/anaconda/gnome \
+  %{buildroot}/%{_datadir}/anaconda/gnome/fedora-welcome \
+  %{buildroot}/%{_datadir}/anaconda/gnome/fedora-welcome.desktop \
+  %{buildroot}/%{_datadir}/applications/liveinst.desktop
+%endif
 
 # Add localization files
 %find_lang %{name}
@@ -358,7 +376,6 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
     rm -f %{buildroot}/%{_datadir}/metainfo/org.cockpit-project.anaconda-webui.metainfo.xml
     rm -f %{buildroot}/%{_libexecdir}/webui-desktop
 %endif
-
 
 # main package and install-env-deps are metapackages
 %files
@@ -404,7 +421,7 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %dir %{_sysconfdir}/%{name}/profile.d
 %config %{_sysconfdir}/%{name}/profile.d/*
 
-%if ! 0%{?rhel}
+%if %{with live}
 # do not provide the live subpackage on RHEL
 
 %files live
@@ -468,6 +485,19 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Fri Aug 19 2022 Packit <hello@packit.dev> - 38.2-1
+- Fix building for RHEL/ELN without live installer (sgallagh)
+- Remove the SimpleConfigFile class (vponcova)
+- Don't use the SimpleConfigFile class (vponcova)
+- Add a function for splitting values into two strings (vponcova)
+- Move DNF code from the payload manager to the DNF payload (vponcova)
+- Remove the restart_thread method of the payload manager (vponcova)
+- Simplify the implementation of the payload manager (vponcova)
+- Remove error messages from the payload manager (vponcova)
+- Keep the "Setting up installation source..." message in a new constant (vponcova)
+- Remove the WAITING_NETWORK state of the payload manager (vponcova)
+- Remove the VERIFYING_AVAILABILITY state of the payload manager (vponcova)
+
 * Mon Aug 15 2022 Packit <hello@packit.dev> - 38.1-1
 - Remove release builds from CI status page (#docs) (vslavik)
 - Update the tests for the SELinux configuration (vponcova)
