@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 38.2
+Version: 38.3
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -24,6 +24,7 @@ Source0: https://github.com/rhinstaller/%{name}/releases/download/%{name}-%{vers
 %else
 %bcond_with live
 %endif
+%define cockpitver 275
 %define dasbusver 1.3
 %define dbusver 1.2.3
 %define dnfver 3.6.0
@@ -258,8 +259,12 @@ Add this package to an image build (eg. with lorax) to ensure all Anaconda capab
 %if %use_cockpit
 %package webui
 Summary: Cockpit based user interface for the Anaconda installer
-Requires: cockpit-bridge
-Requires: cockpit-ws
+Requires: cockpit-bridge >= %{cockpitver}
+Requires: cockpit-ws >= %{cockpitver}
+# WebKit dependency needs to be specified there as cockpit web-view does not have a hard dependency on webkit as
+# it can normally fall back to a regular browser. This does not work in the limited installer
+# environment, so we need to make sure the WebKit API is available.
+Requires: webkit2gtk4.1
 
 %description webui
 This package contains Cockpit based user interface for the Anaconda installer.
@@ -485,6 +490,31 @@ rm -rf \
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Aug 30 2022 Packit <hello@packit.dev> - 38.3-1
+- Add --hibernation option for Kickstart autopart (ozobal)
+- Docs: How to run non-unit tests in CI standalone (#docs) (vslavik)
+- Define more macros for cppcheck (vslavik)
+- Infra templating script improvements (vslavik)
+- infra: bump @patternfly/patternfly from 4.202.1 to 4.206.3 in /ui/webui (49699333+dependabot[bot])
+- webui: clean up prepare-updates-img (allison.karlitskaya)
+- Adjust dependencies of the anaconda-webui package (mkolman)
+- test: Update to cockpit 275 (allison.karlitskaya)
+- Add test for dracut_eject (vslavik)
+- Add test for ipmi_abort (vslavik)
+- Add test for ipmi_report (vslavik)
+- Simplify test_detect_virtualized_platform (vslavik)
+- Rewrite test_vt_activate to use patch (vslavik)
+- webui: build RPMs inside the fedora-37 image (allison.karlitskaya)
+- Web UI: update target name in test documentation (rvykydal)
+- Verify a biosboot partition on all installation targets (vponcova)
+- Define the install_targets property for all bootloader classes (vponcova)
+- Test the InstallerStorage.copy method (vponcova)
+- Show multiple bootloader devices on the Manual Partitioning screen (vponcova)
+- Implement the Root.copy method (vponcova)
+- Redefine the Blivet.roots attribute (vponcova)
+- Redefine the Blivet.copy method (vponcova)
+- Add infrastructure templating tools (ozobal)
+
 * Fri Aug 19 2022 Packit <hello@packit.dev> - 38.2-1
 - Fix building for RHEL/ELN without live installer (sgallagh)
 - Remove the SimpleConfigFile class (vponcova)
