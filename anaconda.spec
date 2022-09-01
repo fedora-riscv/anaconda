@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 37.12.1
+Version: 37.12.2
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -468,6 +468,8 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Sep 01 2022 Martin Kolman <mkolman@redhat.com> - 37.12.2-1
+- Run yelp under liveuser if possible (vslavik)
 * Mon Aug 15 2022 Packit <hello@packit.dev> - 37.12.1-1
 - Adjust configuration options for Fedora 37 (mkolman)
 - Remove release builds from CI status page (#docs) (vslavik)
