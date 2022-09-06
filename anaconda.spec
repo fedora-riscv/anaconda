@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 37.12.2
-Release: 2%{?dist}
+Version: 37.12.3
+Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -14,10 +14,6 @@ URL:     http://fedoraproject.org/wiki/Anaconda
 # ./autogen.sh
 # make dist
 Source0: https://github.com/rhinstaller/%{name}/releases/download/%{name}-%{version}-1/%{name}-%{version}.tar.bz2
-# Fix running yelp as liveuser on KDE and other desktops
-# https://github.com/rhinstaller/anaconda/pull/4317
-# https://bugzilla.redhat.com/show_bug.cgi?id=2124097
-Patch0: 4317.patch
 
 # Versions of required components (done so we make sure the buildrequires
 # match the requires versions of things).
@@ -472,6 +468,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Sep 07 2022 Martin Kolman <mkolman@redhat.com> - 37.12.3-1
+- Run yelp under liveuser with the right environment (vslavik)
+
 * Tue Sep 06 2022 Adam Williamson <awilliam@redhat.com> - 37.12.2-2
 - Backport PR #4317 to fix running yelp on KDE etc (#2124097)
 
