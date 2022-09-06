@@ -1,12 +1,12 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 38.3
+Version: 38.4
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
 # This should should only be set for development purposes for the time
-%global use_cockpit 0
+%global use_cockpit 1
 
 # To generate Source0 do:
 # git clone https://github.com/rhinstaller/anaconda
@@ -42,9 +42,9 @@ Source0: https://github.com/rhinstaller/%{name}/releases/download/%{name}-%{vers
 %define libxklavierver 5.4
 %define mehver 0.23-1
 %define nmver 1.0
-%define pykickstartver 3.41-1
+%define pykickstartver 3.43-1
 %define pypartedver 2.5-2
-%define pythonblivetver 1:3.4.4-3
+%define pythonblivetver 1:3.5.0-1
 %define rpmver 4.15.0
 %define simplelinever 1.9.0-1
 %define subscriptionmanagerver 1.26
@@ -490,6 +490,29 @@ rm -rf \
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Sep 06 2022 Packit <hello@packit.dev> - 38.4-1
+- Run yelp under liveuser if possible (vslavik)
+- infra: bump astroid from 2.12.5 to 2.12.6 in /dockerfile (49699333+dependabot[bot])
+- Disable the Unregister button during unregistration (mkolman)
+- Update outdated system purpose related strings (mkolman)
+- Always set system purpose from GUI (mkolman)
+- Report registration errors from kickstart (mkolman)
+- Do not pass rd.znet on to installed system unconditionally (jstodola)
+- Ignore dependabot commits in changelog (vslavik)
+- infra: bump @patternfly/patternfly from 4.206.3 to 4.210.2 in /ui/webui (49699333+dependabot[bot])
+- Web UI: Increase visibility of warning messages (ozobal)
+- Drop packit override for webui package build (mkolman)
+- Create the LVM devices file, if supported (vslavik)
+- Remove unused import that snuck in somehow (vslavik)
+- Bump SshKeyData version (vslavik)
+- Bump pykickstart version for F38_AutoPart (vslavik)
+- Document the automated Anaconda package release process (mkolman)
+- Web UI: for disks selection show empty label rather than '0 selected' (rvykydal)
+- Web UI: use toolbox in disk selection (rvykydal)
+- Web UI: Show the help drawer next to content (ozobal)
+- Silence pylint warnings in webui code (vslavik)
+- Remove execInSysroot (vslavik)
+
 * Tue Aug 30 2022 Packit <hello@packit.dev> - 38.3-1
 - Add --hibernation option for Kickstart autopart (ozobal)
 - Docs: How to run non-unit tests in CI standalone (#docs) (vslavik)
