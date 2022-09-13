@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 37.12.3
+Version: 37.12.4
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -468,6 +468,15 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Tue Sep 13 2022 Martin Kolman <mkolman@redhat.com> - 37.12.4-1
+- Verify a biosboot partition on all installation targets (vponcova)
+- Define the install_targets property for all bootloader classes (vponcova)
+- Test the InstallerStorage.copy method (vponcova)
+- Show multiple bootloader devices on the Manual Partitioning screen (vponcova)
+- Implement the Root.copy method (vponcova)
+- Redefine the Blivet.roots attribute (vponcova)
+- Redefine the Blivet.copy method (vponcova)
+
 * Wed Sep 07 2022 Martin Kolman <mkolman@redhat.com> - 37.12.3-1
 - Run yelp under liveuser with the right environment (vslavik)
 
