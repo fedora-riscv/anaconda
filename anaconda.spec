@@ -1,12 +1,9 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 38.4
+Version: 38.5
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
-
-# This should should only be set for development purposes for the time
-%global use_cockpit 1
 
 # To generate Source0 do:
 # git clone https://github.com/rhinstaller/anaconda
@@ -77,9 +74,6 @@ BuildRequires: libtimezonemap-devel >= %{libtimezonemapver}
 BuildRequires: gdk-pixbuf2-devel
 BuildRequires: libxml2
 
-%if %{use_cockpit}
-Requires: anaconda-webui = %{version}-%{release}
-%endif
 Requires: anaconda-gui = %{version}-%{release}
 Requires: anaconda-tui = %{version}-%{release}
 
@@ -167,9 +161,6 @@ system.
 Summary: Live installation specific files and dependencies
 BuildRequires: desktop-file-utils
 # live installation currently implies a graphical installation
-%if %{use_cockpit}
-Requires: anaconda-webui = %{version}-%{release}
-%endif
 Requires: anaconda-gui = %{version}-%{release}
 Requires: usermode
 Requires: zenity
@@ -256,7 +247,6 @@ Requires: brltty
 The anaconda-install-img-deps metapackage lists all boot.iso installation image dependencies.
 Add this package to an image build (eg. with lorax) to ensure all Anaconda capabilities are supported in the resulting image.
 
-%if %use_cockpit
 %package webui
 Summary: Cockpit based user interface for the Anaconda installer
 Requires: cockpit-bridge >= %{cockpitver}
@@ -268,8 +258,6 @@ Requires: webkit2gtk4.1
 
 %description webui
 This package contains Cockpit based user interface for the Anaconda installer.
-
-%endif
 
 %package gui
 Summary: Graphical user interface for the Anaconda installer
@@ -376,12 +364,6 @@ rm -rf \
 # Add localization files
 %find_lang %{name}
 
-%if ! %use_cockpit
-    rm -rf %{buildroot}/%{_datadir}/cockpit/anaconda-webui
-    rm -f %{buildroot}/%{_datadir}/metainfo/org.cockpit-project.anaconda-webui.metainfo.xml
-    rm -f %{buildroot}/%{_libexecdir}/webui-desktop
-%endif
-
 # main package and install-env-deps are metapackages
 %files
 
@@ -441,7 +423,6 @@ rm -rf \
 
 %endif
 
-%if %use_cockpit
 %files webui
 %dir %{_datadir}/cockpit/anaconda-webui
 %{_datadir}/cockpit/anaconda-webui/index.js.LICENSE.txt.gz
@@ -452,8 +433,6 @@ rm -rf \
 %{_datadir}/metainfo/org.cockpit-project.anaconda-webui.metainfo.xml
 %{_datadir}/cockpit/anaconda-webui/po.*.js.gz
 %{_libexecdir}/webui-desktop
-
-%endif
 
 %files gui
 %{python3_sitearch}/pyanaconda/ui/gui/*
@@ -490,6 +469,15 @@ rm -rf \
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Sep 19 2022 Packit <hello@packit.dev> - 38.5-1
+- Do not require the anaconda-webui package (mkolman)
+- Document how to fix NPM cache issues in Cockpit CI (mkolman)
+- Use correct hint for VNC password boot option (jstodola)
+- infra: Use the Bugzilla API key in the `makebumpver` script (vponcova)
+- Drop the devel branch from the docs (mkolman)
+- gui: fix summary hub layout for Japanese translations (rvykydal)
+- Improve Register button click feedback (mkolman)
+
 * Tue Sep 06 2022 Packit <hello@packit.dev> - 38.4-1
 - Run yelp under liveuser if possible (vslavik)
 - infra: bump astroid from 2.12.5 to 2.12.6 in /dockerfile (49699333+dependabot[bot])
