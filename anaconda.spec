@@ -1,12 +1,12 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 37.12.5
+Version: 37.12.6
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
 # This should should only be set for development purposes for the time
-%global use_cockpit 0
+%global use_cockpit 1
 
 # To generate Source0 do:
 # git clone https://github.com/rhinstaller/anaconda
@@ -468,6 +468,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Wed Oct 05 2022 Packit <hello@packit.dev> - 37.12.6-1
+- Don't check installation targets if bootloader devices are not set (#2131183) (vponcova)
+
 * Mon Sep 19 2022 Packit <hello@packit.dev> - 37.12.5-1
 - Add back waiting for geolocation (vslavik)
 - Add wait_for_task() to wait for a Task with timeout (vslavik)
