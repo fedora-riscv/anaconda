@@ -1,6 +1,6 @@
 Summary: Graphical system installer
 Name:    anaconda
-Version: 38.13
+Version: 38.14
 Release: 1%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
@@ -464,6 +464,12 @@ rm -rf \
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Thu Dec 22 2022 Packit <hello@packit.dev> - 38.14-1
+- Fix typo in the docs (jkonecny)
+- docs: corrections and additions to the history (msw)
+- Ignore SIGINT in D-Bus launcher and x11 too (iasunsea)
+- update translations
+
 * Thu Dec 22 2022 Packit <hello@packit.dev> - 38.13-1
 - infra: Don't run scheduled events on forks (vslavik)
 - infra: Notify about tagged releases in gChat (vslavik)
