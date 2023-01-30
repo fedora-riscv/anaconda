@@ -1,7 +1,7 @@
 Summary: Graphical system installer
 Name:    anaconda
 Version: 37.12.6
-Release: 1%{?dist}
+Release: 1.0%{?dist}
 License: GPLv2+ and MIT
 URL:     http://fedoraproject.org/wiki/Anaconda
 
@@ -468,6 +468,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{buildroot}%{_d
 %{_prefix}/libexec/anaconda/dd_*
 
 %changelog
+* Mon Jan 30 2023 Liu Yang <Yang.Liu.sn@gmail.com> - 37.12.6-1.0
+- Rebuild with python3.11 on riscv64.
+
 * Wed Oct 05 2022 Packit <hello@packit.dev> - 37.12.6-1
 - Don't check installation targets if bootloader devices are not set (#2131183) (vponcova)
 
